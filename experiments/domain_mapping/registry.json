@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "domains": [
+    {
+      "id": "cosmos_nahuatl",
+      "label": "Cosmología náhuatl (Mictlán / Quinto Sol)",
+      "runner": "experiments/domain_mapping/validate_examples.py",
+      "status": "optional_encounter"
+    }
+  ],
+  "synthetic_diagnostics": [
+    {
+      "id": "pi_hgat_t",
+      "runner": "experiments/optional/pi_hgat_t.py",
+      "status": "optional_circular_diagnostic"
+    },
+    {
+      "id": "baselines",
+      "runner": "experiments/optional/baselines.py",
+      "status": "optional_circular_diagnostic"
+    }
+  ]
+}

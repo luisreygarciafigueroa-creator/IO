@@ -1,0 +1,5 @@
+{
+  "name": "IOM — Construcción Formal de la Unidad Informativa",
+  "description": "Entorno interactivo para la especificación formal IOM (13 tríadas, 5 perspectivas, reglas mirrorOf/creates), verificación de invariancia, evaluación independiente (Fleiss' kappa) y alineación de dominio.",
+  "requestFramePermissions": []
+}

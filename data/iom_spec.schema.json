@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/luisreygarciafigueroa-creator/IOM/data/iom_spec.schema.json",
+  "title": "IOM Specification Schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "spec_version",
+    "title",
+    "source_date",
+    "triad_index_range",
+    "positions",
+    "perspectives",
+    "five_perspectives",
+    "phases",
+    "triads",
+    "vectors",
+    "creation_rules",
+    "expanded_categories"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "spec_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "title": { "type": "string", "minLength": 1 },
+    "source_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "source_note": { "type": "string" },
+    "perspective_labels": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "five_perspectives": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "type": "string", "enum": ["Ind", "D", "Tot", "Evol", "Invol"] },
+          "label": { "type": "string", "minLength": 1 },
+          "index": { "type": "integer" },
+          "kind": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "positions": {
+      "type": "object",
+      "required": ["indices", "adv_labels", "ret_labels", "perspectives", "note"],
+      "properties": {
+        "indices": { "type": "array", "const": [0, 1, 2] },
+        "adv_labels": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 3 },
+        "ret_labels": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 3 },
+        "perspectives": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 3 },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "perspectives": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "phases": {
+      "type": "object",
+      "required": ["adv", "ret"],
+      "properties": {
+        "adv": {
+          "type": "object",
+          "required": ["label", "direction"],
+          "properties": {
+            "label": { "type": "string" },
+            "direction": { "type": "string", "enum": ["evol", "invol"] },
+            "arrow": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "ret": {
+          "type": "object",
+          "required": ["label", "direction"],
+          "properties": {
+            "label": { "type": "string" },
+            "direction": { "type": "string", "enum": ["evol", "invol"] },
+            "arrow": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "triads": {
+      "type": "object",
+      "required": ["index_base", "adv", "ret", "note"],
+      "properties": {
+        "adv": {
+          "type": "array",
+          "items": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 3 },
+          "minItems": 13,
+          "maxItems": 13
+        },
+        "ret": {
+          "type": "array",
+          "items": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 3 },
+          "minItems": 13,
+          "maxItems": 13
+        },
+        "index_base": { "type": "integer", "const": 1 },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "vectors": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["name", "phase", "labels", "axis_positions", "arrow"],
+        "properties": {
+          "name": { "type": "string" },
+          "phase": { "type": "string", "enum": ["adv", "ret"] },
+          "labels": { "type": "array", "items": { "type": "string" }, "minItems": 5, "maxItems": 5 },
+          "axis_positions": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0, "maximum": 4 },
+            "minItems": 5,
+            "maxItems": 5
+          },
+          "arrow": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "creation_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_phase", "source_positions", "target_phase", "target_positions"],
+        "properties": {
+          "source_phase": { "type": "string", "enum": ["adv", "ret"] },
+          "source_positions": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0, "maximum": 2 },
+            "minItems": 1
+          },
+          "target_phase": { "type": "string", "enum": ["adv", "ret"] },
+          "target_positions": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0, "maximum": 2 },
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "expanded_categories": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "array", "items": { "type": "string" } }
+    },
+    "migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from_version", "to_version", "description"],
+        "properties": {
+          "from_version": { "type": "string" },
+          "to_version": { "type": "string" },
+          "description": { "type": "string" },
+          "date": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "triad_index_range": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "const": 1 },
+        "max": { "const": 13 }
+      },
+      "additionalProperties": false
+    },
+    "purpose": {
+      "type": "object",
+      "required": ["id", "label", "definition", "criterion"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 },
+        "criterion": { "type": "string", "minLength": 1 },
+        "chain": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "perspective_roles": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

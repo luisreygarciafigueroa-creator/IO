@@ -1,0 +1,87 @@
+{
+  "title": "Ejemplos de alineación dominio → marco I.O. (cosmología náhuatl)",
+  "source_docs": [
+    "docs/DOMINIO_COSMOS_NAHUATL.md",
+    "docs/CATALOGO_DOMINIOS.md",
+    "docs/PROTOCOLO_DE_MAPEO.md",
+    "docs/MANUAL_ALINEACION_DOMINIOS.md"
+  ],
+  "note": "Demostraciones de mapeo (Cinco Soles y Mictlán); no sustituyen anotación ciega de dominio ni κ propio. Alineado a spec 1.10.0.",
+  "pairs": [
+    {
+      "id": "NAH-01",
+      "domain": "cosmos_nahuatl",
+      "source_label": "Tezcatlipoca",
+      "target_label": "Quetzalcoatl",
+      "perspective": "Dualidad",
+      "phase_hint": "Lucha de fuerzas cósmicas",
+      "relation": "mirrorOf",
+      "analytic_impact": "Reflejo de polos oscuro/luminoso.",
+      "suggested_nodes": {
+        "source": "T02_adv_P0",
+        "target": "T02_ret_P0",
+        "note": "espejo"
+      }
+    },
+    {
+      "id": "NAH-02",
+      "domain": "cosmos_nahuatl",
+      "source_label": "vida",
+      "target_label": "muerte",
+      "perspective": "Dualidad",
+      "phase_hint": "Dicotomía mesoamericana",
+      "relation": "mirrorOf",
+      "analytic_impact": "Polaridad vida/muerte.",
+      "suggested_nodes": {
+        "source": "T04_adv_P2",
+        "target": "T04_adv_P0",
+        "note": "espejo demostrativo"
+      }
+    },
+    {
+      "id": "NAH-03",
+      "domain": "cosmos_nahuatl",
+      "source_label": "Nahui_Quiahuitl_Sol_Fuego",
+      "target_label": "Nahui_Atl_Sol_Agua",
+      "perspective": "Involución",
+      "phase_hint": "Cataclismo / transición de edades",
+      "relation": "creates",
+      "analytic_impact": "Transición entre Soles.",
+      "suggested_nodes": {
+        "source": "T02_adv_P1",
+        "target": "T02_ret_P1",
+        "note": "creates"
+      }
+    },
+    {
+      "id": "NAH-04",
+      "domain": "cosmos_nahuatl",
+      "source_label": "camino_al_Mictlan",
+      "target_label": "Mictlan",
+      "perspective": "Involución",
+      "phase_hint": "Retorno",
+      "relation": "creates",
+      "analytic_impact": "Camino al lugar de los muertos.",
+      "suggested_nodes": {
+        "source": "T11_ret_P0",
+        "target": "T11_ret_P0",
+        "note": "demostrativo"
+      }
+    },
+    {
+      "id": "NAH-05",
+      "domain": "cosmos_nahuatl",
+      "source_label": "Nahui_Ollin_Sol_Movimiento",
+      "target_label": "Nahui_Ehecatl_Sol_Viento",
+      "perspective": "Totalidad / Evolución",
+      "phase_hint": "Quinto Sol vs primera edad",
+      "relation": "none",
+      "analytic_impact": "Contraste de edades cosmológicas.",
+      "suggested_nodes": {
+        "source": "T02_adv_P2",
+        "target": "T02_adv_P0",
+        "note": "none"
+      }
+    }
+  ]
+}
