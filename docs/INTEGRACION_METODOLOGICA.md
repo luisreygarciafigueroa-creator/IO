@@ -1,7 +1,7 @@
 # Propuesta de integración metodológica: mapeo de dominios al marco I.O.
 
 > Guía operativa para alinear dominios (cosmología náhuatl y otros) a las cinco perspectivas y trece tríadas, sin confundir capas formales, estructurales y de encuentro.  
-> Bajo el carácter de **autonomía absoluta**, la prueba primaria **no** es la anotación ciega inter-anotador.  
+> Bajo el carácter de **autonomía absoluta**, la prueba primaria **no** es la anotación ciega interanotador.  
 > Catálogo: [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md) · Relaciones: [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md) · Protocolo: [`PROTOCOLO_DE_MAPEO.md`](PROTOCOLO_DE_MAPEO.md)
 
 ---
@@ -10,33 +10,33 @@
 
 ### 1.1 Contexto estratégico y estructura semántica multicapa
 
-La arquitectura metodológica del marco I.O. traduce la complejidad de dominios heterogéneos —cosmogonías náhuatl y otros— en estructuras semánticas medibles e interoperables. El compromiso epistémico central es **desacoplar** la deducción lógica interna de la dependencia de un contenedor de consenso exterior, evitando tanto la autorreferencialidad vacía como la legitimación por panel de observadores separados.
+La arquitectura metodológica del marco I.O. traduce la complejidad de dominios heterogéneos —cosmogonías nahuas y otros sistemas conceptuales— en estructuras semánticas formalizables y trazables. El compromiso epistémico central es **desacoplar** la deducción lógica interna de la dependencia de un contenedor de consenso exterior, evitando tanto la autorreferencialidad vacía como la legitimación por panel de observadores separados.
 
 | Perspectiva | Función |
 |---|---|
-| **Individualidad** | Fronteras, identidad de objeto, propiedades intrínsecas |
-| **Dualidad** | Simetría polar, reflejo topológico, oposiciones complementarias |
-| **Totalidad** | Integración mereológica, colectividades de orden superior |
-| **Evolución** | Progresión temporal, morfogénesis, complejización |
-| **Involución** | Repliegue, estabilización por contracción, conservación de principios |
+| **Individualidad** | Fronteras, identidad de entidad y propiedades intrínsecas |
+| **Dualidad** | Simetría polar, reflejo topológico y oposiciones complementarias |
+| **Totalidad** | Integración mereológica y colectividades de orden unitario |
+| **Evolución** | Progresión constructiva, morfogénesis y complejización |
+| **Involución** | Repliegue, estabilización por contracción y conservación en el vacío |
 
 | Capa | Contenido | Afirmación legítima |
 |---|---|---|
-| Autonomía formal | Lean 4 (`IOM/FormalRules.lean`) | Teoremas y coherencia axiomática sin autoridad exterior |
-| Estructural | OWL/SHACL, CSV canónicos | Conformidad sintáctica y shape constraints |
-| Cartografía del tránsito | Mapeos de dominio, EXP-E | Expresabilidad en trece tríadas |
-| Diagnóstico sintético | PI-HGAT-T, baselines | Recuperación de relaciones generadas por reglas |
-| Residuo inter-anotador | Pares independientes, κ | Archivo histórico; **no** fundamento |
+| Autonomía formal | `src/iomEngine.ts`, `src/iomEngine.test.ts` (legado Lean 4) | Teoremas, punto fijo y coherencia axiomática sin autoridad exterior |
+| Estructural y geométrica | `data/iom_spec.json`, modelo `{4,3,3}`, legado OWL/SHACL | Conformidad sintáctica, partición `390` y restricciones de forma |
+| Cartografía del tránsito | Mapeos de dominio, `EXP-E` (`/api/domain-mapping`) | Expresabilidad en trece tríadas |
+| Diagnóstico sintético | `PI-HGAT-T`, líneas base (registro histórico) | Recuperación de relaciones generadas por reglas |
+| Residuo interanotador | Pares independientes, Fleiss' κ | Archivo histórico; **no** fundamento |
 
-OWL/SHACL garantizan conformidad sintáctica; Lean 4 prueba solidez matemática. Bajo el carácter actual, estas capas **bastan** para sostener la autonomía formal. El residuo inter-anotador no se promociona a prueba de validez del marco.
+La conformidad estructural y la verificación determinista en TypeScript (herederas de OWL/SHACL y Lean 4) **bastan** para sostener la autonomía formal. El residuo interanotador no se promociona a prueba de validez del marco.
 
 ### 1.2 Operacionalización de relaciones y tríadas
 
-Antes de ingerir datos, Lean 4 restringe el comportamiento de los constructos:
+Antes de incorporar cualquier dominio, las reglas formales restringen estrictamente el comportamiento de los constructos:
 
-- **`mirrorOf`:** simetría estructural entre perspectivas/fases; no basta la semejanza temática; exige isomorfismo funcional (fase opuesta, posición reflejada).
-- **`creates`:** generación orientada de estructuras o fases; direccionalidad asimétrica e irreflexiva; gobierna transiciones evolutivas e involutivas.
-- **Fases y tríadas:** cada entidad se posiciona en fase y en una de las trece tríadas; las relaciones solo son válidas si respetan restricciones de fase.
+- **`mirrorOf`:** simetría estructural entre perspectivas y fases; no basta la semejanza temática, sino que exige isomorfismo posicional (`fase opuesta`, `pos_tgt = 2 - pos_src`).
+- **`creates`:** generación orientada entre fases opuestas; direccionalidad asimétrica e irreflexiva (`lateral ↔ centro`).
+- **Fases y tríadas:** cada entidad se ubica en fase (`adv` / `ret`) y en una de las trece tríadas; las relaciones solo son válidas si respetan las restricciones posicionales.
 
 ---
 
@@ -46,31 +46,31 @@ Antes de ingerir datos, Lean 4 restringe el comportamiento de los constructos:
 
 Procedimiento ([`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md), [`PROTOCOLO_DE_MAPEO.md`](PROTOCOLO_DE_MAPEO.md)):
 
-1. Aislar el observable e identificar límites fenoménicos.
+1. Aislar el fenómeno o umbral e identificar sus límites conceptuales.
 2. Clasificar por perspectiva dominante.
-3. Ubicar en fase y tríada canónica.
-4. Instanciar `mirrorOf` o `creates` según reglas formales.
-5. Serializar en CSV y validar SHACL / `importar_datos_personalizados.py`.
+3. Ubicar en fase y tríada canónica (`T01`–`T13`).
+4. Instanciar `mirrorOf` o `creates` mediante `evaluatePairRule` (`POST /api/rule-check`).
+5. Validar en `experiments/domain_mapping/examples.json` o `datasets/ingestion/` y comprobar mediante `GET /api/domain-mapping`.
 
 | Dominio | Ejemplo de entidades | Perspectiva / fase | Relación | Impacto analítico |
 |---|---|---|---|---|
 | Cosmología náhuatl | Tezcatlipoca ↔ Quetzalcóatl | Dualidad | `mirrorOf` | Reflejo de fuerzas cósmicas polares |
 | Cosmología náhuatl | Vida ↔ muerte | Dualidad | `mirrorOf` | Dicotomía mesoamericana |
-| Cosmología náhuatl | Sol de fuego → Sol de agua | Involución | `creates` | Transición entre edades / cataclismo |
+| Cosmología náhuatl | Sol de fuego → Sol de agua | Involución | `creates` | Transición entre edades |
 | Cosmología náhuatl | Camino al Mictlán → Mictlán | Involución | `creates` | Retorno al vacío |
 
 ### 2.2 Delimitación epistemológica del mapeo
 
 Fundamento: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md), [`PREMISAS_Y_TEOREMAS.md`](PREMISAS_Y_TEOREMAS.md) (vacío, unidad, infinito, transformación).
 
-1. Lean 4 demuestra consistencia interna, **no** veracidad empírica automática.
-2. Prohibido asignar `creates`/`mirrorOf` por semejanza discursiva.
-3. Evolución/Involución deben respetar fronteras de unidad y vacío.
-4. La admisión de un mapeo es estructural; no se exige panel ciego para legitimarlo.
+1. La consistencia determinista demuestra coherencia interna, **no** veracidad empírica automática.
+2. Queda prohibido asignar `creates` o `mirrorOf` por mera semejanza retórica.
+3. Evolución e involución deben respetar las fronteras conceptuales de unidad y vacío.
+4. La admisión de un mapeo es estructural; no exige panel ciego para legitimarse.
 
 ---
 
-## 3. Residuo inter-anotador y control de calidad
+## 3. Residuo interanotador y control de calidad
 
 ### 3.1 Protocolo ciego (archivo, no eje)
 
@@ -80,30 +80,25 @@ Metodología: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md). Dato
 |---|---:|---|
 | Fleiss' κ | **0.6871** | Acuerdo *dentro del residuo* |
 | Unanimidad | 10/14 | Controles estructurales estables |
-| Desacuerdos | 4/14 (NC01, NC02, AM01, AM03) | Fronteras del vocabulario compartido residual |
+| Desacuerdos | 4/14 (`NC01`, `NC02`, `AM01`, `AM03`) | Fronteras del vocabulario compartido residual |
 
 ### 3.2 Diagnóstico de desacuerdos
 
-- **NC (conceptos nuevos):** tensionan límites de las tríadas; refinar notas de alcance o expandir subsunción.
-- **AM (ambiguos):** solapamiento entre perspectivas; reglas de desempatado más estrictas en [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md).
+- **NC (conceptos nuevos):** tensionan límites de las tríadas y señalan fronteras léxicas.
+- **AM (casos ambiguos):** solapamiento interpretativo entre especularidad y causalidad en [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md).
 
-**Contraste:** PI-HGAT-T mide recuperación de reglas sintéticas; κ mide interpretabilidad humana no guiada. Ninguno de los dos **funda** el marco bajo el carácter de autonomía absoluta.
+**Contraste:** `PI-HGAT-T` mide recuperación de reglas sintéticas; κ mide interpretabilidad humana no guiada. Ninguno de los dos **funda** el marco bajo el carácter de autonomía absoluta.
 
 ---
 
-## 4. Pipeline operativo, verificación formal y auditoría
+## 4. Flujo operativo, verificación formal y auditoría
 
 ```bash
-python3 -m venv .venv && .venv/bin/python -m pip install -r requirements-lock.txt
-lake build
-.venv/bin/python scripts/validate_spec.py
-.venv/bin/python scripts/generate_ontology.py
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python scripts/validate_shacl.py
-.venv/bin/python experiments/domain_mapping/validate_examples.py
-.venv/bin/python experiments/pi_hgat_t.py   # opcional
-.venv/bin/python scripts/score_independent_eval.py --annotations datasets/independent_eval/annotations.json  # residuo opcional
-.venv/bin/python scripts/generate_audit_report.py
+npm install
+npm run lint
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npm run build
+npm run dev
 ```
 
-Este flujo vincula la comprobación sintáctica en CI/CD con la verificación lógica de los teoremas formales y con el eje central del repositorio: la **autonomía formal** y la cartografía del tránsito hacia la no-dependencia de contenedor exterior.
+Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, los ocho teseractos `{4,3,3}` en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.

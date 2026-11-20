@@ -13,9 +13,11 @@ import {
   Sparkles,
   AlertTriangle,
   HelpCircle,
+  Box,
 } from 'lucide-react';
+import { TesseractFlowchart, TesseractMiniSchlegel } from './TesseractFlowchart.tsx';
 
-type TabId = 'core' | 'invariance' | 'eval' | 'domain';
+type TabId = 'core' | 'tesseracts' | 'invariance' | 'eval' | 'domain';
 type RelationLabel = 'none' | 'mirrorOf' | 'creates';
 type EvalLabel = RelationLabel | 'unsure';
 
@@ -215,6 +217,59 @@ interface QuizScoreResponse {
   }>;
 }
 
+interface TesseractRelation {
+  left: string;
+  arrow: '>' | '<';
+  line: '_' | '...';
+  right: string;
+  domain: 'real' | 'virtual';
+  cube: 'exterior' | 'interior';
+  notation: string;
+}
+
+interface TesseractResponse {
+  instruction: {
+    title: string;
+    source: string;
+    rules: string[];
+  };
+  schlafli: string;
+  geometry: {
+    cubicCells: number;
+    faces: number;
+    edges: number;
+    vertices: number;
+    dual: string;
+  };
+  concepts: string[];
+  cells: Array<{
+    id: string;
+    index: number;
+    row: 'superior' | 'inferior';
+    col: 1 | 2 | 3 | 4;
+    perspective: 'evolucion' | 'involucion';
+    exteriorDomain: 'real' | 'virtual';
+    exteriorLine: '_' | '...';
+    interiorDomain: 'real' | 'virtual';
+    interiorLine: '_' | '...';
+    coords: [0 | 1, 0 | 1, 0 | 1];
+    parity: 0 | 1;
+    half: string;
+    relations: [TesseractRelation, TesseractRelation];
+    neighbors: { horizontal: string; vertical: string; diagonal: string };
+  }>;
+  verification: {
+    totalRelations: number;
+    evolCount: number;
+    involCount: number;
+    allRealUseRightArrow: boolean;
+    allHaveOneRealOneVirtual: boolean;
+    allCubeLinesMatchHeader: boolean;
+    allSevenConceptsCovered: boolean;
+    conceptCounts: Array<{ id: string; count: number }>;
+  };
+}
+
 function RelationBadge({ relation }: { relation: string }) {
   const styles: Record<string, string> = {
     mirrorOf: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
@@ -257,6 +312,8 @@ export default function App() {
   const [quizData, setQuizData] = useState<QuizResponse | null>(null);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScore, setQuizScore] = useState<QuizScoreResponse | null>(null);
+  const [tesseractData, setTesseractData] = useState<TesseractResponse | null>(null);
+  const [selectedCellId, setSelectedCellId] = useState<string>('T1');
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -264,7 +321,7 @@ export default function App() {
     async function loadInitial() {
       try {
         setLoading(true);
-        const [specRes, triadsRes, invRes, evalRes, domRes, quizRes] = await Promise.all([
+        const [specRes, triadsRes, invRes, evalRes, domRes, quizRes, tessRes] = await Promise.all([
           fetch('/api/spec').then((r) => r.json()),
           fetch('/api/triads').then((r) => r.json()),
           fetch('/api/invariance', {
@@ -275,6 +332,7 @@ export default function App() {
           fetch('/api/independent-eval').then((r) => r.json()),
           fetch('/api/domain-mapping').then((r) => r.json()),
           fetch('/api/quiz').then((r) => r.json()),
+          fetch('/api/tesseract').then((r) => r.json()),
         ]);
 
         setSpecData(specRes);
@@ -286,6 +344,7 @@ export default function App() {
         setLiveReport(evalRes.report);
         setDomainData(domRes);
         setQuizData(quizRes);
+        setTesseractData(tessRes);
       } catch (err) {
         setErrorMsg((err as Error).message);
       } finally {
@@ -413,6 +472,7 @@ export default function App() {
 
   const tabs: Array<{ id: TabId; label: string; icon: React.ReactNode }> = [
     { id: 'core', label: 'Núcleo & 13 Tríadas', icon: <Layers className="w-4 h-4" /> },
+    { id: 'tesseracts', label: 'Teseractos ({4,3,3})', icon: <Box className="w-4 h-4" /> },
     { id: 'invariance', label: 'Invariancia & Punto Fijo', icon: <ShieldCheck className="w-4 h-4" /> },
     { id: 'eval', label: "Evaluación Independiente (κ)", icon: <Activity className="w-4 h-4" /> },
     { id: 'domain', label: 'Dominio (EXP-E) & Quiz', icon: <Compass className="w-4 h-4" /> },
@@ -758,6 +818,217 @@ export default function App() {
           </>
         )}
 
+        {activeTab === 'tesseracts' && tesseractData && (
+          <div className="space-y-6">
+            <section className="bg-slate-900/70 border border-slate-800 rounded-xl p-5 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <h2 className="text-base font-semibold text-white flex items-center gap-2">
+                    <Box className="w-4 h-4 text-sky-400" />
+                    {tesseractData.instruction.title}
+                  </h2>
+                  <p className="text-xs font-mono text-slate-400 mt-0.5">
+                    Fuente: {tesseractData.instruction.source} · Dual: {tesseractData.geometry.dual}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs font-mono">
+                  <span className="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                    {tesseractData.geometry.cubicCells} teseractos (2 × 4)
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                    {tesseractData.verification.totalRelations} transiciones · {tesseractData.concepts.length} conceptos
+                  </span>
+                </div>
+              </div>
+              <ol className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+                {tesseractData.instruction.rules.map((rule, idx) => (
+                  <li
+                    key={idx}
+                    className="bg-slate-950/70 border border-slate-800 rounded-lg p-3 leading-relaxed"
+                  >
+                    <span className="font-mono text-sky-300 font-semibold mr-1.5">{idx + 1}.</span>
+                    {rule}
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
+                <div className="text-slate-400">Dirección &gt; / &lt;</div>
+                <div className="text-lg font-mono text-emerald-300 mt-1">
+                  {tesseractData.verification.allRealUseRightArrow ? 'VERIFICADO' : 'ERROR'}
+                </div>
+                <div className="text-[11px] text-slate-500">real = (&gt;) · virtual = (&lt;)</div>
+              </div>
+              <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
+                <div className="text-slate-400">Balance por celda</div>
+                <div className="text-lg font-mono text-emerald-300 mt-1">
+                  {tesseractData.verification.allHaveOneRealOneVirtual ? 'VERIFICADO' : 'ERROR'}
+                </div>
+                <div className="text-[11px] text-slate-500">1 real + 1 virtual en las 8</div>
+              </div>
+              <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
+                <div className="text-slate-400">Cubo y trazo _ / ...</div>
+                <div className="text-lg font-mono text-sky-300 mt-1">
+                  {tesseractData.verification.allCubeLinesMatchHeader ? 'CONSISTENTE' : 'ERROR'}
+                </div>
+                <div className="text-[11px] text-slate-500">int / ext · continuas / punteadas</div>
+              </div>
+              <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
+                <div className="text-slate-400">Alternancia Evol / Invol</div>
+                <div className="text-lg font-mono text-emerald-300 mt-1">
+                  {tesseractData.verification.evolCount} / {tesseractData.verification.involCount}
+                </div>
+                <div className="text-[11px] text-slate-500">
+                  7 conceptos: {tesseractData.verification.allSevenConceptsCovered ? 'OK' : 'ERR'}
+                </div>
+              </div>
+            </section>
+
+            <TesseractFlowchart
+              tesseractData={tesseractData}
+              selectedCellId={selectedCellId}
+              onSelectCell={setSelectedCellId}
+            />
+
+            {(() => {
+              const selectedCell =
+                tesseractData.cells.find((c) => c.id === selectedCellId) ?? tesseractData.cells[0];
+              const superiorCells = tesseractData.cells.filter((c) => c.row === 'superior');
+              const inferiorCells = tesseractData.cells.filter((c) => c.row === 'inferior');
+
+              const renderCellCard = (cell: TesseractResponse['cells'][number]) => {
+                const active = cell.id === selectedCell.id;
+                return (
+                  <button
+                    key={cell.id}
+                    onClick={() => setSelectedCellId(cell.id)}
+                    className={`text-left rounded-xl p-3 border transition cursor-pointer ${
+                      active
+                        ? 'bg-sky-500/15 border-sky-400/60'
+                        : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono font-semibold text-sm text-white">
+                        {cell.id}
+                      </span>
+                      <span
+                        className={`px-1.5 py-0.5 rounded font-mono text-[10px] uppercase ${
+                          cell.perspective === 'evolucion'
+                            ? 'bg-emerald-500/15 text-emerald-300'
+                            : 'bg-amber-500/15 text-amber-300'
+                        }`}
+                      >
+                        {cell.perspective}
+                      </span>
+                    </div>
+                    <div className="mb-2.5">
+                      <TesseractMiniSchlegel cell={cell} />
+                    </div>
+                    <div className="space-y-1.5 font-mono text-[10.5px] tracking-tight">
+                      {cell.relations.map((rel, i) => (
+                        <div
+                          key={i}
+                          className={`px-2 py-1 rounded bg-slate-950/80 border whitespace-nowrap ${
+                            rel.line === '...' ? 'border-dashed' : 'border-solid'
+                          } ${
+                            rel.domain === 'real'
+                              ? 'border-sky-500/35 text-sky-200'
+                              : 'border-amber-500/35 text-amber-200'
+                          }`}
+                        >
+                          {rel.notation}
+                        </div>
+                      ))}
+                    </div>
+                  </button>
+                );
+              };
+
+              return (
+                <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-8 space-y-4">
+                    <div>
+                      <div className="text-xs font-mono text-slate-400 mb-2">
+                        Parte superior (de izquierda a derecha)
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                        {superiorCells.map(renderCellCard)}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono text-slate-400 mb-2">
+                        Parte inferior (de izquierda a derecha)
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                        {inferiorCells.map(renderCellCard)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-4 bg-slate-900/70 border border-slate-800 rounded-xl p-5 space-y-4">
+                    <div>
+                      <div className="text-xs font-mono text-slate-400">{selectedCell.half}</div>
+                      <h3 className="text-lg font-semibold text-white font-mono">
+                        {selectedCell.id} · {selectedCell.perspective}
+                      </h3>
+                      <p className="text-xs text-slate-400 font-mono mt-1">
+                        interior ({selectedCell.interiorLine === '_' ? 'continuas _' : 'punteadas ...'}):{' '}
+                        {selectedCell.interiorDomain} · exterior (
+                        {selectedCell.exteriorLine === '_' ? 'continuas _' : 'punteadas ...'}):{' '}
+                        {selectedCell.exteriorDomain}
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-xs text-slate-400">Navegar celdas vecinas (2×4):</div>
+                      <div className="grid grid-cols-1 gap-2 text-xs">
+                        <button
+                          onClick={() => setSelectedCellId(selectedCell.neighbors.horizontal)}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 hover:border-sky-500/50 cursor-pointer"
+                        >
+                          <span className="font-mono text-sky-300">Par horizontal (Evol ↔ Invol)</span>
+                          <span className="font-mono text-white">→ {selectedCell.neighbors.horizontal}</span>
+                        </button>
+                        <button
+                          onClick={() => setSelectedCellId(selectedCell.neighbors.vertical)}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 hover:border-emerald-500/50 cursor-pointer"
+                        >
+                          <span className="font-mono text-emerald-300">Par vertical (Sup ↔ Inf)</span>
+                          <span className="font-mono text-white">→ {selectedCell.neighbors.vertical}</span>
+                        </button>
+                        <button
+                          onClick={() => setSelectedCellId(selectedCell.neighbors.diagonal)}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 hover:border-amber-500/50 cursor-pointer"
+                        >
+                          <span className="font-mono text-amber-300">Par diagonal (misma perspectiva)</span>
+                          <span className="font-mono text-white">→ {selectedCell.neighbors.diagonal}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-950/80 border border-slate-800 rounded-lg p-3 text-xs space-y-2">
+                      <div className="font-semibold text-slate-200">
+                        Transiciones de {selectedCell.id}
+                      </div>
+                      {selectedCell.relations.map((rel, i) => (
+                        <div key={i} className="space-y-0.5">
+                          <div className="font-mono text-white">{rel.notation}</div>
+                          <div className="text-[11px] text-slate-400">
+                            cubo {rel.cube} ({rel.line === '_' ? 'líneas continuas' : 'líneas punteadas'}) · registro {rel.domain}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              );
+            })()}
+          </div>
+        )}
+
         {activeTab === 'invariance' && invarianceData && (
           <div className="space-y-6">
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -778,7 +1049,7 @@ export default function App() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-400">
-                  Equivalente a <code className="text-sky-300">self_bootstrap.py --passes 2</code>: regenera
+                  Motor determinista <code className="text-sky-300">generateArtifacts()</code>: regenera
                   nodos, pasos vectoriales y candidatos desde <code className="text-sky-300">iom_spec.json</code> en dos pasadas deterministas y verifica identidad SHA-256.
                 </p>
                 <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-[11px] space-y-2">
@@ -909,7 +1180,7 @@ export default function App() {
                 <div className="text-2xl font-semibold font-mono text-sky-300 mt-1">
                   {liveReport.fleiss_kappa !== null ? liveReport.fleiss_kappa.toFixed(4) : 'N/A'}
                 </div>
-                <div className="text-[11px] text-slate-500">acuerdo inter-anotador</div>
+                <div className="text-[11px] text-slate-500">acuerdo interanotador</div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-4">
                 <div className="text-xs text-slate-400">Ítems en κ</div>

@@ -1,14 +1,14 @@
 # Módulo didáctico: residuo del protocolo ciego (EXP-A)
 
-> **Estado:** material **pedagógico residual**. No certifica el marco.
-> Bajo autonomía absoluta, el acuerdo inter-anotador **no** es fundamento de validez.
+> **Estado:** material **pedagógico residual**. No certifica el marco.  
+> Bajo autonomía absoluta, el acuerdo interanotador **no** es fundamento de validez.  
 > [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
 
 ---
 
 ## 1. Qué era EXP-A
 
-Protocolo ciego con catorce pares y tres anotadores. Fleiss' κ = 0.6871.
+Protocolo ciego con catorce pares y tres anotadores independientes (`Fleiss' κ = 0.6871`).
 
 En una fase anterior del proyecto se presentaba como «validez semántica en el mundo real». Ese planteamiento **contradice** el ensayo canónico: el consenso de conciencias separadas no es fundamento último.
 
@@ -17,18 +17,23 @@ En una fase anterior del proyecto se presentaba como «validez semántica en el 
 ## 2. Lectura actual
 
 | Antes | Ahora |
-|-------|--------|
+|-------|-------|
 | EXP-A = prueba del marco | EXP-A = archivo de la fase consensual |
-| κ legítima el sistema | κ no legítima el sistema |
+| κ legitima el sistema | κ no legitima el sistema |
 | Mundo compartido como eje | Mundo compartido como residuo superable |
 
 ---
 
-## 3. Si se ejecuta (opcional)
+## 3. Ejecución opcional en el entorno activo
+
+Puede consultarse o simularse interactivamente mediante la pestaña **Evaluación Independiente (κ)** de la aplicación (`npm run dev`) o directamente en consola mediante Node.js / TypeScript:
 
 ```bash
-python scripts/score_independent_eval.py \
-  --annotations datasets/independent_eval/annotations.json
+npx tsx -e "
+  import { loadIndependentEvalData, scoreIndependentEval } from './src/iomEngine';
+  const { annotations, ruleReference } = loadIndependentEvalData();
+  console.log(scoreIndependentEval(annotations, ruleReference));
+"
 ```
 
-Interpretar resultados solo como documentación histórica, nunca como dictamen de validez del repositorio.
+Interpretar los resultados únicamente como documentación histórica, nunca como dictamen de validez del repositorio.

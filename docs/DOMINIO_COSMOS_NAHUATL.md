@@ -64,7 +64,7 @@ Detalle de sentido prioritario: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO
 
 El **Mictlán** es la **arquitectura de las trece tríadas**: umbrales del tránsito hacia la autonomía, no «infierno» cristiano. Lecturas recientes (Luna López; Matos Moctezuma; López Austin) lo leen como **ruta al origen**.
 
-Bajo el ensayo canónico y la Cosmología: «estar muerto» = dejar de ser observador externo para convertirse en el tejido del sistema; destino = auto-creación desde el vacío. El Mictlán funciona como recorrido simbólico entre condiciones de existencia (mundo/vacío, real/virtual). Al finalizar el recorrido, la ofrenda del Mictlán permite la creación de una nueva condición.
+Bajo el ensayo canónico y la Cosmología: «estar muerto» = dejar de ser observador externo para convertirse en el tejido del sistema; destino = autocreación desde el vacío. El Mictlán funciona como recorrido simbólico entre condiciones de existencia (mundo/vacío, real/virtual). Al finalizar el recorrido, la ofrenda del Mictlán permite la creación de una nueva condición.
 
 ### Niveles (síntesis Códice Vaticano A / Florentino) — apoyo
 
@@ -171,7 +171,7 @@ El tlacuilo formula **nueve señales + cuatro pasos = trece marcas**, con **un s
 | Camino al Mictlán como muerte ontológica | Disolución observador → tejido del sistema |
 | Mictecacíhuatl (ascendente) | **Evolución** (4ª perspectiva) |
 | Mictlantecuhtli (descendente) | **Involución** (5ª perspectiva) |
-| Orden multiversal / auto-creación desde el vacío | Individualidad + Totalidad sin contenedor exterior |
+| Orden multiversal / autocreación desde el vacío | Individualidad + Totalidad sin contenedor exterior |
 | Ofrenda del Mictlán | Acto de creación de una nueva condición |
 
 $$\text{Orden Definitivo} \implies \neg \exists \, \text{Contenedor Exterior}$$

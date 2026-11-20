@@ -7,105 +7,42 @@ on:
 permissions:
   contents: read
 
-# Único workflow de validez del repositorio.
-# Encuentro (EXP-A/E, PI-HGAT-T) vive en workflows/encuentro.yml (manual).
+# Workflow de validez del repositorio Node.js / TypeScript.
+# Encuentro (EXP-A/E) vive en workflows/encuentro.yml (manual).
 
 jobs:
-  lean:
-    name: Lean 4 build (SelfGenesis)
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v7
-
-      # GitHub /releases/latest de elan falla intermitentemente (503/504).
-      # Descargamos un tarball de versión fija con reintentos e instalamos a mano.
-      - name: Install elan v4.2.4 (pinned tarball + retries)
-        run: |
-          set -euo pipefail
-          ELAN_VERSION=v4.2.4
-          ARCH=x86_64-unknown-linux-gnu
-          URL="https://github.com/leanprover/elan/releases/download/${ELAN_VERSION}/elan-${ARCH}.tar.gz"
-          TMPDIR="$(mktemp -d)"
-          trap 'rm -rf "$TMPDIR"' EXIT
-          ARCHIVE="$TMPDIR/elan.tar.gz"
-          for i in 1 2 3 4; do
-            echo "Attempt $i: downloading $URL"
-            rm -f "$ARCHIVE"
-            if curl -fsSL --connect-timeout 20 --max-time 180 \
-              --retry 5 --retry-all-errors --retry-delay 5 --retry-max-time 180 \
-              -o "$ARCHIVE" "$URL"; then
-              break
-            fi
-            echo "Download failed; waiting $((i * 15))s before another attempt..."
-            sleep $((i * 15))
-          done
-          if [[ ! -s "$ARCHIVE" ]]; then
-            echo "::error::Unable to download Elan ${ELAN_VERSION} from GitHub Releases after all retries."
-            exit 1
-          fi
-          tar -xzf "$ARCHIVE" -C "$TMPDIR"
-          # El tarball contiene el binario elan-init
-          INIT_BIN="$(find "$TMPDIR" -type f \( -name 'elan-init' -o -name 'elan' \) -print -quit)"
-          if [[ -z "$INIT_BIN" ]]; then
-            echo "::error::Elan archive did not contain elan-init or elan."
-            exit 1
-          fi
-          chmod +x "$INIT_BIN"
-          "$INIT_BIN" -y --default-toolchain none --no-modify-path
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-
-      - name: Install Lean toolchain from lean-toolchain
-        run: |
-          set -euo pipefail
-          TOOLCHAIN="$(cat lean-toolchain)"
-          elan toolchain install "$TOOLCHAIN"
-          elan default "$TOOLCHAIN"
-          lean --version
-          lake --version
-
-      - name: lake build
-        run: lake build
-
   core:
-    name: Núcleo autónomo (punto fijo, SHACL, invariancia)
+    name: Núcleo autónomo (tipos, pruebas unitarias, compilación)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: requirements-lock.txt
-      - name: Install locked dependencies
+          node-version: '22'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Strict TypeScript check
+        run: npm run lint
+      - name: Unit tests (FormalRules, Teseractos {4,3,3}, Grafo D3)
+        run: npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+      - name: Build frontend bundle
+        run: npm run build
+      - name: Verify fixed-point invariance and tesseract model invariants
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements-lock.txt
-      - name: Validate iom_spec.json against JSON Schema
-        run: python scripts/validate_spec.py
-      - name: Check specification migrations
-        run: python scripts/migrate_spec.py --check
-      - name: Generate ontology/CSV and require versioned CSV match
-        run: python scripts/check_generated_committed.py
-      - name: Punto fijo idempotente (CSV + sello spec_version)
-        run: python scripts/self_bootstrap.py --passes 2
-      - name: Check spec ↔ CSV sync
-        run: python scripts/sync_spec_artifacts.py --check
-      - name: Regenerar TTL (generador + materialize determinista)
-        run: |
-          python scripts/generate_ontology.py
-          python scripts/materialize_ttl.py
-      - name: Unit tests (ontología, reglas, schema)
-        run: |
-          python -m unittest \
-            tests.test_formal_rules_bridge \
-            tests.test_metrics_audit \
-            tests.test_ontology \
-            tests.test_property_based \
-            tests.test_property_links \
-            tests.test_score_independent_eval \
-            tests.test_validate_spec \
-            -v
-      - name: OWL RL + SHACL
-        run: python scripts/validate_shacl.py
-      - name: Invariancia no trivial (+ control negativo)
-        run: python scripts/measure_invariance.py
+          npx tsx -e "
+            import assert from 'node:assert/strict';
+            import { generateArtifacts, runInvarianceAudit, buildTesseractModel } from './src/iomEngine';
+            const artifacts = generateArtifacts();
+            assert.equal(artifacts.fixedPoint.idempotent, true);
+            const inv = runInvarianceAudit(artifacts.relationCandidates);
+            assert.equal(inv.invariance_non_trivial, true);
+            assert.equal(inv.negative_control.detects_corruption, true);
+            const t = buildTesseractModel();
+            assert.equal(t.verification.totalRelations, 16);
+            assert.equal(t.verification.allRealUseRightArrow, true);
+            assert.equal(t.verification.allHaveOneRealOneVirtual, true);
+            assert.equal(t.verification.allCubeLinesMatchHeader, true);
+            assert.equal(t.verification.allSevenConceptsCovered, true);
+            console.log('Core invariants verified:', artifacts.fixedPoint.pass1Hash);
+          "

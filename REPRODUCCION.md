@@ -1,36 +1,37 @@
 # Reproducción
 
-**Intérprete:** `.venv/bin/python` tras `pip install -r requirements-lock.txt`.
+**Runtime:** Node.js 22 (`npm`) con servidor Express + Vite/React + D3 en TypeScript (`puerto 3000`, host `0.0.0.0`).  
+**Especificación fuente:** `data/iom_spec.json` (`spec_version` `1.10.0`).
 
-## Núcleo (bloquea validez)
-
-```bash
-python3 -m venv .venv && .venv/bin/python -m pip install -r requirements-lock.txt
-.venv/bin/python scripts/self_bootstrap.py --passes 2
-lake build
-.venv/bin/python scripts/validate_shacl.py
-.venv/bin/python scripts/measure_invariance.py
-```
-
-Manifiesto (tras cambios de árbol):
+## Arranque, pruebas y compilación
 
 ```bash
-.venv/bin/python scripts/create_manifest.py
-git add MANIFEST.sha256 && git commit -m "chore: refresh MANIFEST"
-.venv/bin/python scripts/self_bootstrap.py --with-manifest --passes 2
+npm install
+npm run lint                                                           # Verificación estricta de tipos TypeScript (tsc --noEmit)
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts    # Pruebas unitarias (reglas, teseractos y grafo D3)
+npm run build                                                          # Compila el cliente React/Vite en dist/
+npm run dev                                                            # Inicia servidor Express + Vite en http://0.0.0.0:3000
+npm start                                                              # Sirve la aplicación compilada en producción (node server.ts)
 ```
 
-Excluidos del manifiesto: `MANIFEST.sha256`, `AUDITORIA_AUTO.md`, `ontology/io_ontology.ttl`.
+## Núcleo verificado en TypeScript (`src/iomEngine.ts` y `src/tesseractFlowGraph.ts`)
 
-## Opcional (no bloquea el núcleo)
+La lógica estructural del repositorio se ejecuta de forma determinista y sin estado externo a partir de `data/iom_spec.json`:
 
-```bash
-.venv/bin/python experiments/optional/pi_hgat_t.py
-.venv/bin/python experiments/optional/baselines.py
-.venv/bin/python experiments/domain_mapping/validate_examples.py
-.venv/bin/python scripts/score_independent_eval.py \
-  --annotations datasets/independent_eval/annotations.json
-```
+1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `GET /api/spec` y `POST /api/invariance` generan en dos pasadas los **78** nodos (`13 × 2 × 3`), **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none = 390`), verificando igualdad SHA-256 entre pasadas.
+2. **Reglas formales (`FormalRules`):** `POST /api/rule-check` evalúa `sameTriad`, `oppositePhase`, `mirrorPositional` y `createsPositional` para cualquier par de los 78 nodos.
+3. **Teseractos `{4,3,3}` y diagrama de flujo D3:** `GET /api/tesseract` entrega las **8** celdas (`T1–T8`, `2 × 4`) sobre los **7** conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`), verificando las **16** transiciones, la asignación exacta interior/exterior (`real`/`virtual`, `_`/`...`) y el mapa dirigido usado por `buildTesseractFlowGraph` (`src/tesseractFlowGraph.ts`) y `TesseractFlowchart` (`src/TesseractFlowchart.tsx`).
+4. **Invariancia interna y control negativo:** `POST /api/invariance` verifica tasa de auto-regeneración `1.0`, invariancia por índice de tríada, reconstrucción LOO sobre las 13 tríadas y detección obligatoria de corrupción al alterar una arista (`detects_corruption = true`).
+
+## Encuentro y evaluación (opcional)
+
+- **EXP-E (alineación de dominio náhuatl):** `GET /api/domain-mapping` valida `experiments/domain_mapping/examples.json` (`NAH-01`–`NAH-05`) frente a los 78 nodos y 390 pares canónicos.
+- **EXP-A (evaluación independiente / Fleiss' κ):** `GET /api/independent-eval` y `POST /api/independent-eval/score` calculan Fleiss' κ (`0.6871` sobre 14 pares y 3 anotadores, `null ≠ unsure`) con soporte interactivo de edición en la interfaz web.
+- **Autoevaluación de protocolo ciego:** `GET /api/quiz` y `POST /api/quiz/score` evalúan las preguntas `Q1`–`Q4` de `experiments/learning/quiz_blind_protocol.json`.
+
+## Alcance de la migración
+
+Las pruebas originales en Lean 4 (`lake build`), la serialización/validación RDF-SHACL (`rdflib`, `pyshacl`, `owlrl`) y el diagnóstico sintético en PyTorch (`PI-HGAT-T`) corresponden al histórico previo a la migración a Node.js; su equivalencia combinatoria, de reglas y de invariancia se ejecuta directamente en `src/iomEngine.ts` y `src/*.test.ts`.
 
 ## Cinco perspectivas
 

@@ -57,20 +57,20 @@ Núcleo combinatorio ampliado (11 teoremas): [`TCAAU_RECONSTRUCCION_ACADEMICA.md
 
 ## 2. Premisas estructurales (tablas y relaciones)
 
-Estas premisas **no se demuestran**: se **asumen** como codificación operativa del marco y se **comprueban** de forma determinista (Lean + SHACL + CSV).
+Estas premisas **no se demuestran**: se **asumen** como codificación operativa del marco y se **comprueban** de forma determinista sobre `data/iom_spec.json` mediante `src/iomEngine.ts` y las pruebas unitarias en TypeScript (`src/iomEngine.test.ts`, `src/tesseractFlowGraph.test.ts`).
 
 1. Hay **cinco perspectivas**: Individualidad, Dualidad, Totalidad, Evolución, Involución.
 2. Hay **trece tríadas** por fase (avance/retroceso) con etiquetas canónicas en `data/iom_spec.json`.
 3. **Espejo (`mirrorOf`)**: misma tríada, fase opuesta, posición lateral invertida (`pos' = 2 - pos`), centro fijo.
 4. **Creación (`creates`)**: exactamente las cuatro reglas de `creation_rules` (lateral→centro o centro→laterales entre fases opuestas).
 5. **Vectores**: cuatro secuencias de cinco pasos con ejes y flechas declarados (detalle narrativo en [`VECTORES_4_5.md`](VECTORES_4_5.md) y [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md)).
-6. **Bipartición término–mediador** (Teorema 11): toda tríada de las 32 canónicas de la TCAAU enlaza un término $\{U,\emptyset,M\}$ con un mediador $\{P,N,C,\mathrm{IA}\}$.
+6. **Bipartición término–mediador y ocho teseractos `{4,3,3}`** (Teoremas 8 y 11): las ocho celdas (`T1–T8`, `2 × 4`) articulan los siete conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`) con asignación explícita de dominio (`real`/`virtual`) y trazo (`_`/`...`) en cubo interior y exterior.
 
 ---
 
-## 3. Teoremas derivados en Lean (operadores y posiciones)
+## 3. Teoremas derivados (operadores y posiciones)
 
-Demostrados en `IOM/Core.lean`, `IOM/Operators.lean`, `IOM/Specification.lean`, `IOM/FormalRules.lean`:
+Formalizados originalmente en Lean 4 y verificados de manera determinista en TypeScript (`src/iomEngine.ts`):
 
 | Teorema | Contenido |
 |---|---|
@@ -82,11 +82,11 @@ Demostrados en `IOM/Core.lean`, `IOM/Operators.lean`, `IOM/Specification.lean`, 
 | `invert_involutive` | La inversión de carga es involutiva |
 | `no_repetition` | Estados no vacíos no se restauran idénticos |
 
-Teoremas del núcleo combinatorio TCAAU (enumeración exhaustiva, no Lean):
+Teoremas del núcleo combinatorio TCAAU:
 
 | Teorema | Contenido |
 |---|---|
-| Teorema 1–10 | Inventario, balance de dominios, bipartición, grados, espejo de mitades, grupo $(\mathbb{Z}_2)^3$, representación cúbica/4D, recorridos/ofrenda, conservación = invertibilidad |
+| Teorema 1–10 | Inventario, balance de dominios, bipartición, grados, espejo de mitades, grupo $(\mathbb{Z}_2)^3$, representación cúbica/4D (instrucción canónica de los 8 teseractos `{4,3,3}`), recorridos/ofrenda, conservación = invertibilidad |
 | **Teorema 11** | Bipartición término–mediador; *reductio* de la lectura estructural del criterio de no-subordinación; necesidad de la lectura modal |
 
 ---
@@ -107,11 +107,10 @@ Teoremas del núcleo combinatorio TCAAU (enumeración exhaustiva, no Lean):
 | Concepto | Artefacto |
 |---|---|
 | Premisas tabuladas | `data/iom_spec.json` |
-| Teoremas de operadores | `IOM/Operators.lean` |
-| Teoremas de posición / espejo / creates | `IOM/Specification.lean`, `IOM/FormalRules.lean` |
-| Comprobación JSON ⇄ reglas | `tests/test_property_links.py`, `tests/test_formal_rules_bridge.py` |
-| Validez semántica (mundo real) | `datasets/independent_eval/` |
-| Recuperabilidad sintética | PI-HGAT-T, baselines |
+| Motor determinista e invariancia | `src/iomEngine.ts`, `server.ts` |
+| Reglas `mirrorOf` / `creates` y 8 teseractos `{4,3,3}` | `src/iomEngine.ts`, `src/iomEngine.test.ts` |
+| Grafo dinámico D3 de evolución e involución | `src/tesseractFlowGraph.ts`, `src/TesseractFlowchart.tsx`, `src/tesseractFlowGraph.test.ts` |
+| Validez semántica (mundo real, residuo) | `datasets/independent_eval/` |
 | Sentido cosmológico | [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) |
 | Criterio de autonomía / término de creación | [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) |
-| Núcleo combinatorio + Teorema 11 | [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md) |
+| Instrucción canónica 8 teseractos y Teoremas 1–11 | [`TCAAU.md`](TCAAU.md), [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md) |

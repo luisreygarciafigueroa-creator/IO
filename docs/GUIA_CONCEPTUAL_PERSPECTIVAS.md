@@ -54,7 +54,7 @@ Repliegue, disolución y retorno al vacío-matriz. En la Cosmología del Mictlá
 
 ### Mapeo (EXP-E)
 
-`experiments/domain_mapping/validate_examples.py` cartografía pares del dominio Cinco Soles / Mictlán a las trece tríadas.
+`GET /api/domain-mapping` (`validateDomainMapping` en `src/iomEngine.ts`) cartografía pares del dominio Cinco Soles / Mictlán a las trece tríadas.
 
 ---
 
@@ -62,18 +62,18 @@ Repliegue, disolución y retorno al vacío-matriz. En la Cosmología del Mictlá
 
 | Capa | Qué hace |
 |---|---|
-| Lean 4 (EXP-B) / SHACL (EXP-C) | Coherencia formal de la bóveda |
-| PI-HGAT-T (EXP-D) | Diagnóstico sintético interno |
-| Protocolo ciego (EXP-A) | Interpretabilidad auxiliar |
-| EXP-E | Cartografía cosmológica prioritaria |
+| Núcleo TypeScript / legado Lean 4 y SHACL (`EXP-B` / `EXP-C`) | Coherencia formal y punto fijo de la bóveda |
+| `PI-HGAT-T` (`EXP-D`) | Diagnóstico sintético interno histórico |
+| Protocolo ciego (`EXP-A`) | Interpretabilidad auxiliar residual |
+| `EXP-E` | Cartografía cosmológica del tránsito |
 
 ---
 
 ## 5. Lista de cotejo
 
-1. **Individualidad (Nanahuatzin)** — ¿He aislado la singularidad?
-2. **Dualidad (Xólotl)** — ¿Cuál es el par (`mirrorOf`)?
-3. **Totalidad (Tecuciztécatl)** — ¿Qué sistema las integra?
-4. **Evolución / Involución (Mictecacíhuatl / Mictlantecuhtli)** — ¿Generación o retorno al Mictlán? ¿Se entrega la ofrenda que crea la nueva condición?
+1. **Individualidad (Nanahuatzin):** ¿se ha aislado la singularidad?
+2. **Dualidad (Xólotl):** ¿cuál es el par (`mirrorOf`)?
+3. **Totalidad (Tecuciztécatl):** ¿qué sistema las integra?
+4. **Evolución / Involución (Mictecacíhuatl / Mictlantecuhtli):** ¿generación o retorno al Mictlán? ¿Se entrega la ofrenda que crea la nueva condición?
 
-Véase también: [`VECTORES_4_5.md`](VECTORES_4_5.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`TRES_PERSPECTIVAS.md`](TRES_PERSPECTIVAS.md).
+Véase también: [`VECTORES_4_5.md`](VECTORES_4_5.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`TRES_PERSPECTIVAS.md`](TRES_PERSPECTIVAS.md) · [`TCAAU.md`](TCAAU.md).

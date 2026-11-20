@@ -1,70 +1,63 @@
 # Propuesta de arquitectura ontológica: marco semántico I.O. para la alineación de dominios empíricos
 
-> Arquitectura de alineación interdisciplinaria (cosmología náhuatl) sobre las cinco perspectivas y trece tríadas.  
+> Arquitectura de alineación interdisciplinaria (cosmología náhuatl) sobre las cinco perspectivas, trece tríadas y el modelo `{4,3,3}`.  
 > Premisas: [`PREMISAS_Y_TEOREMAS.md`](PREMISAS_Y_TEOREMAS.md) · Relaciones: [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md) · Catálogo: [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md)
 
 ---
 
 ## 1. Fundamentos y relaciones operativas
 
-Axiomas: vacío, unidad, infinito, transformación.
+Principios base: vacío, unidad, infinito y transformación.
 
 | Perspectiva | Rol arquitectónico |
 |---|---|
-| Individualidad | Unidad base, identidad primaria |
+| Individualidad | Unidad base e identidad primaria |
 | Dualidad | Polaridad y tensión binaria |
 | Totalidad | Integración sistémica |
 | Evolución | Complejización y emergencia |
-| Involución | Reabsorción y disolución |
+| Involución | Reabsorción y retorno |
 
-- **`mirrorOf`:** isomorfismo estructural / simetría de roles.
-- **`creates`:** generación causal y transición de estado.
+- **`mirrorOf`:** isomorfismo estructural y simetría de roles en fases opuestas (`pos' = 2 - pos`).
+- **`creates`:** generación orientada y transición entre fases opuestas (`lateral ↔ centro`).
 
 ## 2. Estratificación multicapa
 
-| Capa | Impacto |
+| Capa | Función |
 |---|---|
-| Validez semántica (mundo real) | **Eje principal** — κ, mapeos, desacuerdos |
-| Formal | Prerrequisito matemático (Lean) |
-| Estructural | Gobernanza CSV/OWL/SHACL |
-| Diagnóstico sintético | Calibración interna (no validez real) |
+| Autonomía formal | Núcleo determinista en `src/iomEngine.ts` (reglas heredadas de Lean 4), `data/iom_spec.json` |
+| Estructural y geométrica | Partición `390`, `78` nodos y teseractos `{4,3,3}` (`src/tesseractFlowGraph.ts`, legado OWL/SHACL) |
+| Cartografía del tránsito | Alinear el destino Mictlán (`EXP-E`, `/api/domain-mapping`) |
+| Diagnóstico sintético | Calibración interna histórica (`PI-HGAT-T`; no fundamenta validez mundana) |
+| Residuo interanotador | Registro comparado opcional (`EXP-A`, Fleiss' κ; no fundamenta el marco) |
 
-## 3. Alineación cosmología náhuatl
+## 3. Alineación con la cosmología náhuatl
 
-Proceso de seis pasos: fenómeno → perspectiva → tríada → fase → `mirrorOf`/`creates` → validación SHACL.
+Procedimiento de seis pasos: fenómeno → perspectiva → tríada → fase → `mirrorOf` / `creates` → comprobación estructural contra `data/iom_spec.json` (`GET /api/domain-mapping`).
 
 ### Matriz comparativa (EXP-E — cosmología náhuatl)
 
 | Perspectiva | Cosmología náhuatl | Operación |
 |---|---|---|
 | Individualidad | Tezcatlipoca / Quetzalcóatl (fuerzas polares) | `mirrorOf` |
-| Dualidad | Vida ↔ muerte; lucha de dioses | `mirrorOf` |
-| Totalidad | Nahui Ollin (Quinto Sol) | Integración de la edad presente |
-| Evolución | Sucesión de Soles / nuevo ciclo | `creates` emergencia |
-| Involución | Camino al Mictlán / cataclismo | `creates` retorno al vacío |
+| Dualidad | Vida ↔ muerte; tensión de opuestos | `mirrorOf` |
+| Totalidad | *Nahui Ollin* (Quinto Sol) | Integración de la edad presente |
+| Evolución | Sucesión de Soles / nuevo ciclo | `creates` (emergencia) |
+| Involución | Camino al Mictlán / cataclismo | `creates` (retorno al vacío) |
 
 Ejemplos ejecutables: [`experiments/domain_mapping/examples.json`](../experiments/domain_mapping/examples.json).
 
-## 4. Evaluación empírica
+## 4. Evaluación interanotador residual
 
-κ = **0.6871** (catorce pares, 10/14 unánimes). Desacuerdos: NC01, NC02, AM01, AM03.
+Fleiss' $\kappa = \mathbf{0.6871}$ (catorce pares, 10/14 unánimes; desacuerdos en `NC01`, `NC02`, `AM01`, `AM03`). Constituye un archivo histórico de interpretabilidad residual, no el fundamento del marco.
 
-Demostración **provisional** de interpretabilidad externa.
-
-## 5. Pipeline y gobernanza
+## 5. Flujo operativo y gobernanza
 
 ```bash
-python3 -m venv .venv && .venv/bin/python -m pip install -r requirements-lock.txt
-lake build
-.venv/bin/python scripts/validate_spec.py
-.venv/bin/python scripts/generate_ontology.py
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python scripts/validate_shacl.py
-.venv/bin/python scripts/score_independent_eval.py --annotations datasets/independent_eval/annotations.json
-.venv/bin/python experiments/pi_hgat_t.py
-.venv/bin/python experiments/baselines.py
-.venv/bin/python experiments/domain_mapping/validate_examples.py
-.venv/bin/python scripts/generate_audit_report.py
+npm install
+npm run lint
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npm run build
+npm run dev
 ```
 
-Mapa documental: VALIDACION_INDEPENDIENTE, DELIMITACION_EPISTEMOLOGICA, CATALOGO_DOMINIOS, PREMISAS_Y_TEOREMAS, RELACIONES_OPERATIVAS, ESPECIFICACION_METODOLOGICA, AUDITORIA_EPISTEMOLOGICA, ARQUITECTURA_ONTOLOGICA, paper, EXPERIMENTOS, AUDITORIA, REPRODUCCION, MANIFEST.sha256.
+Mapa documental: [`TCAAU.md`](TCAAU.md), [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md), [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md), [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md), [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md), [`PREMISAS_Y_TEOREMAS.md`](PREMISAS_Y_TEOREMAS.md), [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md), [`ESPECIFICACION_METODOLOGICA.md`](ESPECIFICACION_METODOLOGICA.md), [`AUDITORIA_EPISTEMOLOGICA.md`](AUDITORIA_EPISTEMOLOGICA.md), `paper.md`, `EXPERIMENTOS.md`, `AUDITORIA.md`, `REPRODUCCION.md`, `MANIFEST.sha256`.

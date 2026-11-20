@@ -52,7 +52,7 @@ ORDEN MULTIVERSAL (Autónomo):
 └────────────────────────┘
 ```
 
-Si lo consigue, transforma la función del sistema del que surgió: este ya no tiene que someter a todos bajo una misma organización, sino hacer posible la autonomía de cada parte. Aquí emerge la condición paradoxal del sistema:
+Si lo consigue, transforma la función del sistema del que surgió: este ya no tiene que someter a todos bajo una misma organización, sino hacer posible la autonomía de cada parte. Aquí emerge la condición paradójica del sistema:
 
 $$\text{Requisito del Sistema} = \text{Abolición de Requisitos Impuestos}$$
 
@@ -68,7 +68,7 @@ Dentro de este marco, el **camino al Mictlán** representa la transición hacia 
 MUNDO FENOMÉNICO                    CAMINO AL MICTLÁN                  ESTADO FINAL
 (Conciencias Separadas)          (Disolución de Límites)           (Conciencia Autónoma)
 
-   [Yo] <──> [Otro]        ───>    Creador = Creado         ───>    [ 自 Auto-creación ]
+   [Yo] <──> [Otro]        ───>    Creador = Creado         ───>    [ 自 Autocreación ]
  (Separación ilusoria)             (Asimilación al sistema)         (Desde el Vacío)
 ```
 

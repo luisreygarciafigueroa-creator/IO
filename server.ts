@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
 import {
+  buildTesseractModel,
   evaluatePairRule,
   generateArtifacts,
   loadIndependentEvalData,
@@ -145,6 +146,14 @@ async function startServer() {
     }
   });
 
+  app.get('/api/tesseract', (_req, res) => {
+    try {
+      res.json(buildTesseractModel());
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  });
+
   const isProd = process.env.NODE_ENV === 'production';
   const distDir = path.join(process.cwd(), 'dist');
 
@@ -157,8 +166,11 @@ async function startServer() {
     app.use(vite.middlewares);
   } else if (fs.existsSync(distDir)) {
     app.use(express.static(distDir));
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(distDir, 'index.html'));
+    app.get('/{*splat}', (req, res) => {
+      if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ error: 'API route not found' });
+      }
+      return res.sendFile(path.join(distDir, 'index.html'));
     });
   }
 

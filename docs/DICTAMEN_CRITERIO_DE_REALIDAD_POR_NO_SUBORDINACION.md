@@ -23,9 +23,9 @@ La formulación introduce algo de lo que el modelo carecía: un **criterio de re
 
 ### A. Lo que la propuesta resuelve
 
-**(a)** El «sistema mayor» deja de ser contenedor exógeno. Al declarar que existe *virtualmente y no realmente*, su estatuto pasa a ser el de mediación endógena. Esto es coherente con P2 restaurado y con la arquitectura declarada: el «mayor» es el sistema virtual de mediación, intra-ordinal. No hay orden envolvente.
+**(a)** El «sistema mayor» deja de ser contenedor exógeno. Al declarar que existe *virtualmente y no realmente*, su estatuto pasa a ser el de mediación endógena. Esto es coherente con P2 restaurado y con la arquitectura declarada: el «mayor» es el sistema virtual de mediación, intraordinal. No hay orden envolvente.
 
-**(b)** El regreso queda bloqueado entre órdenes. Como no hay relación informacional inter-ordinal (C10'), no hay engranajes inter-ordinales. El regreso solo se formula *dentro* de un orden, y allí termina en el vacío, que es el universo mismo (P3). El término es inmanente, no superior.
+**(b)** El regreso queda bloqueado entre órdenes. Como no hay relación informacional interordinal (C10'), no hay engranajes interordinales. El regreso solo se formula *dentro* de un orden, y allí termina en el vacío, que es el universo mismo (P3). El término es inmanente, no superior.
 
 **(c)** Se distingue proceso de logro. Que el vacío desarrolle su mente y conciencia mediante mediaciones no lo constituye engranaje de manera permanente: la subordinación es *transicional* y se cancela en la equiparación (D9). Es la estructura de la paradoja de §2.
 
@@ -55,8 +55,8 @@ La tensión persistente —«el vacío es información» frente a «la inexisten
 
 | Nivel | Predicado negativo | Lectura |
 |-------|--------------------|---------|
-| Inter-ordinal | No hay información común entre órdenes | Ningún orden recibe información de otro |
-| Intra-ordinal (estado logrado) | No hay información de la que el vacío dependa | El vacío no depende de información ajena |
+| Interordinal | No hay información común entre órdenes | Ningún orden recibe información de otro |
+| Intraordinal (estado logrado) | No hay información de la que el vacío dependa | El vacío no depende de información ajena |
 
 Ambos niveles se unifican: **autonomía = ausencia de dependencia informacional ajena**.
 
@@ -111,7 +111,7 @@ La combinatoria permanece intacta y el criterio se satisface. Esto realiza D9 si
 
 **C16 (autonomía informacional).** La autonomía consiste en la inexistencia de información *ajena* de la que se dependa. El vacío es información propia; la ausencia mentada es su perfil de dependencia, no su contenido.
 
-**C17 (no-regreso inter-ordinal).** Entre órdenes no hay relación informacional; no hay, por tanto, engranajes inter-ordinales ni sistema mayor real que los contenga. El único predicado común es negativo.
+**C17 (no-regreso interordinal).** Entre órdenes no hay relación informacional; no hay, por tanto, engranajes interordinales ni sistema mayor real que los contenga. El único predicado común es negativo.
 
 ### Ediciones requeridas
 

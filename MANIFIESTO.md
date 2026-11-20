@@ -19,7 +19,7 @@ La **autonomía verificable** constituye el mecanismo decisivo: permite que la u
 
 ## Qué sostiene el marco
 
-El repositorio no se fundamenta en un orden exterior compartido por conciencias separadas. Se **auto-constituye** en el punto fijo de su especificación (`data/iom_spec.json` y predicados Lean). Anotadores, dominios empíricos y métricas de recuperación de reglas pertenecen al orden del **encuentro**, no al del fundamento.
+El repositorio no se fundamenta en un orden exterior compartido por conciencias separadas. Se **autoconstituye** en el punto fijo de su especificación (`data/iom_spec.json` y el motor determinista en TypeScript `src/iomEngine.ts`, heredero de los predicados formales en Lean). Anotadores, dominios empíricos y métricas de recuperación de reglas pertenecen al orden del **encuentro**, no al del fundamento.
 
 ## Texto canónico de sentido
 

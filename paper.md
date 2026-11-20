@@ -1,41 +1,52 @@
-# IOM — construcción formal de la unidad informativa
+# IOM — Construcción formal de la unidad informativa y arquitectura TCAAU
 
-Este informe describe el repositorio IOM como una **construcción formal de
-unidad informativa**: estructura autocontenida de distinciones, relaciones,
-integración y transformación, verificable desde `data/iom_spec.json` (punto
-fijo, Lean, SHACL). La autonomía verificable es el *mecanismo* de constitución
-y validación; anotadores, dominios y learners de recuperación de reglas son
-**encuentro**, no fundamento.
+Este documento sintetiza el repositorio **IOM** como una **construcción formal de unidad informativa** articulada con la **Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)**: una arquitectura autocontenida de distinciones, relaciones, integración y transformaciones verificable de manera determinista desde `data/iom_spec.json`, el motor en TypeScript (`src/iomEngine.ts`, `src/tesseractFlowGraph.ts`) y el modelo geométrico de los ocho teseractos (`{4,3,3}`).
 
-Referencia conceptual: [`docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · Cosmología: [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md) · Spec: [`data/iom_spec.json`](data/iom_spec.json) · Jerarquía: [`EXPERIMENTOS.md`](EXPERIMENTOS.md).
+La **autonomía verificable** constituye el mecanismo de constitución y validación interna; los anotadores externos, la alineación con dominios culturales y los algoritmos de recuperación de reglas pertenecen al orden del **encuentro**, no al del fundamento.
 
-## Propósito
+Referencias principales:
+- Tratado sistemático TCAAU: [`docs/TCAAU.md`](docs/TCAAU.md)
+- Reconstrucción formal (Teoremas 1–11): [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md)
+- Criterio de no-subordinación: [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md)
+- Sentido filosófico y cosmología: [`docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md)
+- Especificación y jerarquía experimental: [`data/iom_spec.json`](data/iom_spec.json) · [`EXPERIMENTOS.md`](EXPERIMENTOS.md)
 
-La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.
+---
 
-Las 13 tríadas son modos de composición de esa unidad.
+## 1. Propósito y definición formal
 
-## Núcleo (fundamento)
+> **Definición canónica.** La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.
 
-1. Punto fijo: `self_bootstrap.py --passes 2`
-2. SelfGenesis / FormalRules / InformationalUnit: `lake build`
-3. SHACL sobre TTL regenerado
-4. Invariancia no trivial (`measure_invariance.py`)
+Las cinco perspectivas —**Individualidad, Dualidad, Totalidad, Evolución e Involución**— operan en ciclo modular $\mathbb{Z}_5$, mientras que las **trece tríadas** (`78` nodos en fases de avance `adv` y retroceso `ret`) constituyen modos de composición estructural, no una taxonomía descriptiva externa.
 
-## Encuentro (no fundamenta)
+En el plano ontológico superior (TCAAU), los siete individuos $\mathcal{C} = \{U, \emptyset, M_{\mathrm{mat}}, N, C, A, M\}$ y los clasificadores $\mathcal{D} = \{r, v\}$ forman un torsor bajo $(\mathbb{Z}_2)^3$ isomorfo a las ocho celdas cúbicas de un único teseracto $\{4,3,3\}$, satisfaciendo el criterio de realidad por no-subordinación ($D11$) bajo lectura modal (Teorema 11).
 
-EXP-E (dominio / Mictlán) y EXP-A (κ) son proyección provisional. Sin
-`ACCESS_LOG`, κ histórico no se declara demostración cerrada. El sentido del destino Mictlán se desarrolla en la Cosmología del Mictlán.
+---
 
-## Diagnóstico circular (opcional)
+## 2. Núcleo autónomo (fundamento verificable en Node.js 22 + TypeScript)
 
-PI-HGAT-T y baselines (`experiments/optional/`) recuperan etiquetas que **ya
-están** en (fase, posición). Accuracy 1.0 es tautología informativa, no validez
-del marco en el mundo. PyTorch no es dependencia del núcleo.
+La validez del sistema como arquitectura formal se comprueba de manera determinista mediante cuatro capas ejecutables (`src/iomEngine.ts`, `src/tesseractFlowGraph.ts`, `server.ts`):
 
-## Límite de la afirmación
+1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `generateArtifacts()` (`GET /api/spec` y `POST /api/invariance`) regenera en dos pasadas los **78** nodos, **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none`) con identidad criptográfica SHA-256 entre pasadas.
+2. **Reglas formales e invariancia no trivial:** `evaluatePairRule()` y `runInvarianceAudit()` (`POST /api/rule-check` y `POST /api/invariance`) reproducen los predicados originalmente formalizados en Lean 4 / SHACL, verifican reconstrucción *leave-one-triad-out* (13/13 tríadas) e imponen el control negativo obligatorio (`detects_corruption = true` ante la mutación de cualquier arista).
+3. **Modelo de los ocho teseractos `{4,3,3}` y diagrama de flujo D3:** `buildTesseractModel()` (`GET /api/tesseract`) verifica las **16** transiciones sobre los 7 conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`), la dirección estricta (`>` real, `<` virtual), el balance `1+1` por celda y la consistencia interior/exterior (`_`/`...`), alimentando la visualización dinámica con **D3** en `src/TesseractFlowchart.tsx`.
+4. **Suite de pruebas unitarias y tipado estricto:** `npm run lint` (`tsc --noEmit`), `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts` y `npm run build`.
 
-El repositorio **implementa** una construcción formal de unidad informativa.
-No afirma por sí solo una unidad absoluta independiente del entorno de
-ejecución. La validez interna se mide por derivabilidad y trazabilidad desde
-la especificación canónica.
+---
+
+## 3. Encuentro (no fundamenta)
+
+- **EXP-E (cartografía del tránsito / dominio náhuatl):** `GET /api/domain-mapping` comprueba la expresabilidad del destino Mictlán (`NAH-01`–`NAH-05`) dentro del vocabulario de 13 tríadas. Un desajuste de mapeo no invalida el núcleo.
+- **EXP-A (concordancia interanotador residual):** `GET /api/independent-eval` calcula Fleiss' $\kappa \approx 0.6871$ sobre los 14 pares históricos y 3 anotadores. En ausencia de `ACCESS_LOG` de no-exposición previa —y por principio epistemológico de autonomía absoluta—, el consenso externo se documenta como archivo residual y nunca como demostración fundante.
+
+---
+
+## 4. Diagnóstico circular (contexto histórico)
+
+Los modelos sintéticos de referencia (`PI-HGAT-T` y perceptrones multicapa en el archivo experimental) alcanzan una exactitud de `1.0000` bajo partición *leave-one-triad-out* porque las etiquetas `mirrorOf` y `creates` son funciones deterministas ya codificadas en `(fase, posición)`. Dicha recuperabilidad confirma consistencia formal interna, pero constituye una tautología informacional y **no** demuestra validez empírica en el mundo externo.
+
+---
+
+## 5. Límite de la afirmación
+
+El repositorio **implementa y verifica** una construcción formal de unidad informativa y su articulación con la ontología combinatoria de la TCAAU. No afirma por sí solo una teoría física empíricamente falsable ni pretende derivar verdades naturales del consenso estadístico; su validez interna se mide estrictamente por derivabilidad, invariancia y trazabilidad determinista desde la especificación canónica.

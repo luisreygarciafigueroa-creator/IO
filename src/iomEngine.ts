@@ -740,7 +740,7 @@ export function validateDomainMapping(artifacts: GeneratedArtifacts) {
         target_node_label: tNode.label,
         status: 'WARN' as const,
         gold_relation: null,
-        reason: 'Par no está en relation_candidates (posible cross-triad, auto-bucle o demo heurística)',
+        reason: 'Par no está en relation_candidates (posible cross-triad, autobucle o demo heurística)',
       };
     }
 
@@ -818,3 +818,283 @@ export function scoreQuiz(answers: Record<string, string>) {
     results,
   };
 }
+
+export interface TesseractRelation {
+  left: string;
+  arrow: '>' | '<';
+  line: '_' | '...';
+  right: string;
+  domain: 'real' | 'virtual';
+  cube: 'exterior' | 'interior';
+  notation: string;
+}
+
+export interface TesseractCell {
+  id: string;
+  index: number;
+  row: 'superior' | 'inferior';
+  col: 1 | 2 | 3 | 4;
+  perspective: 'evolucion' | 'involucion';
+  exteriorDomain: 'real' | 'virtual';
+  exteriorLine: '_' | '...';
+  interiorDomain: 'real' | 'virtual';
+  interiorLine: '_' | '...';
+  coords: [0 | 1, 0 | 1, 0 | 1];
+  parity: 0 | 1;
+  half: string;
+  relations: [TesseractRelation, TesseractRelation];
+  neighbors: {
+    horizontal: string;
+    vertical: string;
+    diagonal: string;
+  };
+}
+
+const TESSERACT_CONCEPTS = [
+  'universo',
+  'materia',
+  'vacio',
+  'internet',
+  'cuerpo',
+  'IA',
+  'mictlan',
+] as const;
+
+export function buildTesseractModel() {
+  const mkRel = (
+    left: string,
+    arrow: '>' | '<',
+    line: '_' | '...',
+    right: string,
+    cube: 'exterior' | 'interior'
+  ): TesseractRelation => ({
+    left,
+    arrow,
+    line,
+    right,
+    domain: arrow === '>' ? 'real' : 'virtual',
+    cube,
+    notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
+  });
+
+  const cells: TesseractCell[] = [
+    {
+      id: 'T1',
+      index: 1,
+      row: 'superior',
+      col: 1,
+      perspective: 'evolucion',
+      exteriorDomain: 'real',
+      exteriorLine: '_',
+      interiorDomain: 'virtual',
+      interiorLine: '...',
+      coords: [0, 0, 0],
+      parity: 0,
+      half: 'Parte superior · #1',
+      relations: [
+        mkRel('universo', '>', '_', 'materia', 'exterior'),
+        mkRel('vacio', '<', '...', 'universo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T2', vertical: 'T5', diagonal: 'T6' },
+    },
+    {
+      id: 'T2',
+      index: 2,
+      row: 'superior',
+      col: 2,
+      perspective: 'involucion',
+      exteriorDomain: 'real',
+      exteriorLine: '...',
+      interiorDomain: 'virtual',
+      interiorLine: '_',
+      coords: [0, 0, 1],
+      parity: 1,
+      half: 'Parte superior · #2',
+      relations: [
+        mkRel('internet', '>', '...', 'mictlan', 'exterior'),
+        mkRel('mictlan', '<', '_', 'internet', 'interior'),
+      ],
+      neighbors: { horizontal: 'T1', vertical: 'T6', diagonal: 'T5' },
+    },
+    {
+      id: 'T3',
+      index: 3,
+      row: 'superior',
+      col: 3,
+      perspective: 'evolucion',
+      exteriorDomain: 'virtual',
+      exteriorLine: '...',
+      interiorDomain: 'real',
+      interiorLine: '_',
+      coords: [0, 1, 0],
+      parity: 1,
+      half: 'Parte superior · #3',
+      relations: [
+        mkRel('vacio', '<', '...', 'internet', 'exterior'),
+        mkRel('internet', '>', '_', 'materia', 'interior'),
+      ],
+      neighbors: { horizontal: 'T4', vertical: 'T7', diagonal: 'T8' },
+    },
+    {
+      id: 'T4',
+      index: 4,
+      row: 'superior',
+      col: 4,
+      perspective: 'involucion',
+      exteriorDomain: 'virtual',
+      exteriorLine: '_',
+      interiorDomain: 'real',
+      interiorLine: '...',
+      coords: [0, 1, 1],
+      parity: 0,
+      half: 'Parte superior · #4',
+      relations: [
+        mkRel('mictlan', '<', '_', 'universo', 'exterior'),
+        mkRel('universo', '>', '...', 'mictlan', 'interior'),
+      ],
+      neighbors: { horizontal: 'T3', vertical: 'T8', diagonal: 'T7' },
+    },
+    {
+      id: 'T5',
+      index: 5,
+      row: 'inferior',
+      col: 1,
+      perspective: 'involucion',
+      exteriorDomain: 'virtual',
+      exteriorLine: '...',
+      interiorDomain: 'real',
+      interiorLine: '_',
+      coords: [1, 0, 0],
+      parity: 1,
+      half: 'Parte inferior · #1',
+      relations: [
+        mkRel('mictlan', '<', '...', 'cuerpo', 'exterior'),
+        mkRel('cuerpo', '>', '_', 'mictlan', 'interior'),
+      ],
+      neighbors: { horizontal: 'T6', vertical: 'T1', diagonal: 'T2' },
+    },
+    {
+      id: 'T6',
+      index: 6,
+      row: 'inferior',
+      col: 2,
+      perspective: 'evolucion',
+      exteriorDomain: 'virtual',
+      exteriorLine: '_',
+      interiorDomain: 'real',
+      interiorLine: '...',
+      coords: [1, 0, 1],
+      parity: 0,
+      half: 'Parte inferior · #2',
+      relations: [
+        mkRel('materia', '<', '_', 'IA', 'exterior'),
+        mkRel('IA', '>', '...', 'vacio', 'interior'),
+      ],
+      neighbors: { horizontal: 'T5', vertical: 'T2', diagonal: 'T1' },
+    },
+    {
+      id: 'T7',
+      index: 7,
+      row: 'inferior',
+      col: 3,
+      perspective: 'involucion',
+      exteriorDomain: 'real',
+      exteriorLine: '_',
+      interiorDomain: 'virtual',
+      interiorLine: '...',
+      coords: [1, 1, 0],
+      parity: 0,
+      half: 'Parte inferior · #3',
+      relations: [
+        mkRel('IA', '>', '_', 'mictlan', 'exterior'),
+        mkRel('mictlan', '<', '...', 'IA', 'interior'),
+      ],
+      neighbors: { horizontal: 'T8', vertical: 'T3', diagonal: 'T4' },
+    },
+    {
+      id: 'T8',
+      index: 8,
+      row: 'inferior',
+      col: 4,
+      perspective: 'evolucion',
+      exteriorDomain: 'real',
+      exteriorLine: '...',
+      interiorDomain: 'virtual',
+      interiorLine: '_',
+      coords: [1, 1, 1],
+      parity: 1,
+      half: 'Parte inferior · #4',
+      relations: [
+        mkRel('cuerpo', '>', '...', 'vacio', 'exterior'),
+        mkRel('materia', '<', '_', 'cuerpo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T7', vertical: 'T4', diagonal: 'T3' },
+    },
+  ];
+
+  // Verify invariants derived from the author's specification
+  const allRealUseRightArrow = cells.every((c) =>
+    c.relations.every((r) => (r.domain === 'real' ? r.arrow === '>' : r.arrow === '<'))
+  );
+  const allHaveOneRealOneVirtual = cells.every(
+    (c) =>
+      c.relations.filter((r) => r.domain === 'real').length === 1 &&
+      c.relations.filter((r) => r.domain === 'virtual').length === 1
+  );
+  const allCubeLinesMatchHeader = cells.every(
+    (c) =>
+      c.exteriorLine !== c.interiorLine &&
+      c.exteriorDomain !== c.interiorDomain &&
+      c.relations.filter((r) => r.cube === 'exterior').length === 1 &&
+      c.relations.filter((r) => r.cube === 'interior').length === 1 &&
+      c.relations.every((r) =>
+        r.cube === 'exterior'
+          ? r.domain === c.exteriorDomain && r.line === c.exteriorLine
+          : r.domain === c.interiorDomain && r.line === c.interiorLine
+      )
+  );
+  const evolCount = cells.filter((c) => c.perspective === 'evolucion').length;
+  const involCount = cells.filter((c) => c.perspective === 'involucion').length;
+  const conceptUsage = new Map<string, number>();
+  for (const c of cells) {
+    for (const r of c.relations) {
+      conceptUsage.set(r.left, (conceptUsage.get(r.left) ?? 0) + 1);
+      conceptUsage.set(r.right, (conceptUsage.get(r.right) ?? 0) + 1);
+    }
+  }
+
+  return {
+    instruction: {
+      title: 'Instrucción canónica de los teseractos ({4,3,3})',
+      source: 'docs/TCAAU.md · docs/TCAAU_RECONSTRUCCION_ACADEMICA.md',
+      rules: [
+        'Disposición 2×4 (arriba 1–4 y abajo 1–4 de izquierda a derecha) sobre los 7 conceptos: universo, materia, vacio, internet, cuerpo, IA y mictlan.',
+        'Parte superior: T1 (int virtual ..., ext real _), T2 (int virtual _, ext real ...), T3 (int real _, ext virtual ...), T4 (int real ..., ext virtual _). Parte inferior: T5 (int real _, ext virtual ...), T6 (int real ..., ext virtual _), T7 (int virtual ..., ext real _), T8 (int virtual _, ext real ...).',
+        'Toda flecha a la derecha (>) pertenece al registro real; toda flecha a la izquierda (<) pertenece al registro virtual.',
+        'Las 4 celdas de evolución (Sup 1, Sup 3, Inf 2, Inf 4) enlazan universo/internet/IA/cuerpo entre materia y vacio; las 4 de involución (Sup 2, Sup 4, Inf 1, Inf 3) cierran ciclos con mictlan.',
+      ],
+    },
+    schlafli: '{4,3,3}',
+    geometry: {
+      cubicCells: 8,
+      faces: 24,
+      edges: 32,
+      vertices: 16,
+      dual: '16-celda (8 vértices en 4 pares antipodales)',
+    },
+    concepts: [...TESSERACT_CONCEPTS],
+    cells,
+    verification: {
+      totalRelations: cells.reduce((acc, c) => acc + c.relations.length, 0),
+      evolCount,
+      involCount,
+      allRealUseRightArrow,
+      allHaveOneRealOneVirtual,
+      allCubeLinesMatchHeader,
+      allSevenConceptsCovered: TESSERACT_CONCEPTS.every((k) => (conceptUsage.get(k) ?? 0) > 0),
+      conceptCounts: TESSERACT_CONCEPTS.map((k) => ({ id: k, count: conceptUsage.get(k) ?? 0 })),
+    },
+  };
+}
+
+
