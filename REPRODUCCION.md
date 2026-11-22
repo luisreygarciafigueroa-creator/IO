@@ -8,7 +8,7 @@
 ```bash
 npm install
 npm run lint                                                           # Verificación estricta de tipos TypeScript (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts    # Pruebas unitarias (reglas, teseractos y grafo D3)
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts    # Pruebas unitarias (reglas, teseractos, grafo D3 y exportación JSON)
 npm run build                                                          # Compila el cliente React/Vite en dist/
 npm run dev                                                            # Inicia servidor Express + Vite en http://0.0.0.0:3000
 npm start                                                              # Sirve la aplicación compilada en producción (node server.ts)
@@ -26,7 +26,7 @@ La lógica estructural del repositorio se ejecuta de forma determinista y sin es
 ## Encuentro y evaluación (opcional)
 
 - **EXP-E (alineación de dominio náhuatl):** `GET /api/domain-mapping` valida `experiments/domain_mapping/examples.json` (`NAH-01`–`NAH-05`) frente a los 78 nodos y 390 pares canónicos.
-- **EXP-A (evaluación independiente / Fleiss' κ):** `GET /api/independent-eval` y `POST /api/independent-eval/score` calculan Fleiss' κ (`0.6871` sobre 14 pares y 3 anotadores, `null ≠ unsure`) con soporte interactivo de edición en la interfaz web.
+- **EXP-A (evaluación independiente / Fleiss' κ):** `GET /api/independent-eval` y `POST /api/independent-eval/score` calculan Fleiss' κ (`0.6871` sobre 14 pares y 3 anotadores, `null ≠ unsure`) con soporte interactivo de edición y descarga `.json` de `liveReport` + `editedAnnotations` (`src/evalAuditExport.ts`) en la interfaz web.
 - **Autoevaluación de protocolo ciego:** `GET /api/quiz` y `POST /api/quiz/score` evalúan las preguntas `Q1`–`Q4` de `experiments/learning/quiz_blind_protocol.json`.
 
 ## Alcance de la migración

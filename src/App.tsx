@@ -14,8 +14,10 @@ import {
   AlertTriangle,
   HelpCircle,
   Box,
+  Download,
 } from 'lucide-react';
 import { TesseractFlowchart, TesseractMiniSchlegel } from './TesseractFlowchart.tsx';
+import { buildEvalAuditFilename, serializeEvalAuditPayload } from './evalAuditExport';
 
 type TabId = 'core' | 'tesseracts' | 'invariance' | 'eval' | 'domain';
 type RelationLabel = 'none' | 'mirrorOf' | 'creates';
@@ -437,6 +439,21 @@ export default function App() {
     if (!evalData) return;
     setEditedAnnotations(evalData.annotations);
     setLiveReport(evalData.report);
+  }
+
+  function downloadEvalAuditJson() {
+    if (!liveReport || !editedAnnotations) return;
+    const now = new Date();
+    const json = serializeEvalAuditPayload(liveReport, editedAnnotations, now.toISOString());
+    const blob = new Blob([json], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = buildEvalAuditFilename(now);
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function submitQuiz() {
@@ -1225,13 +1242,21 @@ export default function App() {
             </section>
 
             <section className="bg-slate-900/70 border border-slate-800 rounded-xl p-4 sm:p-5">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
                   <h2 className="text-base font-semibold text-white">
                     Instrumento de Evaluación Independiente (14 pares × 3 anotadores)
                   </h2>
                   <p className="text-xs text-slate-400 mt-0.5">{liveReport.policy}</p>
                 </div>
+                <button
+                  type="button"
+                  onClick={downloadEvalAuditJson}
+                  className="inline-flex items-center gap-2 self-start sm:self-auto px-3.5 py-2 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-200 border border-sky-500/35 text-xs font-medium transition-colors cursor-pointer shrink-0"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Descargar JSON (Auditoría)
+                </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-xs">

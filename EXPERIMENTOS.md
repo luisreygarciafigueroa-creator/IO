@@ -15,7 +15,7 @@ El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no 
 | Prioridad | Capa | Runner / Endpoint | ¿Bloquea «repo válido»? |
 |:---------:|------|-------------------|:-----------------------:|
 | **1** | Punto fijo ($S_{n+1}=S_n$) | `GET /api/spec` · `POST /api/invariance` | sí |
-| **1b** | Reglas formales & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts` | sí |
+| **1b** | Reglas formales & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` | sí |
 | **2** | Invariancia no trivial | `POST /api/invariance` | sí |
 | **3** | Destino Mictlán (EXP-E) | `GET /api/domain-mapping` | **no** (encuentro) |
 | **4** | Resonancia κ (EXP-A) | `GET /api/independent-eval` | **no** (requiere ACCESS_LOG) |
@@ -26,7 +26,7 @@ El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no 
 
 ```bash
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts
 npm run build
 ```
 
@@ -55,4 +55,4 @@ En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas de
 ## 6. EXP-A (opcional; κ no cerrado sin log)
 
 Instrumento: `datasets/independent_eval/instrument/`.  
-`GET /api/independent-eval` y `POST /api/independent-eval/score` calculan Fleiss' κ sobre las anotaciones activas. Un κ histórico (~0.6871) **no** se presenta como demostración completada mientras no exista `ACCESS_LOG` de exposición previa. `rule_reference.json` es post-hoc; no se entrega al anotador.
+`GET /api/independent-eval` y `POST /api/independent-eval/score` calculan Fleiss' κ sobre las anotaciones activas, con exportación directa `.json` de `liveReport` y `editedAnnotations` para auditoría externa. Un κ histórico (~0.6871) **no** se presenta como demostración completada mientras no exista `ACCESS_LOG` de exposición previa. `rule_reference.json` es post-hoc; no se entrega al anotador.

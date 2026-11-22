@@ -30,7 +30,7 @@ La validez del sistema como arquitectura formal se comprueba de manera determini
 1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `generateArtifacts()` (`GET /api/spec` y `POST /api/invariance`) regenera en dos pasadas los **78** nodos, **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none`) con identidad criptográfica SHA-256 entre pasadas.
 2. **Reglas formales e invariancia no trivial:** `evaluatePairRule()` y `runInvarianceAudit()` (`POST /api/rule-check` y `POST /api/invariance`) reproducen los predicados originalmente formalizados en Lean 4 / SHACL, verifican reconstrucción *leave-one-triad-out* (13/13 tríadas) e imponen el control negativo obligatorio (`detects_corruption = true` ante la mutación de cualquier arista).
 3. **Modelo de los ocho teseractos `{4,3,3}` y diagrama de flujo D3:** `buildTesseractModel()` (`GET /api/tesseract`) verifica las **16** transiciones sobre los 7 conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`), la dirección estricta (`>` real, `<` virtual), el balance `1+1` por celda y la consistencia interior/exterior (`_`/`...`), alimentando la visualización dinámica con **D3** en `src/TesseractFlowchart.tsx`.
-4. **Suite de pruebas unitarias y tipado estricto:** `npm run lint` (`tsc --noEmit`), `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts` y `npm run build`.
+4. **Suite de pruebas unitarias y tipado estricto:** `npm run lint` (`tsc --noEmit`), `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` y `npm run build`.
 
 ---
 

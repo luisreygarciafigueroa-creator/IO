@@ -49,7 +49,7 @@ Las trece tríadas no constituyen una mera taxonomía, sino **modos de composici
 ```bash
 npm install
 npm run lint                                                # Verificación estricta TypeScript (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts
 npm run build                                               # Compilación de producción (Vite -> dist/)
 npm run dev                                                 # Servidor Express + UI interactiva en http://0.0.0.0:3000
 ```
@@ -57,7 +57,7 @@ npm run dev                                                 # Servidor Express +
 | Prioridad | Criterio                          | Verificación activa |
 |:---------:|-----------------------------------|---------------------|
 | 1         | Punto fijo ($S_{n+1}=S_n$)        | `GET /api/spec` · `POST /api/invariance` (`src/iomEngine.ts`) |
-| 1b        | Reglas formales e invariantes `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts` |
+| 1b        | Reglas formales e invariantes `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` |
 | 2         | Invariancia no trivial (+ control negativo) | `POST /api/invariance` |
 | 3         | Destino Mictlán (encuentro)       | `GET /api/domain-mapping` (EXP-E — opcional) |
 | 4         | Resonancia κ (encuentro)          | `GET /api/independent-eval` · `POST /api/independent-eval/score` (EXP-A — opcional) |
@@ -72,8 +72,9 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 | `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A y los 8 teseractos `{4,3,3}` |
 | `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido de evolución e involución sobre los 7 conceptos desde `tesseractData` |
 | `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado) y proyección de Schlegel interior/exterior |
+| `src/evalAuditExport.ts` | Generación determinista de paquetes `.json` (`liveReport` + `editedAnnotations`) para auditoría externa en EXP-A |
 | `server.ts` & `src/App.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |
-| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseractos y grafo D3 |
+| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseractos, grafo D3 y exportación de auditoría |
 
 ## Documentación de sentido y cosmología
 

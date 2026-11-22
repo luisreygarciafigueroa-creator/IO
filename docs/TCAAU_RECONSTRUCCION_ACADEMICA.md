@@ -3,7 +3,7 @@
 **Ontología formal, núcleo combinatorio verificado y programa de investigación**
 
 > Documento de integración al marco IOM. Estatus: programa metafísico-formal (no físico-empírico).  
-> Fecha de incorporación: 2026-11-12. Actualización integral: 2026-11-19 (Teorema 11, criterio de no-subordinación, instrucción canónica de los ocho teseractos $\{4,3,3\}$, desarrollo completo de §§6–8 y protocolo de auditoría en TypeScript).  
+> Fecha de incorporación: 2026-11-12. Actualización integral: 2026-11-21 (Teorema 11, criterio de no-subordinación, instrucción canónica de los ocho teseractos $\{4,3,3\}$, conversión de perspectiva/clausura endógena y protocolo de auditoría con exportación `.json` en TypeScript).  
 > Fuente: reconstrucción racional auditada por enumeración exhaustiva + Dictamen del criterio de realidad por no-subordinación + Tratado canónico (`docs/TCAAU.md`).
 
 ---
@@ -256,6 +256,10 @@ La conservación de la información ($A5$) encuentra paralelo filosófico en la 
 
 **Extensión propuesta `[E]`:** formalizar el régimen de clausura interpretativa como la lógica interna de un topos elemental $\mathcal{E}$ y la actualización de segundo orden como un morfismo geométrico que transforma dicha lógica interna sin postular un contenedor exterior. Esta vía constituye un programa de investigación abierto, no un resultado ya demostrado.
 
+### 5.1 Conversión de perspectiva, clausura endógena («colmena») y lectura modal de $C15$
+
+El análisis reflexivo de la clausura ($A1$, $A3$, $P11$) muestra que todo intento de destruir la autonomía absoluta o de escapar de ella hacia un exterior inexistente solo reproduce la clausura dentro de una configuración equivalente: la totalidad relacional («colmena» o red $\{4,3,3\}$) no existe como contenedor exógeno, sino únicamente como **estructura teórica o virtual endógena dentro de la propia existencia autónoma** ($P11$, $C17$). En este régimen, las transiciones de primer orden (`real ↔ virtual`) conservan la visibilidad de la distinción —de modo que la «libertad» entendida como mero paso al dominio inverso equivale a la «prisión» vista desde el lado opuesto—. Solo cuando la distinción interno/externo deviene inoperante, el umbral entre **clausura irreductible** (autonomía como hecho de distinción inmanente) y **consumación constructiva ($C15$)** se resuelve en IOM mediante el cambio de modo del Teorema 11: paso del *modo dependencia ($D10$)* al *modo equivalencia* sin pérdida informacional ($A5$).
+
 ---
 
 ## 6. Recorridos, ofrenda y perspectivas en $\mathbb{Z}_2 \times \mathbb{Z}_2$ y $\mathbb{Z}_5$
@@ -305,9 +309,9 @@ La verificación combinatoria de las reglas formales, las invariantes de punto f
 
 ```bash
 npm install
-npm run lint                                                         # Verificación estricta de tipos (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts  # Pruebas deterministas: reglas, T1–T8 ({4,3,3}) y grafo D3
-npm run build                                                        # Compilación de producción
+npm run lint                                                                               # Verificación estricta de tipos (tsc --noEmit)
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts  # Pruebas deterministas: reglas, T1–T8 ({4,3,3}), grafo D3 y auditoría JSON
+npm run build                                                                              # Compilación de producción
 ```
 
 Comprobación directa de invariantes y del modelo `{4,3,3}` mediante el motor `src/iomEngine.ts`:
