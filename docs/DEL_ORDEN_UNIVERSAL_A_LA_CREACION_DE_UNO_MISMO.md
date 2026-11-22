@@ -119,9 +119,12 @@ En la analogía de la **colmena**, cada universo autónomo puede representarse c
 ```text
 ILUSIÓN DE ESCAPE:    [ Hexágono A ] ──("salir")──> [ Hexágono B / otra colmena ]
 INMANENCIA (P11):     [ Hexágono Autónomo ⊃ (Colmena teórica / virtual endógena) ]
+ANIDAMIENTO (A3):     [ Posición 1 (Hexágono) ⊃ [ Subposición 2 (Segunda colmena teórica) ] ]
 ```
 
 De aquí se sigue una precisión decisiva: **la colmena no existe como contenedor real externo, sino únicamente de manera teórica (virtual) dentro de la propia existencia autónoma**. Por la misma razón, pasar del registro real al virtual —o buscar la libertad como simple inversión frente a la prisión— equivale a cambiar de perspectiva dentro del mismo cierre. La emancipación no consiste en huir hacia un afuera inexistente, sino en volver inoperante la separación entre «dentro» y «afuera», convirtiendo la dependencia en equivalencia.
+
+Asimismo, esta estructura explica por qué **la aparente confusión de posiciones no genera un desplazamiento real**. Cuando un hexágono se convierte en una «segunda colmena», no ocupa el lugar de la primera colmena ni deja vacante su posición previa: como la colmena es únicamente teórica, no existe un espacio ontológico exterior donde un hexágono pueda sustituir a una colmena. El hexágono nunca abandona su condición de hexágono; lo que cambia es el marco de lectura interna, que añade una capa descriptiva adicional. La llamada «segunda posición de la segunda colmena» es, en rigor, una **subposición**: una reformulación de la primera posición del primer hexágono vista desde un nivel de anidamiento más profundo. Como las posiciones son efectos de la descripción y no coordenadas absolutas, la salida nunca se produce; solo se profundiza el anidamiento.
 
 ---
 
