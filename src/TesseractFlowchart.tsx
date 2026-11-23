@@ -25,34 +25,96 @@ interface TesseractFlowchartProps {
 }
 
 const NODE_COLORS: Record<FlowNode['role'], string> = {
-  origen: '#38bdf8',
+  corporal: '#38bdf8',
+  digital: '#a78bfa',
+  estructural: '#34d399',
   mediador: '#818cf8',
   polo: '#f59e0b',
-  transversal: '#34d399',
   aislado: '#64748b',
+};
+
+const CUBE_LABEL_COLORS: Record<string, string> = {
+  real: '#38bdf8',
+  virtual: '#f59e0b',
+  materia: '#34d399',
+  'vacío': '#a78bfa',
+  individualidad: '#2dd4bf',
+  totalidad: '#818cf8',
+  'evolución': '#4ade80',
+  'involución': '#fb7185',
+};
+
+export function getCubeLabelColor(label: string): string {
+  return CUBE_LABEL_COLORS[label] ?? '#94a3b8';
+}
+
+export const CubeGlyph: React.FC<{
+  dashed?: boolean;
+  color?: string;
+  size?: number;
+  className?: string;
+}> = ({ dashed = false, color = 'currentColor', size = 16, className = '' }) => {
+  const dash = dashed ? '1.3 1.5' : undefined;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+      className={`inline-block shrink-0 ${className}`}
+    >
+      {/* Back face */}
+      <rect
+        x="7"
+        y="2.5"
+        width="10.5"
+        height="10.5"
+        stroke={color}
+        strokeWidth="1.2"
+        strokeOpacity="0.65"
+        strokeDasharray={dash}
+      />
+      {/* Connecting depth edges */}
+      <line x1="2.5" y1="7" x2="7" y2="2.5" stroke={color} strokeWidth="1.2" strokeOpacity="0.7" strokeDasharray={dash} />
+      <line x1="13" y1="7" x2="17.5" y2="2.5" stroke={color} strokeWidth="1.2" strokeOpacity="0.85" strokeDasharray={dash} />
+      <line x1="13" y1="17.5" x2="17.5" y2="13" stroke={color} strokeWidth="1.2" strokeOpacity="0.85" strokeDasharray={dash} />
+      <line x1="2.5" y1="17.5" x2="7" y2="13" stroke={color} strokeWidth="1.2" strokeOpacity="0.55" strokeDasharray={dash} />
+      {/* Front face */}
+      <rect
+        x="2.5"
+        y="7"
+        width="10.5"
+        height="10.5"
+        stroke={color}
+        strokeWidth="1.45"
+        strokeDasharray={dash}
+      />
+    </svg>
+  );
 };
 
 export const TesseractMiniSchlegel: React.FC<{ cell: FlowchartCell }> = ({ cell }) => {
   const geom = useMemo(() => buildSchlegelCubeWireframe(90, 58, 34, 15, 16, -9), []);
-  const extColor = cell.exteriorDomain === 'real' ? '#38bdf8' : '#f59e0b';
-  const intColor = cell.interiorDomain === 'real' ? '#38bdf8' : '#f59e0b';
+  const extColor = getCubeLabelColor(cell.exteriorLabel);
+  const intColor = getCubeLabelColor(cell.interiorLabel);
 
   return (
     <svg
       viewBox="0 0 180 116"
       className="w-full h-28 select-none rounded-lg bg-slate-950/70 border border-slate-800/70"
       role="img"
-      aria-label={`Teseracto ${cell.id}: cubo exterior ${cell.exteriorDomain} ${
+      aria-label={`Teseracto ${cell.id}: cubo exterior ${cell.exteriorLabel} ${
         cell.exteriorLine === '_' ? 'continuo' : 'punteado'
-      }, cubo interior ${cell.interiorDomain} ${
+      }, cubo interior ${cell.interiorLabel} ${
         cell.interiorLine === '_' ? 'continuo' : 'punteado'
       }`}
     >
       <text x="8" y="14" fill={extColor} fontSize="8.5" fontFamily="monospace">
-        ext: {cell.exteriorDomain} ({cell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
+        ext: {cell.exteriorLabel} ({cell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
       </text>
       <text x="172" y="108" textAnchor="end" fill={intColor} fontSize="8.5" fontFamily="monospace">
-        int: {cell.interiorDomain} ({cell.interiorLine === '_' ? 'continuas' : 'punteadas'})
+        int: {cell.interiorLabel} ({cell.interiorLine === '_' ? 'continuas' : 'punteadas'})
       </text>
       {geom.strutEdges.map((s, idx) => (
         <line
@@ -221,7 +283,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
       return selectedCellConcepts.has(n.id);
     };
 
-    // Tier column headers computed dynamically from node tiers
+    const isTwoCol = nodes.every((n) => n.tier !== 1);
     const tierHeaders = Array.from(
       d3.rollup(
         nodes,
@@ -231,12 +293,15 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
       ([tier, meanX]) => ({
         tier,
         x: meanX,
-        label:
-          tier === 0
-            ? 'ORIGEN / MEDIADORES'
-            : tier === 2 || nodes.every((n) => n.tier !== 2)
-            ? 'POLOS & MICTLÁN'
-            : 'MEDIADORES',
+        label: isTwoCol
+          ? tier === 0
+            ? 'POLO RECÍPROCO A'
+            : 'POLO RECÍPROCO B'
+          : tier === 0
+          ? 'ORIGEN / MEDIADORES'
+          : tier === 2
+          ? 'POLOS'
+          : 'MEDIADORES',
       })
     );
 
@@ -464,7 +529,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
         <div className="min-w-0">
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <GitCommitHorizontal className="w-4 h-4 text-sky-400" />
-            Diagrama de Flujo D3: Transiciones de Evolución e Involución
+            Diagrama de Flujo D3: Transiciones Reales (›) y Virtuales (‹)
           </h3>
           <p className="text-xs text-slate-400 mt-1">
             Renderizado dinámicamente con <code className="text-sky-300">d3</code> desde{' '}
@@ -478,9 +543,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           <div className="inline-flex shrink-0 rounded-lg border border-slate-800 bg-slate-950 p-0.5 text-xs">
             {(
               [
-                { id: 'all', label: 'Todos (8)' },
-                { id: 'evolucion', label: 'Evolución (4)' },
-                { id: 'involucion', label: 'Involución (4)' },
+                { id: 'all', label: 'Todos (16)' },
+                { id: 'real', label: 'Real › (8)' },
+                { id: 'virtual', label: 'Virtual ‹ (8)' },
               ] as const
             ).map((opt) => (
               <button
@@ -549,8 +614,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             </div>
             {hoveredEdge ? (
               <span className="text-slate-200 truncate">
-                {hoveredEdge.cellId} ({hoveredEdge.perspective}): {hoveredEdge.rel.notation} [
-                {hoveredEdge.rel.cube}]
+                {hoveredEdge.cellId} ({hoveredEdge.rel.cubeLabel}): {hoveredEdge.rel.notation} [
+                {hoveredEdge.rel.cube} · {hoveredEdge.rel.domain}]
               </span>
             ) : (
               <span className="text-slate-500 whitespace-nowrap">
@@ -566,35 +631,35 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             <div>
               <div className="text-[11px] font-mono text-slate-400">{selectedCell.half}</div>
               <h4 className="text-sm font-semibold font-mono text-white">
-                {selectedCell.id} · {selectedCell.perspective.toUpperCase()}
+                {selectedCell.id} · {selectedCell.axisPair}
               </h4>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
               <span
-                className={`px-2 py-0.5 rounded border ${
-                  selectedCell.exteriorDomain === 'real'
-                    ? 'bg-sky-500/15 text-sky-300 border-sky-500/30'
-                    : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                }`}
+                className="px-2 py-0.5 rounded border bg-slate-900/90"
+                style={{
+                  color: getCubeLabelColor(selectedCell.exteriorLabel),
+                  borderColor: `${getCubeLabelColor(selectedCell.exteriorLabel)}55`,
+                }}
               >
-                ext: {selectedCell.exteriorDomain} ({selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
+                ext: {selectedCell.exteriorLabel} ({selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
               </span>
               <span
-                className={`px-2 py-0.5 rounded border ${
-                  selectedCell.interiorDomain === 'real'
-                    ? 'bg-sky-500/15 text-sky-300 border-sky-500/30'
-                    : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                }`}
+                className="px-2 py-0.5 rounded border bg-slate-900/90"
+                style={{
+                  color: getCubeLabelColor(selectedCell.interiorLabel),
+                  borderColor: `${getCubeLabelColor(selectedCell.interiorLabel)}55`,
+                }}
               >
-                int: {selectedCell.interiorDomain} ({selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'})
+                int: {selectedCell.interiorLabel} ({selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'})
               </span>
             </div>
           </div>
 
           {(() => {
             const schlegel = buildSchlegelCubeWireframe(210, 152, 56, 25, 24, -14);
-            const extColor = selectedCell.exteriorDomain === 'real' ? '#38bdf8' : '#f59e0b';
-            const intColor = selectedCell.interiorDomain === 'real' ? '#38bdf8' : '#f59e0b';
+            const extColor = getCubeLabelColor(selectedCell.exteriorLabel);
+            const intColor = getCubeLabelColor(selectedCell.interiorLabel);
             const extRel = selectedCell.relations.find((r) => r.cube === 'exterior') ?? selectedCell.relations[0];
             const intRel = selectedCell.relations.find((r) => r.cube === 'interior') ?? selectedCell.relations[1];
 
@@ -615,9 +680,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     {label}
                   </text>
                   <rect
-                    x="24"
+                    x="12"
                     y={y - 14}
-                    width="96"
+                    width="116"
                     height="28"
                     rx="6"
                     fill="#0f172a"
@@ -625,20 +690,20 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     strokeWidth="1.2"
                   />
                   <text
-                    x="72"
-                    y={y + 4}
+                    x="70"
+                    y={y + 3.5}
                     textAnchor="middle"
                     fill="#f8fafc"
-                    fontSize="11.5"
+                    fontSize="10.5"
                     fontFamily="monospace"
                     fontWeight="600"
                   >
                     {rel.left}
                   </text>
                   <line
-                    x1={isRight ? 124 : 296}
+                    x1={isRight ? 132 : 288}
                     y1={y}
-                    x2={isRight ? 290 : 130}
+                    x2={isRight ? 282 : 138}
                     y2={y}
                     stroke={stroke}
                     strokeWidth="2.2"
@@ -646,20 +711,93 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     strokeDasharray={rel.line === '...' ? '3 5' : undefined}
                     markerEnd={rel.domain === 'real' ? 'url(#schlegel-real)' : 'url(#schlegel-virtual)'}
                   />
+                  {/* Inline mini 3D cube glyph (solid vs dashed) mirroring TSST_20261123_003603 diagram */}
+                  <g transform={`translate(201, ${y - 9})`}>
+                    <rect
+                      x="-2"
+                      y="-2"
+                      width="22"
+                      height="22"
+                      rx="4"
+                      fill="#020617"
+                    />
+                    <rect
+                      x="5"
+                      y="1"
+                      width="11"
+                      height="11"
+                      fill="none"
+                      stroke={stroke}
+                      strokeWidth="1.15"
+                      strokeOpacity="0.65"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                    <line
+                      x1="1"
+                      y1="5"
+                      x2="5"
+                      y2="1"
+                      stroke={stroke}
+                      strokeWidth="1.1"
+                      strokeOpacity="0.7"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                    <line
+                      x1="12"
+                      y1="5"
+                      x2="16"
+                      y2="1"
+                      stroke={stroke}
+                      strokeWidth="1.1"
+                      strokeOpacity="0.85"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                    <line
+                      x1="12"
+                      y1="16"
+                      x2="16"
+                      y2="12"
+                      stroke={stroke}
+                      strokeWidth="1.1"
+                      strokeOpacity="0.85"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                    <line
+                      x1="1"
+                      y1="16"
+                      x2="5"
+                      y2="12"
+                      stroke={stroke}
+                      strokeWidth="1.1"
+                      strokeOpacity="0.55"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                    <rect
+                      x="1"
+                      y="5"
+                      width="11"
+                      height="11"
+                      fill="#020617"
+                      fillOpacity="0.85"
+                      stroke={stroke}
+                      strokeWidth="1.4"
+                      strokeDasharray={rel.line === '...' ? '1.6 1.8' : undefined}
+                    />
+                  </g>
                   <text
                     x="210"
-                    y={y - 6}
+                    y={y + 20}
                     textAnchor="middle"
                     fill={stroke}
-                    fontSize="9.5"
+                    fontSize="9"
                     fontFamily="monospace"
                   >
-                    {rel.arrow} {rel.line} {rel.arrow} ({rel.domain})
+                    {rel.arrow === '>' ? '→ real →' : '← virtual ←'}
                   </text>
                   <rect
-                    x="300"
+                    x="292"
                     y={y - 14}
-                    width="96"
+                    width="116"
                     height="28"
                     rx="6"
                     fill="#0f172a"
@@ -667,11 +805,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     strokeWidth="1.2"
                   />
                   <text
-                    x="348"
-                    y={y + 4}
+                    x="350"
+                    y={y + 3.5}
                     textAnchor="middle"
                     fill="#f8fafc"
-                    fontSize="11.5"
+                    fontSize="10.5"
                     fontFamily="monospace"
                     fontWeight="600"
                   >
@@ -716,7 +854,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 {renderTransitionRow(
                   extRel,
                   36,
-                  `cubo exterior · ${selectedCell.exteriorDomain} (${
+                  `cubo exterior · ${selectedCell.exteriorLabel} (${
                     selectedCell.exteriorLine === '_' ? 'líneas continuas _' : 'líneas punteadas ...'
                   })`
                 )}
@@ -778,10 +916,10 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   cubo exterior
                 </text>
                 <text x="16" y="155" fill={extColor} fontSize="9" fontFamily="monospace" opacity="0.85">
-                  {selectedCell.exteriorDomain} · {selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'}
+                  {selectedCell.exteriorLabel} · {selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
-                  x1="98"
+                  x1="108"
                   y1="146"
                   x2="142"
                   y2="146"
@@ -795,12 +933,12 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   cubo interior
                 </text>
                 <text x="404" y="155" textAnchor="end" fill={intColor} fontSize="9" fontFamily="monospace" opacity="0.85">
-                  {selectedCell.interiorDomain} · {selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'}
+                  {selectedCell.interiorLabel} · {selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
                   x1="234"
                   y1="146"
-                  x2="310"
+                  x2="300"
                   y2="146"
                   stroke={intColor}
                   strokeWidth="1"
@@ -811,7 +949,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 {renderTransitionRow(
                   intRel,
                   268,
-                  `cubo interior · ${selectedCell.interiorDomain} (${
+                  `cubo interior · ${selectedCell.interiorLabel} (${
                     selectedCell.interiorLine === '_' ? 'líneas continuas _' : 'líneas punteadas ...'
                   })`
                 )}
@@ -819,19 +957,33 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             );
           })()}
 
-          <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3 text-xs space-y-1.5 font-mono">
-            <div className="text-slate-400 text-[11px]">Notación canónica de {selectedCell.id}:</div>
-            {selectedCell.relations.map((rel) => (
-              <div
-                key={rel.notation}
-                className="flex items-center justify-between text-slate-200"
-              >
-                <span>{rel.notation}</span>
-                <span className={rel.domain === 'real' ? 'text-sky-300' : 'text-amber-300'}>
-                  {rel.cube} ({rel.line === '_' ? 'continuas' : 'punteadas'}) · {rel.domain}
-                </span>
-              </div>
-            ))}
+          <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3 text-xs space-y-2 font-mono">
+            <div className="text-slate-400 text-[11px]">Proyección {selectedCell.id} del teseracto único:</div>
+            {selectedCell.relations.map((rel) => {
+              const glyphColor = rel.domain === 'real' ? '#38bdf8' : '#f59e0b';
+              const arrowGlyph = rel.arrow === '>' ? '→' : '←';
+              return (
+                <div
+                  key={rel.notation}
+                  className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5 text-slate-200"
+                >
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-[11px]" aria-label={rel.notation}>
+                    <span>{rel.left}</span>
+                    <span style={{ color: glyphColor }}>{arrowGlyph}</span>
+                    <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={14} />
+                    <span style={{ color: glyphColor }}>{arrowGlyph}</span>
+                    <span>{rel.right}</span>
+                  </span>
+                  <span
+                    className={`text-[10.5px] whitespace-nowrap ${
+                      rel.domain === 'real' ? 'text-sky-300' : 'text-amber-300'
+                    }`}
+                  >
+                    {rel.cubeLabel} · {rel.cube} ({rel.line === '_' ? 'continuas' : 'punteadas'})
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

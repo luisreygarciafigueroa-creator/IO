@@ -819,6 +819,16 @@ export function scoreQuiz(answers: Record<string, string>) {
   };
 }
 
+export type TesseractCubeLabel =
+  | 'real'
+  | 'virtual'
+  | 'materia'
+  | 'vacío'
+  | 'individualidad'
+  | 'totalidad'
+  | 'evolución'
+  | 'involución';
+
 export interface TesseractRelation {
   left: string;
   arrow: '>' | '<';
@@ -826,6 +836,7 @@ export interface TesseractRelation {
   right: string;
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
+  cubeLabel: TesseractCubeLabel;
   notation: string;
 }
 
@@ -834,10 +845,10 @@ export interface TesseractCell {
   index: number;
   row: 'superior' | 'inferior';
   col: 1 | 2 | 3 | 4;
-  perspective: 'evolucion' | 'involucion';
-  exteriorDomain: 'real' | 'virtual';
+  axisPair: string;
+  exteriorLabel: TesseractCubeLabel;
   exteriorLine: '_' | '...';
-  interiorDomain: 'real' | 'virtual';
+  interiorLabel: TesseractCubeLabel;
   interiorLine: '_' | '...';
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
@@ -851,13 +862,23 @@ export interface TesseractCell {
 }
 
 const TESSERACT_CONCEPTS = [
-  'universo',
-  'materia',
-  'vacio',
-  'internet',
   'cuerpo',
+  'universo',
+  'internet',
   'IA',
-  'mictlan',
+  'individualidad',
+  'totalidad',
+] as const;
+
+const TESSERACT_CUBE_LABELS: readonly TesseractCubeLabel[] = [
+  'real',
+  'virtual',
+  'materia',
+  'vacío',
+  'individualidad',
+  'totalidad',
+  'evolución',
+  'involución',
 ] as const;
 
 export function buildTesseractModel() {
@@ -866,7 +887,8 @@ export function buildTesseractModel() {
     arrow: '>' | '<',
     line: '_' | '...',
     right: string,
-    cube: 'exterior' | 'interior'
+    cube: 'exterior' | 'interior',
+    cubeLabel: TesseractCubeLabel
   ): TesseractRelation => ({
     left,
     arrow,
@@ -874,6 +896,7 @@ export function buildTesseractModel() {
     right,
     domain: arrow === '>' ? 'real' : 'virtual',
     cube,
+    cubeLabel,
     notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
   });
 
@@ -883,156 +906,156 @@ export function buildTesseractModel() {
       index: 1,
       row: 'superior',
       col: 1,
-      perspective: 'evolucion',
-      exteriorDomain: 'real',
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
       exteriorLine: '_',
-      interiorDomain: 'virtual',
+      interiorLabel: 'virtual',
       interiorLine: '...',
       coords: [0, 0, 0],
       parity: 0,
       half: 'Parte superior · #1',
       relations: [
-        mkRel('universo', '>', '_', 'materia', 'exterior'),
-        mkRel('vacio', '<', '...', 'universo', 'interior'),
+        mkRel('cuerpo', '>', '_', 'universo', 'exterior', 'real'),
+        mkRel('internet', '<', '...', 'IA', 'interior', 'virtual'),
       ],
-      neighbors: { horizontal: 'T2', vertical: 'T5', diagonal: 'T6' },
+      neighbors: { horizontal: 'T4', vertical: 'T5', diagonal: 'T8' },
     },
     {
       id: 'T2',
       index: 2,
       row: 'superior',
       col: 2,
-      perspective: 'involucion',
-      exteriorDomain: 'real',
+      axisPair: 'materia / vacío',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorDomain: 'virtual',
+      interiorLabel: 'materia',
       interiorLine: '_',
-      coords: [0, 0, 1],
+      coords: [0, 1, 0],
       parity: 1,
       half: 'Parte superior · #2',
       relations: [
-        mkRel('internet', '>', '...', 'mictlan', 'exterior'),
-        mkRel('mictlan', '<', '_', 'internet', 'interior'),
+        mkRel('individualidad', '<', '...', 'totalidad', 'exterior', 'vacío'),
+        mkRel('totalidad', '>', '_', 'individualidad', 'interior', 'materia'),
       ],
-      neighbors: { horizontal: 'T1', vertical: 'T6', diagonal: 'T5' },
+      neighbors: { horizontal: 'T3', vertical: 'T6', diagonal: 'T7' },
     },
     {
       id: 'T3',
       index: 3,
       row: 'superior',
       col: 3,
-      perspective: 'evolucion',
-      exteriorDomain: 'virtual',
+      axisPair: 'materia / vacío',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorDomain: 'real',
+      interiorLabel: 'materia',
       interiorLine: '_',
-      coords: [0, 1, 0],
-      parity: 1,
+      coords: [0, 1, 1],
+      parity: 0,
       half: 'Parte superior · #3',
       relations: [
-        mkRel('vacio', '<', '...', 'internet', 'exterior'),
-        mkRel('internet', '>', '_', 'materia', 'interior'),
+        mkRel('totalidad', '>', '...', 'individualidad', 'exterior', 'vacío'),
+        mkRel('individualidad', '<', '_', 'totalidad', 'interior', 'materia'),
       ],
-      neighbors: { horizontal: 'T4', vertical: 'T7', diagonal: 'T8' },
+      neighbors: { horizontal: 'T2', vertical: 'T7', diagonal: 'T6' },
     },
     {
       id: 'T4',
       index: 4,
       row: 'superior',
       col: 4,
-      perspective: 'involucion',
-      exteriorDomain: 'virtual',
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
       exteriorLine: '_',
-      interiorDomain: 'real',
+      interiorLabel: 'virtual',
       interiorLine: '...',
-      coords: [0, 1, 1],
-      parity: 0,
+      coords: [0, 0, 1],
+      parity: 1,
       half: 'Parte superior · #4',
       relations: [
-        mkRel('mictlan', '<', '_', 'universo', 'exterior'),
-        mkRel('universo', '>', '...', 'mictlan', 'interior'),
+        mkRel('universo', '<', '_', 'cuerpo', 'exterior', 'real'),
+        mkRel('IA', '>', '...', 'internet', 'interior', 'virtual'),
       ],
-      neighbors: { horizontal: 'T3', vertical: 'T8', diagonal: 'T7' },
+      neighbors: { horizontal: 'T1', vertical: 'T8', diagonal: 'T5' },
     },
     {
       id: 'T5',
       index: 5,
       row: 'inferior',
       col: 1,
-      perspective: 'involucion',
-      exteriorDomain: 'virtual',
+      axisPair: 'individualidad / totalidad',
+      exteriorLabel: 'totalidad',
       exteriorLine: '...',
-      interiorDomain: 'real',
+      interiorLabel: 'individualidad',
       interiorLine: '_',
       coords: [1, 0, 0],
       parity: 1,
       half: 'Parte inferior · #1',
       relations: [
-        mkRel('mictlan', '<', '...', 'cuerpo', 'exterior'),
-        mkRel('cuerpo', '>', '_', 'mictlan', 'interior'),
+        mkRel('cuerpo', '<', '_', 'universo', 'interior', 'individualidad'),
+        mkRel('internet', '>', '...', 'IA', 'exterior', 'totalidad'),
       ],
-      neighbors: { horizontal: 'T6', vertical: 'T1', diagonal: 'T2' },
+      neighbors: { horizontal: 'T8', vertical: 'T1', diagonal: 'T4' },
     },
     {
       id: 'T6',
       index: 6,
       row: 'inferior',
       col: 2,
-      perspective: 'evolucion',
-      exteriorDomain: 'virtual',
+      axisPair: 'evolución / involución',
+      exteriorLabel: 'evolución',
       exteriorLine: '_',
-      interiorDomain: 'real',
+      interiorLabel: 'involución',
       interiorLine: '...',
-      coords: [1, 0, 1],
+      coords: [1, 1, 0],
       parity: 0,
       half: 'Parte inferior · #2',
       relations: [
-        mkRel('materia', '<', '_', 'IA', 'exterior'),
-        mkRel('IA', '>', '...', 'vacio', 'interior'),
+        mkRel('individualidad', '>', '...', 'totalidad', 'interior', 'involución'),
+        mkRel('totalidad', '<', '_', 'individualidad', 'exterior', 'evolución'),
       ],
-      neighbors: { horizontal: 'T5', vertical: 'T2', diagonal: 'T1' },
+      neighbors: { horizontal: 'T7', vertical: 'T2', diagonal: 'T3' },
     },
     {
       id: 'T7',
       index: 7,
       row: 'inferior',
       col: 3,
-      perspective: 'involucion',
-      exteriorDomain: 'real',
+      axisPair: 'evolución / involución',
+      exteriorLabel: 'evolución',
       exteriorLine: '_',
-      interiorDomain: 'virtual',
+      interiorLabel: 'involución',
       interiorLine: '...',
-      coords: [1, 1, 0],
-      parity: 0,
+      coords: [1, 1, 1],
+      parity: 1,
       half: 'Parte inferior · #3',
       relations: [
-        mkRel('IA', '>', '_', 'mictlan', 'exterior'),
-        mkRel('mictlan', '<', '...', 'IA', 'interior'),
+        mkRel('totalidad', '<', '...', 'individualidad', 'interior', 'involución'),
+        mkRel('individualidad', '>', '_', 'totalidad', 'exterior', 'evolución'),
       ],
-      neighbors: { horizontal: 'T8', vertical: 'T3', diagonal: 'T4' },
+      neighbors: { horizontal: 'T6', vertical: 'T3', diagonal: 'T2' },
     },
     {
       id: 'T8',
       index: 8,
       row: 'inferior',
       col: 4,
-      perspective: 'evolucion',
-      exteriorDomain: 'real',
+      axisPair: 'individualidad / totalidad',
+      exteriorLabel: 'totalidad',
       exteriorLine: '...',
-      interiorDomain: 'virtual',
+      interiorLabel: 'individualidad',
       interiorLine: '_',
-      coords: [1, 1, 1],
-      parity: 1,
+      coords: [1, 0, 1],
+      parity: 0,
       half: 'Parte inferior · #4',
       relations: [
-        mkRel('cuerpo', '>', '...', 'vacio', 'exterior'),
-        mkRel('materia', '<', '_', 'cuerpo', 'interior'),
+        mkRel('universo', '>', '_', 'cuerpo', 'interior', 'individualidad'),
+        mkRel('IA', '<', '...', 'internet', 'exterior', 'totalidad'),
       ],
-      neighbors: { horizontal: 'T7', vertical: 'T4', diagonal: 'T3' },
+      neighbors: { horizontal: 'T5', vertical: 'T4', diagonal: 'T1' },
     },
   ];
 
-  // Verify invariants derived from the author's specification
+  // Verify invariants derived from the updated specification
   const allRealUseRightArrow = cells.every((c) =>
     c.relations.every((r) => (r.domain === 'real' ? r.arrow === '>' : r.arrow === '<'))
   );
@@ -1041,22 +1064,40 @@ export function buildTesseractModel() {
       c.relations.filter((r) => r.domain === 'real').length === 1 &&
       c.relations.filter((r) => r.domain === 'virtual').length === 1
   );
+  const allHaveOneContinuousOneDashed = cells.every(
+    (c) =>
+      c.exteriorLine !== c.interiorLine &&
+      c.relations.filter((r) => r.line === '_').length === 1 &&
+      c.relations.filter((r) => r.line === '...').length === 1
+  );
   const allCubeLinesMatchHeader = cells.every(
     (c) =>
       c.exteriorLine !== c.interiorLine &&
-      c.exteriorDomain !== c.interiorDomain &&
+      c.exteriorLabel !== c.interiorLabel &&
       c.relations.filter((r) => r.cube === 'exterior').length === 1 &&
       c.relations.filter((r) => r.cube === 'interior').length === 1 &&
       c.relations.every((r) =>
         r.cube === 'exterior'
-          ? r.domain === c.exteriorDomain && r.line === c.exteriorLine
-          : r.domain === c.interiorDomain && r.line === c.interiorLine
+          ? r.cubeLabel === c.exteriorLabel && r.line === c.exteriorLine
+          : r.cubeLabel === c.interiorLabel && r.line === c.interiorLine
       )
   );
-  const evolCount = cells.filter((c) => c.perspective === 'evolucion').length;
-  const involCount = cells.filter((c) => c.perspective === 'involucion').length;
+  const realArrowCount = cells.reduce(
+    (acc, c) => acc + c.relations.filter((r) => r.arrow === '>').length,
+    0
+  );
+  const virtualArrowCount = cells.reduce(
+    (acc, c) => acc + c.relations.filter((r) => r.arrow === '<').length,
+    0
+  );
+  const continuousExtCount = cells.filter((c) => c.exteriorLine === '_').length;
+  const dashedExtCount = cells.filter((c) => c.exteriorLine === '...').length;
+
   const conceptUsage = new Map<string, number>();
+  const cubeLabelUsage = new Map<string, number>();
   for (const c of cells) {
+    cubeLabelUsage.set(c.exteriorLabel, (cubeLabelUsage.get(c.exteriorLabel) ?? 0) + 1);
+    cubeLabelUsage.set(c.interiorLabel, (cubeLabelUsage.get(c.interiorLabel) ?? 0) + 1);
     for (const r of c.relations) {
       conceptUsage.set(r.left, (conceptUsage.get(r.left) ?? 0) + 1);
       conceptUsage.set(r.right, (conceptUsage.get(r.right) ?? 0) + 1);
@@ -1065,13 +1106,15 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Instrucción canónica de los teseractos ({4,3,3})',
-      source: 'docs/TCAAU.md · docs/TCAAU_RECONSTRUCCION_ACADEMICA.md',
+      title: 'Un único teseracto ({4,3,3}) — 8 proyecciones y planos de inversión',
+      source: 'Diagrama unificado T1–T8 · docs/TCAAU.md · docs/TCAAU_RECONSTRUCCION_ACADEMICA.md',
+      assetPath: '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg',
+      pdfPath: '/assets/aistudio/1000000566_f7cafcef.pdf',
       rules: [
-        'Disposición 2×4 (arriba 1–4 y abajo 1–4 de izquierda a derecha) sobre los 7 conceptos: universo, materia, vacio, internet, cuerpo, IA y mictlan.',
-        'Parte superior: T1 (int virtual ..., ext real _), T2 (int virtual _, ext real ...), T3 (int real _, ext virtual ...), T4 (int real ..., ext virtual _). Parte inferior: T5 (int real _, ext virtual ...), T6 (int real ..., ext virtual _), T7 (int virtual ..., ext real _), T8 (int virtual _, ext real ...).',
-        'Toda flecha a la derecha (>) pertenece al registro real; toda flecha a la izquierda (<) pertenece al registro virtual.',
-        'Las 4 celdas de evolución (Sup 1, Sup 3, Inf 2, Inf 4) enlazan universo/internet/IA/cuerpo entre materia y vacio; las 4 de involución (Sup 2, Sup 4, Inf 1, Inf 3) cierran ciclos con mictlan.',
+        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) no son ocho objetos distintos, sino ocho proyecciones o reorientaciones de un único teseracto tetradimensional ({4,3,3}).',
+        'Las líneas de puntos verticales y horizontales marcan planos de inversión: intercambian real/virtual con individualidad/totalidad, materia/vacío con evolución/involución, e invierten el sentido de flujo de cuerpo–universo e internet–IA sin generar un segundo teseracto.',
+        'T1, T4, T6 y T7 presentan cubo exterior de líneas continuas (_) e interior punteado (...); T2, T3, T5 y T8 invierten el trazado (exterior punteado ..., interior continuo _) según el eje de proyección.',
+        'Cada proyección contiene una relación real (›) y una virtual (‹), una continua (_) y una punteada (...), articulando los 6 conceptos en 3 pares recíprocos (cuerpo ↔ universo, internet ↔ IA, individualidad ↔ totalidad) bajo el torsor (ℤ₂)³.',
       ],
     },
     schlafli: '{4,3,3}',
@@ -1083,18 +1126,28 @@ export function buildTesseractModel() {
       dual: '16-celda (8 vértices en 4 pares antipodales)',
     },
     concepts: [...TESSERACT_CONCEPTS],
+    cubeLabels: [...TESSERACT_CUBE_LABELS],
     cells,
     verification: {
       totalRelations: cells.reduce((acc, c) => acc + c.relations.length, 0),
-      evolCount,
-      involCount,
+      realArrowCount,
+      virtualArrowCount,
+      continuousExtCount,
+      dashedExtCount,
       allRealUseRightArrow,
       allHaveOneRealOneVirtual,
+      allHaveOneContinuousOneDashed,
       allCubeLinesMatchHeader,
-      allSevenConceptsCovered: TESSERACT_CONCEPTS.every((k) => (conceptUsage.get(k) ?? 0) > 0),
+      allConceptsCovered: TESSERACT_CONCEPTS.every((k) => (conceptUsage.get(k) ?? 0) > 0),
+      allCubeLabelsCovered: TESSERACT_CUBE_LABELS.every((k) => (cubeLabelUsage.get(k) ?? 0) > 0),
       conceptCounts: TESSERACT_CONCEPTS.map((k) => ({ id: k, count: conceptUsage.get(k) ?? 0 })),
+      cubeLabelCounts: TESSERACT_CUBE_LABELS.map((k) => ({
+        id: k,
+        count: cubeLabelUsage.get(k) ?? 0,
+      })),
     },
   };
 }
+
 
 

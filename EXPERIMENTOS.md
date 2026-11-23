@@ -40,9 +40,9 @@ En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas de
 
 ---
 
-## 4. Teseractos `{4,3,3}` y flujo D3
+## 4. Teseracto único `{4,3,3}` (8 proyecciones) y flujo D3
 
-`GET /api/tesseract` entrega las 8 configuraciones cúbicas (`T1–T8` en disposición `2 × 4`), sus 16 transiciones sobre los 7 conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`) y las invariantes de dirección (`>`/`<`), balance y trazado (`_`/`...`). La pestaña **Teseractos ({4,3,3})** renderiza dinámicamente el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`).
+`GET /api/tesseract` entrega las 8 proyecciones cúbicas de un único teseracto tetradimensional (`T1–T8` en disposición `2 × 4` dividida por planos de inversión, con ejes duales `real/virtual`, `materia/vacío`, `individualidad/totalidad`, `evolución/involución`), sus 16 transiciones sobre los 6 conceptos (`cuerpo, universo, internet, IA, individualidad, totalidad`) y las invariantes de dirección (`>`/`<`), balance y trazado (`_`/`...`). La pestaña **Teseractos ({4,3,3})** renderiza dinámicamente el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`).
 
 ---
 

@@ -7,49 +7,56 @@ import {
   computeBezierEdgeGeometry,
 } from './tesseractFlowGraph';
 
-test('buildTesseractFlowGraph extracts all 7 nodes and 16 directed edges from tesseractData', () => {
+test('buildTesseractFlowGraph extracts all 6 nodes and 16 directed edges in two dual-pair columns', () => {
   const tesseractData = buildTesseractModel();
   const graph = buildTesseractFlowGraph(tesseractData, 'all');
 
-  assert.equal(graph.nodes.length, 7);
+  assert.equal(graph.nodes.length, 6);
   assert.equal(graph.edges.length, 16);
 
-  const mictlan = graph.nodes.find((n) => n.id === 'mictlan');
-  assert.ok(mictlan);
-  assert.equal(mictlan.inDegree, 8);
-  assert.equal(mictlan.outDegree, 0);
-  assert.equal(mictlan.involCount, 8);
-  assert.equal(mictlan.evolCount, 0);
+  const cuerpo = graph.nodes.find((n) => n.id === 'cuerpo');
+  const universo = graph.nodes.find((n) => n.id === 'universo');
+  const individualidad = graph.nodes.find((n) => n.id === 'individualidad');
+  const totalidad = graph.nodes.find((n) => n.id === 'totalidad');
+
+  assert.ok(cuerpo && universo && individualidad && totalidad);
+  assert.notEqual(cuerpo.tier, universo.tier);
+  assert.notEqual(individualidad.tier, totalidad.tier);
+  assert.equal(cuerpo.inDegree, 2);
+  assert.equal(cuerpo.outDegree, 2);
+  assert.equal(individualidad.inDegree, 4);
+  assert.equal(individualidad.outDegree, 4);
 });
 
-test('buildTesseractFlowGraph filters evolucion and involucion transitions accurately', () => {
+test('buildTesseractFlowGraph filters real (>) and virtual (<) transitions accurately', () => {
   const tesseractData = buildTesseractModel();
 
-  const evolGraph = buildTesseractFlowGraph(tesseractData, 'evolucion');
-  assert.equal(evolGraph.edges.length, 8);
-  assert.ok(evolGraph.edges.every((e) => e.perspective === 'evolucion'));
-  assert.ok(evolGraph.edges.every((e) => e.target === 'materia' || e.target === 'vacio'));
+  const realGraph = buildTesseractFlowGraph(tesseractData, 'real');
+  assert.equal(realGraph.edges.length, 8);
+  assert.ok(realGraph.edges.every((e) => e.domain === 'real' && e.rel.arrow === '>'));
 
-  const involGraph = buildTesseractFlowGraph(tesseractData, 'involucion');
-  assert.equal(involGraph.edges.length, 8);
-  assert.ok(involGraph.edges.every((e) => e.perspective === 'involucion'));
-  assert.ok(involGraph.edges.every((e) => e.target === 'mictlan'));
+  const virtualGraph = buildTesseractFlowGraph(tesseractData, 'virtual');
+  assert.equal(virtualGraph.edges.length, 8);
+  assert.ok(virtualGraph.edges.every((e) => e.domain === 'virtual' && e.rel.arrow === '<'));
 });
 
 test('buildTesseractFlowGraph separates parallel edges between the same concept pair', () => {
   const tesseractData = buildTesseractModel();
-  const graph = buildTesseractFlowGraph(tesseractData, 'involucion');
+  const graph = buildTesseractFlowGraph(tesseractData, 'all');
 
-  const internetToMictlan = graph.edges.filter(
-    (e) => e.source === 'internet' && e.target === 'mictlan'
+  const cuerpoUniverso = graph.edges.filter(
+    (e) =>
+      (e.source === 'cuerpo' && e.target === 'universo') ||
+      (e.source === 'universo' && e.target === 'cuerpo')
   );
-  assert.equal(internetToMictlan.length, 2);
-  assert.notEqual(internetToMictlan[0].curveOffset, internetToMictlan[1].curveOffset);
+  assert.equal(cuerpoUniverso.length, 4);
+  const offsets = new Set(cuerpoUniverso.map((e) => e.curveOffset));
+  assert.equal(offsets.size, 4);
 
   const geom = computeBezierEdgeGeometry(
-    { x: 112, y: 150 },
-    { x: 468, y: 316 },
-    internetToMictlan[0].curveOffset
+    { x: 116, y: 72 },
+    { x: 464, y: 72 },
+    cuerpoUniverso[0].curveOffset
   );
   assert.ok(geom.path.startsWith('M '));
   assert.ok(Number.isFinite(geom.labelX));
@@ -65,10 +72,10 @@ test('buildTesseractFlowGraph adapts dynamically to custom tesseractData inputs'
         index: 1,
         row: 'superior',
         col: 1,
-        perspective: 'evolucion',
-        exteriorDomain: 'real',
+        axisPair: 'real / virtual',
+        exteriorLabel: 'real',
         exteriorLine: '_',
-        interiorDomain: 'virtual',
+        interiorLabel: 'virtual',
         interiorLine: '...',
         coords: [0, 0, 0],
         parity: 0,
@@ -81,6 +88,7 @@ test('buildTesseractFlowGraph adapts dynamically to custom tesseractData inputs'
             right: 'beta',
             domain: 'real',
             cube: 'exterior',
+            cubeLabel: 'real',
             notation: 'alfa > _ > beta',
           },
           {
@@ -90,6 +98,7 @@ test('buildTesseractFlowGraph adapts dynamically to custom tesseractData inputs'
             right: 'beta',
             domain: 'virtual',
             cube: 'interior',
+            cubeLabel: 'virtual',
             notation: 'gamma < ... < beta',
           },
         ],
@@ -108,7 +117,7 @@ test('buildTesseractFlowGraph adapts dynamically to custom tesseractData inputs'
   assert.equal(beta.outDegree, 1);
 });
 
-test('buildSchlegelCubeWireframe generates 16 vertices and 32 tesseract edges, and T1–T8 match explicit cube line rules', () => {
+test('buildSchlegelCubeWireframe generates 16 vertices and 32 tesseract edges, and T1–T8 match updated cube line rules', () => {
   const geom = buildSchlegelCubeWireframe(210, 134, 54, 24, 22, -13);
   assert.equal(geom.exteriorVertices.length, 8);
   assert.equal(geom.interiorVertices.length, 8);
@@ -119,62 +128,21 @@ test('buildSchlegelCubeWireframe generates 16 vertices and 32 tesseract edges, a
   const model = buildTesseractModel();
   assert.equal(model.cells.length, 8);
 
-  const t1 = model.cells[0];
-  assert.equal(t1.interiorDomain, 'virtual');
-  assert.equal(t1.interiorLine, '...');
-  assert.equal(t1.exteriorDomain, 'real');
-  assert.equal(t1.exteriorLine, '_');
+  const [t1, t2, t3, t4, t5, t6, t7, t8] = model.cells;
 
-  const t2 = model.cells[1];
-  assert.equal(t2.perspective, 'involucion');
-  assert.equal(t2.interiorDomain, 'virtual');
-  assert.equal(t2.interiorLine, '_');
-  assert.equal(t2.exteriorDomain, 'real');
-  assert.equal(t2.exteriorLine, '...');
-
-  const t3 = model.cells[2];
-  assert.equal(t3.perspective, 'evolucion');
-  assert.equal(t3.interiorDomain, 'real');
-  assert.equal(t3.interiorLine, '_');
-  assert.equal(t3.exteriorDomain, 'virtual');
-  assert.equal(t3.exteriorLine, '...');
-
-  const t4 = model.cells[3];
-  assert.equal(t4.perspective, 'involucion');
-  assert.equal(t4.interiorDomain, 'real');
-  assert.equal(t4.interiorLine, '...');
-  assert.equal(t4.exteriorDomain, 'virtual');
-  assert.equal(t4.exteriorLine, '_');
-
-  const t5 = model.cells[4];
-  assert.equal(t5.perspective, 'involucion');
-  assert.equal(t5.interiorDomain, 'real');
-  assert.equal(t5.interiorLine, '_');
-  assert.equal(t5.exteriorDomain, 'virtual');
-  assert.equal(t5.exteriorLine, '...');
-
-  const t6 = model.cells[5];
-  assert.equal(t6.perspective, 'evolucion');
-  assert.equal(t6.interiorDomain, 'real');
-  assert.equal(t6.interiorLine, '...');
-  assert.equal(t6.exteriorDomain, 'virtual');
-  assert.equal(t6.exteriorLine, '_');
-
-  const t7 = model.cells[6];
-  assert.equal(t7.perspective, 'involucion');
-  assert.equal(t7.interiorDomain, 'virtual');
-  assert.equal(t7.interiorLine, '...');
-  assert.equal(t7.exteriorDomain, 'real');
-  assert.equal(t7.exteriorLine, '_');
-
-  const t8 = model.cells[7];
-  assert.equal(t8.perspective, 'evolucion');
-  assert.equal(t8.interiorDomain, 'virtual');
-  assert.equal(t8.interiorLine, '_');
-  assert.equal(t8.exteriorDomain, 'real');
-  assert.equal(t8.exteriorLine, '...');
+  assert.deepEqual([t1.exteriorLabel, t1.exteriorLine, t1.interiorLabel, t1.interiorLine], ['real', '_', 'virtual', '...']);
+  assert.deepEqual([t2.exteriorLabel, t2.exteriorLine, t2.interiorLabel, t2.interiorLine], ['vacío', '...', 'materia', '_']);
+  assert.deepEqual([t3.exteriorLabel, t3.exteriorLine, t3.interiorLabel, t3.interiorLine], ['vacío', '...', 'materia', '_']);
+  assert.deepEqual([t4.exteriorLabel, t4.exteriorLine, t4.interiorLabel, t4.interiorLine], ['real', '_', 'virtual', '...']);
+  assert.deepEqual([t5.exteriorLabel, t5.exteriorLine, t5.interiorLabel, t5.interiorLine], ['totalidad', '...', 'individualidad', '_']);
+  assert.deepEqual([t6.exteriorLabel, t6.exteriorLine, t6.interiorLabel, t6.interiorLine], ['evolución', '_', 'involución', '...']);
+  assert.deepEqual([t7.exteriorLabel, t7.exteriorLine, t7.interiorLabel, t7.interiorLine], ['evolución', '_', 'involución', '...']);
+  assert.deepEqual([t8.exteriorLabel, t8.exteriorLine, t8.interiorLabel, t8.interiorLine], ['totalidad', '...', 'individualidad', '_']);
 
   assert.equal(model.verification.allRealUseRightArrow, true);
   assert.equal(model.verification.allHaveOneRealOneVirtual, true);
+  assert.equal(model.verification.allHaveOneContinuousOneDashed, true);
   assert.equal(model.verification.allCubeLinesMatchHeader, true);
+  assert.equal(model.verification.allConceptsCovered, true);
+  assert.equal(model.verification.allCubeLabelsCovered, true);
 });

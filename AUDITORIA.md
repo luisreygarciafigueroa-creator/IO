@@ -9,10 +9,10 @@
 El repositorio es **válido como sistema** si, y solo si:
 
 1. `npm run lint` (`tsc --noEmit`) y `npm run build` compilan sin errores.
-2. `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` aprueba todas las pruebas deterministas (reglas formales, ocho teseractos `{4,3,3}`, grafo D3 y exportación de auditoría `.json`).
+2. `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` aprueba todas las pruebas deterministas (reglas formales, las 8 proyecciones del teseracto único `{4,3,3}`, grafo D3 y exportación de auditoría `.json`).
 3. `GET /api/spec` y `POST /api/invariance` regeneran en dos pasadas idénticas los **78** nodos, **20** pasos vectoriales y **390** candidatos (`78 mirrorOf + 104 creates + 208 none`) con identidad SHA-256 ($S_{n+1}=S_n$).
 4. `POST /api/invariance` reporta invariancia **no trivial** con detección obligatoria de corrupción (`detects_corruption = true`).
-5. `GET /api/tesseract` verifica las 16 transiciones sobre los 7 conceptos (`universo, materia, vacio, internet, cuerpo, IA, mictlan`) con `allRealUseRightArrow = true`, `allHaveOneRealOneVirtual = true` y `allCubeLinesMatchHeader = true`.
+5. `GET /api/tesseract` verifica las 16 transiciones sobre los 6 conceptos (`cuerpo, universo, internet, IA, individualidad, totalidad`) y las 8 etiquetas de cubo (`real, virtual, materia, vacío, individualidad, totalidad, evolución, involución`) con `allRealUseRightArrow = true`, `allHaveOneRealOneVirtual = true`, `allHaveOneContinuousOneDashed = true` y `allCubeLinesMatchHeader = true`.
 
 ## 2. Capa secundaria — invariancia
 

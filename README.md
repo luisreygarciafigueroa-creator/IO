@@ -1,6 +1,6 @@
 # IOM — construcción formal de la unidad informativa
 
-IOM constituye un marco formal destinado a la **constitución y verificación de unidades informativas autocontenidas**. Su arquitectura se articula en torno a cinco perspectivas, trece tríadas, un par de relaciones de transformación —`mirrorOf` y `creates`— y la configuración geométrica de los ocho teseractos (`{4,3,3}`).
+IOM constituye un marco formal destinado a la **constitución y verificación de unidades informativas autocontenidas**. Su arquitectura se articula en torno a cinco perspectivas, trece tríadas, un par de relaciones de transformación —`mirrorOf` y `creates`— y las ocho proyecciones (`2 × 4`) de un único teseracto tetradimensional (`{4,3,3}`).
 
 > **Definición canónica.** La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.
 
@@ -8,7 +8,7 @@ La **autonomía verificable** no es un atributo accesorio, sino el mecanismo por
 
 El desarrollo del horizonte de sentido se encuentra en el [`MANIFIESTO.md`](MANIFIESTO.md).
 
-**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica de los ocho teseractos (`2 × 4` con trazado interior/exterior continuo `_` y punteado `...`) y grupo de involuciones:
+**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión y trazado interior/exterior continuo `_` y punteado `...`) y grupo de involuciones:
 [`docs/TCAAU.md`](docs/TCAAU.md)
 
 **Cosmología del Mictlán** (modelo de correspondencia universal, transformación entre los dominios real y virtual, continuidad de la información y ofrenda como acto de creación):
@@ -69,18 +69,18 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 | Artefacto | Rol |
 |-----------|-----|
 | `data/iom_spec.json` | Especificación tabular canónica (`spec_version` 1.10.0) |
-| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A y los 8 teseractos `{4,3,3}` |
-| `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido de evolución e involución sobre los 7 conceptos desde `tesseractData` |
+| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A y las 8 proyecciones `{4,3,3}` |
+| `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido real/virtual sobre los 6 conceptos recíprocos desde `tesseractData` |
 | `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado) y proyección de Schlegel interior/exterior |
 | `src/evalAuditExport.ts` | Generación determinista de paquetes `.json` (`liveReport` + `editedAnnotations`) para auditoría externa en EXP-A |
 | `server.ts` & `src/App.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |
-| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseractos, grafo D3 y exportación de auditoría |
+| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseracto `{4,3,3}`, grafo D3 y exportación de auditoría |
 
 ## Documentación de sentido y cosmología
 
 | Documento | Rol |
 |-----------|-----|
-| [`docs/TCAAU.md`](docs/TCAAU.md) | **Documento canónico** de la TCAAU: postulados, clausura, dominios real/virtual e instrucción canónica `2 × 4` de los ocho teseractos |
+| [`docs/TCAAU.md`](docs/TCAAU.md) | **Documento canónico** de la TCAAU: postulados, clausura, dominios real/virtual e instrucción `2 × 4` del teseracto único `{4,3,3}` |
 | [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md) | Modelo completo de correspondencia universal, dominios real/virtual, 4ª/5ª perspectivas, reflejo de la realidad y ofrenda como acto de creación |
 | [`docs/MAPA_CONEXIONES_REAL_VIRTUAL.md`](docs/MAPA_CONEXIONES_REAL_VIRTUAL.md) | Mapa operativo de cuatro fases: polaridad real/virtual, mediadores mundo/vacío y espejo de realidad |
 | [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md) | Reconstrucción académica de la TCAAU: **11 teoremas** del núcleo combinatorio $(\mathbb{Z}_2)^3$, proyección de Schlegel (Teorema 8) y bipartición término–mediador (Teorema 11) |
@@ -92,4 +92,4 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 
 ## Afirmación rigurosa
 
-El repositorio **implementa una construcción formal y verificable de la unidad informativa** sobre Node.js 22 y TypeScript. La validez interna se mide por derivabilidad y trazabilidad determinista desde `data/iom_spec.json` y la especificación canónica de los ocho teseractos `{4,3,3}`. La autonomía formal no se confunde con una pretensión de validez empírica universal; permanece, en sentido estricto, como capacidad de originarse y sostenerse sin contenedor exterior.
+El repositorio **implementa una construcción formal y verificable de la unidad informativa** sobre Node.js 22 y TypeScript. La validez interna se mide por derivabilidad y trazabilidad determinista desde `data/iom_spec.json` y la especificación canónica del teseracto único `{4,3,3}` en sus ocho proyecciones. La autonomía formal no se confunde con una pretensión de validez empírica universal; permanece, en sentido estricto, como capacidad de originarse y sostenerse sin contenedor exterior.

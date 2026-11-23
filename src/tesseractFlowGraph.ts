@@ -1,4 +1,4 @@
-export type FlowFilter = 'all' | 'evolucion' | 'involucion';
+export type FlowFilter = 'all' | 'real' | 'virtual';
 
 export interface FlowchartRelation {
   left: string;
@@ -7,6 +7,7 @@ export interface FlowchartRelation {
   right: string;
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
+  cubeLabel: string;
   notation: string;
 }
 
@@ -15,10 +16,10 @@ export interface FlowchartCell {
   index: number;
   row: 'superior' | 'inferior';
   col: 1 | 2 | 3 | 4;
-  perspective: 'evolucion' | 'involucion';
-  exteriorDomain: 'real' | 'virtual';
+  axisPair: string;
+  exteriorLabel: string;
   exteriorLine: '_' | '...';
-  interiorDomain: 'real' | 'virtual';
+  interiorLabel: string;
   interiorLine: '_' | '...';
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
@@ -38,21 +39,22 @@ export interface FlowchartTesseractData {
 
 export interface FlowNode {
   id: string;
-  role: 'origen' | 'mediador' | 'polo' | 'transversal' | 'aislado';
+  role: 'corporal' | 'digital' | 'estructural' | 'mediador' | 'polo' | 'aislado';
   tier: 0 | 1 | 2;
   x: number;
   y: number;
   inDegree: number;
   outDegree: number;
-  evolCount: number;
-  involCount: number;
+  realCount: number;
+  virtualCount: number;
   cellIds: string[];
 }
 
 export interface FlowEdge {
   id: string;
   cellId: string;
-  perspective: 'evolucion' | 'involucion';
+  axisPair: string;
+  domain: 'real' | 'virtual';
   source: string;
   target: string;
   rel: FlowchartRelation;
@@ -68,7 +70,7 @@ export interface FlowGraph {
 
 export const FLOW_VIEWBOX_WIDTH = 580;
 export const FLOW_VIEWBOX_HEIGHT = 400;
-export const FLOW_NODE_WIDTH = 122;
+export const FLOW_NODE_WIDTH = 132;
 export const FLOW_NODE_HEIGHT = 40;
 
 export function buildTesseractFlowGraph(
@@ -85,15 +87,20 @@ export function buildTesseractFlowGraph(
 
   const allTransitions: Array<{
     cellId: string;
-    perspective: 'evolucion' | 'involucion';
+    axisPair: string;
+    domain: 'real' | 'virtual';
     source: string;
     target: string;
     rel: FlowchartRelation;
   }> = [];
 
-  // Compute global node stats from all cells so node roles stay stable across filters
   const inCountGlobal = new Map<string, number>();
   const outCountGlobal = new Map<string, number>();
+  const undirectedAdj = new Map<string, Set<string>>();
+
+  for (const c of conceptSet) {
+    undirectedAdj.set(c, new Set());
+  }
 
   for (const cell of tesseractData.cells) {
     for (const rel of cell.relations) {
@@ -101,9 +108,12 @@ export function buildTesseractFlowGraph(
       const target = rel.arrow === '>' ? rel.right : rel.left;
       outCountGlobal.set(source, (outCountGlobal.get(source) ?? 0) + 1);
       inCountGlobal.set(target, (inCountGlobal.get(target) ?? 0) + 1);
+      undirectedAdj.get(source)?.add(target);
+      undirectedAdj.get(target)?.add(source);
       allTransitions.push({
         cellId: cell.id,
-        perspective: cell.perspective,
+        axisPair: cell.axisPair,
+        domain: rel.domain,
         source,
         target,
         rel,
@@ -114,25 +124,24 @@ export function buildTesseractFlowGraph(
   const filteredTransitions =
     filter === 'all'
       ? allTransitions
-      : allTransitions.filter((t) => t.perspective === filter);
+      : allTransitions.filter((t) => t.domain === filter);
 
-  // Per-filter node counts
   const inCount = new Map<string, number>();
   const outCount = new Map<string, number>();
-  const evolCount = new Map<string, number>();
-  const involCount = new Map<string, number>();
+  const realCount = new Map<string, number>();
+  const virtualCount = new Map<string, number>();
   const cellIdSets = new Map<string, Set<string>>();
 
   for (const t of filteredTransitions) {
     outCount.set(t.source, (outCount.get(t.source) ?? 0) + 1);
     inCount.set(t.target, (inCount.get(t.target) ?? 0) + 1);
 
-    if (t.perspective === 'evolucion') {
-      evolCount.set(t.source, (evolCount.get(t.source) ?? 0) + 1);
-      evolCount.set(t.target, (evolCount.get(t.target) ?? 0) + 1);
+    if (t.domain === 'real') {
+      realCount.set(t.source, (realCount.get(t.source) ?? 0) + 1);
+      realCount.set(t.target, (realCount.get(t.target) ?? 0) + 1);
     } else {
-      involCount.set(t.source, (involCount.get(t.source) ?? 0) + 1);
-      involCount.set(t.target, (involCount.get(t.target) ?? 0) + 1);
+      virtualCount.set(t.source, (virtualCount.get(t.source) ?? 0) + 1);
+      virtualCount.set(t.target, (virtualCount.get(t.target) ?? 0) + 1);
     }
 
     if (!cellIdSets.has(t.source)) cellIdSets.set(t.source, new Set());
@@ -141,30 +150,84 @@ export function buildTesseractFlowGraph(
     cellIdSets.get(t.target)!.add(t.cellId);
   }
 
-  // Group concepts dynamically into flowchart tiers based on topology
-  const hasIntermediates = [...conceptSet].some(
-    (c) => (inCountGlobal.get(c) ?? 0) > 0 && (outCountGlobal.get(c) ?? 0) > 0
+  const connectedConcepts = [...conceptSet].filter(
+    (c) => (inCountGlobal.get(c) ?? 0) > 0 || (outCountGlobal.get(c) ?? 0) > 0
   );
+  const allBidirectional =
+    connectedConcepts.length > 0 &&
+    connectedConcepts.every(
+      (c) => (inCountGlobal.get(c) ?? 0) > 0 && (outCountGlobal.get(c) ?? 0) > 0
+    );
 
   const tierMap = new Map<string, 0 | 1 | 2>();
   const roleMap = new Map<string, FlowNode['role']>();
 
-  for (const c of conceptSet) {
-    const gIn = inCountGlobal.get(c) ?? 0;
-    const gOut = outCountGlobal.get(c) ?? 0;
+  const assignConceptRole = (c: string): FlowNode['role'] => {
+    if (c === 'cuerpo' || c === 'universo') return 'corporal';
+    if (c === 'internet' || c === 'IA') return 'digital';
+    if (c === 'individualidad' || c === 'totalidad') return 'estructural';
+    return 'mediador';
+  };
 
-    if (gIn === 0 && gOut === 0) {
-      tierMap.set(c, 1);
-      roleMap.set(c, 'aislado');
-    } else if (gIn === 0 && gOut > 0) {
-      tierMap.set(c, 0);
-      roleMap.set(c, c === 'universo' ? 'origen' : 'mediador');
-    } else if (gIn > 0 && gOut > 0) {
-      tierMap.set(c, 1);
-      roleMap.set(c, 'mediador');
-    } else {
-      tierMap.set(c, hasIntermediates ? 2 : 1);
-      roleMap.set(c, c === 'mictlan' ? 'transversal' : 'polo');
+  if (allBidirectional) {
+    // Reciprocal dual-pair layout: place paired concepts on opposite columns (tier 0 left, tier 2 right)
+    const preferredLeft = new Set(['cuerpo', 'internet', 'individualidad']);
+    const preferredRight = new Set(['universo', 'IA', 'totalidad']);
+    const orderedSeeds = [...conceptSet].sort((a, b) => {
+      const aPref = preferredLeft.has(a) ? 0 : preferredRight.has(a) ? 2 : 1;
+      const bPref = preferredLeft.has(b) ? 0 : preferredRight.has(b) ? 2 : 1;
+      return aPref !== bPref ? aPref - bPref : a.localeCompare(b);
+    });
+
+    for (const seed of orderedSeeds) {
+      if ((inCountGlobal.get(seed) ?? 0) === 0 && (outCountGlobal.get(seed) ?? 0) === 0) {
+        tierMap.set(seed, 1);
+        roleMap.set(seed, 'aislado');
+        continue;
+      }
+      if (tierMap.has(seed)) continue;
+
+      const startTier: 0 | 2 = preferredRight.has(seed) ? 2 : 0;
+      tierMap.set(seed, startTier);
+      roleMap.set(seed, assignConceptRole(seed));
+
+      const queue: string[] = [seed];
+      while (queue.length > 0) {
+        const cur = queue.shift()!;
+        const curTier = tierMap.get(cur) ?? 0;
+        const nextTier: 0 | 2 = curTier === 0 ? 2 : 0;
+        for (const nbr of undirectedAdj.get(cur) ?? []) {
+          if (!tierMap.has(nbr)) {
+            tierMap.set(nbr, nextTier);
+            roleMap.set(nbr, assignConceptRole(nbr));
+            queue.push(nbr);
+          }
+        }
+      }
+    }
+  } else {
+    // Hierarchical source -> intermediate -> sink layout for DAG / custom inputs
+    const hasIntermediates = [...conceptSet].some(
+      (c) => (inCountGlobal.get(c) ?? 0) > 0 && (outCountGlobal.get(c) ?? 0) > 0
+    );
+
+    for (const c of conceptSet) {
+      const gIn = inCountGlobal.get(c) ?? 0;
+      const gOut = outCountGlobal.get(c) ?? 0;
+
+      if (gIn === 0 && gOut === 0) {
+        tierMap.set(c, 1);
+        roleMap.set(c, 'aislado');
+      } else if (gIn === 0 && gOut > 0) {
+        tierMap.set(c, 0);
+        roleMap.set(c, 'mediador');
+      } else if (gIn > 0 && gOut > 0) {
+        tierMap.set(c, 1);
+        roleMap.set(c, 'mediador');
+      } else {
+        tierMap.set(c, hasIntermediates ? 2 : 1);
+        roleMap.set(c, 'polo');
+      }
     }
   }
 
@@ -175,15 +238,14 @@ export function buildTesseractFlowGraph(
     tierGroups.get(t)!.push(c);
   }
 
-  // Order tiers cleanly for readability
+  // Order tiers cleanly so dual pairs align horizontally across rows
   const preferredOrder: Record<string, number> = {
+    cuerpo: 0,
     universo: 0,
     internet: 1,
-    IA: 2,
-    cuerpo: 3,
-    materia: 4,
-    vacio: 5,
-    mictlan: 6,
+    IA: 1,
+    individualidad: 2,
+    totalidad: 2,
   };
 
   const activeTiers = ([0, 1, 2] as const).filter((t) => (tierGroups.get(t)?.length ?? 0) > 0);
@@ -191,8 +253,8 @@ export function buildTesseractFlowGraph(
   if (activeTiers.length === 1) {
     xByTier.set(activeTiers[0], FLOW_VIEWBOX_WIDTH / 2);
   } else if (activeTiers.length === 2) {
-    xByTier.set(activeTiers[0], 112);
-    xByTier.set(activeTiers[1], FLOW_VIEWBOX_WIDTH - 112);
+    xByTier.set(activeTiers[0], 116);
+    xByTier.set(activeTiers[1], FLOW_VIEWBOX_WIDTH - 116);
   } else {
     xByTier.set(0, 98);
     xByTier.set(1, FLOW_VIEWBOX_WIDTH / 2);
@@ -200,7 +262,7 @@ export function buildTesseractFlowGraph(
   }
 
   const nodes: FlowNode[] = [];
-  const paddingY = 58;
+  const paddingY = 72;
   const usableH = FLOW_VIEWBOX_HEIGHT - paddingY * 2;
 
   for (const tier of activeTiers) {
@@ -223,8 +285,8 @@ export function buildTesseractFlowGraph(
         y: Math.round(y),
         inDegree: inCount.get(id) ?? 0,
         outDegree: outCount.get(id) ?? 0,
-        evolCount: evolCount.get(id) ?? 0,
-        involCount: involCount.get(id) ?? 0,
+        realCount: realCount.get(id) ?? 0,
+        virtualCount: virtualCount.get(id) ?? 0,
         cellIds: [...(cellIdSets.get(id) ?? [])],
       });
     });
@@ -241,12 +303,14 @@ export function buildTesseractFlowGraph(
   const edges: FlowEdge[] = [];
   for (const bucket of pairBuckets.values()) {
     const n = bucket.length;
+    const step = n > 4 ? 22 : 34;
     bucket.forEach((t, idx) => {
-      const curveOffset = n === 1 ? 0 : (idx - (n - 1) / 2) * 34;
+      const curveOffset = n === 1 ? 0 : (idx - (n - 1) / 2) * step;
       edges.push({
         id: `${t.cellId}-${t.rel.cube}-${t.rel.domain}-${idx}`,
         cellId: t.cellId,
-        perspective: t.perspective,
+        axisPair: t.axisPair,
+        domain: t.domain,
         source: t.source,
         target: t.target,
         rel: t.rel,
