@@ -15,7 +15,7 @@ El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no 
 | Prioridad | Capa | Runner / Endpoint | ¿Bloquea «repo válido»? |
 |:---------:|------|-------------------|:-----------------------:|
 | **1** | Punto fijo ($S_{n+1}=S_n$) | `GET /api/spec` · `POST /api/invariance` | sí |
-| **1b** | Reglas formales & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` | sí |
+| **1b** | Reglas formales & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` | sí |
 | **2** | Invariancia no trivial | `POST /api/invariance` | sí |
 | **3** | Destino Mictlán (EXP-E) | `GET /api/domain-mapping` | **no** (encuentro) |
 | **4** | Resonancia κ (EXP-A) | `GET /api/independent-eval` | **no** (requiere ACCESS_LOG) |
@@ -26,7 +26,7 @@ El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no 
 
 ```bash
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 ```
 
@@ -42,7 +42,7 @@ En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas de
 
 ## 4. Teseracto único `{4,3,3}` (8 proyecciones) y flujo D3
 
-`GET /api/tesseract` entrega las 8 proyecciones cúbicas de un único teseracto tetradimensional (`T1–T8` en disposición `2 × 4` dividida por planos de inversión, con ejes duales `real/virtual`, `materia/vacío`, `individualidad/totalidad`, `evolución/involución`), sus 16 transiciones sobre los 6 conceptos (`cuerpo, universo, internet, IA, individualidad, totalidad`), los **4 espejados de la segunda imagen** (`IMG-031910`: reflejo de `TSRIMG` bajo `Azul ↔ Rojo` y `Amarillo ↔ Verde` como anverso y reverso), las **4 cadenas del espejeo por paridad** (`IMG-025743`: reflejo de `IMG-015713`), los **4 espejeos cromáticos internos** (`TSRIMG`: `real ↔ involución`, `virtual ↔ evolución`, `vacío ↔ individualidad`, `materia ↔ totalidad` con inversión horizontal de flujo `2 › / 2 ‹`), las **4 cadenas de análisis por paridad** (`IMG-015713`: `azul`, `amarillo`, `rojo`, `verde`) y las invariantes de dirección (`>`/`<`), balance y trazado (`_`/`...`). La pestaña **Teseractos ({4,3,3})** renderiza dinámicamente el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`) con conmutador interactivo de cuatro modos (`mirrorReflected`, `parityMirror`, `mirror`, `parity`).
+`GET /api/tesseract` entrega las 8 proyecciones cúbicas de un único teseracto tetradimensional (`T1–T8` en disposición `2 × 4` dividida por planos de inversión, con ejes duales `real/virtual`, `materia/vacío`, `individualidad/totalidad`, `evolución/involución`), sus 16 transiciones sobre los 6 conceptos (`cuerpo, universo, internet, IA, individualidad, totalidad`), las 9 láminas fuente y la **clausura completa de las 7 coloraciones cromáticas** (`coloringsCount = 7`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`): familia **Marcos (3)** (`mirrorReflected` `IMG-031910`, `mirror` `TSRIMG`, `mirrorFrameSwap` `IMG-063146`) y familia **Paridad (4)** (`parityPolarMirror` `IMG-070052`, `parityPolarSwap` `IMG-064557`, `parityMirror` `IMG-025743`, `parity` `IMG-015713`), junto con las invariantes de dirección (`>`/`<`), balance y trazado (`_`/`...`). La pestaña **Teseractos ({4,3,3})** renderiza dinámicamente el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`) con conmutador agrupado de siete modos (`Marcos (3)` / `Paridad (4)`) y botón directo **Espejar ↔** hacia la pareja involutiva.
 
 ---
 

@@ -1,6 +1,43 @@
 export type AnalysisChainColor = 'azul' | 'amarillo' | 'rojo' | 'verde';
-export type TesseractColorMode = 'mirrorReflected' | 'parityMirror' | 'mirror' | 'parity';
+export type TesseractColorMode =
+  | 'mirrorReflected'
+  | 'mirror'
+  | 'mirrorFrameSwap'
+  | 'parityPolarMirror'
+  | 'parityPolarSwap'
+  | 'parityMirror'
+  | 'parity';
+export type TesseractColoringFamily = 'mirror' | 'parity';
 export type FlowFilter = 'all' | 'real' | 'virtual' | AnalysisChainColor;
+
+export interface TesseractColoringChainSpec {
+  id: AnalysisChainColor;
+  label: string;
+  cellIds: string[];
+  cubeLabels: string[];
+  parity?: 0 | 1;
+  arrow?: '>' | '<';
+  domain?: 'real' | 'virtual';
+  modalSwap?: string;
+  summary: string;
+}
+
+export interface TesseractColoringSpec {
+  id: TesseractColorMode;
+  shortLabel: string;
+  title: string;
+  family: TesseractColoringFamily;
+  assetPath: string;
+  assetTag: string;
+  mirrorPartnerId: TesseractColorMode;
+  mirrorPartnerLabel: string;
+  involutionRule: string;
+  involutionMap: Record<AnalysisChainColor, AnalysisChainColor>;
+  summary: string;
+  filterHint: string;
+  chains: TesseractColoringChainSpec[];
+  balanced: boolean;
+}
 
 export interface FlowchartRelation {
   left: string;
@@ -14,6 +51,7 @@ export interface FlowchartRelation {
   mirrorChain?: AnalysisChainColor;
   parityMirrorChain?: AnalysisChainColor;
   mirrorReflectedChain?: AnalysisChainColor;
+  chains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
   notation: string;
 }
 
@@ -29,12 +67,14 @@ export interface FlowchartCell {
   exteriorMirrorChain?: AnalysisChainColor;
   exteriorParityMirrorChain?: AnalysisChainColor;
   exteriorMirrorReflectedChain?: AnalysisChainColor;
+  exteriorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
   interiorLabel: string;
   interiorLine: '_' | '...';
   interiorChain?: AnalysisChainColor;
   interiorMirrorChain?: AnalysisChainColor;
   interiorParityMirrorChain?: AnalysisChainColor;
   interiorMirrorReflectedChain?: AnalysisChainColor;
+  interiorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
   half: string;
@@ -48,6 +88,7 @@ export interface FlowchartCell {
 
 export interface FlowchartTesseractData {
   concepts: string[];
+  colorings?: TesseractColoringSpec[];
   cells: FlowchartCell[];
 }
 
@@ -136,14 +177,19 @@ export function buildTesseractFlowGraph(
     }
   }
 
-  const resolveRelColor = (rel: FlowchartRelation): AnalysisChainColor | undefined =>
-    colorMode === 'mirrorReflected'
-      ? (rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.parityMirrorChain ?? rel.analysisChain)
-      : colorMode === 'parityMirror'
-      ? (rel.parityMirrorChain ?? rel.mirrorChain ?? rel.analysisChain)
-      : colorMode === 'mirror'
-      ? (rel.mirrorChain ?? rel.analysisChain)
-      : rel.analysisChain;
+  const resolveRelColor = (rel: FlowchartRelation): AnalysisChainColor | undefined => {
+    if (rel.chains?.[colorMode]) return rel.chains[colorMode];
+    if (colorMode === 'mirrorReflected') {
+      return rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.parityMirrorChain ?? rel.analysisChain;
+    }
+    if (colorMode === 'parityMirror') {
+      return rel.parityMirrorChain ?? rel.mirrorChain ?? rel.analysisChain;
+    }
+    if (colorMode === 'mirror') {
+      return rel.mirrorChain ?? rel.analysisChain;
+    }
+    return rel.analysisChain;
+  };
 
   const filteredTransitions =
     filter === 'all'

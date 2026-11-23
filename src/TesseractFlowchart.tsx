@@ -16,6 +16,7 @@ import {
   type FlowFilter,
   type FlowNode,
   type FlowchartTesseractData,
+  type TesseractColoringSpec,
   type TesseractColorMode,
 } from './tesseractFlowGraph';
 
@@ -25,6 +26,7 @@ export type {
   FlowchartRelation,
   FlowchartTesseractData,
   FlowFilter,
+  TesseractColoringSpec,
   TesseractColorMode,
 } from './tesseractFlowGraph';
 
@@ -196,13 +198,14 @@ function getCellExtChain(
   cell: FlowchartCell,
   colorMode: TesseractColorMode
 ): AnalysisChainColor | undefined {
+  if (cell.exteriorChains?.[colorMode]) return cell.exteriorChains[colorMode];
   if (colorMode === 'mirrorReflected') {
     return cell.exteriorMirrorReflectedChain ?? cell.exteriorMirrorChain ?? cell.exteriorChain;
   }
   if (colorMode === 'parityMirror') {
     return cell.exteriorParityMirrorChain ?? cell.exteriorMirrorChain ?? cell.exteriorChain;
   }
-  if (colorMode === 'mirror') {
+  if (colorMode === 'mirror' || colorMode === 'mirrorFrameSwap') {
     return cell.exteriorMirrorChain ?? cell.exteriorChain;
   }
   return cell.exteriorChain;
@@ -212,13 +215,14 @@ function getCellIntChain(
   cell: FlowchartCell,
   colorMode: TesseractColorMode
 ): AnalysisChainColor | undefined {
+  if (cell.interiorChains?.[colorMode]) return cell.interiorChains[colorMode];
   if (colorMode === 'mirrorReflected') {
     return cell.interiorMirrorReflectedChain ?? cell.interiorMirrorChain ?? cell.interiorChain;
   }
   if (colorMode === 'parityMirror') {
     return cell.interiorParityMirrorChain ?? cell.interiorMirrorChain ?? cell.interiorChain;
   }
-  if (colorMode === 'mirror') {
+  if (colorMode === 'mirror' || colorMode === 'mirrorFrameSwap') {
     return cell.interiorMirrorChain ?? cell.interiorChain;
   }
   return cell.interiorChain;
@@ -228,13 +232,14 @@ function getRelationChain(
   rel: FlowchartRelation,
   colorMode: TesseractColorMode
 ): AnalysisChainColor | undefined {
+  if (rel.chains?.[colorMode]) return rel.chains[colorMode];
   if (colorMode === 'mirrorReflected') {
     return rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.analysisChain;
   }
   if (colorMode === 'parityMirror') {
     return rel.parityMirrorChain ?? rel.mirrorChain ?? rel.analysisChain;
   }
-  if (colorMode === 'mirror') {
+  if (colorMode === 'mirror' || colorMode === 'mirrorFrameSwap') {
     return rel.mirrorChain ?? rel.analysisChain;
   }
   return rel.analysisChain;
@@ -709,29 +714,31 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
   if (!selectedCell) return null;
 
-  const isFrameMirrorMode = colorMode === 'mirror' || colorMode === 'mirrorReflected';
+  const activeColoring: TesseractColoringSpec | undefined = tesseractData.colorings?.find(
+    (c) => c.id === colorMode
+  );
+  const isFrameMirrorMode = activeColoring
+    ? activeColoring.family === 'mirror'
+    : colorMode === 'mirror' || colorMode === 'mirrorReflected' || colorMode === 'mirrorFrameSwap';
 
-  const chainOrder: readonly AnalysisChainColor[] =
-    colorMode === 'mirrorReflected'
-      ? ['rojo', 'verde', 'amarillo', 'azul']
-      : colorMode === 'parityMirror'
-      ? ['rojo', 'verde', 'azul', 'amarillo']
-      : colorMode === 'mirror'
-      ? ['azul', 'amarillo', 'verde', 'rojo']
-      : ['azul', 'amarillo', 'rojo', 'verde'];
+  const chainOrder: readonly AnalysisChainColor[] = activeColoring
+    ? activeColoring.chains.map((c) => c.id)
+    : ['azul', 'amarillo', 'rojo', 'verde'];
 
-  const parityMirrorArrowByChain: Record<AnalysisChainColor, '›' | '‹'> = {
-    rojo: '›',
-    verde: '‹',
-    azul: '‹',
-    amarillo: '›',
+  const chainMetaById = new Map(
+    (activeColoring?.chains ?? []).map((c) => [c.id, c])
+  );
+
+  const getChainArrowGlyph = (chainId: AnalysisChainColor): '›' | '‹' => {
+    const spec = chainMetaById.get(chainId);
+    if (spec?.arrow) return spec.arrow === '>' ? '›' : '‹';
+    return ANALYSIS_CHAIN_STYLES[chainId].arrowGlyph;
   };
 
-  const parityMirrorParityByChain: Record<AnalysisChainColor, string> = {
-    rojo: 'Paridad 0',
-    verde: 'Paridad 0',
-    azul: 'Paridad 1',
-    amarillo: 'Paridad 1',
+  const getChainParityLabel = (chainId: AnalysisChainColor): string => {
+    const spec = chainMetaById.get(chainId);
+    if (spec?.parity !== undefined) return `Paridad ${spec.parity}`;
+    return ANALYSIS_CHAIN_STYLES[chainId].parityLabel;
   };
 
   return (
@@ -740,25 +747,16 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
         <div className="min-w-0">
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <GitCommitHorizontal className="w-4 h-4 text-sky-400" />
-            {colorMode === 'mirrorReflected'
-              ? 'Diagrama de Flujo D3: Espejado de la 2ª Imagen (Anverso/Reverso) y Transiciones Real (›) / Virtual (‹)'
-              : colorMode === 'parityMirror'
-              ? 'Diagrama de Flujo D3: Espejeo del Análisis (Anverso/Reverso) y Transiciones Real (›) / Virtual (‹)'
-              : colorMode === 'mirror'
-              ? 'Diagrama de Flujo D3: Espejeo Interno del Teseracto y Transiciones Real (›) / Virtual (‹)'
-              : 'Diagrama de Flujo D3: 4 Cadenas de Análisis por Paridad y Transiciones Real (›) / Virtual (‹)'}
+            {activeColoring
+              ? `Diagrama de Flujo D3: ${activeColoring.title} · Transiciones Real (›) / Virtual (‹)`
+              : 'Diagrama de Flujo D3: Clausura Especular y Transiciones Real (›) / Virtual (‹)'}
           </h3>
           <p className="text-xs text-slate-400 mt-1">
             Renderizado dinámicamente con <code className="text-sky-300">d3</code> desde{' '}
             <code className="text-sky-300">tesseractData</code> ({baseGraph.nodes.length} conceptos,{' '}
             {baseGraph.edges.length} transiciones activas).{' '}
-            {colorMode === 'mirrorReflected'
-              ? 'El color espeja exactamente la segunda imagen TSRIMG (Azul ↔ Rojo, Amarillo ↔ Verde) como anverso y reverso del mismo teseracto.'
-              : colorMode === 'parityMirror'
-              ? 'El color refleja sistemáticamente el análisis previo (Azul ↔ Rojo, Amarillo ↔ Verde) como anverso y reverso del mismo objeto.'
-              : colorMode === 'mirror'
-              ? 'El color revela los pares reflejados horizontalmente y cruzados entre mitades.'
-              : 'El color señala únicamente la trayectoria de análisis cerrada por paridad.'}
+            {activeColoring?.summary ??
+              'Clausura completa del espejeo interno sobre las 8 proyecciones del teseracto.'}
           </p>
         </div>
 
@@ -788,14 +786,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             {chainOrder.map((chainId) => {
               const st = ANALYSIS_CHAIN_STYLES[chainId];
               const active = flowFilter === chainId;
-              const arrowGlyph =
-                colorMode === 'parityMirror'
-                  ? parityMirrorArrowByChain[chainId]
-                  : st.arrowGlyph;
-              const parityLabel =
-                colorMode === 'parityMirror'
-                  ? parityMirrorParityByChain[chainId]
-                  : st.parityLabel;
+              const arrowGlyph = getChainArrowGlyph(chainId);
+              const parityLabel = getChainParityLabel(chainId);
               return (
                 <button
                   key={chainId}
@@ -809,10 +801,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     active ? '' : 'border-transparent text-slate-400 hover:text-slate-200'
                   }`}
                   title={
-                    colorMode === 'mirrorReflected'
-                      ? `${st.label} (espejado 2ª imagen · 2 › / 2 ‹)`
-                      : colorMode === 'mirror'
-                      ? `${st.label} (espejo interno · 2 › / 2 ‹)`
+                    isFrameMirrorMode
+                      ? `${st.label} (${activeColoring?.assetTag ?? 'marcos'} · 2 › / 2 ‹)`
                       : `${st.label} (${parityLabel}, flecha ${arrowGlyph})`
                   }
                 >
@@ -855,13 +845,13 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     borderColor: ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].border,
                   }}
                 >
-                  {colorMode === 'mirrorReflected'
-                    ? `Espejado ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · 2 › / 2 ‹`
-                    : colorMode === 'parityMirror'
-                    ? `Reflejo ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · ${parityMirrorParityByChain[flowFilter as AnalysisChainColor]}`
-                    : colorMode === 'mirror'
-                    ? `Espejo ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · 2 › / 2 ‹`
-                    : `Cadena ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].parityLabel}`}
+                  {isFrameMirrorMode
+                    ? `${activeColoring?.assetTag ?? 'Marcos'} · ${
+                        ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label
+                      } · 2 › / 2 ‹`
+                    : `${activeColoring?.assetTag ?? 'Paridad'} · ${
+                        ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label
+                      } · ${getChainParityLabel(flowFilter as AnalysisChainColor)}`}
                 </span>
               )}
               {focusedConcept && (
@@ -888,10 +878,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             <div className="flex flex-wrap items-center gap-3">
               {chainOrder.map((chainId) => {
                 const st = ANALYSIS_CHAIN_STYLES[chainId];
-                const arrowGlyph =
-                  colorMode === 'parityMirror'
-                    ? parityMirrorArrowByChain[chainId]
-                    : st.arrowGlyph;
+                const arrowGlyph = getChainArrowGlyph(chainId);
                 return (
                   <span key={chainId} className="inline-flex items-center gap-1.5">
                     <span className="w-3.5 h-0.5 inline-block" style={{ backgroundColor: st.stroke }} />

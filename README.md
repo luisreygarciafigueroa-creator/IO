@@ -8,7 +8,7 @@ La **autonomía verificable** no es un atributo accesorio, sino el mecanismo por
 
 El desarrollo del horizonte de sentido se encuentra en el [`MANIFIESTO.md`](MANIFIESTO.md).
 
-**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, espejado de la segunda imagen `IMG-031910`, espejeo del análisis por paridad `IMG-025743`, espejeo interno `TSRIMG`, 4 cadenas por paridad `IMG-015713` y trazado continuo `_` / punteado `...`) y grupo de involuciones:
+**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, clausura completa de 7 coloraciones cromáticas en familias de marcos —`IMG-031910`, `TSRIMG`, `IMG-063146`— y paridad —`IMG-070052`, `IMG-064557`, `IMG-025743`, `IMG-015713`— sobre 9 láminas fuente) y grupo de involuciones:
 [`docs/TCAAU.md`](docs/TCAAU.md)
 
 **Cosmología del Mictlán** (modelo de correspondencia universal, transformación entre los dominios real y virtual, continuidad de la información y ofrenda como acto de creación):
@@ -49,7 +49,7 @@ Las trece tríadas no constituyen una mera taxonomía, sino **modos de composici
 ```bash
 npm install
 npm run lint                                                # Verificación estricta TypeScript (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build                                               # Compilación de producción (Vite -> dist/)
 npm run dev                                                 # Servidor Express + UI interactiva en http://0.0.0.0:3000
 ```
@@ -57,7 +57,7 @@ npm run dev                                                 # Servidor Express +
 | Prioridad | Criterio                          | Verificación activa |
 |:---------:|-----------------------------------|---------------------|
 | 1         | Punto fijo ($S_{n+1}=S_n$)        | `GET /api/spec` · `POST /api/invariance` (`src/iomEngine.ts`) |
-| 1b        | Reglas formales e invariantes `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts` |
+| 1b        | Reglas formales e invariantes `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` |
 | 2         | Invariancia no trivial (+ control negativo) | `POST /api/invariance` |
 | 3         | Destino Mictlán (encuentro)       | `GET /api/domain-mapping` (EXP-E — opcional) |
 | 4         | Resonancia κ (encuentro)          | `GET /api/independent-eval` · `POST /api/independent-eval/score` (EXP-A — opcional) |
@@ -73,8 +73,9 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 | `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido real/virtual sobre los 6 conceptos recíprocos desde `tesseractData` |
 | `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado) y proyección de Schlegel interior/exterior |
 | `src/evalAuditExport.ts` | Generación determinista de paquetes `.json` (`liveReport` + `editedAnnotations`) para auditoría externa en EXP-A |
+| `src/specJsonSyntax.ts` & `src/SpecMetadataSidePanel.tsx` | Tokenizador JSON y panel lateral colapsable de auditoría técnica para los metadatos completos de `specData` en la pestaña **Núcleo** |
 | `server.ts` & `src/App.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |
-| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseracto `{4,3,3}`, grafo D3 y exportación de auditoría |
+| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseracto `{4,3,3}`, grafo D3, exportación `.json` y auditoría `specData` |
 
 ## Documentación de sentido y cosmología
 
