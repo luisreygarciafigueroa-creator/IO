@@ -44,6 +44,10 @@ jobs:
             assert.equal(t.verification.allHaveOneRealOneVirtual, true);
             assert.equal(t.verification.allHaveOneContinuousOneDashed, true);
             assert.equal(t.verification.allCubeLinesMatchHeader, true);
+            assert.equal(t.verification.allAnalysisChainsBalanced, true);
+            assert.equal(t.verification.allParityMirrorChainsBalanced, true);
+            assert.equal(t.verification.allMirrorChainsBalanced, true);
+            assert.equal(t.verification.allMirrorReflectedChainsBalanced, true);
             assert.equal(t.verification.allConceptsCovered, true);
             assert.equal(t.verification.allCubeLabelsCovered, true);
             console.log('Core invariants verified:', artifacts.fixedPoint.pass1Hash);

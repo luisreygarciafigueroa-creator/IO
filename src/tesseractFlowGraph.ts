@@ -1,4 +1,6 @@
-export type FlowFilter = 'all' | 'real' | 'virtual';
+export type AnalysisChainColor = 'azul' | 'amarillo' | 'rojo' | 'verde';
+export type TesseractColorMode = 'mirrorReflected' | 'parityMirror' | 'mirror' | 'parity';
+export type FlowFilter = 'all' | 'real' | 'virtual' | AnalysisChainColor;
 
 export interface FlowchartRelation {
   left: string;
@@ -8,6 +10,10 @@ export interface FlowchartRelation {
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
   cubeLabel: string;
+  analysisChain?: AnalysisChainColor;
+  mirrorChain?: AnalysisChainColor;
+  parityMirrorChain?: AnalysisChainColor;
+  mirrorReflectedChain?: AnalysisChainColor;
   notation: string;
 }
 
@@ -19,8 +25,16 @@ export interface FlowchartCell {
   axisPair: string;
   exteriorLabel: string;
   exteriorLine: '_' | '...';
+  exteriorChain?: AnalysisChainColor;
+  exteriorMirrorChain?: AnalysisChainColor;
+  exteriorParityMirrorChain?: AnalysisChainColor;
+  exteriorMirrorReflectedChain?: AnalysisChainColor;
   interiorLabel: string;
   interiorLine: '_' | '...';
+  interiorChain?: AnalysisChainColor;
+  interiorMirrorChain?: AnalysisChainColor;
+  interiorParityMirrorChain?: AnalysisChainColor;
+  interiorMirrorReflectedChain?: AnalysisChainColor;
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
   half: string;
@@ -75,7 +89,8 @@ export const FLOW_NODE_HEIGHT = 40;
 
 export function buildTesseractFlowGraph(
   tesseractData: FlowchartTesseractData,
-  filter: FlowFilter = 'all'
+  filter: FlowFilter = 'all',
+  colorMode: TesseractColorMode = 'mirrorReflected'
 ): FlowGraph {
   const conceptSet = new Set<string>(tesseractData.concepts);
   for (const cell of tesseractData.cells) {
@@ -121,10 +136,21 @@ export function buildTesseractFlowGraph(
     }
   }
 
+  const resolveRelColor = (rel: FlowchartRelation): AnalysisChainColor | undefined =>
+    colorMode === 'mirrorReflected'
+      ? (rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.parityMirrorChain ?? rel.analysisChain)
+      : colorMode === 'parityMirror'
+      ? (rel.parityMirrorChain ?? rel.mirrorChain ?? rel.analysisChain)
+      : colorMode === 'mirror'
+      ? (rel.mirrorChain ?? rel.analysisChain)
+      : rel.analysisChain;
+
   const filteredTransitions =
     filter === 'all'
       ? allTransitions
-      : allTransitions.filter((t) => t.domain === filter);
+      : filter === 'real' || filter === 'virtual'
+      ? allTransitions.filter((t) => t.domain === filter)
+      : allTransitions.filter((t) => resolveRelColor(t.rel) === filter);
 
   const inCount = new Map<string, number>();
   const outCount = new Map<string, number>();

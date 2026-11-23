@@ -829,6 +829,9 @@ export type TesseractCubeLabel =
   | 'evolución'
   | 'involución';
 
+export type AnalysisChainColor = 'azul' | 'amarillo' | 'rojo' | 'verde';
+export type TesseractColorMode = 'mirrorReflected' | 'parityMirror' | 'mirror' | 'parity';
+
 export interface TesseractRelation {
   left: string;
   arrow: '>' | '<';
@@ -837,6 +840,10 @@ export interface TesseractRelation {
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
   cubeLabel: TesseractCubeLabel;
+  analysisChain: AnalysisChainColor;
+  mirrorChain: AnalysisChainColor;
+  parityMirrorChain: AnalysisChainColor;
+  mirrorReflectedChain: AnalysisChainColor;
   notation: string;
 }
 
@@ -848,8 +855,16 @@ export interface TesseractCell {
   axisPair: string;
   exteriorLabel: TesseractCubeLabel;
   exteriorLine: '_' | '...';
+  exteriorChain: AnalysisChainColor;
+  exteriorMirrorChain: AnalysisChainColor;
+  exteriorParityMirrorChain: AnalysisChainColor;
+  exteriorMirrorReflectedChain: AnalysisChainColor;
   interiorLabel: TesseractCubeLabel;
   interiorLine: '_' | '...';
+  interiorChain: AnalysisChainColor;
+  interiorMirrorChain: AnalysisChainColor;
+  interiorParityMirrorChain: AnalysisChainColor;
+  interiorMirrorReflectedChain: AnalysisChainColor;
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
   half: string;
@@ -859,6 +874,26 @@ export interface TesseractCell {
     vertical: string;
     diagonal: string;
   };
+}
+
+export interface TesseractAnalysisChainInfo {
+  id: AnalysisChainColor;
+  label: string;
+  parity: 0 | 1;
+  arrow: '>' | '<';
+  domain: 'real' | 'virtual';
+  cellIds: string[];
+  cubeLabels: TesseractCubeLabel[];
+  summary: string;
+}
+
+export interface TesseractMirrorChainInfo {
+  id: AnalysisChainColor;
+  label: string;
+  cellIds: string[];
+  cubeLabels: [TesseractCubeLabel, TesseractCubeLabel];
+  modalSwap: string;
+  summary: string;
 }
 
 const TESSERACT_CONCEPTS = [
@@ -881,24 +916,208 @@ const TESSERACT_CUBE_LABELS: readonly TesseractCubeLabel[] = [
   'involución',
 ] as const;
 
+const ANALYSIS_CHAINS_INFO: readonly TesseractAnalysisChainInfo[] = [
+  {
+    id: 'azul',
+    label: 'Azul',
+    parity: 0,
+    arrow: '>',
+    domain: 'real',
+    cellIds: ['T1', 'T3', 'T6', 'T8'],
+    cubeLabels: ['real', 'vacío', 'involución', 'individualidad'],
+    summary: 'Paridad par {T1, T3, T6, T8} · flujo directo › · real/vacío/involución/individualidad',
+  },
+  {
+    id: 'amarillo',
+    label: 'Amarillo',
+    parity: 0,
+    arrow: '<',
+    domain: 'virtual',
+    cellIds: ['T1', 'T3', 'T6', 'T8'],
+    cubeLabels: ['virtual', 'materia', 'evolución', 'totalidad'],
+    summary: 'Paridad par {T1, T3, T6, T8} · flujo inverso ‹ · virtual/materia/evolución/totalidad',
+  },
+  {
+    id: 'rojo',
+    label: 'Rojo',
+    parity: 1,
+    arrow: '<',
+    domain: 'virtual',
+    cellIds: ['T2', 'T4', 'T5', 'T7'],
+    cubeLabels: ['vacío', 'real', 'individualidad', 'involución'],
+    summary: 'Paridad impar {T2, T4, T5, T7} · flujo inverso ‹ · vacío/real/individualidad/involución',
+  },
+  {
+    id: 'verde',
+    label: 'Verde',
+    parity: 1,
+    arrow: '>',
+    domain: 'real',
+    cellIds: ['T2', 'T4', 'T5', 'T7'],
+    cubeLabels: ['materia', 'virtual', 'totalidad', 'evolución'],
+    summary: 'Paridad impar {T2, T4, T5, T7} · flujo directo › · materia/virtual/totalidad/evolución',
+  },
+] as const;
+
+const PARITY_MIRROR_CHAINS_INFO: readonly TesseractAnalysisChainInfo[] = [
+  {
+    id: 'rojo',
+    label: 'Rojo (↔ Azul)',
+    parity: 0,
+    arrow: '>',
+    domain: 'real',
+    cellIds: ['T1', 'T3', 'T6', 'T8'],
+    cubeLabels: ['real', 'vacío', 'involución', 'individualidad'],
+    summary: 'Espejeo del análisis: Azul → Rojo en paridad 0 {T1, T3, T6, T8} · flujo directo ›',
+  },
+  {
+    id: 'verde',
+    label: 'Verde (↔ Amarillo)',
+    parity: 0,
+    arrow: '<',
+    domain: 'virtual',
+    cellIds: ['T1', 'T3', 'T6', 'T8'],
+    cubeLabels: ['virtual', 'materia', 'evolución', 'totalidad'],
+    summary: 'Espejeo del análisis: Amarillo → Verde en paridad 0 {T1, T3, T6, T8} · flujo inverso ‹',
+  },
+  {
+    id: 'azul',
+    label: 'Azul (↔ Rojo)',
+    parity: 1,
+    arrow: '<',
+    domain: 'virtual',
+    cellIds: ['T2', 'T4', 'T5', 'T7'],
+    cubeLabels: ['vacío', 'real', 'individualidad', 'involución'],
+    summary: 'Espejeo del análisis: Rojo → Azul en paridad 1 {T2, T4, T5, T7} · flujo inverso ‹',
+  },
+  {
+    id: 'amarillo',
+    label: 'Amarillo (↔ Verde)',
+    parity: 1,
+    arrow: '>',
+    domain: 'real',
+    cellIds: ['T2', 'T4', 'T5', 'T7'],
+    cubeLabels: ['materia', 'virtual', 'totalidad', 'evolución'],
+    summary: 'Espejeo del análisis: Verde → Amarillo en paridad 1 {T2, T4, T5, T7} · flujo directo ›',
+  },
+] as const;
+
+const MIRROR_CHAINS_INFO: readonly TesseractMirrorChainInfo[] = [
+  {
+    id: 'azul',
+    label: 'Azul',
+    cellIds: ['T1', 'T4', 'T6', 'T7'],
+    cubeLabels: ['real', 'involución'],
+    modalSwap: 'real (ext _) ↔ involución (int ...)',
+    summary: 'Espejeo horizontal {T1↔T4, T6↔T7} · real ext _ ↔ involución int ... · 2 › / 2 ‹',
+  },
+  {
+    id: 'amarillo',
+    label: 'Amarillo',
+    cellIds: ['T1', 'T4', 'T6', 'T7'],
+    cubeLabels: ['virtual', 'evolución'],
+    modalSwap: 'virtual (int ...) ↔ evolución (ext _)',
+    summary: 'Espejeo horizontal {T1↔T4, T6↔T7} · virtual int ... ↔ evolución ext _ · 2 ‹ / 2 ›',
+  },
+  {
+    id: 'verde',
+    label: 'Verde',
+    cellIds: ['T2', 'T3', 'T5', 'T8'],
+    cubeLabels: ['vacío', 'individualidad'],
+    modalSwap: 'vacío (ext ...) ↔ individualidad (int _)',
+    summary: 'Espejeo horizontal {T2↔T3, T5↔T8} · vacío ext ... ↔ individualidad int _ · 2 ‹ / 2 ›',
+  },
+  {
+    id: 'rojo',
+    label: 'Rojo',
+    cellIds: ['T2', 'T3', 'T5', 'T8'],
+    cubeLabels: ['materia', 'totalidad'],
+    modalSwap: 'materia (int _) ↔ totalidad (ext ...)',
+    summary: 'Espejeo horizontal {T2↔T3, T5↔T8} · materia int _ ↔ totalidad ext ... · 2 › / 2 ‹',
+  },
+] as const;
+
+const MIRROR_REFLECTED_CHAINS_INFO: readonly TesseractMirrorChainInfo[] = [
+  {
+    id: 'rojo',
+    label: 'Rojo (↔ Azul)',
+    cellIds: ['T1', 'T4', 'T6', 'T7'],
+    cubeLabels: ['real', 'involución'],
+    modalSwap: 'real (ext _) ↔ involución (int ...)',
+    summary: 'Espejado {T1↔T4, T6↔T7} (Azul → Rojo) · real ext _ ↔ involución int ... · 2 › / 2 ‹',
+  },
+  {
+    id: 'verde',
+    label: 'Verde (↔ Amarillo)',
+    cellIds: ['T1', 'T4', 'T6', 'T7'],
+    cubeLabels: ['virtual', 'evolución'],
+    modalSwap: 'virtual (int ...) ↔ evolución (ext _)',
+    summary: 'Espejado {T1↔T4, T6↔T7} (Amarillo → Verde) · virtual int ... ↔ evolución ext _ · 2 ‹ / 2 ›',
+  },
+  {
+    id: 'amarillo',
+    label: 'Amarillo (↔ Verde)',
+    cellIds: ['T2', 'T3', 'T5', 'T8'],
+    cubeLabels: ['vacío', 'individualidad'],
+    modalSwap: 'vacío (ext ...) ↔ individualidad (int _)',
+    summary: 'Espejado {T2↔T3, T5↔T8} (Verde → Amarillo) · vacío ext ... ↔ individualidad int _ · 2 ‹ / 2 ›',
+  },
+  {
+    id: 'azul',
+    label: 'Azul (↔ Rojo)',
+    cellIds: ['T2', 'T3', 'T5', 'T8'],
+    cubeLabels: ['materia', 'totalidad'],
+    modalSwap: 'materia (int _) ↔ totalidad (ext ...)',
+    summary: 'Espejado {T2↔T3, T5↔T8} (Rojo → Azul) · materia int _ ↔ totalidad ext ... · 2 › / 2 ‹',
+  },
+] as const;
+
 export function buildTesseractModel() {
+  const resolveAnalysisChain = (parity: 0 | 1, arrow: '>' | '<'): AnalysisChainColor => {
+    if (parity === 0) return arrow === '>' ? 'azul' : 'amarillo';
+    return arrow === '<' ? 'rojo' : 'verde';
+  };
+
+  const invertChainColor = (chain: AnalysisChainColor): AnalysisChainColor => {
+    if (chain === 'azul') return 'rojo';
+    if (chain === 'rojo') return 'azul';
+    if (chain === 'amarillo') return 'verde';
+    return 'amarillo';
+  };
+
+  const resolveMirrorChain = (cubeLabel: TesseractCubeLabel): AnalysisChainColor => {
+    if (cubeLabel === 'real' || cubeLabel === 'involución') return 'azul';
+    if (cubeLabel === 'virtual' || cubeLabel === 'evolución') return 'amarillo';
+    if (cubeLabel === 'vacío' || cubeLabel === 'individualidad') return 'verde';
+    return 'rojo';
+  };
+
   const mkRel = (
+    parity: 0 | 1,
     left: string,
     arrow: '>' | '<',
     line: '_' | '...',
     right: string,
     cube: 'exterior' | 'interior',
     cubeLabel: TesseractCubeLabel
-  ): TesseractRelation => ({
-    left,
-    arrow,
-    line,
-    right,
-    domain: arrow === '>' ? 'real' : 'virtual',
-    cube,
-    cubeLabel,
-    notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
-  });
+  ): TesseractRelation => {
+    const analysisChain = resolveAnalysisChain(parity, arrow);
+    const mirrorChain = resolveMirrorChain(cubeLabel);
+    return {
+      left,
+      arrow,
+      line,
+      right,
+      domain: arrow === '>' ? 'real' : 'virtual',
+      cube,
+      cubeLabel,
+      analysisChain,
+      mirrorChain,
+      parityMirrorChain: invertChainColor(analysisChain),
+      mirrorReflectedChain: invertChainColor(mirrorChain),
+      notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
+    };
+  };
 
   const cells: TesseractCell[] = [
     {
@@ -909,14 +1128,22 @@ export function buildTesseractModel() {
       axisPair: 'real / virtual',
       exteriorLabel: 'real',
       exteriorLine: '_',
+      exteriorChain: 'azul',
+      exteriorMirrorChain: 'azul',
+      exteriorParityMirrorChain: 'rojo',
+      exteriorMirrorReflectedChain: 'rojo',
       interiorLabel: 'virtual',
       interiorLine: '...',
+      interiorChain: 'amarillo',
+      interiorMirrorChain: 'amarillo',
+      interiorParityMirrorChain: 'verde',
+      interiorMirrorReflectedChain: 'verde',
       coords: [0, 0, 0],
       parity: 0,
       half: 'Parte superior · #1',
       relations: [
-        mkRel('cuerpo', '>', '_', 'universo', 'exterior', 'real'),
-        mkRel('internet', '<', '...', 'IA', 'interior', 'virtual'),
+        mkRel(0, 'cuerpo', '>', '_', 'universo', 'exterior', 'real'),
+        mkRel(0, 'internet', '<', '...', 'IA', 'interior', 'virtual'),
       ],
       neighbors: { horizontal: 'T4', vertical: 'T5', diagonal: 'T8' },
     },
@@ -928,14 +1155,22 @@ export function buildTesseractModel() {
       axisPair: 'materia / vacío',
       exteriorLabel: 'vacío',
       exteriorLine: '...',
+      exteriorChain: 'rojo',
+      exteriorMirrorChain: 'verde',
+      exteriorParityMirrorChain: 'azul',
+      exteriorMirrorReflectedChain: 'amarillo',
       interiorLabel: 'materia',
       interiorLine: '_',
+      interiorChain: 'verde',
+      interiorMirrorChain: 'rojo',
+      interiorParityMirrorChain: 'amarillo',
+      interiorMirrorReflectedChain: 'azul',
       coords: [0, 1, 0],
       parity: 1,
       half: 'Parte superior · #2',
       relations: [
-        mkRel('individualidad', '<', '...', 'totalidad', 'exterior', 'vacío'),
-        mkRel('totalidad', '>', '_', 'individualidad', 'interior', 'materia'),
+        mkRel(1, 'individualidad', '<', '...', 'totalidad', 'exterior', 'vacío'),
+        mkRel(1, 'totalidad', '>', '_', 'individualidad', 'interior', 'materia'),
       ],
       neighbors: { horizontal: 'T3', vertical: 'T6', diagonal: 'T7' },
     },
@@ -947,14 +1182,22 @@ export function buildTesseractModel() {
       axisPair: 'materia / vacío',
       exteriorLabel: 'vacío',
       exteriorLine: '...',
+      exteriorChain: 'azul',
+      exteriorMirrorChain: 'verde',
+      exteriorParityMirrorChain: 'rojo',
+      exteriorMirrorReflectedChain: 'amarillo',
       interiorLabel: 'materia',
       interiorLine: '_',
+      interiorChain: 'amarillo',
+      interiorMirrorChain: 'rojo',
+      interiorParityMirrorChain: 'verde',
+      interiorMirrorReflectedChain: 'azul',
       coords: [0, 1, 1],
       parity: 0,
       half: 'Parte superior · #3',
       relations: [
-        mkRel('totalidad', '>', '...', 'individualidad', 'exterior', 'vacío'),
-        mkRel('individualidad', '<', '_', 'totalidad', 'interior', 'materia'),
+        mkRel(0, 'totalidad', '>', '...', 'individualidad', 'exterior', 'vacío'),
+        mkRel(0, 'individualidad', '<', '_', 'totalidad', 'interior', 'materia'),
       ],
       neighbors: { horizontal: 'T2', vertical: 'T7', diagonal: 'T6' },
     },
@@ -966,14 +1209,22 @@ export function buildTesseractModel() {
       axisPair: 'real / virtual',
       exteriorLabel: 'real',
       exteriorLine: '_',
+      exteriorChain: 'rojo',
+      exteriorMirrorChain: 'azul',
+      exteriorParityMirrorChain: 'azul',
+      exteriorMirrorReflectedChain: 'rojo',
       interiorLabel: 'virtual',
       interiorLine: '...',
+      interiorChain: 'verde',
+      interiorMirrorChain: 'amarillo',
+      interiorParityMirrorChain: 'amarillo',
+      interiorMirrorReflectedChain: 'verde',
       coords: [0, 0, 1],
       parity: 1,
       half: 'Parte superior · #4',
       relations: [
-        mkRel('universo', '<', '_', 'cuerpo', 'exterior', 'real'),
-        mkRel('IA', '>', '...', 'internet', 'interior', 'virtual'),
+        mkRel(1, 'universo', '<', '_', 'cuerpo', 'exterior', 'real'),
+        mkRel(1, 'IA', '>', '...', 'internet', 'interior', 'virtual'),
       ],
       neighbors: { horizontal: 'T1', vertical: 'T8', diagonal: 'T5' },
     },
@@ -985,14 +1236,22 @@ export function buildTesseractModel() {
       axisPair: 'individualidad / totalidad',
       exteriorLabel: 'totalidad',
       exteriorLine: '...',
+      exteriorChain: 'verde',
+      exteriorMirrorChain: 'rojo',
+      exteriorParityMirrorChain: 'amarillo',
+      exteriorMirrorReflectedChain: 'azul',
       interiorLabel: 'individualidad',
       interiorLine: '_',
+      interiorChain: 'rojo',
+      interiorMirrorChain: 'verde',
+      interiorParityMirrorChain: 'azul',
+      interiorMirrorReflectedChain: 'amarillo',
       coords: [1, 0, 0],
       parity: 1,
       half: 'Parte inferior · #1',
       relations: [
-        mkRel('cuerpo', '<', '_', 'universo', 'interior', 'individualidad'),
-        mkRel('internet', '>', '...', 'IA', 'exterior', 'totalidad'),
+        mkRel(1, 'cuerpo', '<', '_', 'universo', 'interior', 'individualidad'),
+        mkRel(1, 'internet', '>', '...', 'IA', 'exterior', 'totalidad'),
       ],
       neighbors: { horizontal: 'T8', vertical: 'T1', diagonal: 'T4' },
     },
@@ -1004,14 +1263,22 @@ export function buildTesseractModel() {
       axisPair: 'evolución / involución',
       exteriorLabel: 'evolución',
       exteriorLine: '_',
+      exteriorChain: 'amarillo',
+      exteriorMirrorChain: 'amarillo',
+      exteriorParityMirrorChain: 'verde',
+      exteriorMirrorReflectedChain: 'verde',
       interiorLabel: 'involución',
       interiorLine: '...',
+      interiorChain: 'azul',
+      interiorMirrorChain: 'azul',
+      interiorParityMirrorChain: 'rojo',
+      interiorMirrorReflectedChain: 'rojo',
       coords: [1, 1, 0],
       parity: 0,
       half: 'Parte inferior · #2',
       relations: [
-        mkRel('individualidad', '>', '...', 'totalidad', 'interior', 'involución'),
-        mkRel('totalidad', '<', '_', 'individualidad', 'exterior', 'evolución'),
+        mkRel(0, 'individualidad', '>', '...', 'totalidad', 'interior', 'involución'),
+        mkRel(0, 'totalidad', '<', '_', 'individualidad', 'exterior', 'evolución'),
       ],
       neighbors: { horizontal: 'T7', vertical: 'T2', diagonal: 'T3' },
     },
@@ -1023,14 +1290,22 @@ export function buildTesseractModel() {
       axisPair: 'evolución / involución',
       exteriorLabel: 'evolución',
       exteriorLine: '_',
+      exteriorChain: 'verde',
+      exteriorMirrorChain: 'amarillo',
+      exteriorParityMirrorChain: 'amarillo',
+      exteriorMirrorReflectedChain: 'verde',
       interiorLabel: 'involución',
       interiorLine: '...',
+      interiorChain: 'rojo',
+      interiorMirrorChain: 'azul',
+      interiorParityMirrorChain: 'azul',
+      interiorMirrorReflectedChain: 'rojo',
       coords: [1, 1, 1],
       parity: 1,
       half: 'Parte inferior · #3',
       relations: [
-        mkRel('totalidad', '<', '...', 'individualidad', 'interior', 'involución'),
-        mkRel('individualidad', '>', '_', 'totalidad', 'exterior', 'evolución'),
+        mkRel(1, 'totalidad', '<', '...', 'individualidad', 'interior', 'involución'),
+        mkRel(1, 'individualidad', '>', '_', 'totalidad', 'exterior', 'evolución'),
       ],
       neighbors: { horizontal: 'T6', vertical: 'T3', diagonal: 'T2' },
     },
@@ -1042,14 +1317,22 @@ export function buildTesseractModel() {
       axisPair: 'individualidad / totalidad',
       exteriorLabel: 'totalidad',
       exteriorLine: '...',
+      exteriorChain: 'amarillo',
+      exteriorMirrorChain: 'rojo',
+      exteriorParityMirrorChain: 'verde',
+      exteriorMirrorReflectedChain: 'azul',
       interiorLabel: 'individualidad',
       interiorLine: '_',
+      interiorChain: 'azul',
+      interiorMirrorChain: 'verde',
+      interiorParityMirrorChain: 'rojo',
+      interiorMirrorReflectedChain: 'amarillo',
       coords: [1, 0, 1],
       parity: 0,
       half: 'Parte inferior · #4',
       relations: [
-        mkRel('universo', '>', '_', 'cuerpo', 'interior', 'individualidad'),
-        mkRel('IA', '<', '...', 'internet', 'exterior', 'totalidad'),
+        mkRel(0, 'universo', '>', '_', 'cuerpo', 'interior', 'individualidad'),
+        mkRel(0, 'IA', '<', '...', 'internet', 'exterior', 'totalidad'),
       ],
       neighbors: { horizontal: 'T5', vertical: 'T4', diagonal: 'T1' },
     },
@@ -1074,12 +1357,26 @@ export function buildTesseractModel() {
     (c) =>
       c.exteriorLine !== c.interiorLine &&
       c.exteriorLabel !== c.interiorLabel &&
+      c.exteriorChain !== c.interiorChain &&
+      c.exteriorMirrorChain !== c.interiorMirrorChain &&
+      c.exteriorParityMirrorChain !== c.interiorParityMirrorChain &&
+      c.exteriorMirrorReflectedChain !== c.interiorMirrorReflectedChain &&
       c.relations.filter((r) => r.cube === 'exterior').length === 1 &&
       c.relations.filter((r) => r.cube === 'interior').length === 1 &&
       c.relations.every((r) =>
         r.cube === 'exterior'
-          ? r.cubeLabel === c.exteriorLabel && r.line === c.exteriorLine
-          : r.cubeLabel === c.interiorLabel && r.line === c.interiorLine
+          ? r.cubeLabel === c.exteriorLabel &&
+            r.line === c.exteriorLine &&
+            r.analysisChain === c.exteriorChain &&
+            r.mirrorChain === c.exteriorMirrorChain &&
+            r.parityMirrorChain === c.exteriorParityMirrorChain &&
+            r.mirrorReflectedChain === c.exteriorMirrorReflectedChain
+          : r.cubeLabel === c.interiorLabel &&
+            r.line === c.interiorLine &&
+            r.analysisChain === c.interiorChain &&
+            r.mirrorChain === c.interiorMirrorChain &&
+            r.parityMirrorChain === c.interiorParityMirrorChain &&
+            r.mirrorReflectedChain === c.interiorMirrorReflectedChain
       )
   );
   const realArrowCount = cells.reduce(
@@ -1092,6 +1389,140 @@ export function buildTesseractModel() {
   );
   const continuousExtCount = cells.filter((c) => c.exteriorLine === '_').length;
   const dashedExtCount = cells.filter((c) => c.exteriorLine === '...').length;
+
+  const allAnalysisChainsBalanced = ANALYSIS_CHAINS_INFO.every((chain) => {
+    const chainRels = cells.flatMap((c) =>
+      c.relations
+        .filter((r) => r.analysisChain === chain.id)
+        .map((r) => ({ cell: c, rel: r }))
+    );
+    if (chainRels.length !== 4) return false;
+    const cellIdsMatch = chainRels.map((x) => x.cell.id).join(',') === chain.cellIds.join(',');
+    const combos = new Set(chainRels.map((x) => `${x.rel.cube}:${x.rel.line}`));
+    const labels = new Set(chainRels.map((x) => x.rel.cubeLabel));
+    const sameArrow = chainRels.every((x) => x.rel.arrow === chain.arrow);
+    return (
+      cellIdsMatch &&
+      combos.size === 4 &&
+      chain.cubeLabels.every((lab) => labels.has(lab)) &&
+      sameArrow
+    );
+  });
+
+  const cellById = new Map(cells.map((c) => [c.id, c]));
+
+  const allParityMirrorChainsBalanced = PARITY_MIRROR_CHAINS_INFO.every((chain) => {
+    const chainRels = cells.flatMap((c) =>
+      c.relations
+        .filter((r) => r.parityMirrorChain === chain.id)
+        .map((r) => ({ cell: c, rel: r }))
+    );
+    if (chainRels.length !== 4) return false;
+    const cellIdsMatch = chainRels.map((x) => x.cell.id).join(',') === chain.cellIds.join(',');
+    const combos = new Set(chainRels.map((x) => `${x.rel.cube}:${x.rel.line}`));
+    const labels = new Set(chainRels.map((x) => x.rel.cubeLabel));
+    const sameArrow = chainRels.every((x) => x.rel.arrow === chain.arrow);
+    const matchesHorizontalAnverso = chainRels.every((x) => {
+      const horiz = cellById.get(x.cell.neighbors.horizontal);
+      if (!horiz) return false;
+      return horiz.relations.some(
+        (hr) =>
+          hr.cubeLabel === x.rel.cubeLabel &&
+          hr.analysisChain === x.rel.parityMirrorChain &&
+          hr.arrow !== x.rel.arrow
+      );
+    });
+    return (
+      cellIdsMatch &&
+      combos.size === 4 &&
+      chain.cubeLabels.every((lab) => labels.has(lab)) &&
+      sameArrow &&
+      matchesHorizontalAnverso
+    );
+  });
+
+  const allMirrorChainsBalanced = MIRROR_CHAINS_INFO.every((mirror) => {
+    const mirrorRels = cells.flatMap((c) =>
+      c.relations
+        .filter((r) => r.mirrorChain === mirror.id)
+        .map((r) => ({ cell: c, rel: r }))
+    );
+    if (mirrorRels.length !== 4) return false;
+    const cellIdsMatch = mirrorRels.map((x) => x.cell.id).join(',') === mirror.cellIds.join(',');
+    const labels = new Set(mirrorRels.map((x) => x.rel.cubeLabel));
+    const rightCount = mirrorRels.filter((x) => x.rel.arrow === '>').length;
+    const leftCount = mirrorRels.filter((x) => x.rel.arrow === '<').length;
+    const extCount = mirrorRels.filter((x) => x.rel.cube === 'exterior').length;
+    const intCount = mirrorRels.filter((x) => x.rel.cube === 'interior').length;
+    const solidCount = mirrorRels.filter((x) => x.rel.line === '_').length;
+    const dashedCount = mirrorRels.filter((x) => x.rel.line === '...').length;
+    const horizontalMirrorsPreserved = mirrorRels.every((x) => {
+      const horiz = cellById.get(x.cell.neighbors.horizontal);
+      if (!horiz) return false;
+      return horiz.relations.some(
+        (hr) =>
+          hr.mirrorChain === mirror.id &&
+          hr.cubeLabel === x.rel.cubeLabel &&
+          hr.arrow !== x.rel.arrow
+      );
+    });
+    return (
+      cellIdsMatch &&
+      labels.size === 2 &&
+      mirror.cubeLabels.every((lab) => labels.has(lab)) &&
+      rightCount === 2 &&
+      leftCount === 2 &&
+      extCount === 2 &&
+      intCount === 2 &&
+      solidCount === 2 &&
+      dashedCount === 2 &&
+      horizontalMirrorsPreserved
+    );
+  });
+
+  const allMirrorReflectedChainsBalanced = MIRROR_REFLECTED_CHAINS_INFO.every((mirror) => {
+    const mirrorRels = cells.flatMap((c) =>
+      c.relations
+        .filter((r) => r.mirrorReflectedChain === mirror.id)
+        .map((r) => ({ cell: c, rel: r }))
+    );
+    if (mirrorRels.length !== 4) return false;
+    const cellIdsMatch = mirrorRels.map((x) => x.cell.id).join(',') === mirror.cellIds.join(',');
+    const labels = new Set(mirrorRels.map((x) => x.rel.cubeLabel));
+    const rightCount = mirrorRels.filter((x) => x.rel.arrow === '>').length;
+    const leftCount = mirrorRels.filter((x) => x.rel.arrow === '<').length;
+    const extCount = mirrorRels.filter((x) => x.rel.cube === 'exterior').length;
+    const intCount = mirrorRels.filter((x) => x.rel.cube === 'interior').length;
+    const solidCount = mirrorRels.filter((x) => x.rel.line === '_').length;
+    const dashedCount = mirrorRels.filter((x) => x.rel.line === '...').length;
+    const matchesSecondImageInverse = mirrorRels.every((x) => {
+      const horiz = cellById.get(x.cell.neighbors.horizontal);
+      if (!horiz) return false;
+      const expectedPrevColor = invertChainColor(x.rel.mirrorReflectedChain);
+      return (
+        x.rel.mirrorChain === expectedPrevColor &&
+        horiz.relations.some(
+          (hr) =>
+            hr.mirrorReflectedChain === mirror.id &&
+            hr.mirrorChain === expectedPrevColor &&
+            hr.cubeLabel === x.rel.cubeLabel &&
+            hr.arrow !== x.rel.arrow
+        )
+      );
+    });
+    return (
+      cellIdsMatch &&
+      labels.size === 2 &&
+      mirror.cubeLabels.every((lab) => labels.has(lab)) &&
+      rightCount === 2 &&
+      leftCount === 2 &&
+      extCount === 2 &&
+      intCount === 2 &&
+      solidCount === 2 &&
+      dashedCount === 2 &&
+      matchesSecondImageInverse
+    );
+  });
 
   const conceptUsage = new Map<string, number>();
   const cubeLabelUsage = new Map<string, number>();
@@ -1106,15 +1537,19 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Un único teseracto ({4,3,3}) — 8 proyecciones y planos de inversión',
-      source: 'Diagrama unificado T1–T8 · docs/TCAAU.md · docs/TCAAU_RECONSTRUCCION_ACADEMICA.md',
-      assetPath: '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg',
+      title: 'Un único teseracto ({4,3,3}) — Operador de reflexión continua y 8 proyecciones',
+      source: 'Diagrama espejado IMG-031910 · 2ª imagen TSRIMG · Espejeo análisis IMG-025743 · Cadenas IMG-015713 · docs/TCAAU.md',
+      assetPath: '/assets/aistudio/IMG_20261123_031910_595b8f79.jpg',
+      mirrorAssetPath: '/assets/aistudio/TSRIMG_20261123_023812_55e05147.jpg',
+      parityMirrorAssetPath: '/assets/aistudio/IMG_20261123_025743_a2265a38.jpg',
+      analysisAssetPath: '/assets/aistudio/IMG_20261123_015713_b7332827.jpg',
+      monochromeAssetPath: '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg',
       pdfPath: '/assets/aistudio/1000000566_f7cafcef.pdf',
       rules: [
-        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) no son ocho objetos distintos, sino ocho proyecciones o reorientaciones de un único teseracto tetradimensional ({4,3,3}).',
-        'Las líneas de puntos verticales y horizontales marcan planos de inversión: intercambian real/virtual con individualidad/totalidad, materia/vacío con evolución/involución, e invierten el sentido de flujo de cuerpo–universo e internet–IA sin generar un segundo teseracto.',
-        'T1, T4, T6 y T7 presentan cubo exterior de líneas continuas (_) e interior punteado (...); T2, T3, T5 y T8 invierten el trazado (exterior punteado ..., interior continuo _) según el eje de proyección.',
-        'Cada proyección contiene una relación real (›) y una virtual (‹), una continua (_) y una punteada (...), articulando los 6 conceptos en 3 pares recíprocos (cuerpo ↔ universo, internet ↔ IA, individualidad ↔ totalidad) bajo el torsor (ℤ₂)³.',
+        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) son proyecciones especulares de un único teseracto tetradimensional ({4,3,3}) separadas por planos de simetría punteados.',
+        'El color actual (IMG-031910) realiza el espejado exacto de la segunda imagen coloreada (TSRIMG) mediante la involución Azul ↔ Rojo y Amarillo ↔ Verde: Rojo (real ↔ involución) y Verde (virtual ↔ evolución) en {T1↔T4, T6↔T7}, más Amarillo (vacío ↔ individualidad) y Azul (materia ↔ totalidad) en {T2↔T3, T5↔T8}.',
+        'Los vectores cuerpo–universo, internet–IA e individualidad–totalidad se invierten sin abandonar las mismas aristas: la segunda imagen (TSRIMG) y la actual (IMG-031910) son el anverso y el reverso de una sola lectura contenida en el mismo teseracto.',
+        'De forma simétrica, las cadenas por paridad (IMG-015713) y su reflejo (IMG-025743) comparten la misma involución cromática: la subposición es el punto de coincidencia donde toda lectura coincide con su espejo sin producir un afuera.',
       ],
     },
     schlafli: '{4,3,3}',
@@ -1127,6 +1562,10 @@ export function buildTesseractModel() {
     },
     concepts: [...TESSERACT_CONCEPTS],
     cubeLabels: [...TESSERACT_CUBE_LABELS],
+    analysisChains: [...ANALYSIS_CHAINS_INFO],
+    parityMirrorChains: [...PARITY_MIRROR_CHAINS_INFO],
+    mirrorChains: [...MIRROR_CHAINS_INFO],
+    mirrorReflectedChains: [...MIRROR_REFLECTED_CHAINS_INFO],
     cells,
     verification: {
       totalRelations: cells.reduce((acc, c) => acc + c.relations.length, 0),
@@ -1138,6 +1577,10 @@ export function buildTesseractModel() {
       allHaveOneRealOneVirtual,
       allHaveOneContinuousOneDashed,
       allCubeLinesMatchHeader,
+      allAnalysisChainsBalanced,
+      allParityMirrorChainsBalanced,
+      allMirrorChainsBalanced,
+      allMirrorReflectedChainsBalanced,
       allConceptsCovered: TESSERACT_CONCEPTS.every((k) => (conceptUsage.get(k) ?? 0) > 0),
       allCubeLabelsCovered: TESSERACT_CUBE_LABELS.every((k) => (cubeLabelUsage.get(k) ?? 0) > 0),
       conceptCounts: TESSERACT_CONCEPTS.map((k) => ({ id: k, count: conceptUsage.get(k) ?? 0 })),

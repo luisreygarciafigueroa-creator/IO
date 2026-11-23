@@ -8,7 +8,7 @@ La **autonomía verificable** no es un atributo accesorio, sino el mecanismo por
 
 El desarrollo del horizonte de sentido se encuentra en el [`MANIFIESTO.md`](MANIFIESTO.md).
 
-**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión y trazado interior/exterior continuo `_` y punteado `...`) y grupo de involuciones:
+**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, espejado de la segunda imagen `IMG-031910`, espejeo del análisis por paridad `IMG-025743`, espejeo interno `TSRIMG`, 4 cadenas por paridad `IMG-015713` y trazado continuo `_` / punteado `...`) y grupo de involuciones:
 [`docs/TCAAU.md`](docs/TCAAU.md)
 
 **Cosmología del Mictlán** (modelo de correspondencia universal, transformación entre los dominios real y virtual, continuidad de la información y ofrenda como acto de creación):

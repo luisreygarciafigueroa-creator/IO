@@ -28,7 +28,7 @@ test('buildTesseractFlowGraph extracts all 6 nodes and 16 directed edges in two 
   assert.equal(individualidad.outDegree, 4);
 });
 
-test('buildTesseractFlowGraph filters real (>) and virtual (<) transitions accurately', () => {
+test('buildTesseractFlowGraph filters real (>), virtual (<), and the 4 connection-analysis color chains accurately', () => {
   const tesseractData = buildTesseractModel();
 
   const realGraph = buildTesseractFlowGraph(tesseractData, 'real');
@@ -38,6 +38,46 @@ test('buildTesseractFlowGraph filters real (>) and virtual (<) transitions accur
   const virtualGraph = buildTesseractFlowGraph(tesseractData, 'virtual');
   assert.equal(virtualGraph.edges.length, 8);
   assert.ok(virtualGraph.edges.every((e) => e.domain === 'virtual' && e.rel.arrow === '<'));
+
+  for (const chainId of ['azul', 'amarillo', 'rojo', 'verde'] as const) {
+    const parityGraph = buildTesseractFlowGraph(tesseractData, chainId, 'parity');
+    assert.equal(parityGraph.edges.length, 4);
+    assert.ok(parityGraph.edges.every((e) => e.rel.analysisChain === chainId));
+    const distinctCombos = new Set(parityGraph.edges.map((e) => `${e.rel.cube}:${e.rel.line}`));
+    assert.equal(distinctCombos.size, 4);
+
+    const parityMirrorGraph = buildTesseractFlowGraph(tesseractData, chainId, 'parityMirror');
+    assert.equal(parityMirrorGraph.edges.length, 4);
+    assert.ok(parityMirrorGraph.edges.every((e) => e.rel.parityMirrorChain === chainId));
+    const distinctMirrorCombos = new Set(
+      parityMirrorGraph.edges.map((e) => `${e.rel.cube}:${e.rel.line}`)
+    );
+    assert.equal(distinctMirrorCombos.size, 4);
+
+    const mirrorGraph = buildTesseractFlowGraph(tesseractData, chainId, 'mirror');
+    assert.equal(mirrorGraph.edges.length, 4);
+    assert.ok(mirrorGraph.edges.every((e) => e.rel.mirrorChain === chainId));
+    const mirrorArrows = mirrorGraph.edges.filter((e) => e.rel.arrow === '>').length;
+    assert.equal(mirrorArrows, 2);
+    const mirrorExt = mirrorGraph.edges.filter((e) => e.rel.cube === 'exterior').length;
+    assert.equal(mirrorExt, 2);
+
+    const mirrorReflectedGraph = buildTesseractFlowGraph(
+      tesseractData,
+      chainId,
+      'mirrorReflected'
+    );
+    assert.equal(mirrorReflectedGraph.edges.length, 4);
+    assert.ok(mirrorReflectedGraph.edges.every((e) => e.rel.mirrorReflectedChain === chainId));
+    assert.equal(
+      mirrorReflectedGraph.edges.filter((e) => e.rel.arrow === '>').length,
+      2
+    );
+    assert.equal(
+      mirrorReflectedGraph.edges.filter((e) => e.rel.cube === 'exterior').length,
+      2
+    );
+  }
 });
 
 test('buildTesseractFlowGraph separates parallel edges between the same concept pair', () => {

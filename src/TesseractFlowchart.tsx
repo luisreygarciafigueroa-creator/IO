@@ -9,19 +9,32 @@ import {
   FLOW_NODE_WIDTH,
   FLOW_VIEWBOX_HEIGHT,
   FLOW_VIEWBOX_WIDTH,
+  type AnalysisChainColor,
   type FlowchartCell,
+  type FlowchartRelation,
   type FlowEdge,
   type FlowFilter,
   type FlowNode,
   type FlowchartTesseractData,
+  type TesseractColorMode,
 } from './tesseractFlowGraph';
 
-export type { FlowchartCell, FlowchartRelation, FlowchartTesseractData } from './tesseractFlowGraph';
+export type {
+  AnalysisChainColor,
+  FlowchartCell,
+  FlowchartRelation,
+  FlowchartTesseractData,
+  FlowFilter,
+  TesseractColorMode,
+} from './tesseractFlowGraph';
 
 interface TesseractFlowchartProps {
   tesseractData: FlowchartTesseractData;
   selectedCellId: string;
   onSelectCell: (cellId: string) => void;
+  flowFilter?: FlowFilter;
+  onFlowFilterChange?: (filter: FlowFilter) => void;
+  colorMode?: TesseractColorMode;
 }
 
 const NODE_COLORS: Record<FlowNode['role'], string> = {
@@ -44,8 +57,93 @@ const CUBE_LABEL_COLORS: Record<string, string> = {
   'involución': '#fb7185',
 };
 
+export const ANALYSIS_CHAIN_STYLES: Record<
+  AnalysisChainColor,
+  {
+    id: AnalysisChainColor;
+    label: string;
+    stroke: string;
+    text: string;
+    bg: string;
+    border: string;
+    markerId: string;
+    schlegelMarkerId: string;
+    arrowGlyph: '›' | '‹';
+    parityLabel: string;
+  }
+> = {
+  azul: {
+    id: 'azul',
+    label: 'Azul',
+    stroke: '#60a5fa',
+    text: '#93c5fd',
+    bg: 'rgba(59, 130, 246, 0.14)',
+    border: 'rgba(96, 165, 250, 0.45)',
+    markerId: 'd3-flow-azul',
+    schlegelMarkerId: 'schlegel-azul',
+    arrowGlyph: '›',
+    parityLabel: 'Paridad 0',
+  },
+  amarillo: {
+    id: 'amarillo',
+    label: 'Amarillo',
+    stroke: '#facc15',
+    text: '#fef08a',
+    bg: 'rgba(234, 179, 8, 0.14)',
+    border: 'rgba(250, 204, 21, 0.45)',
+    markerId: 'd3-flow-amarillo',
+    schlegelMarkerId: 'schlegel-amarillo',
+    arrowGlyph: '‹',
+    parityLabel: 'Paridad 0',
+  },
+  rojo: {
+    id: 'rojo',
+    label: 'Rojo',
+    stroke: '#f87171',
+    text: '#fca5a5',
+    bg: 'rgba(239, 68, 68, 0.14)',
+    border: 'rgba(248, 113, 113, 0.45)',
+    markerId: 'd3-flow-rojo',
+    schlegelMarkerId: 'schlegel-rojo',
+    arrowGlyph: '‹',
+    parityLabel: 'Paridad 1',
+  },
+  verde: {
+    id: 'verde',
+    label: 'Verde',
+    stroke: '#4ade80',
+    text: '#86efac',
+    bg: 'rgba(34, 197, 94, 0.14)',
+    border: 'rgba(74, 222, 128, 0.45)',
+    markerId: 'd3-flow-verde',
+    schlegelMarkerId: 'schlegel-verde',
+    arrowGlyph: '›',
+    parityLabel: 'Paridad 1',
+  },
+};
+
 export function getCubeLabelColor(label: string): string {
   return CUBE_LABEL_COLORS[label] ?? '#94a3b8';
+}
+
+export function getAnalysisChainColor(
+  chain?: AnalysisChainColor,
+  fallbackDomain?: 'real' | 'virtual'
+): string {
+  if (chain && ANALYSIS_CHAIN_STYLES[chain]) {
+    return ANALYSIS_CHAIN_STYLES[chain].stroke;
+  }
+  return fallbackDomain === 'virtual' ? '#f59e0b' : '#38bdf8';
+}
+
+export function getAnalysisChainTextColor(
+  chain?: AnalysisChainColor,
+  fallbackDomain?: 'real' | 'virtual'
+): string {
+  if (chain && ANALYSIS_CHAIN_STYLES[chain]) {
+    return ANALYSIS_CHAIN_STYLES[chain].text;
+  }
+  return fallbackDomain === 'virtual' ? '#fcd34d' : '#7dd3fc';
 }
 
 export const CubeGlyph: React.FC<{
@@ -94,10 +192,73 @@ export const CubeGlyph: React.FC<{
   );
 };
 
-export const TesseractMiniSchlegel: React.FC<{ cell: FlowchartCell }> = ({ cell }) => {
+function getCellExtChain(
+  cell: FlowchartCell,
+  colorMode: TesseractColorMode
+): AnalysisChainColor | undefined {
+  if (colorMode === 'mirrorReflected') {
+    return cell.exteriorMirrorReflectedChain ?? cell.exteriorMirrorChain ?? cell.exteriorChain;
+  }
+  if (colorMode === 'parityMirror') {
+    return cell.exteriorParityMirrorChain ?? cell.exteriorMirrorChain ?? cell.exteriorChain;
+  }
+  if (colorMode === 'mirror') {
+    return cell.exteriorMirrorChain ?? cell.exteriorChain;
+  }
+  return cell.exteriorChain;
+}
+
+function getCellIntChain(
+  cell: FlowchartCell,
+  colorMode: TesseractColorMode
+): AnalysisChainColor | undefined {
+  if (colorMode === 'mirrorReflected') {
+    return cell.interiorMirrorReflectedChain ?? cell.interiorMirrorChain ?? cell.interiorChain;
+  }
+  if (colorMode === 'parityMirror') {
+    return cell.interiorParityMirrorChain ?? cell.interiorMirrorChain ?? cell.interiorChain;
+  }
+  if (colorMode === 'mirror') {
+    return cell.interiorMirrorChain ?? cell.interiorChain;
+  }
+  return cell.interiorChain;
+}
+
+function getRelationChain(
+  rel: FlowchartRelation,
+  colorMode: TesseractColorMode
+): AnalysisChainColor | undefined {
+  if (colorMode === 'mirrorReflected') {
+    return rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.analysisChain;
+  }
+  if (colorMode === 'parityMirror') {
+    return rel.parityMirrorChain ?? rel.mirrorChain ?? rel.analysisChain;
+  }
+  if (colorMode === 'mirror') {
+    return rel.mirrorChain ?? rel.analysisChain;
+  }
+  return rel.analysisChain;
+}
+
+export const TesseractMiniSchlegel: React.FC<{
+  cell: FlowchartCell;
+  colorMode?: TesseractColorMode;
+}> = ({ cell, colorMode = 'mirrorReflected' }) => {
   const geom = useMemo(() => buildSchlegelCubeWireframe(90, 58, 34, 15, 16, -9), []);
-  const extColor = getCubeLabelColor(cell.exteriorLabel);
-  const intColor = getCubeLabelColor(cell.interiorLabel);
+  const extChain = getCellExtChain(cell, colorMode);
+  const intChain = getCellIntChain(cell, colorMode);
+  const extColor = extChain
+    ? getAnalysisChainColor(extChain)
+    : getCubeLabelColor(cell.exteriorLabel);
+  const extTextColor = extChain
+    ? getAnalysisChainTextColor(extChain)
+    : extColor;
+  const intColor = intChain
+    ? getAnalysisChainColor(intChain)
+    : getCubeLabelColor(cell.interiorLabel);
+  const intTextColor = intChain
+    ? getAnalysisChainTextColor(intChain)
+    : intColor;
 
   return (
     <svg
@@ -106,14 +267,14 @@ export const TesseractMiniSchlegel: React.FC<{ cell: FlowchartCell }> = ({ cell 
       role="img"
       aria-label={`Teseracto ${cell.id}: cubo exterior ${cell.exteriorLabel} ${
         cell.exteriorLine === '_' ? 'continuo' : 'punteado'
-      }, cubo interior ${cell.interiorLabel} ${
+      }${extChain ? ` (${extChain})` : ''}, cubo interior ${cell.interiorLabel} ${
         cell.interiorLine === '_' ? 'continuo' : 'punteado'
-      }`}
+      }${intChain ? ` (${intChain})` : ''}`}
     >
-      <text x="8" y="14" fill={extColor} fontSize="8.5" fontFamily="monospace">
+      <text x="8" y="14" fill={extTextColor} fontSize="8.5" fontFamily="monospace">
         ext: {cell.exteriorLabel} ({cell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
       </text>
-      <text x="172" y="108" textAnchor="end" fill={intColor} fontSize="8.5" fontFamily="monospace">
+      <text x="172" y="108" textAnchor="end" fill={intTextColor} fontSize="8.5" fontFamily="monospace">
         int: {cell.interiorLabel} ({cell.interiorLine === '_' ? 'continuas' : 'punteadas'})
       </text>
       {geom.strutEdges.map((s, idx) => (
@@ -164,8 +325,13 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
   tesseractData,
   selectedCellId,
   onSelectCell,
+  flowFilter: controlledFlowFilter,
+  onFlowFilterChange,
+  colorMode = 'mirrorReflected',
 }) => {
-  const [flowFilter, setFlowFilter] = useState<FlowFilter>('all');
+  const [internalFlowFilter, setInternalFlowFilter] = useState<FlowFilter>('all');
+  const flowFilter = controlledFlowFilter ?? internalFlowFilter;
+  const setFlowFilter = onFlowFilterChange ?? setInternalFlowFilter;
   const [focusedConcept, setFocusedConcept] = useState<string | null>(null);
   const [hoveredEdge, setHoveredEdge] = useState<FlowEdge | null>(null);
 
@@ -174,14 +340,23 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
   const customPositionsRef = useRef<Map<string, { x: number; y: number }>>(new Map());
   const [layoutVersion, setLayoutVersion] = useState(0);
 
+  const isChainFilter =
+    flowFilter === 'azul' ||
+    flowFilter === 'amarillo' ||
+    flowFilter === 'rojo' ||
+    flowFilter === 'verde';
+
+  const getRelChain = (rel: FlowchartRelation): AnalysisChainColor | undefined =>
+    getRelationChain(rel, colorMode);
+
   const selectedCell = useMemo(
     () => tesseractData.cells.find((c) => c.id === selectedCellId) ?? tesseractData.cells[0],
     [tesseractData.cells, selectedCellId]
   );
 
   const baseGraph = useMemo(
-    () => buildTesseractFlowGraph(tesseractData, flowFilter),
-    [tesseractData, flowFilter]
+    () => buildTesseractFlowGraph(tesseractData, flowFilter, colorMode),
+    [tesseractData, flowFilter, colorMode]
   );
 
   // Build local concept set of the selected cell
@@ -241,6 +416,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
       };
       addMarker('d3-flow-real', '#38bdf8');
       addMarker('d3-flow-virtual', '#f59e0b');
+      (Object.values(ANALYSIS_CHAIN_STYLES)).forEach((st) => {
+        addMarker(st.markerId, st.stroke);
+      });
     }
 
     let viewport = svg.select<SVGGElement>('g.d3-viewport');
@@ -370,16 +548,22 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           FLOW_NODE_HEIGHT
         );
         const highlighted = isEdgeHighlighted(d);
-        const color = d.rel.domain === 'real' ? '#38bdf8' : '#f59e0b';
-        const marker = d.rel.domain === 'real' ? 'url(#d3-flow-real)' : 'url(#d3-flow-virtual)';
+        const chain = getRelationChain(d.rel, colorMode);
+        const color = getAnalysisChainColor(chain, d.rel.domain);
+        const marker = chain
+          ? `url(#${ANALYSIS_CHAIN_STYLES[chain].markerId})`
+          : d.rel.domain === 'real'
+          ? 'url(#d3-flow-real)'
+          : 'url(#d3-flow-virtual)';
+        const strokeOpacity = highlighted ? 0.98 : isChainFilter ? 0.72 : 0.38;
 
         const sel = d3.select(this);
         sel
           .select<SVGPathElement>('path.d3-link-visible')
           .attr('d', geom.path)
           .attr('stroke', color)
-          .attr('stroke-width', highlighted ? 2.8 : 1.35)
-          .attr('stroke-opacity', highlighted ? 0.98 : 0.34)
+          .attr('stroke-width', highlighted ? 2.8 : isChainFilter ? 2.0 : 1.35)
+          .attr('stroke-opacity', strokeOpacity)
           .attr('stroke-dasharray', d.rel.line === '...' ? '5 4' : null)
           .attr('marker-end', marker);
 
@@ -399,17 +583,19 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           FLOW_NODE_HEIGHT
         );
         const highlighted = isEdgeHighlighted(d);
-        const color = d.rel.domain === 'real' ? '#38bdf8' : '#f59e0b';
+        const chain = getRelationChain(d.rel, colorMode);
+        const color = getAnalysisChainColor(chain, d.rel.domain);
+        const badgeOpacity = highlighted ? '1' : isChainFilter ? '0.88' : '0';
 
         const badge = d3.select(this);
         badge
           .attr('transform', `translate(${geom.labelX.toFixed(1)}, ${geom.labelY.toFixed(1)})`)
-          .style('opacity', highlighted ? '1' : '0');
+          .style('opacity', badgeOpacity);
         badge
           .select('rect')
           .attr('fill', '#020617')
           .attr('stroke', color)
-          .attr('stroke-width', 1);
+          .attr('stroke-width', highlighted ? 1.2 : 0.9);
         badge.select('text').attr('fill', color).text(d.cellId);
       });
     };
@@ -507,7 +693,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
     nodeGroups.call(dragBehavior);
     updatePositions();
-  }, [baseGraph, selectedCell, selectedCellConcepts, focusedConcept, layoutVersion]);
+  }, [baseGraph, selectedCell, selectedCellConcepts, focusedConcept, isChainFilter, colorMode, layoutVersion]);
 
   const handleResetLayout = () => {
     customPositionsRef.current.clear();
@@ -523,23 +709,60 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
   if (!selectedCell) return null;
 
+  const isFrameMirrorMode = colorMode === 'mirror' || colorMode === 'mirrorReflected';
+
+  const chainOrder: readonly AnalysisChainColor[] =
+    colorMode === 'mirrorReflected'
+      ? ['rojo', 'verde', 'amarillo', 'azul']
+      : colorMode === 'parityMirror'
+      ? ['rojo', 'verde', 'azul', 'amarillo']
+      : colorMode === 'mirror'
+      ? ['azul', 'amarillo', 'verde', 'rojo']
+      : ['azul', 'amarillo', 'rojo', 'verde'];
+
+  const parityMirrorArrowByChain: Record<AnalysisChainColor, '›' | '‹'> = {
+    rojo: '›',
+    verde: '‹',
+    azul: '‹',
+    amarillo: '›',
+  };
+
+  const parityMirrorParityByChain: Record<AnalysisChainColor, string> = {
+    rojo: 'Paridad 0',
+    verde: 'Paridad 0',
+    azul: 'Paridad 1',
+    amarillo: 'Paridad 1',
+  };
+
   return (
     <section className="bg-slate-900/70 border border-slate-800 rounded-xl p-5 space-y-5">
-      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-3">
         <div className="min-w-0">
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <GitCommitHorizontal className="w-4 h-4 text-sky-400" />
-            Diagrama de Flujo D3: Transiciones Reales (›) y Virtuales (‹)
+            {colorMode === 'mirrorReflected'
+              ? 'Diagrama de Flujo D3: Espejado de la 2ª Imagen (Anverso/Reverso) y Transiciones Real (›) / Virtual (‹)'
+              : colorMode === 'parityMirror'
+              ? 'Diagrama de Flujo D3: Espejeo del Análisis (Anverso/Reverso) y Transiciones Real (›) / Virtual (‹)'
+              : colorMode === 'mirror'
+              ? 'Diagrama de Flujo D3: Espejeo Interno del Teseracto y Transiciones Real (›) / Virtual (‹)'
+              : 'Diagrama de Flujo D3: 4 Cadenas de Análisis por Paridad y Transiciones Real (›) / Virtual (‹)'}
           </h3>
           <p className="text-xs text-slate-400 mt-1">
             Renderizado dinámicamente con <code className="text-sky-300">d3</code> desde{' '}
             <code className="text-sky-300">tesseractData</code> ({baseGraph.nodes.length} conceptos,{' '}
-            {baseGraph.edges.length} transiciones activas). Arrastra nodos, haz clic en un concepto o
-            arista para inspeccionar.
+            {baseGraph.edges.length} transiciones activas).{' '}
+            {colorMode === 'mirrorReflected'
+              ? 'El color espeja exactamente la segunda imagen TSRIMG (Azul ↔ Rojo, Amarillo ↔ Verde) como anverso y reverso del mismo teseracto.'
+              : colorMode === 'parityMirror'
+              ? 'El color refleja sistemáticamente el análisis previo (Azul ↔ Rojo, Amarillo ↔ Verde) como anverso y reverso del mismo objeto.'
+              : colorMode === 'mirror'
+              ? 'El color revela los pares reflejados horizontalmente y cruzados entre mitades.'
+              : 'El color señala únicamente la trayectoria de análisis cerrada por paridad.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           <div className="inline-flex shrink-0 rounded-lg border border-slate-800 bg-slate-950 p-0.5 text-xs">
             {(
               [
@@ -561,6 +784,49 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
               </button>
             ))}
           </div>
+          <div className="inline-flex flex-wrap shrink-0 rounded-lg border border-slate-800 bg-slate-950 p-0.5 text-xs">
+            {chainOrder.map((chainId) => {
+              const st = ANALYSIS_CHAIN_STYLES[chainId];
+              const active = flowFilter === chainId;
+              const arrowGlyph =
+                colorMode === 'parityMirror'
+                  ? parityMirrorArrowByChain[chainId]
+                  : st.arrowGlyph;
+              const parityLabel =
+                colorMode === 'parityMirror'
+                  ? parityMirrorParityByChain[chainId]
+                  : st.parityLabel;
+              return (
+                <button
+                  key={chainId}
+                  onClick={() => setFlowFilter(active ? 'all' : chainId)}
+                  style={
+                    active
+                      ? { backgroundColor: st.bg, color: st.text, borderColor: st.border }
+                      : undefined
+                  }
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md font-medium whitespace-nowrap border transition cursor-pointer ${
+                    active ? '' : 'border-transparent text-slate-400 hover:text-slate-200'
+                  }`}
+                  title={
+                    colorMode === 'mirrorReflected'
+                      ? `${st.label} (espejado 2ª imagen · 2 › / 2 ‹)`
+                      : colorMode === 'mirror'
+                      ? `${st.label} (espejo interno · 2 › / 2 ‹)`
+                      : `${st.label} (${parityLabel}, flecha ${arrowGlyph})`
+                  }
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: st.stroke }}
+                  />
+                  {isFrameMirrorMode
+                    ? `${st.label} (4)`
+                    : `${st.label} ${arrowGlyph} (4)`}
+                </button>
+              );
+            })}
+          </div>
           <button
             onClick={handleResetLayout}
             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 whitespace-nowrap cursor-pointer"
@@ -580,6 +846,24 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
               Red D3 ({baseGraph.nodes.length} nodos · {baseGraph.edges.length} aristas)
             </span>
             <div className="flex items-center gap-2">
+              {isChainFilter && (
+                <span
+                  className="px-2 py-0.5 rounded border text-[10px]"
+                  style={{
+                    color: ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].text,
+                    backgroundColor: ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].bg,
+                    borderColor: ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].border,
+                  }}
+                >
+                  {colorMode === 'mirrorReflected'
+                    ? `Espejado ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · 2 › / 2 ‹`
+                    : colorMode === 'parityMirror'
+                    ? `Reflejo ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · ${parityMirrorParityByChain[flowFilter as AnalysisChainColor]}`
+                    : colorMode === 'mirror'
+                    ? `Espejo ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · 2 › / 2 ‹`
+                    : `Cadena ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].label} · ${ANALYSIS_CHAIN_STYLES[flowFilter as AnalysisChainColor].parityLabel}`}
+                </span>
+              )}
               {focusedConcept && (
                 <button
                   onClick={() => setFocusedConcept(null)}
@@ -597,25 +881,32 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             viewBox={`0 0 ${FLOW_VIEWBOX_WIDTH} ${FLOW_VIEWBOX_HEIGHT}`}
             className="w-full h-auto select-none rounded-lg bg-slate-950/60"
             role="img"
-            aria-label="Diagrama de flujo D3 de transiciones de evolución e involución"
+            aria-label="Diagrama de flujo D3 del teseracto único"
           />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="flex items-center gap-1.5">
-                <span className="w-4 h-0.5 bg-sky-400 inline-block" /> real (&gt;)
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-4 h-0.5 bg-amber-400 inline-block" /> virtual (&lt;)
-              </span>
-              <span className="flex items-center gap-1.5 text-slate-400">
-                continuas (_) / punteadas (...)
-              </span>
+            <div className="flex flex-wrap items-center gap-3">
+              {chainOrder.map((chainId) => {
+                const st = ANALYSIS_CHAIN_STYLES[chainId];
+                const arrowGlyph =
+                  colorMode === 'parityMirror'
+                    ? parityMirrorArrowByChain[chainId]
+                    : st.arrowGlyph;
+                return (
+                  <span key={chainId} className="inline-flex items-center gap-1.5">
+                    <span className="w-3.5 h-0.5 inline-block" style={{ backgroundColor: st.stroke }} />
+                    <span style={{ color: st.text }}>
+                      {isFrameMirrorMode ? chainId : `${chainId} (${arrowGlyph})`}
+                    </span>
+                  </span>
+                );
+              })}
+              <span className="text-slate-400">· _ / ...</span>
             </div>
             {hoveredEdge ? (
               <span className="text-slate-200 truncate">
                 {hoveredEdge.cellId} ({hoveredEdge.rel.cubeLabel}): {hoveredEdge.rel.notation} [
-                {hoveredEdge.rel.cube} · {hoveredEdge.rel.domain}]
+                {getRelChain(hoveredEdge.rel) ?? hoveredEdge.rel.domain}]
               </span>
             ) : (
               <span className="text-slate-500 whitespace-nowrap">
@@ -629,43 +920,82 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
         <div className="xl:col-span-5 bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <div className="text-[11px] font-mono text-slate-400">{selectedCell.half}</div>
+              <div className="text-[11px] font-mono text-slate-400">
+                {selectedCell.half} · espejo horizontal ↔ {selectedCell.neighbors.horizontal}
+              </div>
               <h4 className="text-sm font-semibold font-mono text-white">
                 {selectedCell.id} · {selectedCell.axisPair}
               </h4>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-              <span
-                className="px-2 py-0.5 rounded border bg-slate-900/90"
-                style={{
-                  color: getCubeLabelColor(selectedCell.exteriorLabel),
-                  borderColor: `${getCubeLabelColor(selectedCell.exteriorLabel)}55`,
-                }}
-              >
-                ext: {selectedCell.exteriorLabel} ({selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
-              </span>
-              <span
-                className="px-2 py-0.5 rounded border bg-slate-900/90"
-                style={{
-                  color: getCubeLabelColor(selectedCell.interiorLabel),
-                  borderColor: `${getCubeLabelColor(selectedCell.interiorLabel)}55`,
-                }}
-              >
-                int: {selectedCell.interiorLabel} ({selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'})
-              </span>
-            </div>
+            {(() => {
+              const extChain = getCellExtChain(selectedCell, colorMode);
+              const intChain = getCellIntChain(selectedCell, colorMode);
+              return (
+                <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+                  <span
+                    className="px-2 py-0.5 rounded border bg-slate-900/90"
+                    style={{
+                      color: extChain
+                        ? getAnalysisChainTextColor(extChain)
+                        : getCubeLabelColor(selectedCell.exteriorLabel),
+                      borderColor: `${
+                        extChain
+                          ? getAnalysisChainColor(extChain)
+                          : getCubeLabelColor(selectedCell.exteriorLabel)
+                      }66`,
+                    }}
+                  >
+                    ext: {selectedCell.exteriorLabel} ({selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'})
+                  </span>
+                  <span
+                    className="px-2 py-0.5 rounded border bg-slate-900/90"
+                    style={{
+                      color: intChain
+                        ? getAnalysisChainTextColor(intChain)
+                        : getCubeLabelColor(selectedCell.interiorLabel),
+                      borderColor: `${
+                        intChain
+                          ? getAnalysisChainColor(intChain)
+                          : getCubeLabelColor(selectedCell.interiorLabel)
+                      }66`,
+                    }}
+                  >
+                    int: {selectedCell.interiorLabel} ({selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'})
+                  </span>
+                </div>
+              );
+            })()}
           </div>
 
           {(() => {
             const schlegel = buildSchlegelCubeWireframe(210, 152, 56, 25, 24, -14);
-            const extColor = getCubeLabelColor(selectedCell.exteriorLabel);
-            const intColor = getCubeLabelColor(selectedCell.interiorLabel);
+            const extChain = getCellExtChain(selectedCell, colorMode);
+            const intChain = getCellIntChain(selectedCell, colorMode);
+            const extColor = extChain
+              ? getAnalysisChainColor(extChain)
+              : getCubeLabelColor(selectedCell.exteriorLabel);
+            const extTextColor = extChain
+              ? getAnalysisChainTextColor(extChain)
+              : extColor;
+            const intColor = intChain
+              ? getAnalysisChainColor(intChain)
+              : getCubeLabelColor(selectedCell.interiorLabel);
+            const intTextColor = intChain
+              ? getAnalysisChainTextColor(intChain)
+              : intColor;
             const extRel = selectedCell.relations.find((r) => r.cube === 'exterior') ?? selectedCell.relations[0];
             const intRel = selectedCell.relations.find((r) => r.cube === 'interior') ?? selectedCell.relations[1];
 
             const renderTransitionRow = (rel: typeof extRel, y: number, label: string) => {
               if (!rel) return null;
-              const stroke = rel.domain === 'real' ? '#38bdf8' : '#f59e0b';
+              const chain = getRelChain(rel);
+              const stroke = getAnalysisChainColor(chain, rel.domain);
+              const textColor = getAnalysisChainTextColor(chain, rel.domain);
+              const markerEnd = chain
+                ? `url(#${ANALYSIS_CHAIN_STYLES[chain].schlegelMarkerId})`
+                : rel.domain === 'real'
+                ? 'url(#schlegel-real)'
+                : 'url(#schlegel-virtual)';
               const isRight = rel.arrow === '>';
               return (
                 <g key={`${rel.cube}-${rel.notation}`}>
@@ -673,7 +1003,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     x="210"
                     y={y - 22}
                     textAnchor="middle"
-                    fill={stroke}
+                    fill={textColor}
                     fontSize="9.5"
                     fontFamily="monospace"
                   >
@@ -709,9 +1039,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     strokeWidth="2.2"
                     strokeLinecap="round"
                     strokeDasharray={rel.line === '...' ? '3 5' : undefined}
-                    markerEnd={rel.domain === 'real' ? 'url(#schlegel-real)' : 'url(#schlegel-virtual)'}
+                    markerEnd={markerEnd}
                   />
-                  {/* Inline mini 3D cube glyph (solid vs dashed) mirroring TSST_20261123_003603 diagram */}
+                  {/* Inline mini 3D cube glyph (solid vs dashed) mirroring IMG_20261123_015713 diagram */}
                   <g transform={`translate(201, ${y - 9})`}>
                     <rect
                       x="-2"
@@ -788,11 +1118,12 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     x="210"
                     y={y + 20}
                     textAnchor="middle"
-                    fill={stroke}
+                    fill={textColor}
                     fontSize="9"
                     fontFamily="monospace"
                   >
-                    {rel.arrow === '>' ? '→ real →' : '← virtual ←'}
+                    {rel.arrow === '>' ? '→ real' : '← virtual'}
+                    {chain ? ` · ${chain}` : ''}
                   </text>
                   <rect
                     x="292"
@@ -849,13 +1180,27 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   >
                     <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b" />
                   </marker>
+                  {Object.values(ANALYSIS_CHAIN_STYLES).map((st) => (
+                    <marker
+                      key={st.schlegelMarkerId}
+                      id={st.schlegelMarkerId}
+                      viewBox="0 0 10 10"
+                      refX="8"
+                      refY="5"
+                      markerWidth="6"
+                      markerHeight="6"
+                      orient="auto-start-reverse"
+                    >
+                      <path d="M 0 1 L 10 5 L 0 9 z" fill={st.stroke} />
+                    </marker>
+                  ))}
                 </defs>
 
                 {renderTransitionRow(
                   extRel,
                   36,
                   `cubo exterior · ${selectedCell.exteriorLabel} (${
-                    selectedCell.exteriorLine === '_' ? 'líneas continuas _' : 'líneas punteadas ...'
+                    selectedCell.exteriorLine === '_' ? 'continuas _' : 'punteadas ...'
                   })`
                 )}
 
@@ -912,10 +1257,10 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 </g>
 
                 {/* Lateral callout annotations pointing cleanly to outer & inner cubes */}
-                <text x="16" y="142" fill={extColor} fontSize="9.5" fontFamily="monospace">
+                <text x="16" y="142" fill={extTextColor} fontSize="9.5" fontFamily="monospace">
                   cubo exterior
                 </text>
-                <text x="16" y="155" fill={extColor} fontSize="9" fontFamily="monospace" opacity="0.85">
+                <text x="16" y="155" fill={extTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
                   {selectedCell.exteriorLabel} · {selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
@@ -925,14 +1270,14 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   y2="146"
                   stroke={extColor}
                   strokeWidth="1"
-                  strokeOpacity="0.65"
+                  strokeOpacity="0.7"
                   strokeDasharray={selectedCell.exteriorLine === '...' ? '2 3' : undefined}
                 />
 
-                <text x="404" y="142" textAnchor="end" fill={intColor} fontSize="9.5" fontFamily="monospace">
+                <text x="404" y="142" textAnchor="end" fill={intTextColor} fontSize="9.5" fontFamily="monospace">
                   cubo interior
                 </text>
-                <text x="404" y="155" textAnchor="end" fill={intColor} fontSize="9" fontFamily="monospace" opacity="0.85">
+                <text x="404" y="155" textAnchor="end" fill={intTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
                   {selectedCell.interiorLabel} · {selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
@@ -942,7 +1287,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   y2="146"
                   stroke={intColor}
                   strokeWidth="1"
-                  strokeOpacity="0.65"
+                  strokeOpacity="0.7"
                   strokeDasharray={selectedCell.interiorLine === '...' ? '2 3' : undefined}
                 />
 
@@ -950,7 +1295,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   intRel,
                   268,
                   `cubo interior · ${selectedCell.interiorLabel} (${
-                    selectedCell.interiorLine === '_' ? 'líneas continuas _' : 'líneas punteadas ...'
+                    selectedCell.interiorLine === '_' ? 'continuas _' : 'punteadas ...'
                   })`
                 )}
               </svg>
@@ -960,7 +1305,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3 text-xs space-y-2 font-mono">
             <div className="text-slate-400 text-[11px]">Proyección {selectedCell.id} del teseracto único:</div>
             {selectedCell.relations.map((rel) => {
-              const glyphColor = rel.domain === 'real' ? '#38bdf8' : '#f59e0b';
+              const chain = getRelChain(rel);
+              const glyphColor = getAnalysisChainColor(chain, rel.domain);
+              const textColor = getAnalysisChainTextColor(chain, rel.domain);
               const arrowGlyph = rel.arrow === '>' ? '→' : '←';
               return (
                 <div
@@ -969,17 +1316,14 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 >
                   <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-[11px]" aria-label={rel.notation}>
                     <span>{rel.left}</span>
-                    <span style={{ color: glyphColor }}>{arrowGlyph}</span>
+                    <span style={{ color: textColor }}>{arrowGlyph}</span>
                     <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={14} />
-                    <span style={{ color: glyphColor }}>{arrowGlyph}</span>
+                    <span style={{ color: textColor }}>{arrowGlyph}</span>
                     <span>{rel.right}</span>
                   </span>
-                  <span
-                    className={`text-[10.5px] whitespace-nowrap ${
-                      rel.domain === 'real' ? 'text-sky-300' : 'text-amber-300'
-                    }`}
-                  >
-                    {rel.cubeLabel} · {rel.cube} ({rel.line === '_' ? 'continuas' : 'punteadas'})
+                  <span className="text-[10.5px] whitespace-nowrap" style={{ color: textColor }}>
+                    {rel.cubeLabel} · {rel.cube}
+                    {chain ? ` · ${chain}` : ''}
                   </span>
                 </div>
               );
