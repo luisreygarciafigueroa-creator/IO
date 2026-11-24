@@ -719,7 +719,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
   );
   const isFrameMirrorMode = activeColoring
     ? activeColoring.family === 'mirror'
-    : colorMode === 'mirror' || colorMode === 'mirrorReflected' || colorMode === 'mirrorFrameSwap';
+    : colorMode.startsWith('mirror');
 
   const chainOrder: readonly AnalysisChainColor[] = activeColoring
     ? activeColoring.chains.map((c) => c.id)

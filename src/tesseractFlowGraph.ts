@@ -3,8 +3,13 @@ export type TesseractColorMode =
   | 'mirrorReflected'
   | 'mirror'
   | 'mirrorFrameSwap'
+  | 'mirrorFrameSwapMirror'
+  | 'mirrorSetTop'
+  | 'mirrorSetTopMirror'
   | 'parityPolarMirror'
   | 'parityPolarSwap'
+  | 'paritySetTop'
+  | 'paritySetBottom'
   | 'parityMirror'
   | 'parity';
 export type TesseractColoringFamily = 'mirror' | 'parity';

@@ -31,13 +31,17 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
     '/assets/aistudio/IMG_20261123_015713_b7332827.jpg'
   );
   assert.equal(
+    model.instruction.compositeSetAssetPath,
+    '/assets/aistudio/IMG_20261124_000207_382065f8.jpg'
+  );
+  assert.equal(
     model.instruction.monochromeAssetPath,
     '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg'
   );
   assert.equal(model.instruction.pdfPath, '/assets/aistudio/1000000566_f7cafcef.pdf');
-  assert.equal(model.instruction.colorAssets.length, 7);
+  assert.equal(model.instruction.colorAssets.length, 12);
   assert.equal(model.cells.length, 8);
-  assert.equal(model.colorings.length, 7);
+  assert.equal(model.colorings.length, 12);
   assert.equal(model.analysisChains.length, 4);
   assert.equal(model.parityMirrorChains.length, 4);
   assert.equal(model.mirrorChains.length, 4);
@@ -47,7 +51,7 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(model.verification.virtualArrowCount, 8);
   assert.equal(model.verification.continuousExtCount, 4);
   assert.equal(model.verification.dashedExtCount, 4);
-  assert.equal(model.verification.coloringsCount, 7);
+  assert.equal(model.verification.coloringsCount, 12);
   assert.equal(model.verification.allRealUseRightArrow, true);
   assert.equal(model.verification.allHaveOneRealOneVirtual, true);
   assert.equal(model.verification.allHaveOneContinuousOneDashed, true);
@@ -226,8 +230,16 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
     );
   }
 
+  const byColoringId = new Map(model.colorings.map((c) => [c.id, c]));
   for (const coloring of model.colorings) {
     assert.equal(coloring.balanced, true, `Coloring ${coloring.id} should be balanced`);
+    const partner = byColoringId.get(coloring.mirrorPartnerId);
+    assert.ok(partner, `Missing mirror partner for ${coloring.id}`);
+    assert.equal(
+      partner.mirrorPartnerId,
+      coloring.id,
+      `Partner link must be mutual between ${coloring.id} and ${partner.id}`
+    );
     for (const cell of model.cells) {
       for (const rel of cell.relations) {
         const mapped = coloring.involutionMap[rel.chains[coloring.id]];
@@ -239,6 +251,34 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
       }
     }
   }
+
+  // Spot-check the 5 new panels from IMG-000207 (#1, #2, #3, #6, #7) on T1 & T2
+  const t1 = model.cells[0];
+  const t2 = model.cells[1];
+  assert.equal(t1.exteriorChains.mirrorSetTop, 'rojo');
+  assert.equal(t1.interiorChains.mirrorSetTop, 'verde');
+  assert.equal(t2.exteriorChains.mirrorSetTop, 'azul');
+  assert.equal(t2.interiorChains.mirrorSetTop, 'amarillo');
+
+  assert.equal(t1.exteriorChains.mirrorSetTopMirror, 'azul');
+  assert.equal(t1.interiorChains.mirrorSetTopMirror, 'amarillo');
+  assert.equal(t2.exteriorChains.mirrorSetTopMirror, 'rojo');
+  assert.equal(t2.interiorChains.mirrorSetTopMirror, 'verde');
+
+  assert.equal(t1.exteriorChains.mirrorFrameSwapMirror, 'verde');
+  assert.equal(t1.interiorChains.mirrorFrameSwapMirror, 'rojo');
+  assert.equal(t2.exteriorChains.mirrorFrameSwapMirror, 'amarillo');
+  assert.equal(t2.interiorChains.mirrorFrameSwapMirror, 'azul');
+
+  assert.equal(t1.exteriorChains.paritySetTop, 'verde');
+  assert.equal(t1.interiorChains.paritySetTop, 'rojo');
+  assert.equal(t2.exteriorChains.paritySetTop, 'amarillo');
+  assert.equal(t2.interiorChains.paritySetTop, 'azul');
+
+  assert.equal(t1.exteriorChains.paritySetBottom, 'amarillo');
+  assert.equal(t1.interiorChains.paritySetBottom, 'azul');
+  assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
+  assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 });
 
 test('evaluatePairRule derives expected mirrorOf and creates relations', () => {

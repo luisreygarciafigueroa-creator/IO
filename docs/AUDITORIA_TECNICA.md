@@ -47,7 +47,7 @@ Desde la perspectiva de la ingeniería de ontologías y la semántica formal, re
 | Capa | Componentes / archivos clave | Tipo de prueba / herramienta | Afirmación legítima |
 |---|---|---|---|
 | Autonomía formal | `src/iomEngine.ts`, `data/iom_spec.json`, `src/iomEngine.test.ts` (legado `IOM/FormalRules.lean`) | `npm run lint`, `npx tsx --test`, `POST /api/invariance` | Solidez deductiva, punto fijo SHA-256 y ausencia de contradicción sin autoridad exterior. |
-| Estructural y geométrica | `src/tesseractFlowGraph.ts`, `src/tesseractFlowGraph.test.ts`, `ontology/` | `GET /api/tesseract`, `POST /api/rule-check`, pruebas unitarias | Conformidad extensional de las 390 aristas, las 8 celdas `{4,3,3}` y el grafo D3. |
+| Estructural y geométrica | `src/tesseractFlowGraph.ts`, `src/tesseractFlowGraph.test.ts`, `ontology/` | `GET /api/tesseract`, `POST /api/rule-check`, pruebas unitarias | Conformidad extensional de las 390 aristas, las 8 proyecciones del único teseracto `{4,3,3}` (12 coloraciones en 6 pares involutivos) y el grafo D3. |
 | Cartografía del tránsito | `experiments/domain_mapping/examples.json`, `COSMOLOGIA_DEL_MICTLAN.md` | `GET /api/domain-mapping` | Expresabilidad del sendero Mictlán / autonomía en trece tríadas. |
 | Diagnóstico sintético | Archivo histórico (`PI-HGAT-T` / líneas base) | Reconstrucción LOO documentada | Recuperabilidad de reglas inyectadas; no validez empírica mundana. |
 | Residuo interanotador | `datasets/independent_eval/`, `src/iomEngine.ts` | `GET /api/independent-eval`, Fleiss' κ | Archivo de una fase de conciencias separadas; **no** fundamento del marco. |

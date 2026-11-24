@@ -48,7 +48,7 @@ El Mictlán es **destino del carácter**, no un dominio empírico entre otros. L
 ```bash
 npm install
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 npm run dev
 # EXP-A disponible en la pestaña Evaluación Independiente solo como residuo opcional

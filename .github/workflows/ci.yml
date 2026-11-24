@@ -44,7 +44,7 @@ jobs:
             assert.equal(t.verification.allHaveOneRealOneVirtual, true);
             assert.equal(t.verification.allHaveOneContinuousOneDashed, true);
             assert.equal(t.verification.allCubeLinesMatchHeader, true);
-            assert.equal(t.verification.coloringsCount, 7);
+            assert.equal(t.verification.coloringsCount, 12);
             assert.equal(t.verification.allAnalysisChainsBalanced, true);
             assert.equal(t.verification.allParityMirrorChainsBalanced, true);
             assert.equal(t.verification.allMirrorChainsBalanced, true);

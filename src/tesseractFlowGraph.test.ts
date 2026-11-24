@@ -40,7 +40,14 @@ test('buildTesseractFlowGraph filters real (>), virtual (<), and the 4 connectio
   assert.ok(virtualGraph.edges.every((e) => e.domain === 'virtual' && e.rel.arrow === '<'));
 
   for (const chainId of ['azul', 'amarillo', 'rojo', 'verde'] as const) {
-    for (const parityMode of ['parity', 'parityMirror', 'parityPolarSwap', 'parityPolarMirror'] as const) {
+    for (const parityMode of [
+      'parity',
+      'parityMirror',
+      'parityPolarSwap',
+      'parityPolarMirror',
+      'paritySetTop',
+      'paritySetBottom',
+    ] as const) {
       const parityGraph = buildTesseractFlowGraph(tesseractData, chainId, parityMode);
       assert.equal(parityGraph.edges.length, 4);
       assert.ok(parityGraph.edges.every((e) => e.rel.chains?.[parityMode] === chainId));
@@ -48,7 +55,14 @@ test('buildTesseractFlowGraph filters real (>), virtual (<), and the 4 connectio
       assert.equal(distinctCombos.size, 4);
     }
 
-    for (const mirrorMode of ['mirror', 'mirrorReflected', 'mirrorFrameSwap'] as const) {
+    for (const mirrorMode of [
+      'mirror',
+      'mirrorReflected',
+      'mirrorFrameSwap',
+      'mirrorFrameSwapMirror',
+      'mirrorSetTop',
+      'mirrorSetTopMirror',
+    ] as const) {
       const mirrorGraph = buildTesseractFlowGraph(tesseractData, chainId, mirrorMode);
       assert.equal(mirrorGraph.edges.length, 4);
       assert.ok(mirrorGraph.edges.every((e) => e.rel.chains?.[mirrorMode] === chainId));

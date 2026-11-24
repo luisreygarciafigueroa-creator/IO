@@ -259,6 +259,7 @@ interface TesseractResponse {
     mirrorFrameSwapAssetPath?: string;
     parityPolarMirrorAssetPath?: string;
     parityPolarSwapAssetPath?: string;
+    compositeSetAssetPath?: string;
     analysisAssetPath?: string;
     monochromeAssetPath?: string;
     pdfPath?: string;
@@ -1117,23 +1118,39 @@ export default function App() {
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (9):</span>
-                {(tesseractData.instruction.colorAssets ?? []).map((asset) => (
-                  <a
-                    key={asset.id}
-                    href={asset.assetPath}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`px-2 py-0.5 rounded border transition ${
-                      colorMode === asset.id
-                        ? 'bg-sky-500/20 text-sky-200 border-sky-400/50'
-                        : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
-                    }`}
-                    title={asset.shortLabel}
-                  >
-                    {asset.assetTag}
-                  </a>
-                ))}
+                <span className="text-slate-500 mr-1">Láminas fuente (10):</span>
+                {Array.from(
+                  new Map(
+                    (tesseractData.instruction.colorAssets ?? []).map((asset) => [
+                      asset.assetPath,
+                      asset.assetPath === tesseractData.instruction.compositeSetAssetPath
+                        ? {
+                            ...asset,
+                            assetTag: 'Conjunto 8× (IMG-000207)',
+                            shortLabel: 'Conjunto maestro 8 paneles (IMG-000207)',
+                          }
+                        : asset,
+                    ])
+                  ).values()
+                ).map((asset) => {
+                  const isActiveAsset = activeColoring?.assetPath === asset.assetPath;
+                  return (
+                    <a
+                      key={asset.assetPath}
+                      href={asset.assetPath}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`px-2 py-0.5 rounded border transition ${
+                        isActiveAsset
+                          ? 'bg-sky-500/20 text-sky-200 border-sky-400/50'
+                          : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                      }`}
+                      title={asset.shortLabel}
+                    >
+                      {asset.assetTag}
+                    </a>
+                  );
+                })}
                 {tesseractData.instruction.monochromeAssetPath && (
                   <a
                     href={tesseractData.instruction.monochromeAssetPath}
@@ -1197,11 +1214,13 @@ export default function App() {
 
                 <div
                   role="group"
-                  aria-label="Clausura del espejeo · 7 coloraciones"
-                  className="flex flex-col lg:flex-row lg:items-center gap-2 pt-2 border-t border-slate-800/80 font-mono text-[11px]"
+                  aria-label="Clausura del espejeo · 12 coloraciones (6 pares)"
+                  className="flex flex-col gap-2 pt-2 border-t border-slate-800/80 font-mono text-[11px]"
                 >
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-slate-500 text-[10.5px] mr-0.5">Marcos (3):</span>
+                    <span className="text-slate-500 text-[10.5px] mr-0.5">
+                      Marcos ({mirrorColorings.length}):
+                    </span>
                     {mirrorColorings.map((c) => (
                       <button
                         key={c.id}
@@ -1218,9 +1237,10 @@ export default function App() {
                       </button>
                     ))}
                   </div>
-                  <span className="hidden lg:inline text-slate-700">|</span>
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-slate-500 text-[10.5px] mr-0.5">Paridad (4):</span>
+                    <span className="text-slate-500 text-[10.5px] mr-0.5">
+                      Paridad ({parityColorings.length}):
+                    </span>
                     {parityColorings.map((c) => (
                       <button
                         key={c.id}
@@ -1312,12 +1332,14 @@ export default function App() {
                 <div className="text-[11px] text-slate-500">1 › + 1 ‹ · 1 _ + 1 ... en las 8</div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Clausura del espejeo (7)</div>
+                <div className="text-slate-400">
+                  Clausura del espejeo ({tesseractData.verification.coloringsCount ?? allColorings.length})
+                </div>
                 <div className="text-lg font-mono text-sky-300 mt-1">
                   {tesseractData.verification.allColoringsClosed ? 'VERIFICADO' : 'ERROR'}
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  {tesseractData.verification.coloringsCount ?? 7} coloraciones · involuciones exactas
+                  {tesseractData.verification.coloringsCount ?? 12} coloraciones · 6 pares involutivos
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">

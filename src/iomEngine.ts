@@ -938,8 +938,20 @@ const CHAIN_CAPITALIZED: Record<AnalysisChainColor, string> = {
   verde: 'Verde',
 };
 
-type MirrorModeId = 'mirrorReflected' | 'mirror' | 'mirrorFrameSwap';
-type ParityModeId = 'parityPolarMirror' | 'parityPolarSwap' | 'parityMirror' | 'parity';
+type MirrorModeId =
+  | 'mirrorReflected'
+  | 'mirror'
+  | 'mirrorFrameSwap'
+  | 'mirrorFrameSwapMirror'
+  | 'mirrorSetTop'
+  | 'mirrorSetTopMirror';
+type ParityModeId =
+  | 'parityPolarMirror'
+  | 'parityPolarSwap'
+  | 'paritySetTop'
+  | 'paritySetBottom'
+  | 'parityMirror'
+  | 'parity';
 
 const MIRROR_COLOR_ASSIGNMENTS: Record<
   MirrorModeId,
@@ -963,6 +975,24 @@ const MIRROR_COLOR_ASSIGNMENTS: Record<
     vacioIndiv: 'verde',
     materiaTot: 'rojo',
   },
+  mirrorFrameSwapMirror: {
+    realInvol: 'verde',
+    virtualEvol: 'rojo',
+    vacioIndiv: 'amarillo',
+    materiaTot: 'azul',
+  },
+  mirrorSetTop: {
+    realInvol: 'rojo',
+    virtualEvol: 'verde',
+    vacioIndiv: 'azul',
+    materiaTot: 'amarillo',
+  },
+  mirrorSetTopMirror: {
+    realInvol: 'azul',
+    virtualEvol: 'amarillo',
+    vacioIndiv: 'rojo',
+    materiaTot: 'verde',
+  },
 };
 
 const PARITY_COLOR_ASSIGNMENTS: Record<
@@ -985,6 +1015,18 @@ const PARITY_COLOR_ASSIGNMENTS: Record<
     p0Left: 'azul',
     p1Left: 'rojo',
     p1Right: 'verde',
+  },
+  paritySetTop: {
+    p0Right: 'verde',
+    p0Left: 'rojo',
+    p1Left: 'amarillo',
+    p1Right: 'azul',
+  },
+  paritySetBottom: {
+    p0Right: 'amarillo',
+    p0Left: 'azul',
+    p1Left: 'verde',
+    p1Right: 'rojo',
   },
   parityMirror: {
     p0Right: 'rojo',
@@ -1012,13 +1054,6 @@ const INVOLUTION_YELLOW_RED_BLUE_GREEN: Record<AnalysisChainColor, AnalysisChain
   rojo: 'amarillo',
   azul: 'verde',
   verde: 'azul',
-};
-
-const INVOLUTION_BLUE_YELLOW_FIX_GREEN_RED: Record<AnalysisChainColor, AnalysisChainColor> = {
-  azul: 'amarillo',
-  amarillo: 'azul',
-  verde: 'verde',
-  rojo: 'rojo',
 };
 
 interface ColoringDefinition {
@@ -1074,13 +1109,58 @@ const COLORING_DEFINITIONS: readonly ColoringDefinition[] = [
     family: 'mirror',
     assetPath: '/assets/aistudio/IMG_20261123_063146_8d038bdc.jpg',
     assetTag: 'IMG-063146',
-    mirrorPartnerId: 'mirror',
-    mirrorPartnerLabel: 'TSRIMG',
-    involutionRule: 'Azul ↔ Amarillo (en {T1↔T4, T6↔T7}) · Verde/Rojo fijos',
-    involutionMap: INVOLUTION_BLUE_YELLOW_FIX_GREEN_RED,
+    mirrorPartnerId: 'mirrorFrameSwapMirror',
+    mirrorPartnerLabel: 'IMG-000207 #7',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
     summary:
-      'Invierte internamente real/involución ↔ virtual/evolución (Azul ↔ Amarillo en {T1↔T4, T6↔T7}) manteniendo {T2↔T3, T5↔T8} en Verde/Rojo.',
+      'Marcos {T1↔T4, T6↔T7} en Amarillo/Azul y {T2↔T3, T5↔T8} en Verde/Rojo (panel #5 de IMG-000207); su reflejo exacto es el panel #7 bajo Azul ↔ Rojo y Amarillo ↔ Verde.',
     filterHint: 'cruce marcos (IMG-063146)',
+  },
+  {
+    id: 'mirrorFrameSwapMirror',
+    shortLabel: 'Cruce inverso (IMG-000207 #7)',
+    title: 'Reflejo de cruce de marcos (Verde/Rojo · Amarillo/Azul)',
+    family: 'mirror',
+    assetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
+    assetTag: 'IMG-000207 #7',
+    mirrorPartnerId: 'mirrorFrameSwap',
+    mirrorPartnerLabel: 'IMG-063146 (#5)',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
+    summary:
+      'Panel #7 de IMG-000207: invierte exactamente IMG-063146 (#5) bajo Azul ↔ Rojo y Amarillo ↔ Verde ({T1↔T4, T6↔T7} en Verde/Rojo; {T2↔T3, T5↔T8} en Amarillo/Azul).',
+    filterHint: 'cruce inverso (IMG-000207 #7)',
+  },
+  {
+    id: 'mirrorSetTop',
+    shortLabel: 'Marcos conjunto A (#1)',
+    title: 'Conjunto maestro de marcos A (Rojo/Verde · Azul/Amarillo)',
+    family: 'mirror',
+    assetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
+    assetTag: 'IMG-000207 #1',
+    mirrorPartnerId: 'mirrorSetTopMirror',
+    mirrorPartnerLabel: 'IMG-000207 #3',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
+    summary:
+      'Panel #1 de IMG-000207: {T1↔T4, T6↔T7} en Rojo/Verde y {T2↔T3, T5↔T8} en Azul/Amarillo; su reflejo horizontal exacto es el panel #3.',
+    filterHint: 'marcos conjunto A (IMG-000207 #1)',
+  },
+  {
+    id: 'mirrorSetTopMirror',
+    shortLabel: 'Marcos conjunto B (#3)',
+    title: 'Conjunto maestro de marcos B (Azul/Amarillo · Rojo/Verde)',
+    family: 'mirror',
+    assetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
+    assetTag: 'IMG-000207 #3',
+    mirrorPartnerId: 'mirrorSetTop',
+    mirrorPartnerLabel: 'IMG-000207 #1',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
+    summary:
+      'Panel #3 de IMG-000207: reflejo exacto del panel #1 bajo Azul ↔ Rojo y Amarillo ↔ Verde ({T1↔T4, T6↔T7} en Azul/Amarillo; {T2↔T3, T5↔T8} en Rojo/Verde).',
+    filterHint: 'marcos conjunto B (IMG-000207 #3)',
   },
   {
     id: 'parityPolarMirror',
@@ -1113,6 +1193,36 @@ const COLORING_DEFINITIONS: readonly ColoringDefinition[] = [
     filterHint: 'alterno polar paridad (IMG-064557)',
   },
   {
+    id: 'paritySetTop',
+    shortLabel: 'Paridad conjunto A (#2)',
+    title: 'Conjunto maestro por paridad A (Verde/Rojo · Amarillo/Azul)',
+    family: 'parity',
+    assetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
+    assetTag: 'IMG-000207 #2',
+    mirrorPartnerId: 'paritySetBottom',
+    mirrorPartnerLabel: 'IMG-000207 #6',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
+    summary:
+      'Panel #2 de IMG-000207: P0 {T1,T3,T6,T8} en Verde › / Rojo ‹ y P1 {T2,T4,T5,T7} en Amarillo ‹ / Azul ›; cierra exactamente en el panel #6.',
+    filterHint: 'paridad conjunto A (IMG-000207 #2)',
+  },
+  {
+    id: 'paritySetBottom',
+    shortLabel: 'Paridad conjunto B (#6)',
+    title: 'Conjunto maestro por paridad B (Amarillo/Azul · Verde/Rojo)',
+    family: 'parity',
+    assetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
+    assetTag: 'IMG-000207 #6',
+    mirrorPartnerId: 'paritySetTop',
+    mirrorPartnerLabel: 'IMG-000207 #2',
+    involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
+    involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
+    summary:
+      'Panel #6 de IMG-000207: reflejo exacto del panel #2 bajo Azul ↔ Rojo y Amarillo ↔ Verde (P0 en Amarillo › / Azul ‹; P1 en Verde ‹ / Rojo ›).',
+    filterHint: 'paridad conjunto B (IMG-000207 #6)',
+  },
+  {
     id: 'parityMirror',
     shortLabel: 'Espejeo paridad (IMG-025743)',
     title: 'Espejeo por paridad (Rojo/Verde · Azul/Amarillo)',
@@ -1124,7 +1234,7 @@ const COLORING_DEFINITIONS: readonly ColoringDefinition[] = [
     involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
     involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
     summary:
-      'Reflejo especular de IMG-015713: P0 {T1,T3,T6,T8} en Rojo › / Verde ‹ y P1 {T2,T4,T5,T7} en Azul ‹ / Amarillo ›.',
+      'Reflejo especular de IMG-015713 (panel #8 de IMG-000207): P0 {T1,T3,T6,T8} en Rojo › / Verde ‹ y P1 {T2,T4,T5,T7} en Azul ‹ / Amarillo ›.',
     filterHint: 'espejeo paridad (IMG-025743)',
   },
   {
@@ -1139,7 +1249,7 @@ const COLORING_DEFINITIONS: readonly ColoringDefinition[] = [
     involutionRule: 'Azul ↔ Rojo · Amarillo ↔ Verde',
     involutionMap: INVOLUTION_BLUE_RED_YELLOW_GREEN,
     summary:
-      'Coloración base de análisis por paridad: P0 {T1,T3,T6,T8} en Azul › / Amarillo ‹ y P1 {T2,T4,T5,T7} en Rojo ‹ / Verde ›.',
+      'Coloración base de análisis por paridad (panel #4 de IMG-000207): P0 {T1,T3,T6,T8} en Azul › / Amarillo ‹ y P1 {T2,T4,T5,T7} en Rojo ‹ / Verde ›.',
     filterHint: 'cadenas por paridad (IMG-015713)',
   },
 ] as const;
@@ -1338,8 +1448,13 @@ export function buildTesseractModel() {
       mirrorReflected: resolveMirrorColor('mirrorReflected', cubeLabel),
       mirror: resolveMirrorColor('mirror', cubeLabel),
       mirrorFrameSwap: resolveMirrorColor('mirrorFrameSwap', cubeLabel),
+      mirrorFrameSwapMirror: resolveMirrorColor('mirrorFrameSwapMirror', cubeLabel),
+      mirrorSetTop: resolveMirrorColor('mirrorSetTop', cubeLabel),
+      mirrorSetTopMirror: resolveMirrorColor('mirrorSetTopMirror', cubeLabel),
       parityPolarMirror: resolveParityColor('parityPolarMirror', parity, arrow),
       parityPolarSwap: resolveParityColor('parityPolarSwap', parity, arrow),
+      paritySetTop: resolveParityColor('paritySetTop', parity, arrow),
+      paritySetBottom: resolveParityColor('paritySetBottom', parity, arrow),
       parityMirror: resolveParityColor('parityMirror', parity, arrow),
       parity: resolveParityColor('parity', parity, arrow),
     };
@@ -1695,23 +1810,26 @@ export function buildTesseractModel() {
     };
   });
 
-  const allColoringInvolutionsExact = colorings.every((coloring) =>
-    cells.every((cell) =>
+  const byMode = new Map(colorings.map((c) => [c.id, c]));
+
+  const allColoringInvolutionsExact = colorings.every((coloring) => {
+    const partner = byMode.get(coloring.mirrorPartnerId);
+    if (!partner || partner.mirrorPartnerId !== coloring.id) return false;
+    return cells.every((cell) =>
       cell.relations.every((rel) => {
         const mapped = coloring.involutionMap[rel.chains[coloring.id]];
         const partnerColor = rel.chains[coloring.mirrorPartnerId];
         return mapped === partnerColor;
       })
-    )
-  );
+    );
+  });
 
-  const byMode = new Map(colorings.map((c) => [c.id, c]));
   const allAnalysisChainsBalanced = Boolean(byMode.get('parity')?.balanced);
   const allParityMirrorChainsBalanced = Boolean(byMode.get('parityMirror')?.balanced);
   const allMirrorChainsBalanced = Boolean(byMode.get('mirror')?.balanced);
   const allMirrorReflectedChainsBalanced = Boolean(byMode.get('mirrorReflected')?.balanced);
   const allColoringsClosed =
-    colorings.length === 7 &&
+    colorings.length === 12 &&
     allCubeLinesMatchHeader &&
     allColoringInvolutionsExact &&
     colorings.every((c) => c.balanced);
@@ -1729,9 +1847,9 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Un único teseracto ({4,3,3}) — Clausura completa de las 7 coloraciones especulares',
+      title: 'Un único teseracto ({4,3,3}) — Clausura completa de 12 coloraciones (6 pares involutivos)',
       source:
-        'Clausura 7 coloraciones (IMG-031910 · TSRIMG · IMG-063146 · IMG-070052 · IMG-064557 · IMG-025743 · IMG-015713) · docs/TCAAU.md',
+        'Conjunto maestro IMG-000207 (8 paneles) + 7 láminas individuales (12 coloraciones · 6 pares) · docs/TCAAU.md',
       assetPath: '/assets/aistudio/IMG_20261123_031910_595b8f79.jpg',
       mirrorAssetPath: '/assets/aistudio/TSRIMG_20261123_023812_55e05147.jpg',
       mirrorFrameSwapAssetPath: '/assets/aistudio/IMG_20261123_063146_8d038bdc.jpg',
@@ -1739,6 +1857,7 @@ export function buildTesseractModel() {
       parityPolarSwapAssetPath: '/assets/aistudio/IMG_20261123_064557_52d8695d.jpg',
       parityMirrorAssetPath: '/assets/aistudio/IMG_20261123_025743_a2265a38.jpg',
       analysisAssetPath: '/assets/aistudio/IMG_20261123_015713_b7332827.jpg',
+      compositeSetAssetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
       monochromeAssetPath: '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg',
       pdfPath: '/assets/aistudio/1000000566_f7cafcef.pdf',
       colorAssets: colorings.map((c) => ({
@@ -1749,10 +1868,10 @@ export function buildTesseractModel() {
         assetPath: c.assetPath,
       })),
       rules: [
-        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) son proyecciones especulares de un único teseracto tetradimensional ({4,3,3}) separadas por planos de simetría punteados.',
-        'Clausura completa del espejeo (7 coloraciones internas): toda asignación cromática proyecta el mismo sistema de polaridades sobre su inverso exacto. Ninguna coloración produce un marco ni un nivel ontológico fuera del teseracto.',
-        'Familia de marcos (3 coloraciones: IMG-031910 ↔ TSRIMG bajo Azul ↔ Rojo · Amarillo ↔ Verde, e IMG-063146 ↔ TSRIMG bajo Azul ↔ Amarillo en {T1↔T4, T6↔T7}): real/involución ↔ virtual/evolución e individualidad/vacío ↔ totalidad/materia invierten sus flujos sin abandonar sus aristas.',
-        'Familia por paridad (4 coloraciones: IMG-070052 ↔ IMG-064557 bajo Amarillo ↔ Rojo · Azul ↔ Verde, e IMG-025743 ↔ IMG-015713 bajo Azul ↔ Rojo · Amarillo ↔ Verde): particionan P0 {T1,T3,T6,T8} y P1 {T2,T4,T5,T7} agotando las lecturas anverso/reverso.',
+        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) agotan las reorientaciones posibles del único teseracto tetradimensional ({4,3,3}) sin añadir un segundo objeto.',
+        'Conjunto maestro IMG-000207 (8 en 1) + láminas individuales: reúnen 12 coloraciones cromáticas organizadas en 6 pares involutivos exactos donde ninguna arista ni dualidad queda sin su espejo.',
+        'Familia de marcos (6 coloraciones · 3 pares): IMG-031910 ↔ TSRIMG, IMG-063146 (#5) ↔ IMG-000207 #7 e IMG-000207 #1 ↔ #3 invierten {T1↔T4, T6↔T7} y {T2↔T3, T5↔T8} bajo Azul ↔ Rojo · Amarillo ↔ Verde.',
+        'Familia por paridad (6 coloraciones · 3 pares): IMG-070052 ↔ IMG-064557 (Amarillo ↔ Rojo · Azul ↔ Verde), IMG-000207 #2 ↔ #6 e IMG-025743 (#8) ↔ IMG-015713 (#4) cierran P0 y P1; toda posición es ya subposición reflejada.',
       ],
     },
     schlafli: '{4,3,3}',

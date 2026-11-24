@@ -96,9 +96,9 @@ Metodología: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md). Dato
 ```bash
 npm install
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 npm run dev
 ```
 
-Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, los ocho teseractos `{4,3,3}` en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.
+Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, el único teseracto `{4,3,3}` en sus 8 proyecciones y 12 coloraciones (6 pares involutivos) en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.
