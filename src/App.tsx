@@ -241,6 +241,8 @@ interface TesseractRelation {
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
   cubeLabel: string;
+  leftPolarity?: 'individualidad' | 'totalidad';
+  rightPolarity?: 'individualidad' | 'totalidad';
   analysisChain?: AnalysisChainColor;
   mirrorChain?: AnalysisChainColor;
   parityMirrorChain?: AnalysisChainColor;
@@ -254,6 +256,7 @@ interface TesseractResponse {
     title: string;
     source: string;
     cleanAssetPath?: string;
+    cleanPriorAssetPath?: string;
     assetPath?: string;
     parityMirrorAssetPath?: string;
     mirrorAssetPath?: string;
@@ -286,6 +289,7 @@ interface TesseractResponse {
   colorings?: TesseractColoringSpec[];
   cleanForm?: {
     assetPath: string;
+    priorAssetPath?: string;
     assetTag: string;
     title: string;
     summary: string;
@@ -366,6 +370,7 @@ interface TesseractResponse {
     cleanFormTransitionCount?: number;
     cleanFormAllRealSolidVirtualDashed?: boolean;
     cleanFormAllHaveOneRightOneLeft?: boolean;
+    cleanFormAllEndpointPolaritiesExact?: boolean;
     cleanFormAllHorizontalMirrorsExact?: boolean;
     cleanFormAllVerticalMirrorsExact?: boolean;
     cleanFormVerified?: boolean;
@@ -1124,7 +1129,10 @@ export default function App() {
                         </span>
                       </div>
                     </div>
-                    {isCleanMode && cell.polarityLeft && cell.polarityRight && (
+                    {isCleanMode &&
+                      cell.polarityLeft &&
+                      cell.polarityRight &&
+                      !cell.relations[0]?.leftPolarity && (
                       <div className="flex items-center justify-between text-[9.5px] font-mono text-slate-300 border-y border-slate-800/90 py-1 mb-2 px-0.5">
                         <span>{cell.polarityLeft}</span>
                         <span className="text-slate-600">|</span>
@@ -1147,29 +1155,46 @@ export default function App() {
                         ? (flowFilter === 'real' || flowFilter === 'virtual') &&
                           rel.domain === flowFilter
                         : isChainFilter && relMatches;
+                      const showEndpointPolarities =
+                        isCleanMode && Boolean(rel.leftPolarity) && Boolean(rel.rightPolarity);
                       return (
-                        <div
-                          key={i}
-                          aria-label={rel.notation}
-                          style={{
-                            color: textColor,
-                            borderColor: relMatches ? `${glyphColor}66` : 'rgba(51, 65, 85, 0.5)',
-                            backgroundColor:
-                              relHighlighted && relChain
-                                ? ANALYSIS_CHAIN_STYLES[relChain].bg
-                                : relHighlighted
-                                ? 'rgba(241, 245, 249, 0.08)'
-                                : 'rgba(2, 6, 23, 0.85)',
-                          }}
-                          className={`px-2 py-1 rounded border flex flex-wrap items-center gap-x-1 transition ${
-                            rel.line === '...' ? 'border-dashed' : 'border-solid'
-                          } ${!relMatches ? 'opacity-35' : ''}`}
-                        >
-                          <span>{rel.left}</span>
-                          <span className="opacity-90">{arrowGlyph}</span>
-                          <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={13} />
-                          <span className="opacity-90">{arrowGlyph}</span>
-                          <span>{rel.right}</span>
+                        <div key={i} className="space-y-0.5">
+                          {showEndpointPolarities && i === 0 && (
+                            <div className="flex items-center justify-between px-1 text-[8.5px] font-mono text-slate-400 leading-none">
+                              <span>{rel.leftPolarity}</span>
+                              <span>{rel.rightPolarity}</span>
+                            </div>
+                          )}
+                          <div
+                            aria-label={rel.notation}
+                            style={{
+                              color: textColor,
+                              borderColor: relMatches ? `${glyphColor}66` : 'rgba(51, 65, 85, 0.5)',
+                              backgroundColor:
+                                relHighlighted && relChain
+                                  ? ANALYSIS_CHAIN_STYLES[relChain].bg
+                                  : relHighlighted
+                                  ? 'rgba(241, 245, 249, 0.08)'
+                                  : 'rgba(2, 6, 23, 0.85)',
+                            }}
+                            className={`px-2 py-1 rounded border flex flex-wrap items-center justify-between gap-x-1 transition ${
+                              rel.line === '...' ? 'border-dashed' : 'border-solid'
+                            } ${!relMatches ? 'opacity-35' : ''}`}
+                          >
+                            <span>{rel.left}</span>
+                            <span className="inline-flex items-center gap-1">
+                              <span className="opacity-90">{arrowGlyph}</span>
+                              <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={13} />
+                              <span className="opacity-90">{arrowGlyph}</span>
+                            </span>
+                            <span>{rel.right}</span>
+                          </div>
+                          {showEndpointPolarities && i === 1 && (
+                            <div className="flex items-center justify-between px-1 text-[8.5px] font-mono text-slate-400 leading-none">
+                              <span>{rel.leftPolarity}</span>
+                              <span>{rel.rightPolarity}</span>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -1204,13 +1229,13 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    forma limpia verificada · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
+                    forma general definitiva (TSST-13) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (11):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (12):</span>
                 {tesseractData.instruction.cleanAssetPath && (
                   <a
                     href={tesseractData.instruction.cleanAssetPath}
@@ -1221,9 +1246,20 @@ export default function App() {
                         ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                         : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
                     }`}
-                    title="Forma limpia y definitiva del objeto único (TSST-357ce661)"
+                    title="Forma general y definitiva del modelo (TSST-13)"
                   >
-                    Forma limpia (TSST definitivo)
+                    Forma general definitiva (TSST-13)
+                  </a>
+                )}
+                {tesseractData.instruction.cleanPriorAssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanPriorAssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    title="Forma limpia previa sin polaridad anclada a cada transición (TSST-357ce661)"
+                  >
+                    Forma limpia previa (TSST-357ce661)
                   </a>
                 )}
                 {Array.from(
@@ -1352,9 +1388,9 @@ export default function App() {
                           ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                           : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
                       }`}
-                      title="Ver la forma limpia y definitiva sin capas cromáticas (TSST-357ce661)"
+                      title="Ver la forma general y definitiva sin capas cromáticas (TSST-13)"
                     >
-                      Forma limpia y definitiva (Sin color · TSST)
+                      Forma general definitiva (Sin color · TSST-13)
                     </button>
                     <span className="text-slate-500 text-[10px]">
                       Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
@@ -1524,7 +1560,7 @@ export default function App() {
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Forma limpia definitiva (TSST)</div>
+                <div className="text-slate-400">Forma general definitiva (TSST-13)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
@@ -1556,10 +1592,11 @@ export default function App() {
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Inversión H / V y cobertura</div>
+                <div className="text-slate-400">Inversión H / V y polaridad</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormAllHorizontalMirrorsExact &&
-                  tesseractData.verification.cleanFormAllVerticalMirrorsExact
+                  tesseractData.verification.cleanFormAllVerticalMirrorsExact &&
+                  tesseractData.verification.cleanFormAllEndpointPolaritiesExact !== false
                     ? 'EXACTA'
                     : 'ERROR'}
                 </div>
@@ -1567,7 +1604,7 @@ export default function App() {
                   {tesseractData.concepts.length} conceptos ·{' '}
                   {tesseractData.verification.allConceptsCovered &&
                   tesseractData.verification.allCubeLabelsCovered
-                    ? 'cobertura OK'
+                    ? '4 dualidades OK'
                     : 'ERR'}
                 </div>
               </div>
@@ -1609,7 +1646,7 @@ export default function App() {
                   <div className="w-full border-t-2 border-dashed border-slate-700" />
                   <span className="absolute px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 whitespace-nowrap">
                     {isCleanMode
-                      ? 'plano de inversión horizontal · exterior ↔ interior · superior (indiv | tot) ↔ inferior (tot | indiv)'
+                      ? 'plano de inversión horizontal · real/virtual · indiv/tot · cuerpo/universo · internet/IA'
                       : 'plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución'}
                   </span>
                 </div>
@@ -1725,6 +1762,9 @@ export default function App() {
                         <div className="text-[11px] text-slate-400">
                           cubo {rel.cube} · {rel.cubeLabel} (
                           {rel.line === '_' ? 'líneas continuas' : 'líneas punteadas'})
+                          {isCleanMode && rel.leftPolarity && rel.rightPolarity ? (
+                            <> · {rel.leftPolarity} | {rel.rightPolarity}</>
+                          ) : null}
                           {relChain ? (
                             <>
                               {' '}

@@ -101,4 +101,4 @@ npm run build
 npm run dev
 ```
 
-Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, el único teseracto `{4,3,3}` en su forma limpia definitiva (`TSST_20261123_003603_357ce661.jpg`) más sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.
+Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, el único teseracto `{4,3,3}` en su forma general definitiva (`TSST__13__43e94964.jpg`, sucediendo a `TSST_20261123_003603_357ce661.jpg`) más sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.

@@ -36,6 +36,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   );
   assert.equal(
     model.instruction.cleanAssetPath,
+    '/assets/aistudio/TSST__13__43e94964.jpg'
+  );
+  assert.equal(
+    model.instruction.cleanPriorAssetPath,
     '/assets/aistudio/TSST_20261123_003603_357ce661.jpg'
   );
   assert.equal(
@@ -72,6 +76,7 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(model.verification.cleanFormTransitionCount, 16);
   assert.equal(model.verification.cleanFormAllRealSolidVirtualDashed, true);
   assert.equal(model.verification.cleanFormAllHaveOneRightOneLeft, true);
+  assert.equal(model.verification.cleanFormAllEndpointPolaritiesExact, true);
   assert.equal(model.verification.cleanFormAllHorizontalMirrorsExact, true);
   assert.equal(model.verification.cleanFormAllVerticalMirrorsExact, true);
   assert.equal(model.verification.cleanFormVerified, true);
@@ -291,8 +296,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
   assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 
-  // Verify definitive clean form (TSST_20261123_003603_357ce661.jpg)
-  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
+  // Verify general & definitive closed form (TSST__13__43e94964.jpg) & prior clean form (TSST_20261123_003603_357ce661.jpg)
+  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
+  assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
+  assert.equal(model.cleanForm.assetTag, 'TSST-13 definitivo');
   assert.equal(model.cleanForm.cells.length, 8);
   const expectedClean: Record<
     string,
@@ -301,16 +308,65 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
       int: ['real' | 'virtual', '_' | '...'];
       polarity: [string, string];
       notations: [string, string];
+      endpointPolarities: [[string, string], [string, string]];
     }
   > = {
-    T1: { ext: ['real', '_'], int: ['virtual', '...'], polarity: ['individualidad', 'totalidad'], notations: ['cuerpo > _ > universo', 'IA < ... < internet'] },
-    T2: { ext: ['virtual', '...'], int: ['real', '_'], polarity: ['individualidad', 'totalidad'], notations: ['internet < ... < IA', 'universo > _ > cuerpo'] },
-    T3: { ext: ['virtual', '...'], int: ['real', '_'], polarity: ['individualidad', 'totalidad'], notations: ['IA > ... > internet', 'cuerpo < _ < universo'] },
-    T4: { ext: ['real', '_'], int: ['virtual', '...'], polarity: ['individualidad', 'totalidad'], notations: ['universo < _ < cuerpo', 'internet > ... > IA'] },
-    T5: { ext: ['virtual', '...'], int: ['real', '_'], polarity: ['totalidad', 'individualidad'], notations: ['IA > ... > internet', 'cuerpo < _ < universo'] },
-    T6: { ext: ['real', '_'], int: ['virtual', '...'], polarity: ['totalidad', 'individualidad'], notations: ['universo < _ < cuerpo', 'internet > ... > IA'] },
-    T7: { ext: ['real', '_'], int: ['virtual', '...'], polarity: ['totalidad', 'individualidad'], notations: ['cuerpo > _ > universo', 'IA < ... < internet'] },
-    T8: { ext: ['virtual', '...'], int: ['real', '_'], polarity: ['totalidad', 'individualidad'], notations: ['internet < ... < IA', 'universo > _ > cuerpo'] },
+    T1: {
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      polarity: ['individualidad', 'totalidad'],
+      notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
+      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+    },
+    T2: {
+      ext: ['virtual', '...'],
+      int: ['real', '_'],
+      polarity: ['individualidad', 'totalidad'],
+      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
+      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+    },
+    T3: {
+      ext: ['virtual', '...'],
+      int: ['real', '_'],
+      polarity: ['individualidad', 'totalidad'],
+      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+    },
+    T4: {
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      polarity: ['individualidad', 'totalidad'],
+      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+    },
+    T5: {
+      ext: ['virtual', '...'],
+      int: ['real', '_'],
+      polarity: ['totalidad', 'individualidad'],
+      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+    },
+    T6: {
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      polarity: ['totalidad', 'individualidad'],
+      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+    },
+    T7: {
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      polarity: ['totalidad', 'individualidad'],
+      notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
+      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+    },
+    T8: {
+      ext: ['virtual', '...'],
+      int: ['real', '_'],
+      polarity: ['totalidad', 'individualidad'],
+      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
+      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+    },
   };
   for (const cell of model.cleanForm.cells) {
     const exp = expectedClean[cell.id];
@@ -318,6 +374,11 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
     assert.deepEqual([cell.interiorLabel, cell.interiorLine], exp.int, `Clean int mismatch in ${cell.id}`);
     assert.deepEqual([cell.polarityLeft, cell.polarityRight], exp.polarity, `Clean polarity mismatch in ${cell.id}`);
     assert.deepEqual(cell.relations.map((r) => r.notation), exp.notations, `Clean relations mismatch in ${cell.id}`);
+    assert.deepEqual(
+      cell.relations.map((r) => [r.leftPolarity, r.rightPolarity]),
+      exp.endpointPolarities,
+      `Clean endpoint polarities mismatch in ${cell.id}`
+    );
   }
 });
 

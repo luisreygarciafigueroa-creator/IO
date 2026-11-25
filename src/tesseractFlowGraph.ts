@@ -58,6 +58,8 @@ export interface FlowchartRelation {
   parityMirrorChain?: AnalysisChainColor;
   mirrorReflectedChain?: AnalysisChainColor;
   chains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
+  leftPolarity?: 'individualidad' | 'totalidad';
+  rightPolarity?: 'individualidad' | 'totalidad';
   notation: string;
 }
 
@@ -96,6 +98,7 @@ export interface FlowchartCell {
 
 export interface FlowchartCleanForm {
   assetPath: string;
+  priorAssetPath?: string;
   assetTag: string;
   title: string;
   summary: string;

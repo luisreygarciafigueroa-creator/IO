@@ -57,6 +57,7 @@ jobs:
             assert.equal(t.verification.cleanFormTransitionCount, 16);
             assert.equal(t.verification.cleanFormAllRealSolidVirtualDashed, true);
             assert.equal(t.verification.cleanFormAllHaveOneRightOneLeft, true);
+            assert.equal(t.verification.cleanFormAllEndpointPolaritiesExact, true);
             assert.equal(t.verification.cleanFormAllHorizontalMirrorsExact, true);
             assert.equal(t.verification.cleanFormAllVerticalMirrorsExact, true);
             assert.equal(t.verification.cleanFormVerified, true);

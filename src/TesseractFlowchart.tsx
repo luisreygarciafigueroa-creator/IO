@@ -1043,7 +1043,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           </div>
 
           {(() => {
-            const schlegel = buildSchlegelCubeWireframe(210, 152, 56, 25, 24, -14);
+            const schlegel = buildSchlegelCubeWireframe(210, 160, 56, 25, 24, -14);
             const extChain = getCellExtChain(selectedCell, colorMode);
             const intChain = getCellIntChain(selectedCell, colorMode);
             const extDomain = selectedCell.exteriorLine === '_' ? 'real' : 'virtual';
@@ -1071,7 +1071,12 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             const extRel = selectedCell.relations.find((r) => r.cube === 'exterior') ?? selectedCell.relations[0];
             const intRel = selectedCell.relations.find((r) => r.cube === 'interior') ?? selectedCell.relations[1];
 
-            const renderTransitionRow = (rel: typeof extRel, y: number, label: string) => {
+            const renderTransitionRow = (
+              rel: typeof extRel,
+              y: number,
+              label: string,
+              polarityPlacement: 'above' | 'below'
+            ) => {
               if (!rel) return null;
               const chain = getRelChain(rel);
               const stroke = getAnalysisChainColor(chain, rel.domain, isCleanMode);
@@ -1086,11 +1091,16 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 ? 'url(#schlegel-real)'
                 : 'url(#schlegel-virtual)';
               const isRight = rel.arrow === '>';
+              const showEndpointPolarities =
+                isCleanMode && Boolean(rel.leftPolarity) && Boolean(rel.rightPolarity);
+              const headerY =
+                showEndpointPolarities && polarityPlacement === 'above' ? y - 35 : y - 22;
+              const polarityY = polarityPlacement === 'above' ? y - 20 : y + 27;
               return (
                 <g key={`${rel.cube}-${rel.notation}`}>
                   <text
                     x="210"
-                    y={y - 22}
+                    y={headerY}
                     textAnchor="middle"
                     fill={textColor}
                     fontSize="9.5"
@@ -1098,6 +1108,30 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   >
                     {label}
                   </text>
+                  {showEndpointPolarities && (
+                    <>
+                      <text
+                        x="70"
+                        y={polarityY}
+                        textAnchor="middle"
+                        fill="#94a3b8"
+                        fontSize="8.5"
+                        fontFamily="monospace"
+                      >
+                        {rel.leftPolarity}
+                      </text>
+                      <text
+                        x="350"
+                        y={polarityY}
+                        textAnchor="middle"
+                        fill="#94a3b8"
+                        fontSize="8.5"
+                        fontFamily="monospace"
+                      >
+                        {rel.rightPolarity}
+                      </text>
+                    </>
+                  )}
                   <rect
                     x="12"
                     y={y - 14}
@@ -1241,7 +1275,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
             return (
               <svg
-                viewBox="0 0 420 296"
+                viewBox="0 0 420 310"
                 className="w-full h-auto select-none rounded-lg bg-slate-950/60"
                 role="img"
                 aria-label={`Proyección Schlegel del teseracto ${selectedCell.id}`}
@@ -1309,10 +1343,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
                 {renderTransitionRow(
                   extRel,
-                  36,
+                  50,
                   `cubo exterior · ${selectedCell.exteriorLabel} (${
                     selectedCell.exteriorLine === '_' ? 'continuas _' : 'punteadas ...'
-                  })`
+                  })`,
+                  'above'
                 )}
 
                 {/* 4D hypercube connecting struts */}
@@ -1368,34 +1403,34 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 </g>
 
                 {/* Lateral callout annotations pointing cleanly to outer & inner cubes */}
-                <text x="16" y="142" fill={extTextColor} fontSize="9.5" fontFamily="monospace">
+                <text x="16" y="150" fill={extTextColor} fontSize="9.5" fontFamily="monospace">
                   cubo exterior
                 </text>
-                <text x="16" y="155" fill={extTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
+                <text x="16" y="163" fill={extTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
                   {selectedCell.exteriorLabel} · {selectedCell.exteriorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
                   x1="108"
-                  y1="146"
+                  y1="154"
                   x2="142"
-                  y2="146"
+                  y2="154"
                   stroke={extColor}
                   strokeWidth="1"
                   strokeOpacity="0.7"
                   strokeDasharray={selectedCell.exteriorLine === '...' ? '2 3' : undefined}
                 />
 
-                <text x="404" y="142" textAnchor="end" fill={intTextColor} fontSize="9.5" fontFamily="monospace">
+                <text x="404" y="150" textAnchor="end" fill={intTextColor} fontSize="9.5" fontFamily="monospace">
                   cubo interior
                 </text>
-                <text x="404" y="155" textAnchor="end" fill={intTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
+                <text x="404" y="163" textAnchor="end" fill={intTextColor} fontSize="9" fontFamily="monospace" opacity="0.9">
                   {selectedCell.interiorLabel} · {selectedCell.interiorLine === '_' ? 'continuas' : 'punteadas'}
                 </text>
                 <line
                   x1="234"
-                  y1="146"
+                  y1="154"
                   x2="300"
-                  y2="146"
+                  y2="154"
                   stroke={intColor}
                   strokeWidth="1"
                   strokeOpacity="0.7"
@@ -1404,10 +1439,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
 
                 {renderTransitionRow(
                   intRel,
-                  268,
+                  266,
                   `cubo interior · ${selectedCell.interiorLabel} (${
                     selectedCell.interiorLine === '_' ? 'continuas _' : 'punteadas ...'
-                  })`
+                  })`,
+                  'below'
                 )}
               </svg>
             );
@@ -1434,7 +1470,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                   </span>
                   <span className="text-[10.5px] whitespace-nowrap" style={{ color: textColor }}>
                     {rel.cubeLabel} · {rel.cube}
-                    {chain ? ` · ${chain}` : ''}
+                    {isCleanMode && rel.leftPolarity && rel.rightPolarity
+                      ? ` · ${rel.leftPolarity} | ${rel.rightPolarity}`
+                      : chain
+                      ? ` · ${chain}`
+                      : ''}
                   </span>
                 </div>
               );
