@@ -1954,8 +1954,8 @@ export function buildTesseractModel() {
       parity: 0,
       half: 'Parte superior · #3',
       relations: [
-        mkCleanRel('individualidad', 'IA', '>', '...', 'internet', 'totalidad', 'exterior'),
-        mkCleanRel('individualidad', 'cuerpo', '<', '_', 'universo', 'totalidad', 'interior'),
+        mkCleanRel('individualidad', 'internet', '>', '...', 'IA', 'totalidad', 'exterior'),
+        mkCleanRel('individualidad', 'universo', '<', '_', 'cuerpo', 'totalidad', 'interior'),
       ],
       neighbors: { horizontal: 'T2', vertical: 'T7', diagonal: 'T6' },
     },
@@ -1975,8 +1975,8 @@ export function buildTesseractModel() {
       parity: 1,
       half: 'Parte superior · #4',
       relations: [
-        mkCleanRel('individualidad', 'universo', '<', '_', 'cuerpo', 'totalidad', 'exterior'),
-        mkCleanRel('individualidad', 'internet', '>', '...', 'IA', 'totalidad', 'interior'),
+        mkCleanRel('individualidad', 'cuerpo', '<', '_', 'universo', 'totalidad', 'exterior'),
+        mkCleanRel('individualidad', 'IA', '>', '...', 'internet', 'totalidad', 'interior'),
       ],
       neighbors: { horizontal: 'T1', vertical: 'T8', diagonal: 'T5' },
     },
@@ -2038,8 +2038,8 @@ export function buildTesseractModel() {
       parity: 1,
       half: 'Parte inferior · #3',
       relations: [
-        mkCleanRel('totalidad', 'cuerpo', '>', '_', 'universo', 'individualidad', 'exterior'),
-        mkCleanRel('totalidad', 'IA', '<', '...', 'internet', 'individualidad', 'interior'),
+        mkCleanRel('totalidad', 'universo', '>', '_', 'cuerpo', 'individualidad', 'exterior'),
+        mkCleanRel('totalidad', 'internet', '<', '...', 'IA', 'individualidad', 'interior'),
       ],
       neighbors: { horizontal: 'T6', vertical: 'T3', diagonal: 'T2' },
     },
@@ -2059,8 +2059,8 @@ export function buildTesseractModel() {
       parity: 0,
       half: 'Parte inferior · #4',
       relations: [
-        mkCleanRel('totalidad', 'internet', '<', '...', 'IA', 'individualidad', 'exterior'),
-        mkCleanRel('totalidad', 'universo', '>', '_', 'cuerpo', 'individualidad', 'interior'),
+        mkCleanRel('totalidad', 'IA', '<', '...', 'internet', 'individualidad', 'exterior'),
+        mkCleanRel('totalidad', 'cuerpo', '>', '_', 'universo', 'individualidad', 'interior'),
       ],
       neighbors: { horizontal: 'T5', vertical: 'T4', diagonal: 'T1' },
     },
@@ -2101,8 +2101,8 @@ export function buildTesseractModel() {
           hr.domain === r.domain &&
           hr.line === r.line &&
           hr.arrow !== r.arrow &&
-          hr.left === r.right &&
-          hr.right === r.left &&
+          hr.left === r.left &&
+          hr.right === r.right &&
           hr.leftPolarity === r.leftPolarity &&
           hr.rightPolarity === r.rightPolarity
         );
@@ -2166,11 +2166,12 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Un único teseracto ({4,3,3}) — Forma general y definitiva del modelo (TSST-13)',
+      title: 'Un único teseracto ({4,3,3}) — Forma general y definitiva del modelo (TSST-6dr)',
       source:
-        'Lámina general definitiva TSST-13 (43e94964) + forma limpia previa TSST-357ce661 + 12 ayudas cromáticas (IMG-000207 + láminas individuales) · docs/TCAAU.md',
-      cleanAssetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
-      cleanPriorAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
+        'Lámina general definitiva 6dr (36f66e7c) + versión previa TSST-13 (43e94964) + forma limpia TSST-357ce661 + 12 ayudas cromáticas (IMG-000207 + láminas individuales) · docs/TCAAU.md',
+      cleanAssetPath: '/assets/aistudio/6dr_36f66e7c.jpg',
+      cleanPriorAssetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
+      cleanLegacyAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
       assetPath: '/assets/aistudio/IMG_20261123_031910_595b8f79.jpg',
       mirrorAssetPath: '/assets/aistudio/TSRIMG_20261123_023812_55e05147.jpg',
       mirrorFrameSwapAssetPath: '/assets/aistudio/IMG_20261123_063146_8d038bdc.jpg',
@@ -2189,9 +2190,9 @@ export function buildTesseractModel() {
         assetPath: c.assetPath,
       })),
       rules: [
-        'Unidad del objeto único (TSST-13): las 8 orientaciones son proyecciones de un solo teseracto 4D; lo que figura como marco exterior continuo (real _) aparece en la opuesta como marco interior punteado (virtual ...).',
+        'Unidad del objeto único (6dr): las 8 orientaciones son proyecciones de un solo teseracto 4D; lo que figura como marco exterior continuo (real _) aparece en la opuesta como marco interior punteado (virtual ...).',
         'Sistema cerrado de 4 dualidades (real/virtual, individualidad/totalidad, cuerpo/universo, internet/IA): cada flujo fija individualidad ↔ totalidad en sus extremos sin conexiones sobrantes ni faltantes.',
-        'El espejeo como operación fundamental: invertir interior/exterior, real/virtual o individualidad/totalidad produce el reflejo exacto del mismo objeto dentro de su propio espacio de contención.',
+        'El espejeo como operación fundamental: en simetría horizontal los extremos conservan su posición y polaridad invirtiendo únicamente la flecha (› ↔ ‹); en vertical se invierten cubo, flecha y polaridad.',
         'Cierre y autonomía absoluta: toda salida aparente (p. ej. hexágono convertido en segunda colmena) es una subposición interna; las 12 capas cromáticas son ayudas temporales cerradas sobre esta forma general definitiva.',
       ],
     },
@@ -2206,12 +2207,13 @@ export function buildTesseractModel() {
     concepts: [...TESSERACT_CONCEPTS],
     cubeLabels: [...TESSERACT_CUBE_LABELS],
     cleanForm: {
-      assetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
-      priorAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
-      assetTag: 'TSST-13 definitivo',
+      assetPath: '/assets/aistudio/6dr_36f66e7c.jpg',
+      priorAssetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
+      legacyAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
+      assetTag: 'TSST-6dr definitivo',
       title: 'Forma general y definitiva del modelo — Único teseracto ({4,3,3})',
       summary:
-        'Sistema cerrado de 4 dualidades (real/virtual, individualidad/totalidad, cuerpo/universo, internet/IA) en 8 orientaciones simétricas: toda subposición queda contenida sin exterior posible.',
+        'Sistema cerrado de 4 dualidades (real/virtual, individualidad/totalidad, cuerpo/universo, internet/IA) en 8 orientaciones simétricas con preservación de extremos en espejo H y conmutación polar en espejo V.',
       cells: cleanCells,
     },
     colorings,

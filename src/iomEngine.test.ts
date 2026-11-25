@@ -36,10 +36,14 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   );
   assert.equal(
     model.instruction.cleanAssetPath,
-    '/assets/aistudio/TSST__13__43e94964.jpg'
+    '/assets/aistudio/6dr_36f66e7c.jpg'
   );
   assert.equal(
     model.instruction.cleanPriorAssetPath,
+    '/assets/aistudio/TSST__13__43e94964.jpg'
+  );
+  assert.equal(
+    model.instruction.cleanLegacyAssetPath,
     '/assets/aistudio/TSST_20261123_003603_357ce661.jpg'
   );
   assert.equal(
@@ -296,10 +300,11 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
   assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 
-  // Verify general & definitive closed form (TSST__13__43e94964.jpg) & prior clean form (TSST_20261123_003603_357ce661.jpg)
-  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
-  assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
-  assert.equal(model.cleanForm.assetTag, 'TSST-13 definitivo');
+  // Verify general & definitive closed form (6dr_36f66e7c.jpg) & prior drafts (TSST__13__43e94964.jpg, TSST_20261123_003603_357ce661.jpg)
+  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/6dr_36f66e7c.jpg');
+  assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
+  assert.equal(model.cleanForm.legacyAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
+  assert.equal(model.cleanForm.assetTag, 'TSST-6dr definitivo');
   assert.equal(model.cleanForm.cells.length, 8);
   const expectedClean: Record<
     string,
@@ -329,14 +334,14 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
       ext: ['virtual', '...'],
       int: ['real', '_'],
       polarity: ['individualidad', 'totalidad'],
-      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      notations: ['internet > ... > IA', 'universo < _ < cuerpo'],
       endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
     },
     T4: {
       ext: ['real', '_'],
       int: ['virtual', '...'],
       polarity: ['individualidad', 'totalidad'],
-      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      notations: ['cuerpo < _ < universo', 'IA > ... > internet'],
       endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
     },
     T5: {
@@ -357,14 +362,14 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
       ext: ['real', '_'],
       int: ['virtual', '...'],
       polarity: ['totalidad', 'individualidad'],
-      notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
+      notations: ['universo > _ > cuerpo', 'internet < ... < IA'],
       endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
     },
     T8: {
       ext: ['virtual', '...'],
       int: ['real', '_'],
       polarity: ['totalidad', 'individualidad'],
-      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
+      notations: ['IA < ... < internet', 'cuerpo > _ > universo'],
       endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
     },
   };

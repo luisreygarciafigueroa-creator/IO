@@ -99,6 +99,7 @@ export interface FlowchartCell {
 export interface FlowchartCleanForm {
   assetPath: string;
   priorAssetPath?: string;
+  legacyAssetPath?: string;
   assetTag: string;
   title: string;
   summary: string;

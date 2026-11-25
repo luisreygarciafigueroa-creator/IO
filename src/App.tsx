@@ -257,6 +257,7 @@ interface TesseractResponse {
     source: string;
     cleanAssetPath?: string;
     cleanPriorAssetPath?: string;
+    cleanLegacyAssetPath?: string;
     assetPath?: string;
     parityMirrorAssetPath?: string;
     mirrorAssetPath?: string;
@@ -290,6 +291,7 @@ interface TesseractResponse {
   cleanForm?: {
     assetPath: string;
     priorAssetPath?: string;
+    legacyAssetPath?: string;
     assetTag: string;
     title: string;
     summary: string;
@@ -1229,13 +1231,13 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    forma general definitiva (TSST-13) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
+                    forma general definitiva (6dr) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (12):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (13):</span>
                 {tesseractData.instruction.cleanAssetPath && (
                   <a
                     href={tesseractData.instruction.cleanAssetPath}
@@ -1246,14 +1248,25 @@ export default function App() {
                         ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                         : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
                     }`}
-                    title="Forma general y definitiva del modelo (TSST-13)"
+                    title="Forma general y definitiva del modelo (TSST-6dr)"
                   >
-                    Forma general definitiva (TSST-13)
+                    Forma general definitiva (6dr)
                   </a>
                 )}
                 {tesseractData.instruction.cleanPriorAssetPath && (
                   <a
                     href={tesseractData.instruction.cleanPriorAssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    title="Versión previa TSST-13 antes del ajuste especular horizontal en T3, T4, T7 y T8"
+                  >
+                    Versión previa (TSST-13)
+                  </a>
+                )}
+                {tesseractData.instruction.cleanLegacyAssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanLegacyAssetPath}
                     target="_blank"
                     rel="noreferrer"
                     className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
@@ -1388,9 +1401,9 @@ export default function App() {
                           ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                           : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
                       }`}
-                      title="Ver la forma general y definitiva sin capas cromáticas (TSST-13)"
+                      title="Ver la forma general y definitiva sin capas cromáticas (6dr)"
                     >
-                      Forma general definitiva (Sin color · TSST-13)
+                      Forma general definitiva (Sin color · 6dr)
                     </button>
                     <span className="text-slate-500 text-[10px]">
                       Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
@@ -1560,7 +1573,7 @@ export default function App() {
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Forma general definitiva (TSST-13)</div>
+                <div className="text-slate-400">Forma general definitiva (6dr)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
