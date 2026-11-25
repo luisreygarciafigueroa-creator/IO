@@ -241,10 +241,10 @@ interface TesseractRelation {
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
   cubeLabel: string;
-  analysisChain: AnalysisChainColor;
-  mirrorChain: AnalysisChainColor;
-  parityMirrorChain: AnalysisChainColor;
-  mirrorReflectedChain: AnalysisChainColor;
+  analysisChain?: AnalysisChainColor;
+  mirrorChain?: AnalysisChainColor;
+  parityMirrorChain?: AnalysisChainColor;
+  mirrorReflectedChain?: AnalysisChainColor;
   chains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
   notation: string;
 }
@@ -253,6 +253,7 @@ interface TesseractResponse {
   instruction: {
     title: string;
     source: string;
+    cleanAssetPath?: string;
     assetPath?: string;
     parityMirrorAssetPath?: string;
     mirrorAssetPath?: string;
@@ -283,6 +284,13 @@ interface TesseractResponse {
   concepts: string[];
   cubeLabels: string[];
   colorings?: TesseractColoringSpec[];
+  cleanForm?: {
+    assetPath: string;
+    assetTag: string;
+    title: string;
+    summary: string;
+    cells: TesseractResponse['cells'];
+  };
   analysisChains: Array<{
     id: AnalysisChainColor;
     label: string;
@@ -327,18 +335,20 @@ interface TesseractResponse {
     axisPair: string;
     exteriorLabel: string;
     exteriorLine: '_' | '...';
-    exteriorChain: AnalysisChainColor;
-    exteriorMirrorChain: AnalysisChainColor;
-    exteriorParityMirrorChain: AnalysisChainColor;
-    exteriorMirrorReflectedChain: AnalysisChainColor;
+    exteriorChain?: AnalysisChainColor;
+    exteriorMirrorChain?: AnalysisChainColor;
+    exteriorParityMirrorChain?: AnalysisChainColor;
+    exteriorMirrorReflectedChain?: AnalysisChainColor;
     exteriorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
     interiorLabel: string;
     interiorLine: '_' | '...';
-    interiorChain: AnalysisChainColor;
-    interiorMirrorChain: AnalysisChainColor;
-    interiorParityMirrorChain: AnalysisChainColor;
-    interiorMirrorReflectedChain: AnalysisChainColor;
+    interiorChain?: AnalysisChainColor;
+    interiorMirrorChain?: AnalysisChainColor;
+    interiorParityMirrorChain?: AnalysisChainColor;
+    interiorMirrorReflectedChain?: AnalysisChainColor;
     interiorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
+    polarityLeft?: string;
+    polarityRight?: string;
     coords: [0 | 1, 0 | 1, 0 | 1];
     parity: 0 | 1;
     half: string;
@@ -352,6 +362,13 @@ interface TesseractResponse {
     continuousExtCount: number;
     dashedExtCount: number;
     coloringsCount?: number;
+    cleanFormCellCount?: number;
+    cleanFormTransitionCount?: number;
+    cleanFormAllRealSolidVirtualDashed?: boolean;
+    cleanFormAllHaveOneRightOneLeft?: boolean;
+    cleanFormAllHorizontalMirrorsExact?: boolean;
+    cleanFormAllVerticalMirrorsExact?: boolean;
+    cleanFormVerified?: boolean;
     allRealUseRightArrow: boolean;
     allHaveOneRealOneVirtual: boolean;
     allHaveOneContinuousOneDashed: boolean;
@@ -414,7 +431,7 @@ export default function App() {
   const [tesseractData, setTesseractData] = useState<TesseractResponse | null>(null);
   const [selectedCellId, setSelectedCellId] = useState<string>('T1');
   const [flowFilter, setFlowFilter] = useState<FlowFilter>('all');
-  const [colorMode, setColorMode] = useState<TesseractColorMode>('mirrorReflected');
+  const [colorMode, setColorMode] = useState<TesseractColorMode>('clean');
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -939,51 +956,87 @@ export default function App() {
         )}
 
         {activeTab === 'tesseracts' && tesseractData && (() => {
+          const isCleanMode = colorMode === 'clean';
           const allColorings = tesseractData.colorings ?? [];
-          const activeColoring =
-            allColorings.find((c) => c.id === colorMode) ?? allColorings[0];
+          const activeColoring = isCleanMode
+            ? undefined
+            : allColorings.find((c) => c.id === colorMode) ?? allColorings[0];
           const mirrorColorings = allColorings.filter((c) => c.family === 'mirror');
           const parityColorings = allColorings.filter((c) => c.family === 'parity');
+          const activeCells =
+            isCleanMode && tesseractData.cleanForm?.cells?.length
+              ? tesseractData.cleanForm.cells
+              : tesseractData.cells;
 
-          const resolveRelChain = (rel: TesseractRelation): AnalysisChainColor =>
-            rel.chains?.[colorMode] ??
-            (colorMode === 'mirrorReflected'
-              ? rel.mirrorReflectedChain
-              : colorMode === 'parityMirror'
-              ? rel.parityMirrorChain
-              : colorMode === 'mirror'
-              ? rel.mirrorChain
-              : rel.analysisChain);
+          const selectColorMode = (nextMode: TesseractColorMode) => {
+            setColorMode(nextMode);
+            if (
+              nextMode === 'clean' &&
+              (flowFilter === 'azul' ||
+                flowFilter === 'amarillo' ||
+                flowFilter === 'rojo' ||
+                flowFilter === 'verde')
+            ) {
+              setFlowFilter('all');
+            }
+          };
 
-          const resolveCellExtChain = (cell: TesseractResponse['cells'][number]): AnalysisChainColor =>
-            cell.exteriorChains?.[colorMode] ??
-            (colorMode === 'mirrorReflected'
-              ? cell.exteriorMirrorReflectedChain
-              : colorMode === 'parityMirror'
-              ? cell.exteriorParityMirrorChain
-              : colorMode === 'mirror'
-              ? cell.exteriorMirrorChain
-              : cell.exteriorChain);
+          const resolveRelChain = (rel: TesseractRelation): AnalysisChainColor | undefined => {
+            if (isCleanMode) return undefined;
+            return (
+              rel.chains?.[colorMode] ??
+              (colorMode === 'mirrorReflected'
+                ? rel.mirrorReflectedChain
+                : colorMode === 'parityMirror'
+                ? rel.parityMirrorChain
+                : colorMode === 'mirror'
+                ? rel.mirrorChain
+                : rel.analysisChain)
+            );
+          };
 
-          const resolveCellIntChain = (cell: TesseractResponse['cells'][number]): AnalysisChainColor =>
-            cell.interiorChains?.[colorMode] ??
-            (colorMode === 'mirrorReflected'
-              ? cell.interiorMirrorReflectedChain
-              : colorMode === 'parityMirror'
-              ? cell.interiorParityMirrorChain
-              : colorMode === 'mirror'
-              ? cell.interiorMirrorChain
-              : cell.interiorChain);
+          const resolveCellExtChain = (
+            cell: TesseractResponse['cells'][number]
+          ): AnalysisChainColor | undefined => {
+            if (isCleanMode) return undefined;
+            return (
+              cell.exteriorChains?.[colorMode] ??
+              (colorMode === 'mirrorReflected'
+                ? cell.exteriorMirrorReflectedChain
+                : colorMode === 'parityMirror'
+                ? cell.exteriorParityMirrorChain
+                : colorMode === 'mirror'
+                ? cell.exteriorMirrorChain
+                : cell.exteriorChain)
+            );
+          };
+
+          const resolveCellIntChain = (
+            cell: TesseractResponse['cells'][number]
+          ): AnalysisChainColor | undefined => {
+            if (isCleanMode) return undefined;
+            return (
+              cell.interiorChains?.[colorMode] ??
+              (colorMode === 'mirrorReflected'
+                ? cell.interiorMirrorReflectedChain
+                : colorMode === 'parityMirror'
+                ? cell.interiorParityMirrorChain
+                : colorMode === 'mirror'
+                ? cell.interiorMirrorChain
+                : cell.interiorChain)
+            );
+          };
 
           const selectedCell =
-            tesseractData.cells.find((c) => c.id === selectedCellId) ?? tesseractData.cells[0];
-          const superiorCells = tesseractData.cells.filter((c) => c.row === 'superior');
-          const inferiorCells = tesseractData.cells.filter((c) => c.row === 'inferior');
+            activeCells.find((c) => c.id === selectedCellId) ?? activeCells[0];
+          const superiorCells = activeCells.filter((c) => c.row === 'superior');
+          const inferiorCells = activeCells.filter((c) => c.row === 'inferior');
           const isChainFilter =
-            flowFilter === 'azul' ||
-            flowFilter === 'amarillo' ||
-            flowFilter === 'rojo' ||
-            flowFilter === 'verde';
+            !isCleanMode &&
+            (flowFilter === 'azul' ||
+              flowFilter === 'amarillo' ||
+              flowFilter === 'rojo' ||
+              flowFilter === 'verde');
 
           const renderCellCard = (cell: TesseractResponse['cells'][number], idx: number) => {
             const active = cell.id === selectedCell.id;
@@ -993,10 +1046,26 @@ export default function App() {
               !isChainFilter || extChain === flowFilter || intChain === flowFilter;
             const continuousLabel =
               cell.exteriorLine === '_' ? cell.exteriorLabel : cell.interiorLabel;
+            const continuousDomain: 'real' | 'virtual' =
+              cell.exteriorLine === '_'
+                ? cell.exteriorLabel === 'virtual'
+                  ? 'virtual'
+                  : 'real'
+                : cell.interiorLabel === 'virtual'
+                ? 'virtual'
+                : 'real';
             const continuousChain =
               cell.exteriorLine === '_' ? extChain : intChain;
             const dashedLabel =
               cell.exteriorLine === '...' ? cell.exteriorLabel : cell.interiorLabel;
+            const dashedDomain: 'real' | 'virtual' =
+              cell.exteriorLine === '...'
+                ? cell.exteriorLabel === 'real'
+                  ? 'real'
+                  : 'virtual'
+                : cell.interiorLabel === 'real'
+                ? 'real'
+                : 'virtual';
             const dashedChain =
               cell.exteriorLine === '...' ? extChain : intChain;
 
@@ -1013,7 +1082,9 @@ export default function App() {
                   onClick={() => setSelectedCellId(cell.id)}
                   className={`w-full h-full text-left rounded-xl p-3 border transition cursor-pointer flex flex-col justify-between ${
                     active
-                      ? 'bg-sky-500/15 border-sky-400/60'
+                      ? isCleanMode
+                        ? 'bg-slate-100/10 border-slate-300/60'
+                        : 'bg-sky-500/15 border-sky-400/60'
                       : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
                   } ${!cellMatchesChain ? 'opacity-40' : ''}`}
                 >
@@ -1033,34 +1104,49 @@ export default function App() {
                       <div className="flex items-center gap-1 whitespace-nowrap">
                         <CubeGlyph
                           dashed={false}
-                          color={getAnalysisChainColor(continuousChain)}
+                          color={getAnalysisChainColor(continuousChain, continuousDomain, isCleanMode)}
                           size={12}
                         />
                         <span>continuas:</span>
-                        <span style={{ color: getAnalysisChainTextColor(continuousChain) }}>
+                        <span style={{ color: getAnalysisChainTextColor(continuousChain, continuousDomain, isCleanMode) }}>
                           {continuousLabel}
                         </span>
                       </div>
                       <div className="flex items-center gap-1 whitespace-nowrap">
                         <CubeGlyph
                           dashed={true}
-                          color={getAnalysisChainColor(dashedChain)}
+                          color={getAnalysisChainColor(dashedChain, dashedDomain, isCleanMode)}
                           size={12}
                         />
                         <span>punteadas:</span>
-                        <span style={{ color: getAnalysisChainTextColor(dashedChain) }}>
+                        <span style={{ color: getAnalysisChainTextColor(dashedChain, dashedDomain, isCleanMode) }}>
                           {dashedLabel}
                         </span>
                       </div>
                     </div>
+                    {isCleanMode && cell.polarityLeft && cell.polarityRight && (
+                      <div className="flex items-center justify-between text-[9.5px] font-mono text-slate-300 border-y border-slate-800/90 py-1 mb-2 px-0.5">
+                        <span>{cell.polarityLeft}</span>
+                        <span className="text-slate-600">|</span>
+                        <span>{cell.polarityRight}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="space-y-1.5 font-mono text-[10px] leading-snug tracking-tight">
                     {cell.relations.map((rel, i) => {
                       const arrowGlyph = rel.arrow === '>' ? '→' : '←';
                       const relChain = resolveRelChain(rel);
-                      const glyphColor = getAnalysisChainColor(relChain, rel.domain);
-                      const textColor = getAnalysisChainTextColor(relChain, rel.domain);
-                      const relMatches = !isChainFilter || relChain === flowFilter;
+                      const glyphColor = getAnalysisChainColor(relChain, rel.domain, isCleanMode);
+                      const textColor = getAnalysisChainTextColor(relChain, rel.domain, isCleanMode);
+                      const relMatches = isCleanMode
+                        ? flowFilter === 'all' ||
+                          (flowFilter !== 'real' && flowFilter !== 'virtual') ||
+                          rel.domain === flowFilter
+                        : !isChainFilter || relChain === flowFilter;
+                      const relHighlighted = isCleanMode
+                        ? (flowFilter === 'real' || flowFilter === 'virtual') &&
+                          rel.domain === flowFilter
+                        : isChainFilter && relMatches;
                       return (
                         <div
                           key={i}
@@ -1069,13 +1155,15 @@ export default function App() {
                             color: textColor,
                             borderColor: relMatches ? `${glyphColor}66` : 'rgba(51, 65, 85, 0.5)',
                             backgroundColor:
-                              isChainFilter && relMatches
+                              relHighlighted && relChain
                                 ? ANALYSIS_CHAIN_STYLES[relChain].bg
+                                : relHighlighted
+                                ? 'rgba(241, 245, 249, 0.08)'
                                 : 'rgba(2, 6, 23, 0.85)',
                           }}
                           className={`px-2 py-1 rounded border flex flex-wrap items-center gap-x-1 transition ${
                             rel.line === '...' ? 'border-dashed' : 'border-solid'
-                          } ${isChainFilter && !relMatches ? 'opacity-35' : ''}`}
+                          } ${!relMatches ? 'opacity-35' : ''}`}
                         >
                           <span>{rel.left}</span>
                           <span className="opacity-90">{arrowGlyph}</span>
@@ -1093,6 +1181,10 @@ export default function App() {
 
           const selectedExtChain = resolveCellExtChain(selectedCell);
           const selectedIntChain = resolveCellIntChain(selectedCell);
+          const selectedExtDomain: 'real' | 'virtual' =
+            selectedCell.exteriorLine === '_' ? 'real' : 'virtual';
+          const selectedIntDomain: 'real' | 'virtual' =
+            selectedCell.interiorLine === '_' ? 'real' : 'virtual';
 
           return (
           <div className="space-y-6">
@@ -1112,13 +1204,28 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    clausura {allColorings.length} coloraciones · {tesseractData.verification.totalRelations} transiciones
+                    forma limpia verificada · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (10):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (11):</span>
+                {tesseractData.instruction.cleanAssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanAssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`px-2 py-0.5 rounded border transition ${
+                      isCleanMode
+                        ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
+                        : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                    }`}
+                    title="Forma limpia y definitiva del objeto único (TSST-357ce661)"
+                  >
+                    Forma limpia (TSST definitivo)
+                  </a>
+                )}
                 {Array.from(
                   new Map(
                     (tesseractData.instruction.colorAssets ?? []).map((asset) => [
@@ -1133,7 +1240,7 @@ export default function App() {
                     ])
                   ).values()
                 ).map((asset) => {
-                  const isActiveAsset = activeColoring?.assetPath === asset.assetPath;
+                  const isActiveAsset = !isCleanMode && activeColoring?.assetPath === asset.assetPath;
                   return (
                     <a
                       key={asset.assetPath}
@@ -1158,7 +1265,7 @@ export default function App() {
                     rel="noreferrer"
                     className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
                   >
-                    Monocromo (TSST)
+                    Monocromo base (TSST)
                   </a>
                 )}
                 {tesseractData.instruction.pdfPath && (
@@ -1189,34 +1296,70 @@ export default function App() {
                 <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3 text-xs">
                   <div className="space-y-0.5 min-w-0">
                     <span className="font-semibold text-slate-200 block">
-                      {activeColoring
+                      {isCleanMode
+                        ? `${
+                            tesseractData.cleanForm?.title ??
+                            'Forma limpia y definitiva del objeto único (Sin capas cromáticas)'
+                          } · ${tesseractData.cleanForm?.assetTag ?? 'TSST definitivo'}`
+                        : activeColoring
                         ? `${activeColoring.title} · ${activeColoring.assetTag}`
                         : 'Lectura cromática del teseracto'}
                     </span>
                     <span className="font-mono text-[11px] text-slate-400 block">
-                      {activeColoring?.summary ??
-                        'Clausura completa del espejeo interno sobre las 8 proyecciones del teseracto.'}
+                      {isCleanMode
+                        ? tesseractData.cleanForm?.summary ??
+                          'Estructura pura en líneas continuas (real _) y punteadas (virtual ...) sobre las 8 proyecciones del teseracto.'
+                        : activeColoring?.summary ??
+                          'Clausura completa del espejeo interno sobre las 8 proyecciones del teseracto.'}
                     </span>
                   </div>
 
-                  {activeColoring && (
-                    <button
-                      type="button"
-                      onClick={() => setColorMode(activeColoring.mirrorPartnerId)}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/40 text-sky-200 font-mono text-[11px] whitespace-nowrap transition cursor-pointer shrink-0"
-                      title={`Aplicar involución cromática (${activeColoring.involutionRule}) hacia ${activeColoring.mirrorPartnerLabel}`}
-                    >
-                      <ArrowLeftRight className="w-3.5 h-3.5 text-sky-300 shrink-0" />
-                      Espejar ↔ {activeColoring.mirrorPartnerLabel} ({activeColoring.involutionRule})
-                    </button>
+                  {!isCleanMode && activeColoring && (
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => selectColorMode(activeColoring.mirrorPartnerId)}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/40 text-sky-200 font-mono text-[11px] whitespace-nowrap transition cursor-pointer"
+                        title={`Aplicar involución cromática (${activeColoring.involutionRule}) hacia ${activeColoring.mirrorPartnerLabel}`}
+                      >
+                        <ArrowLeftRight className="w-3.5 h-3.5 text-sky-300 shrink-0" />
+                        Espejar ↔ {activeColoring.mirrorPartnerLabel} ({activeColoring.involutionRule})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => selectColorMode('clean')}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100/10 hover:bg-slate-100/20 border border-slate-400/40 text-slate-100 font-mono text-[11px] whitespace-nowrap transition cursor-pointer"
+                        title="Retirar la ayuda cromática temporal y volver a la forma limpia definitiva"
+                      >
+                        Retirar color
+                      </button>
+                    </div>
                   )}
                 </div>
 
                 <div
                   role="group"
-                  aria-label="Clausura del espejeo · 12 coloraciones (6 pares)"
+                  aria-label="Forma limpia definitiva y ayudas cromáticas temporales (12 coloraciones · 6 pares)"
                   className="flex flex-col gap-2 pt-2 border-t border-slate-800/80 font-mono text-[11px]"
                 >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-slate-400 text-[10.5px]">Estructura pura:</span>
+                    <button
+                      type="button"
+                      onClick={() => selectColorMode('clean')}
+                      className={`px-3 py-1 rounded-md transition cursor-pointer border ${
+                        isCleanMode
+                          ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
+                          : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
+                      }`}
+                      title="Ver la forma limpia y definitiva sin capas cromáticas (TSST-357ce661)"
+                    >
+                      Forma limpia y definitiva (Sin color · TSST)
+                    </button>
+                    <span className="text-slate-500 text-[10px]">
+                      Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
+                    </span>
+                  </div>
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-slate-500 text-[10.5px] mr-0.5">
                       Marcos ({mirrorColorings.length}):
@@ -1225,7 +1368,7 @@ export default function App() {
                       <button
                         key={c.id}
                         type="button"
-                        onClick={() => setColorMode(c.id)}
+                        onClick={() => selectColorMode(c.id)}
                         className={`px-2.5 py-1 rounded-md transition cursor-pointer border ${
                           colorMode === c.id
                             ? 'bg-sky-500/20 text-sky-200 border-sky-400/50'
@@ -1245,7 +1388,7 @@ export default function App() {
                       <button
                         key={c.id}
                         type="button"
-                        onClick={() => setColorMode(c.id)}
+                        onClick={() => selectColorMode(c.id)}
                         className={`px-2.5 py-1 rounded-md transition cursor-pointer border ${
                           colorMode === c.id
                             ? 'bg-sky-500/20 text-sky-200 border-sky-400/50'
@@ -1259,77 +1402,147 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-                  {(activeColoring?.chains ?? []).map((chain) => {
-                    const st = ANALYSIS_CHAIN_STYLES[chain.id];
-                    const active = flowFilter === chain.id;
-                    const isMirror = activeColoring?.family === 'mirror';
-                    return (
-                      <button
-                        key={chain.id}
-                        onClick={() => {
-                          const next = active ? 'all' : chain.id;
-                          setFlowFilter(next);
-                          if (!active && !chain.cellIds.includes(selectedCellId)) {
-                            setSelectedCellId(chain.cellIds[0]);
+                {isCleanMode ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setFlowFilter(flowFilter === 'real' ? 'all' : 'real')}
+                      className={`text-left rounded-lg px-3 py-2 border transition cursor-pointer ${
+                        flowFilter === 'real'
+                          ? 'bg-slate-100/15 border-slate-200/70'
+                          : 'bg-slate-900/70 border-slate-700/80 hover:border-slate-500'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-100">
+                        <span className="inline-flex items-center gap-1.5 font-semibold">
+                          <CubeGlyph dashed={false} color="#f1f5f9" size={14} />
+                          Marco real (_)
+                        </span>
+                        <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
+                      </div>
+                      <div className="font-mono text-[10.5px] text-slate-300 mt-1">
+                        cuerpo ↔ universo · líneas continuas
+                      </div>
+                      <div className="font-mono text-[10px] text-slate-400 mt-0.5">
+                        4 exteriores (T1,T4,T6,T7) · 4 interiores (T2,T3,T5,T8)
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setFlowFilter(flowFilter === 'virtual' ? 'all' : 'virtual')}
+                      className={`text-left rounded-lg px-3 py-2 border border-dashed transition cursor-pointer ${
+                        flowFilter === 'virtual'
+                          ? 'bg-slate-400/15 border-slate-300/70'
+                          : 'bg-slate-900/70 border-slate-700 hover:border-slate-500'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
+                        <span className="inline-flex items-center gap-1.5 font-semibold">
+                          <CubeGlyph dashed={true} color="#94a3b8" size={14} />
+                          Marco virtual (...)
+                        </span>
+                        <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
+                      </div>
+                      <div className="font-mono text-[10.5px] text-slate-300 mt-1">
+                        internet ↔ IA · líneas punteadas
+                      </div>
+                      <div className="font-mono text-[10px] text-slate-400 mt-0.5">
+                        4 exteriores (T2,T3,T5,T8) · 4 interiores (T1,T4,T6,T7)
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setFlowFilter('all')}
+                      className="text-left rounded-lg px-3 py-2 bg-slate-900/70 border border-slate-800 hover:border-slate-600 transition cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
+                        <span className="font-semibold">Polaridad complementaria</span>
+                        <span className="text-[10px] text-emerald-300">2×4 simétrica</span>
+                      </div>
+                      <div className="font-mono text-[10.5px] text-slate-300 mt-1">
+                        Sup: individualidad | totalidad
+                      </div>
+                      <div className="font-mono text-[10px] text-slate-400 mt-0.5">
+                        Inf: totalidad | individualidad (espejo H/V exacto)
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                    {(activeColoring?.chains ?? []).map((chain) => {
+                      const st = ANALYSIS_CHAIN_STYLES[chain.id];
+                      const active = flowFilter === chain.id;
+                      const isMirror = activeColoring?.family === 'mirror';
+                      return (
+                        <button
+                          key={chain.id}
+                          onClick={() => {
+                            const next = active ? 'all' : chain.id;
+                            setFlowFilter(next);
+                            if (!active && !chain.cellIds.includes(selectedCellId)) {
+                              setSelectedCellId(chain.cellIds[0]);
+                            }
+                          }}
+                          style={
+                            active
+                              ? { backgroundColor: st.bg, borderColor: st.stroke }
+                              : { borderColor: `${st.stroke}40` }
                           }
-                        }}
-                        style={
-                          active
-                            ? { backgroundColor: st.bg, borderColor: st.stroke }
-                            : { borderColor: `${st.stroke}40` }
-                        }
-                        className="text-left rounded-lg px-3 py-2 bg-slate-900/70 border hover:bg-slate-900 transition cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between gap-2 font-mono text-xs">
-                          <span className="inline-flex items-center gap-1.5 font-semibold" style={{ color: st.text }}>
-                            <span
-                              className="w-2.5 h-2.5 rounded-full shrink-0"
-                              style={{ backgroundColor: st.stroke }}
-                            />
-                            {isMirror
-                              ? `${chain.label} (2 › / 2 ‹)`
-                              : `${chain.label} (${chain.arrow === '>' ? '›' : '‹'})`}
-                          </span>
-                          <span className="text-[10px] text-slate-400">
-                            {isMirror
-                              ? `${chain.cellIds[0]}↔${chain.cellIds[1]} · ${chain.cellIds[2]}↔${chain.cellIds[3]}`
-                              : `Paridad ${chain.parity}`}
-                          </span>
-                        </div>
-                        <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                          {isMirror ? chain.cubeLabels.join(' ↔ ') : chain.cellIds.join(' → ')}
-                        </div>
-                        <div className="font-mono text-[10px] text-slate-400 mt-0.5 truncate">
-                          {isMirror ? chain.modalSwap : chain.cubeLabels.join(' · ')}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                          className="text-left rounded-lg px-3 py-2 bg-slate-900/70 border hover:bg-slate-900 transition cursor-pointer"
+                        >
+                          <div className="flex items-center justify-between gap-2 font-mono text-xs">
+                            <span className="inline-flex items-center gap-1.5 font-semibold" style={{ color: st.text }}>
+                              <span
+                                className="w-2.5 h-2.5 rounded-full shrink-0"
+                                style={{ backgroundColor: st.stroke }}
+                              />
+                              {isMirror
+                                ? `${chain.label} (2 › / 2 ‹)`
+                                : `${chain.label} (${chain.arrow === '>' ? '›' : '‹'})`}
+                            </span>
+                            <span className="text-[10px] text-slate-400">
+                              {isMirror
+                                ? `${chain.cellIds[0]}↔${chain.cellIds[1]} · ${chain.cellIds[2]}↔${chain.cellIds[3]}`
+                                : `Paridad ${chain.parity}`}
+                            </span>
+                          </div>
+                          <div className="font-mono text-[10.5px] text-slate-300 mt-1">
+                            {isMirror ? chain.cubeLabels.join(' ↔ ') : chain.cellIds.join(' → ')}
+                          </div>
+                          <div className="font-mono text-[10px] text-slate-400 mt-0.5 truncate">
+                            {isMirror ? chain.modalSwap : chain.cubeLabels.join(' · ')}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </section>
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Dirección &gt; / &lt;</div>
+                <div className="text-slate-400">Forma limpia definitiva (TSST)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
-                  {tesseractData.verification.allRealUseRightArrow ? 'VERIFICADO' : 'ERROR'}
+                  {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  {tesseractData.verification.realArrowCount} real (&gt;) ·{' '}
-                  {tesseractData.verification.virtualArrowCount} virtual (&lt;)
+                  {tesseractData.verification.cleanFormCellCount ?? 8} proyecciones ·{' '}
+                  {tesseractData.verification.cleanFormTransitionCount ?? 16} transiciones
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
                 <div className="text-slate-400">Balance por celda</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.allHaveOneRealOneVirtual &&
-                  tesseractData.verification.allHaveOneContinuousOneDashed
+                  tesseractData.verification.allHaveOneContinuousOneDashed &&
+                  tesseractData.verification.cleanFormAllRealSolidVirtualDashed
                     ? 'VERIFICADO'
                     : 'ERROR'}
                 </div>
-                <div className="text-[11px] text-slate-500">1 › + 1 ‹ · 1 _ + 1 ... en las 8</div>
+                <div className="text-[11px] text-slate-500">1 › + 1 ‹ · 1 _ (real) + 1 ... (virtual)</div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
                 <div className="text-slate-400">
@@ -1343,16 +1556,18 @@ export default function App() {
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Cubos &amp; Cobertura</div>
+                <div className="text-slate-400">Inversión H / V y cobertura</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
-                  {tesseractData.concepts.length} / {tesseractData.cubeLabels.length}
+                  {tesseractData.verification.cleanFormAllHorizontalMirrorsExact &&
+                  tesseractData.verification.cleanFormAllVerticalMirrorsExact
+                    ? 'EXACTA'
+                    : 'ERROR'}
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  cabeceras:{' '}
-                  {tesseractData.verification.allCubeLinesMatchHeader &&
-                  tesseractData.verification.allConceptsCovered &&
+                  {tesseractData.concepts.length} conceptos ·{' '}
+                  {tesseractData.verification.allConceptsCovered &&
                   tesseractData.verification.allCubeLabelsCovered
-                    ? 'OK'
+                    ? 'cobertura OK'
                     : 'ERR'}
                 </div>
               </div>
@@ -1380,8 +1595,10 @@ export default function App() {
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
                   <span>Proyección superior (T1–T4, de izquierda a derecha)</span>
                   <span className="text-[11px] text-slate-500">
-                    Líneas punteadas = planos de inversión · Colores ={' '}
-                    {activeColoring?.filterHint ?? colorMode}
+                    Líneas punteadas = planos de inversión ·{' '}
+                    {isCleanMode
+                      ? 'Estructura pura (real _ / virtual ...)'
+                      : `Colores = ${activeColoring?.filterHint ?? colorMode}`}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -1391,7 +1608,9 @@ export default function App() {
                 <div className="relative flex items-center justify-center py-1" role="separator">
                   <div className="w-full border-t-2 border-dashed border-slate-700" />
                   <span className="absolute px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 whitespace-nowrap">
-                    plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución
+                    {isCleanMode
+                      ? 'plano de inversión horizontal · exterior ↔ interior · superior (indiv | tot) ↔ inferior (tot | indiv)'
+                      : 'plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución'}
                   </span>
                 </div>
 
@@ -1408,7 +1627,11 @@ export default function App() {
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
                     <span>{selectedCell.half}</span>
                     <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-[10.5px] text-slate-300">
-                      {activeColoring?.family === 'mirror'
+                      {isCleanMode
+                        ? `Polaridad: ${selectedCell.polarityLeft ?? 'individualidad'} | ${
+                            selectedCell.polarityRight ?? 'totalidad'
+                          }`
+                        : activeColoring?.family === 'mirror'
                         ? selectedCell.axisPair === 'real / virtual' ||
                           selectedCell.axisPair === 'evolución / involución'
                           ? `Marcos {T1↔T4, T6↔T7} · ${selectedExtChain} / ${selectedIntChain}`
@@ -1423,12 +1646,30 @@ export default function App() {
                   </h3>
                   <p className="text-xs text-slate-400 font-mono mt-1">
                     interior ({selectedCell.interiorLine === '_' ? 'continuas _' : 'punteadas ...'}):{' '}
-                    <span style={{ color: getAnalysisChainTextColor(selectedIntChain) }}>
-                      {selectedCell.interiorLabel} ({selectedIntChain})
+                    <span
+                      style={{
+                        color: getAnalysisChainTextColor(
+                          selectedIntChain,
+                          selectedIntDomain,
+                          isCleanMode
+                        ),
+                      }}
+                    >
+                      {selectedCell.interiorLabel}
+                      {selectedIntChain ? ` (${selectedIntChain})` : ''}
                     </span>{' '}
                     · exterior ({selectedCell.exteriorLine === '_' ? 'continuas _' : 'punteadas ...'}):{' '}
-                    <span style={{ color: getAnalysisChainTextColor(selectedExtChain) }}>
-                      {selectedCell.exteriorLabel} ({selectedExtChain})
+                    <span
+                      style={{
+                        color: getAnalysisChainTextColor(
+                          selectedExtChain,
+                          selectedExtDomain,
+                          isCleanMode
+                        ),
+                      }}
+                    >
+                      {selectedCell.exteriorLabel}
+                      {selectedExtChain ? ` (${selectedExtChain})` : ''}
                     </span>
                   </p>
                 </div>
@@ -1467,8 +1708,8 @@ export default function App() {
                   {selectedCell.relations.map((rel, i) => {
                     const arrowGlyph = rel.arrow === '>' ? '→' : '←';
                     const relChain = resolveRelChain(rel);
-                    const glyphColor = getAnalysisChainColor(relChain, rel.domain);
-                    const textColor = getAnalysisChainTextColor(relChain, rel.domain);
+                    const glyphColor = getAnalysisChainColor(relChain, rel.domain, isCleanMode);
+                    const textColor = getAnalysisChainTextColor(relChain, rel.domain, isCleanMode);
                     return (
                       <div key={i} className="space-y-0.5">
                         <div
@@ -1482,12 +1723,18 @@ export default function App() {
                           <span>{rel.right}</span>
                         </div>
                         <div className="text-[11px] text-slate-400">
-                          cubo {rel.cube} · {rel.cubeLabel} ({rel.line === '_' ? 'líneas continuas' : 'líneas punteadas'}) ·{' '}
-                          {activeColoring?.family === 'mirror' ? 'espejo' : 'cadena'}{' '}
-                          <span className="font-mono font-semibold" style={{ color: textColor }}>
-                            {relChain}
-                          </span>{' '}
-                          · registro {rel.domain}
+                          cubo {rel.cube} · {rel.cubeLabel} (
+                          {rel.line === '_' ? 'líneas continuas' : 'líneas punteadas'})
+                          {relChain ? (
+                            <>
+                              {' '}
+                              · {activeColoring?.family === 'mirror' ? 'espejo' : 'cadena'}{' '}
+                              <span className="font-mono font-semibold" style={{ color: textColor }}>
+                                {relChain}
+                              </span>
+                            </>
+                          ) : null}{' '}
+                          · {rel.arrow === '>' ? 'flujo directo ›' : 'flujo inverso ‹'}
                         </div>
                       </div>
                     );

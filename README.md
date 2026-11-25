@@ -8,7 +8,7 @@ La **autonomía verificable** no es un atributo accesorio, sino el mecanismo por
 
 El desarrollo del horizonte de sentido se encuentra en el [`MANIFIESTO.md`](MANIFIESTO.md).
 
-**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, clausura completa de 12 coloraciones cromáticas en 6 pares involutivos —familias de Marcos (6) y Paridad (6)— sobre 10 láminas fuente incluyendo el conjunto maestro `IMG-000207` `#1–#8`) y grupo de involuciones:
+**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, **forma limpia y definitiva** `TSST_20261123_003603_357ce661.jpg` en `real (_)` / `virtual (...)` más **12 ayudas cromáticas temporales** en 6 pares involutivos —familias de Marcos (6) y Paridad (6)— sobre 11 láminas fuente incluyendo `IMG-000207` `#1–#8`) y grupo de involuciones:
 [`docs/TCAAU.md`](docs/TCAAU.md)
 
 **Cosmología del Mictlán** (modelo de correspondencia universal, transformación entre los dominios real y virtual, continuidad de la información y ofrenda como acto de creación):
@@ -69,9 +69,9 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 | Artefacto | Rol |
 |-----------|-----|
 | `data/iom_spec.json` | Especificación tabular canónica (`spec_version` 1.10.0) |
-| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A y las 8 proyecciones `{4,3,3}` |
-| `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido real/virtual sobre los 6 conceptos recíprocos desde `tesseractData` |
-| `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado) y proyección de Schlegel interior/exterior |
+| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A, forma limpia definitiva y las 8 proyecciones `{4,3,3}` |
+| `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido real/virtual y polaridades de cuadrante sobre los 6 conceptos desde `tesseractData` (modo limpio por defecto + 12 capas cromáticas) |
+| `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado `real _ / virtual ...`) y proyección de Schlegel interior/exterior |
 | `src/evalAuditExport.ts` | Generación determinista de paquetes `.json` (`liveReport` + `editedAnnotations`) para auditoría externa en EXP-A |
 | `src/specJsonSyntax.ts` & `src/SpecMetadataSidePanel.tsx` | Tokenizador JSON y panel lateral colapsable de auditoría técnica para los metadatos completos de `specData` en la pestaña **Núcleo** |
 | `server.ts` & `src/App.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |

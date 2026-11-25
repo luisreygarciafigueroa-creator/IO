@@ -1,5 +1,5 @@
 export type AnalysisChainColor = 'azul' | 'amarillo' | 'rojo' | 'verde';
-export type TesseractColorMode =
+export type TesseractColoringId =
   | 'mirrorReflected'
   | 'mirror'
   | 'mirrorFrameSwap'
@@ -12,6 +12,7 @@ export type TesseractColorMode =
   | 'paritySetBottom'
   | 'parityMirror'
   | 'parity';
+export type TesseractColorMode = 'clean' | TesseractColoringId;
 export type TesseractColoringFamily = 'mirror' | 'parity';
 export type FlowFilter = 'all' | 'real' | 'virtual' | AnalysisChainColor;
 
@@ -28,13 +29,13 @@ export interface TesseractColoringChainSpec {
 }
 
 export interface TesseractColoringSpec {
-  id: TesseractColorMode;
+  id: TesseractColoringId;
   shortLabel: string;
   title: string;
   family: TesseractColoringFamily;
   assetPath: string;
   assetTag: string;
-  mirrorPartnerId: TesseractColorMode;
+  mirrorPartnerId: TesseractColoringId;
   mirrorPartnerLabel: string;
   involutionRule: string;
   involutionMap: Record<AnalysisChainColor, AnalysisChainColor>;
@@ -83,6 +84,8 @@ export interface FlowchartCell {
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
   half: string;
+  polarityLeft?: string;
+  polarityRight?: string;
   relations: [FlowchartRelation, FlowchartRelation];
   neighbors: {
     horizontal: string;
@@ -91,10 +94,19 @@ export interface FlowchartCell {
   };
 }
 
+export interface FlowchartCleanForm {
+  assetPath: string;
+  assetTag: string;
+  title: string;
+  summary: string;
+  cells: FlowchartCell[];
+}
+
 export interface FlowchartTesseractData {
   concepts: string[];
   colorings?: TesseractColoringSpec[];
   cells: FlowchartCell[];
+  cleanForm?: FlowchartCleanForm;
 }
 
 export interface FlowNode {
@@ -138,8 +150,13 @@ export function buildTesseractFlowGraph(
   filter: FlowFilter = 'all',
   colorMode: TesseractColorMode = 'mirrorReflected'
 ): FlowGraph {
+  const activeCells =
+    colorMode === 'clean' && tesseractData.cleanForm?.cells?.length
+      ? tesseractData.cleanForm.cells
+      : tesseractData.cells;
+
   const conceptSet = new Set<string>(tesseractData.concepts);
-  for (const cell of tesseractData.cells) {
+  for (const cell of activeCells) {
     for (const rel of cell.relations) {
       conceptSet.add(rel.left);
       conceptSet.add(rel.right);
@@ -163,7 +180,7 @@ export function buildTesseractFlowGraph(
     undirectedAdj.set(c, new Set());
   }
 
-  for (const cell of tesseractData.cells) {
+  for (const cell of activeCells) {
     for (const rel of cell.relations) {
       const source = rel.arrow === '>' ? rel.left : rel.right;
       const target = rel.arrow === '>' ? rel.right : rel.left;
@@ -183,6 +200,7 @@ export function buildTesseractFlowGraph(
   }
 
   const resolveRelColor = (rel: FlowchartRelation): AnalysisChainColor | undefined => {
+    if (colorMode === 'clean') return undefined;
     if (rel.chains?.[colorMode]) return rel.chains[colorMode];
     if (colorMode === 'mirrorReflected') {
       return rel.mirrorReflectedChain ?? rel.mirrorChain ?? rel.parityMirrorChain ?? rel.analysisChain;
@@ -339,7 +357,7 @@ export function buildTesseractFlowGraph(
   }
 
   const nodes: FlowNode[] = [];
-  const paddingY = 72;
+  const paddingY = 70;
   const usableH = FLOW_VIEWBOX_HEIGHT - paddingY * 2;
 
   for (const tier of activeTiers) {
@@ -349,11 +367,22 @@ export function buildTesseractFlowGraph(
       return pa !== pb ? pa - pb : a.localeCompare(b);
     });
     const count = list.length;
+    const isIsolatedCenterBand =
+      tier === 1 &&
+      activeTiers.length === 3 &&
+      list.every((id) => roleMap.get(id) === 'aislado');
     list.forEach((id, idx) => {
-      const y =
-        count === 1
-          ? FLOW_VIEWBOX_HEIGHT / 2
-          : paddingY + (usableH * idx) / (count - 1);
+      let y: number;
+      if (isIsolatedCenterBand) {
+        const bandStep = 72;
+        const startY = FLOW_VIEWBOX_HEIGHT / 2 - ((count - 1) * bandStep) / 2;
+        y = startY + idx * bandStep;
+      } else {
+        y =
+          count === 1
+            ? FLOW_VIEWBOX_HEIGHT / 2
+            : paddingY + (usableH * idx) / (count - 1);
+      }
       nodes.push({
         id,
         role: roleMap.get(id) ?? 'mediador',

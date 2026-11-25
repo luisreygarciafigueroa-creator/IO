@@ -5,6 +5,7 @@ import type {
   AnalysisChainColor,
   TesseractColoringChainSpec,
   TesseractColoringFamily,
+  TesseractColoringId,
   TesseractColoringSpec,
   TesseractColorMode,
 } from './tesseractFlowGraph';
@@ -856,8 +857,42 @@ export interface TesseractRelation {
   mirrorChain: AnalysisChainColor;
   parityMirrorChain: AnalysisChainColor;
   mirrorReflectedChain: AnalysisChainColor;
-  chains: Record<TesseractColorMode, AnalysisChainColor>;
+  chains: Record<TesseractColoringId, AnalysisChainColor>;
   notation: string;
+}
+
+export interface TesseractCleanRelation {
+  left: string;
+  arrow: '>' | '<';
+  line: '_' | '...';
+  right: string;
+  domain: 'real' | 'virtual';
+  cube: 'exterior' | 'interior';
+  cubeLabel: 'real' | 'virtual';
+  notation: string;
+}
+
+export interface TesseractCleanCell {
+  id: string;
+  index: number;
+  row: 'superior' | 'inferior';
+  col: 1 | 2 | 3 | 4;
+  axisPair: 'real / virtual';
+  exteriorLabel: 'real' | 'virtual';
+  exteriorLine: '_' | '...';
+  interiorLabel: 'real' | 'virtual';
+  interiorLine: '_' | '...';
+  polarityLeft: 'individualidad' | 'totalidad';
+  polarityRight: 'individualidad' | 'totalidad';
+  coords: [0 | 1, 0 | 1, 0 | 1];
+  parity: 0 | 1;
+  half: string;
+  relations: [TesseractCleanRelation, TesseractCleanRelation];
+  neighbors: {
+    horizontal: string;
+    vertical: string;
+    diagonal: string;
+  };
 }
 
 export interface TesseractCell {
@@ -872,14 +907,14 @@ export interface TesseractCell {
   exteriorMirrorChain: AnalysisChainColor;
   exteriorParityMirrorChain: AnalysisChainColor;
   exteriorMirrorReflectedChain: AnalysisChainColor;
-  exteriorChains: Record<TesseractColorMode, AnalysisChainColor>;
+  exteriorChains: Record<TesseractColoringId, AnalysisChainColor>;
   interiorLabel: TesseractCubeLabel;
   interiorLine: '_' | '...';
   interiorChain: AnalysisChainColor;
   interiorMirrorChain: AnalysisChainColor;
   interiorParityMirrorChain: AnalysisChainColor;
   interiorMirrorReflectedChain: AnalysisChainColor;
-  interiorChains: Record<TesseractColorMode, AnalysisChainColor>;
+  interiorChains: Record<TesseractColoringId, AnalysisChainColor>;
   coords: [0 | 1, 0 | 1, 0 | 1];
   parity: 0 | 1;
   half: string;
@@ -1057,13 +1092,13 @@ const INVOLUTION_YELLOW_RED_BLUE_GREEN: Record<AnalysisChainColor, AnalysisChain
 };
 
 interface ColoringDefinition {
-  id: TesseractColorMode;
+  id: TesseractColoringId;
   shortLabel: string;
   title: string;
   family: TesseractColoringFamily;
   assetPath: string;
   assetTag: string;
-  mirrorPartnerId: TesseractColorMode;
+  mirrorPartnerId: TesseractColoringId;
   mirrorPartnerLabel: string;
   involutionRule: string;
   involutionMap: Record<AnalysisChainColor, AnalysisChainColor>;
@@ -1444,7 +1479,7 @@ export function buildTesseractModel() {
     cube: 'exterior' | 'interior',
     cubeLabel: TesseractCubeLabel
   ): TesseractRelation => {
-    const chains: Record<TesseractColorMode, AnalysisChainColor> = {
+    const chains: Record<TesseractColoringId, AnalysisChainColor> = {
       mirrorReflected: resolveMirrorColor('mirrorReflected', cubeLabel),
       mirror: resolveMirrorColor('mirror', cubeLabel),
       mirrorFrameSwap: resolveMirrorColor('mirrorFrameSwap', cubeLabel),
@@ -1834,6 +1869,265 @@ export function buildTesseractModel() {
     allColoringInvolutionsExact &&
     colorings.every((c) => c.balanced);
 
+  const mkCleanRel = (
+    left: string,
+    arrow: '>' | '<',
+    line: '_' | '...',
+    right: string,
+    cube: 'exterior' | 'interior'
+  ): TesseractCleanRelation => {
+    const domain: 'real' | 'virtual' = line === '_' ? 'real' : 'virtual';
+    return {
+      left,
+      arrow,
+      line,
+      right,
+      domain,
+      cube,
+      cubeLabel: domain,
+      notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
+    };
+  };
+
+  const cleanCells: TesseractCleanCell[] = [
+    {
+      id: 'T1',
+      index: 1,
+      row: 'superior',
+      col: 1,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
+      exteriorLine: '_',
+      interiorLabel: 'virtual',
+      interiorLine: '...',
+      polarityLeft: 'individualidad',
+      polarityRight: 'totalidad',
+      coords: [0, 0, 0],
+      parity: 0,
+      half: 'Parte superior · #1',
+      relations: [
+        mkCleanRel('cuerpo', '>', '_', 'universo', 'exterior'),
+        mkCleanRel('IA', '<', '...', 'internet', 'interior'),
+      ],
+      neighbors: { horizontal: 'T4', vertical: 'T5', diagonal: 'T8' },
+    },
+    {
+      id: 'T2',
+      index: 2,
+      row: 'superior',
+      col: 2,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'virtual',
+      exteriorLine: '...',
+      interiorLabel: 'real',
+      interiorLine: '_',
+      polarityLeft: 'individualidad',
+      polarityRight: 'totalidad',
+      coords: [0, 1, 0],
+      parity: 1,
+      half: 'Parte superior · #2',
+      relations: [
+        mkCleanRel('internet', '<', '...', 'IA', 'exterior'),
+        mkCleanRel('universo', '>', '_', 'cuerpo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T3', vertical: 'T6', diagonal: 'T7' },
+    },
+    {
+      id: 'T3',
+      index: 3,
+      row: 'superior',
+      col: 3,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'virtual',
+      exteriorLine: '...',
+      interiorLabel: 'real',
+      interiorLine: '_',
+      polarityLeft: 'individualidad',
+      polarityRight: 'totalidad',
+      coords: [0, 1, 1],
+      parity: 0,
+      half: 'Parte superior · #3',
+      relations: [
+        mkCleanRel('IA', '>', '...', 'internet', 'exterior'),
+        mkCleanRel('cuerpo', '<', '_', 'universo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T2', vertical: 'T7', diagonal: 'T6' },
+    },
+    {
+      id: 'T4',
+      index: 4,
+      row: 'superior',
+      col: 4,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
+      exteriorLine: '_',
+      interiorLabel: 'virtual',
+      interiorLine: '...',
+      polarityLeft: 'individualidad',
+      polarityRight: 'totalidad',
+      coords: [0, 0, 1],
+      parity: 1,
+      half: 'Parte superior · #4',
+      relations: [
+        mkCleanRel('universo', '<', '_', 'cuerpo', 'exterior'),
+        mkCleanRel('internet', '>', '...', 'IA', 'interior'),
+      ],
+      neighbors: { horizontal: 'T1', vertical: 'T8', diagonal: 'T5' },
+    },
+    {
+      id: 'T5',
+      index: 5,
+      row: 'inferior',
+      col: 1,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'virtual',
+      exteriorLine: '...',
+      interiorLabel: 'real',
+      interiorLine: '_',
+      polarityLeft: 'totalidad',
+      polarityRight: 'individualidad',
+      coords: [1, 0, 0],
+      parity: 1,
+      half: 'Parte inferior · #1',
+      relations: [
+        mkCleanRel('IA', '>', '...', 'internet', 'exterior'),
+        mkCleanRel('cuerpo', '<', '_', 'universo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T8', vertical: 'T1', diagonal: 'T4' },
+    },
+    {
+      id: 'T6',
+      index: 6,
+      row: 'inferior',
+      col: 2,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
+      exteriorLine: '_',
+      interiorLabel: 'virtual',
+      interiorLine: '...',
+      polarityLeft: 'totalidad',
+      polarityRight: 'individualidad',
+      coords: [1, 1, 0],
+      parity: 0,
+      half: 'Parte inferior · #2',
+      relations: [
+        mkCleanRel('universo', '<', '_', 'cuerpo', 'exterior'),
+        mkCleanRel('internet', '>', '...', 'IA', 'interior'),
+      ],
+      neighbors: { horizontal: 'T7', vertical: 'T2', diagonal: 'T3' },
+    },
+    {
+      id: 'T7',
+      index: 7,
+      row: 'inferior',
+      col: 3,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'real',
+      exteriorLine: '_',
+      interiorLabel: 'virtual',
+      interiorLine: '...',
+      polarityLeft: 'totalidad',
+      polarityRight: 'individualidad',
+      coords: [1, 1, 1],
+      parity: 1,
+      half: 'Parte inferior · #3',
+      relations: [
+        mkCleanRel('cuerpo', '>', '_', 'universo', 'exterior'),
+        mkCleanRel('IA', '<', '...', 'internet', 'interior'),
+      ],
+      neighbors: { horizontal: 'T6', vertical: 'T3', diagonal: 'T2' },
+    },
+    {
+      id: 'T8',
+      index: 8,
+      row: 'inferior',
+      col: 4,
+      axisPair: 'real / virtual',
+      exteriorLabel: 'virtual',
+      exteriorLine: '...',
+      interiorLabel: 'real',
+      interiorLine: '_',
+      polarityLeft: 'totalidad',
+      polarityRight: 'individualidad',
+      coords: [1, 0, 1],
+      parity: 0,
+      half: 'Parte inferior · #4',
+      relations: [
+        mkCleanRel('internet', '<', '...', 'IA', 'exterior'),
+        mkCleanRel('universo', '>', '_', 'cuerpo', 'interior'),
+      ],
+      neighbors: { horizontal: 'T5', vertical: 'T4', diagonal: 'T1' },
+    },
+  ];
+
+  const cleanById = new Map(cleanCells.map((c) => [c.id, c]));
+  const cleanFormAllRealSolidVirtualDashed = cleanCells.every(
+    (c) =>
+      c.exteriorLine !== c.interiorLine &&
+      c.exteriorLabel !== c.interiorLabel &&
+      (c.exteriorLine === '_' ? c.exteriorLabel === 'real' : c.exteriorLabel === 'virtual') &&
+      (c.interiorLine === '_' ? c.interiorLabel === 'real' : c.interiorLabel === 'virtual') &&
+      c.relations.every(
+        (r) =>
+          (r.line === '_' ? r.domain === 'real' : r.domain === 'virtual') &&
+          r.cubeLabel === r.domain &&
+          (r.cube === 'exterior' ? r.line === c.exteriorLine : r.line === c.interiorLine)
+      )
+  );
+  const cleanFormAllHaveOneRightOneLeft = cleanCells.every(
+    (c) =>
+      c.relations.filter((r) => r.arrow === '>').length === 1 &&
+      c.relations.filter((r) => r.arrow === '<').length === 1 &&
+      c.relations.filter((r) => r.domain === 'real').length === 1 &&
+      c.relations.filter((r) => r.domain === 'virtual').length === 1
+  );
+  const cleanFormAllHorizontalMirrorsExact = cleanCells.every((c) => {
+    const h = cleanById.get(c.neighbors.horizontal);
+    if (!h) return false;
+    return (
+      h.exteriorLine === c.exteriorLine &&
+      h.interiorLine === c.interiorLine &&
+      h.polarityLeft === c.polarityLeft &&
+      h.polarityRight === c.polarityRight &&
+      c.relations.every((r, idx) => {
+        const hr = h.relations[idx];
+        return (
+          hr.domain === r.domain &&
+          hr.line === r.line &&
+          hr.arrow !== r.arrow &&
+          hr.left === r.right &&
+          hr.right === r.left
+        );
+      })
+    );
+  });
+  const cleanFormAllVerticalMirrorsExact = cleanCells.every((c) => {
+    const v = cleanById.get(c.neighbors.vertical);
+    if (!v) return false;
+    return (
+      v.exteriorLine === c.interiorLine &&
+      v.interiorLine === c.exteriorLine &&
+      v.polarityLeft === c.polarityRight &&
+      v.polarityRight === c.polarityLeft &&
+      c.relations.every((r, idx) => {
+        const vr = v.relations[1 - idx];
+        return (
+          vr.domain === r.domain &&
+          vr.cube !== r.cube &&
+          vr.left === r.left &&
+          vr.right === r.right &&
+          vr.arrow !== r.arrow
+        );
+      })
+    );
+  });
+  const cleanFormVerified =
+    cleanCells.length === 8 &&
+    cleanFormAllRealSolidVirtualDashed &&
+    cleanFormAllHaveOneRightOneLeft &&
+    cleanFormAllHorizontalMirrorsExact &&
+    cleanFormAllVerticalMirrorsExact;
+
   const conceptUsage = new Map<string, number>();
   const cubeLabelUsage = new Map<string, number>();
   for (const c of cells) {
@@ -1847,9 +2141,10 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Un único teseracto ({4,3,3}) — Clausura completa de 12 coloraciones (6 pares involutivos)',
+      title: 'Un único teseracto ({4,3,3}) — Forma limpia y definitiva (TSST corregido)',
       source:
-        'Conjunto maestro IMG-000207 (8 paneles) + 7 láminas individuales (12 coloraciones · 6 pares) · docs/TCAAU.md',
+        'Lámina limpia definitiva TSST-357ce661 + 12 ayudas cromáticas temporales (IMG-000207 + láminas individuales) · docs/TCAAU.md',
+      cleanAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
       assetPath: '/assets/aistudio/IMG_20261123_031910_595b8f79.jpg',
       mirrorAssetPath: '/assets/aistudio/TSRIMG_20261123_023812_55e05147.jpg',
       mirrorFrameSwapAssetPath: '/assets/aistudio/IMG_20261123_063146_8d038bdc.jpg',
@@ -1868,10 +2163,10 @@ export function buildTesseractModel() {
         assetPath: c.assetPath,
       })),
       rules: [
-        'Las ocho configuraciones (2×4: parte superior T1–T4 y parte inferior T5–T8) agotan las reorientaciones posibles del único teseracto tetradimensional ({4,3,3}) sin añadir un segundo objeto.',
-        'Conjunto maestro IMG-000207 (8 en 1) + láminas individuales: reúnen 12 coloraciones cromáticas organizadas en 6 pares involutivos exactos donde ninguna arista ni dualidad queda sin su espejo.',
-        'Familia de marcos (6 coloraciones · 3 pares): IMG-031910 ↔ TSRIMG, IMG-063146 (#5) ↔ IMG-000207 #7 e IMG-000207 #1 ↔ #3 invierten {T1↔T4, T6↔T7} y {T2↔T3, T5↔T8} bajo Azul ↔ Rojo · Amarillo ↔ Verde.',
-        'Familia por paridad (6 coloraciones · 3 pares): IMG-070052 ↔ IMG-064557 (Amarillo ↔ Rojo · Azul ↔ Verde), IMG-000207 #2 ↔ #6 e IMG-025743 (#8) ↔ IMG-015713 (#4) cierran P0 y P1; toda posición es ya subposición reflejada.',
+        'Forma limpia definitiva (TSST-357ce661): al retirar las capas cromáticas temporales queda la estructura pura en real (continuo _) y virtual (punteado ...) sobre las 8 proyecciones (2×4).',
+        'Cada cuadrante articula los flujos simétricos cuerpo ↔ universo (real _) e internet ↔ IA (virtual ...), junto con la polaridad complementaria individualidad / totalidad (superior ↔ inferior).',
+        'Ninguna arista, vector ni polaridad queda sin espejo interno: las inversiones horizontal (T1↔T4, T2↔T3, T5↔T8, T6↔T7) y vertical (T1↔T5, T2↔T6, T3↔T7, T4↔T8) agotan todas las dualidades.',
+        'Las 12 asignaciones cromáticas (6 pares involutivos en IMG-000207 y láminas individuales) se conservan como ayudas temporales para trazar conexiones que convergen íntegramente en esta estructura limpia.',
       ],
     },
     schlafli: '{4,3,3}',
@@ -1884,6 +2179,14 @@ export function buildTesseractModel() {
     },
     concepts: [...TESSERACT_CONCEPTS],
     cubeLabels: [...TESSERACT_CUBE_LABELS],
+    cleanForm: {
+      assetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
+      assetTag: 'TSST definitivo',
+      title: 'Forma limpia y definitiva del objeto único (Sin capas cromáticas)',
+      summary:
+        'Estructura pura en líneas continuas (real _) y punteadas (virtual ...): 8 proyecciones simétricas con flujos cuerpo ↔ universo e internet ↔ IA y polaridad complementaria individualidad / totalidad.',
+      cells: cleanCells,
+    },
     colorings,
     analysisChains: [...ANALYSIS_CHAINS_INFO],
     parityMirrorChains: [...PARITY_MIRROR_CHAINS_INFO],
@@ -1897,6 +2200,13 @@ export function buildTesseractModel() {
       continuousExtCount,
       dashedExtCount,
       coloringsCount: colorings.length,
+      cleanFormCellCount: cleanCells.length,
+      cleanFormTransitionCount: cleanCells.reduce((acc, c) => acc + c.relations.length, 0),
+      cleanFormAllRealSolidVirtualDashed,
+      cleanFormAllHaveOneRightOneLeft,
+      cleanFormAllHorizontalMirrorsExact,
+      cleanFormAllVerticalMirrorsExact,
+      cleanFormVerified,
       allRealUseRightArrow,
       allHaveOneRealOneVirtual,
       allHaveOneContinuousOneDashed,

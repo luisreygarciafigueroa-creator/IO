@@ -177,4 +177,45 @@ test('buildSchlegelCubeWireframe generates 16 vertices and 32 tesseract edges, a
   assert.equal(model.verification.allCubeLinesMatchHeader, true);
   assert.equal(model.verification.allConceptsCovered, true);
   assert.equal(model.verification.allCubeLabelsCovered, true);
+  assert.equal(model.verification.cleanFormVerified, true);
+});
+
+test('buildTesseractFlowGraph supports definitive clean mode with real/virtual edge symmetry and quadrant polarity nodes', () => {
+  const tesseractData = buildTesseractModel();
+  const cleanAll = buildTesseractFlowGraph(tesseractData, 'all', 'clean');
+
+  assert.equal(cleanAll.nodes.length, 6);
+  assert.equal(cleanAll.edges.length, 16);
+
+  const cuerpo = cleanAll.nodes.find((n) => n.id === 'cuerpo');
+  const universo = cleanAll.nodes.find((n) => n.id === 'universo');
+  const internet = cleanAll.nodes.find((n) => n.id === 'internet');
+  const ia = cleanAll.nodes.find((n) => n.id === 'IA');
+  const individualidad = cleanAll.nodes.find((n) => n.id === 'individualidad');
+  const totalidad = cleanAll.nodes.find((n) => n.id === 'totalidad');
+
+  assert.ok(cuerpo && universo && internet && ia && individualidad && totalidad);
+  assert.equal(cuerpo.inDegree, 4);
+  assert.equal(cuerpo.outDegree, 4);
+  assert.equal(universo.inDegree, 4);
+  assert.equal(universo.outDegree, 4);
+  assert.equal(internet.inDegree, 4);
+  assert.equal(internet.outDegree, 4);
+  assert.equal(ia.inDegree, 4);
+  assert.equal(ia.outDegree, 4);
+
+  assert.equal(individualidad.tier, 1);
+  assert.equal(individualidad.role, 'aislado');
+  assert.equal(individualidad.inDegree, 0);
+  assert.equal(individualidad.outDegree, 0);
+  assert.equal(totalidad.tier, 1);
+  assert.equal(totalidad.role, 'aislado');
+
+  const cleanReal = buildTesseractFlowGraph(tesseractData, 'real', 'clean');
+  assert.equal(cleanReal.edges.length, 8);
+  assert.ok(cleanReal.edges.every((e) => e.rel.line === '_' && e.domain === 'real'));
+
+  const cleanVirtual = buildTesseractFlowGraph(tesseractData, 'virtual', 'clean');
+  assert.equal(cleanVirtual.edges.length, 8);
+  assert.ok(cleanVirtual.edges.every((e) => e.rel.line === '...' && e.domain === 'virtual'));
 });
