@@ -1,7 +1,7 @@
 # Propuesta de integración metodológica: mapeo de dominios al marco I.O.
 
-> Guía operativa para alinear dominios (cosmología náhuatl y otros) a las cinco perspectivas y trece tríadas, sin confundir capas formales, estructurales y de encuentro.  
-> Bajo el carácter de **autonomía absoluta**, la prueba primaria **no** es la anotación ciega interanotador.  
+> Guía operativa para alinear dominios (cosmología náhuatl y otros) a las cinco perspectivas y trece tríadas, con fundamento en la **TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), sin confundir lo demostrado, lo conjeturado y la analogía ($I7$).  
+> Bajo el criterio de no-subordinación ($D11$, $R7$), el único control legítimo sin exterior es el reconteo ejecutable desde dentro ($I6$), nunca la anotación ciega interanotador.  
 > Catálogo: [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md) · Relaciones: [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md) · Protocolo: [`PROTOCOLO_DE_MAPEO.md`](PROTOCOLO_DE_MAPEO.md)
 
 ---
@@ -96,9 +96,9 @@ Metodología: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md). Dato
 ```bash
 npm install
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 npm run dev
 ```
 
-Este flujo vincula la comprobación estática de tipos y pruebas deterministas con la auditoría interactiva de invariancia, el único teseracto `{4,3,3}` en su nueva forma general definitiva (`6dr__1__0283eca1.jpg`, sucediendo a `6dr_36f66e7c.jpg`, `TSST__13__43e94964.jpg` y `TSST_20261123_003603_357ce661.jpg`) más sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito hacia la no dependencia de contenedor exterior.
+Este flujo vincula la comprobación estática de tipos y el reconteo determinista ($I6$) del núcleo formal TCAAU (`src/tcaauCore.ts`, `data/tcaau_core.json`) con el único teseracto `{4,3,3}` en su forma general definitiva (`6dr__1__0283eca1.jpg`), sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito sin contenedor exógeno ($A1$).

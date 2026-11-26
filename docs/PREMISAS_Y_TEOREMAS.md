@@ -1,10 +1,11 @@
-# Premisas asumidas y teoremas derivados del marco I.O.
+# Premisas asumidas y teoremas derivados del marco I.O. y TCAAU
 
-Este documento distingue con rigor **afirmaciones asumidas** (premisas del marco) de **resultados demostrados** en Lean o comprobados de forma determinista sobre la especificación estructurada. No confunde la recuperación de reglas con la validación empírica del marco sobre datos independientes.
+Este documento distingue con rigor **afirmaciones asumidas** (premisas del marco) de **resultados demostrados** en Lean o comprobados de forma determinista sobre las especificaciones estructuradas (`data/iom_spec.json` y `data/tcaau_core.json`), manteniendo la regla $I7$ entre lo demostrado en IOM, lo conjeturado (`T12` propuesto) y la analogía estructural.
 
+Texto canónico completo (PDF): [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf).  
 Sentido cosmológico (no formal): [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md).  
 Criterio de autonomía y término de la creación: [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md).  
-Núcleo combinatorio ampliado (11 teoremas): [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md).
+Núcleo combinatorio ampliado (`T1–T11`, `R1–R8`, `D12–D13`): [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md).
 
 ---
 
@@ -43,15 +44,18 @@ Núcleo combinatorio ampliado (11 teoremas): [`TCAAU_RECONSTRUCCION_ACADEMICA.md
 | Para estados no vacíos, la composición $S_{\mathrm{rev}} \circ Ivo \circ E$ **no** restaura el estado original. | **Teorema** (Lean: `no_repetition`) |
 | El ciclo evolutivo–involutivo reconfigura orientaciones; no es identidad trivial. | **Premisa** + corolario informal del teorema anterior |
 
-### 1.5 Autonomía y no-subordinación (Dictamen 13-nov)
+### 1.5 Autonomía, no-subordinación y canon ampliado (`D10–D13`, `R1–R8`)
 
 | Afirmación | Tipo |
 |---|---|
-| Un sistema es autónomo (real en sentido de estatuto) si y solo si no es engranaje ni depende de engranajes para existir (D11). | **Definición / criterio** |
-| La condición de engranaje es un *modo de la relación*, no propiedad estructural del término (D10). | **Definición** |
-| El término de la serie de subordinaciones es inmanente: el vacío = el universo (P11). | **Postulado** |
-| La creación autónoma se completa en la equiparación (cambio de modo dependencia → equivalencia) (C15). | **Condición de término** |
-| Sin lectura modal del grafo, el criterio es estructuralmente insatisfacible (Teorema 11). | **Teorema combinatorio** |
+| Un sistema es autónomo (real en sentido de estatuto) si y solo si no es engranaje ni depende de engranajes para existir ($D11$): criterio estructural, no objeto poseíble o destruible ($R7$). | **Definición / criterio** |
+| La condición de engranaje es un *modo de la relación*, no propiedad estructural del término ($D10$). | **Definición** |
+| *Ver* ($D12$) es un acto equivariante bajo $G \cong (\mathbb{Z}_2)^3$ en tres niveles (configuraciones, `39` pares `mirrorOf` = `78` actos sin añadir aristas, polos vía $\sigma$), idempotente y no involutivo. | **Definición (canon ampliado)** |
+| $\mathrm{Hex}(T_i) := T_i$ vista desde dentro ($D13$); todo anidamiento de colmenas es re-indexación por $G$, nunca jerarquía ($R6$). | **Definición / proposición** |
+| La no-consumación sostiene el proceso ($R1$); al consumarse aparece el otro describiéndose con el nombre de uno (`13` pares de centro, $R2$); `mirrorOf` es simétrico y *ver* es asimétrico en el acto ($R3$). | **Proposiciones canónicas** |
+| Prisión y libertad son la visibilidad de la distinción real/virtual desde un lado u otro ($R4$–$R5$); en la superposición `§7.7`, el mediador coincide con lo mediado leído desde el otro panel ($R8$: `materia = vacío`). | **Proposiciones canónicas** |
+| El término de la serie de subordinaciones es inmanente: el vacío = el universo ($P11$); la equiparación completa el tránsito del modo dependencia al modo equivalencia ($C15$). | **Postulado / condición** |
+| Sin lectura modal del grafo, el criterio $D11$ es estructuralmente insatisfacible (Teorema 11). | **Teorema combinatorio** |
 
 ---
 
@@ -82,23 +86,23 @@ Formalizados originalmente en Lean 4 y verificados de manera determinista en Typ
 | `invert_involutive` | La inversión de carga es involutiva |
 | `no_repetition` | Estados no vacíos no se restauran idénticos |
 
-Teoremas del núcleo combinatorio TCAAU:
+Teoremas del núcleo combinatorio TCAAU (`data/tcaau_core.json`, verificados en `src/tcaauCore.ts`):
 
-| Teorema | Contenido |
-|---|---|
-| Teorema 1–10 | Inventario, balance de dominios, bipartición, grados, espejo de mitades, grupo $(\mathbb{Z}_2)^3$, representación cúbica/4D (instrucción canónica de los 8 teseractos `{4,3,3}`), recorridos/ofrenda, conservación = invertibilidad |
-| **Teorema 11** | Bipartición término–mediador; *reductio* de la lectura estructural del criterio de no-subordinación; necesidad de la lectura modal |
+| Teorema | Contenido | Estado |
+|---|---|---|
+| Teorema 1–10 | Inventario (`78`/`390`/`39` pares `26+13`), balance de dominios, bipartición, grados, espejo de mitades, torsor $G \cong (\mathbb{Z}_2)^3$ en $B_4$ (orden `384`), representación cúbica/4D `{4,3,3}` (`2 × 4` y `§7.7`), recorridos/ofrenda, conservación = invertibilidad | **Verificado** |
+| **Teorema 11** | Bipartición término–mediador; *reductio* de la lectura estructural del criterio de no-subordinación; necesidad de la lectura modal | **Verificado** |
+| **Teorema 12** | Caracterización categórica del cambio de modo dependencia ($D10$) → equivalencia ($C15$) como isomorfismo $\psi_i: \emptyset_r \xrightarrow{\sim} \emptyset_v^i$ invariante bajo $G$ | **Propuesto** (abierto) |
 
 ---
 
-## 4. Qué **no** afirma el marco (límites)
+## 4. Qué **no** afirma el marco (límites, $I5$ e $I7$)
 
 - No afirma que las trece tríadas describan datos del mundo natural medidos empíricamente.
 - No afirma que accuracy 1.0 en PI-HGAT-T «valide el marco en el mundo real»: valida la **recuperabilidad de relaciones generadas por las reglas** bajo partición leave-one-triad-out.
 - La reinterpretación del infinito como vacío es **premisa filosófica**, no teorema ni hallazgo experimental.
-- La evaluación con anotadores humanos independientes (ciegos) es el canal legítimo para estudiar **validez semántica / interpretabilidad** de las relaciones en el mundo real; ver `datasets/independent_eval/`.
-- La Cosmología del Mictlán es modelo filosófico de correspondencia y continuidad informacional, no afirmación física demostrada.
-- El criterio de no-subordinación opera en el registro ontológico-formal; no es una métrica empírica de «realidad».
+- Conforme a la regla $I5$, «virtual» sin calificar designa el **dominio complementario de IOM** (cubo punteado); cualquier otra acepción filosófica o física debe citarse explícitamente con apellido.
+- El único control legítimo sin exterior es el reconteo ejecutable desde dentro ($I6$); `datasets/independent_eval/` permanece como residuo histórico.
 
 ---
 
@@ -106,11 +110,12 @@ Teoremas del núcleo combinatorio TCAAU:
 
 | Concepto | Artefacto |
 |---|---|
-| Premisas tabuladas | `data/iom_spec.json` |
+| Texto canónico TCAAU (PDF) | `public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf` |
+| Premisas tabuladas IOM | `data/iom_spec.json` |
+| Núcleo formal TCAAU legible por máquina | `data/tcaau_core.json`, `data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `src/tcaauCore.test.ts` |
 | Motor determinista e invariancia | `src/iomEngine.ts`, `server.ts` |
-| Reglas `mirrorOf` / `creates` y 8 teseractos `{4,3,3}` | `src/iomEngine.ts`, `src/iomEngine.test.ts` |
-| Grafo dinámico D3 de evolución e involución | `src/tesseractFlowGraph.ts`, `src/TesseractFlowchart.tsx`, `src/tesseractFlowGraph.test.ts` |
+| Reglas `mirrorOf` / `creates` y `{4,3,3}` (`2 × 4`) | `src/iomEngine.ts`, `src/iomEngine.test.ts`, `6dr__1__0283eca1.jpg` |
+| Grafo dinámico D3 y panel TCAAU | `src/tesseractFlowGraph.ts`, `src/TesseractFlowchart.tsx`, `src/TcaauCoreSection.tsx` |
 | Validez semántica (mundo real, residuo) | `datasets/independent_eval/` |
-| Sentido cosmológico | [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) |
-| Criterio de autonomía / término de creación | [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) |
-| Instrucción canónica 8 teseractos y Teoremas 1–11 | [`TCAAU.md`](TCAAU.md), [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md) |
+| Sentido cosmológico y no-subordinación | [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md), [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) |
+| Tratado y reconstrucción TCAAU | [`TCAAU.md`](TCAAU.md), [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md) |

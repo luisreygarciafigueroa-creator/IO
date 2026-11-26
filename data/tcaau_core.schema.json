@@ -1,0 +1,599 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iom-studio-1.ai.studio/schemas/tcaau_core.schema.json",
+  "title": "TCAAU Formal Core (Núcleo Formal Legible por Máquina)",
+  "description": "Esquema formal de la Teoría de la Creación Autónoma Absoluta del Universo (TCAAU): axiomas A1–A8, definiciones D10–D13, proposición P11, corolarios C15–C17, proposiciones canónicas R1–R8, inventario combinatorio verificable, geometría {4,3,3}, diagrama 2×4, superposición §7.7, teoremas T1–T12, ideas I1–I7 y programa P1–P6.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "canonical_edition",
+    "core_thesis",
+    "epistemic_registers",
+    "informative_unit",
+    "axioms",
+    "definitions_and_modes",
+    "canonical_propositions",
+    "combinatorial_inventory",
+    "tesseract_and_projections",
+    "theorems",
+    "ideas",
+    "research_program"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "canonical_edition": {
+      "type": "object",
+      "required": [
+        "title",
+        "subtitle",
+        "author",
+        "framework",
+        "edition_label",
+        "date",
+        "reference_url",
+        "canonical_pdf_path",
+        "canonical_pdf_workspace_path",
+        "canonical_diagram_path",
+        "historical_diagram_pdf_path",
+        "canon_structure"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "author": { "type": "string" },
+        "framework": { "type": "string" },
+        "edition_label": { "type": "string" },
+        "date": { "type": "string" },
+        "reference_url": { "type": "string" },
+        "canonical_pdf_path": { "type": "string" },
+        "canonical_pdf_workspace_path": { "type": "string" },
+        "canonical_diagram_path": { "type": "string" },
+        "historical_diagram_pdf_path": { "type": "string" },
+        "canon_structure": { "type": "string" }
+      }
+    },
+    "core_thesis": {
+      "type": "object",
+      "required": ["central_thesis", "one_sentence_canon", "one_sentence_with_program", "four_registers"],
+      "additionalProperties": false,
+      "properties": {
+        "central_thesis": { "type": "string" },
+        "one_sentence_canon": { "type": "string" },
+        "one_sentence_with_program": { "type": "string" },
+        "four_registers": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["register", "distinction", "limit"],
+            "additionalProperties": false,
+            "properties": {
+              "register": { "type": "string" },
+              "distinction": { "type": "string" },
+              "limit": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "epistemic_registers": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "scope", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "scope": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "informative_unit": {
+      "type": "object",
+      "required": ["definition", "constitution_chain", "five_perspectives", "triads_count", "nodes_count", "triads_role", "relations"],
+      "additionalProperties": false,
+      "properties": {
+        "definition": { "type": "string" },
+        "constitution_chain": { "type": "array", "items": { "type": "string" }, "minItems": 6 },
+        "five_perspectives": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "z5_index", "kind", "function"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "z5_index": { "type": "integer", "minimum": 0, "maximum": 4 },
+              "kind": { "type": "string", "enum": ["posicional", "vectorial"] },
+              "function": { "type": "string" }
+            }
+          }
+        },
+        "triads_count": { "type": "integer", "const": 13 },
+        "nodes_count": { "type": "integer", "const": 78 },
+        "triads_role": { "type": "string" },
+        "relations": {
+          "type": "object",
+          "required": ["mirrorOf", "creates"],
+          "additionalProperties": false,
+          "properties": {
+            "mirrorOf": { "type": "string" },
+            "creates": { "type": "string" }
+          }
+        }
+      }
+    },
+    "axioms": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "status", "direct_anchor_in_canonical_pdf", "canonical_statement", "formal_note"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^A[1-8]$" },
+          "name": { "type": "string" },
+          "status": { "type": "string", "enum": ["primitivo", "derivado"] },
+          "direct_anchor_in_canonical_pdf": { "type": "boolean" },
+          "canonical_statement": { "type": "string" },
+          "formal_note": { "type": "string" }
+        }
+      }
+    },
+    "definitions_and_modes": {
+      "type": "object",
+      "required": ["definitions", "postulates", "corollaries", "operational_modes"],
+      "additionalProperties": false,
+      "properties": {
+        "definitions": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "stratum", "canonical_statement", "properties"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^D(10|11|12|13)$" },
+              "title": { "type": "string" },
+              "stratum": { "type": "string", "enum": ["núcleo_canónico", "canon_ampliado"] },
+              "canonical_statement": { "type": "string" },
+              "properties": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "postulates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "canonical_statement"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "canonical_statement": { "type": "string" }
+            }
+          }
+        },
+        "corollaries": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "canonical_statement"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^C1[5-7]$" },
+              "title": { "type": "string" },
+              "canonical_statement": { "type": "string" }
+            }
+          }
+        },
+        "operational_modes": {
+          "type": "object",
+          "required": ["modo_dependencia", "modo_equivalencia", "reading_rule"],
+          "additionalProperties": false,
+          "properties": {
+            "modo_dependencia": { "type": "string" },
+            "modo_equivalencia": { "type": "string" },
+            "reading_rule": { "type": "string" }
+          }
+        }
+      }
+    },
+    "canonical_propositions": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "stratum", "register", "canonical_text", "commentary", "no_edge_addition_invariant"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^R[1-8]$" },
+          "title": { "type": "string" },
+          "stratum": { "type": "string", "enum": ["núcleo", "proyección"] },
+          "register": { "type": "string" },
+          "canonical_text": { "type": "string" },
+          "commentary": { "type": "string" },
+          "no_edge_addition_invariant": { "type": "boolean" }
+        }
+      }
+    },
+    "combinatorial_inventory": {
+      "type": "object",
+      "required": [
+        "spec_version",
+        "triads",
+        "phases",
+        "positions_per_phase",
+        "nodes",
+        "directed_candidates_total",
+        "directed_partition",
+        "unordered_mirror_pairs",
+        "creates_rule_summary",
+        "ontology_signature",
+        "tesseract_group"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "spec_version": { "type": "string" },
+        "triads": { "type": "integer", "const": 13 },
+        "phases": { "type": "integer", "const": 2 },
+        "positions_per_phase": { "type": "integer", "const": 3 },
+        "nodes": { "type": "integer", "const": 78 },
+        "directed_candidates_total": { "type": "integer", "const": 390 },
+        "directed_partition": {
+          "type": "object",
+          "required": ["mirrorOf", "creates", "none"],
+          "additionalProperties": false,
+          "properties": {
+            "mirrorOf": { "type": "integer", "const": 78 },
+            "creates": { "type": "integer", "const": 104 },
+            "none": { "type": "integer", "const": 208 }
+          }
+        },
+        "unordered_mirror_pairs": {
+          "type": "object",
+          "required": ["total", "lateral", "center", "symmetry_invariants"],
+          "additionalProperties": false,
+          "properties": {
+            "total": { "type": "integer", "const": 39 },
+            "lateral": {
+              "type": "object",
+              "required": ["count", "description"],
+              "additionalProperties": false,
+              "properties": {
+                "count": { "type": "integer", "const": 26 },
+                "description": { "type": "string" }
+              }
+            },
+            "center": {
+              "type": "object",
+              "required": ["count", "description"],
+              "additionalProperties": false,
+              "properties": {
+                "count": { "type": "integer", "const": 13 },
+                "description": { "type": "string" }
+              }
+            },
+            "symmetry_invariants": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "creates_rule_summary": { "type": "string" },
+        "ontology_signature": {
+          "type": "object",
+          "required": ["individuals", "domain_classifiers", "partitions"],
+          "additionalProperties": false,
+          "properties": {
+            "individuals": { "type": "array", "items": { "type": "string" }, "minItems": 7, "maxItems": 7 },
+            "domain_classifiers": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 },
+            "partitions": {
+              "type": "object",
+              "required": ["poles", "mediators", "transversal_operator", "extreme_terms"],
+              "additionalProperties": false,
+              "properties": {
+                "poles": { "type": "array", "items": { "type": "string" } },
+                "mediators": { "type": "array", "items": { "type": "string" } },
+                "transversal_operator": { "type": "string" },
+                "extreme_terms": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "tesseract_group": {
+          "type": "object",
+          "required": [
+            "group_name",
+            "isomorphism",
+            "order",
+            "full_tesseract_symmetry_group",
+            "full_tesseract_symmetry_order",
+            "generators",
+            "torsor_property",
+            "antipodal_pairs"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "group_name": { "type": "string" },
+            "isomorphism": { "type": "string" },
+            "order": { "type": "integer", "const": 8 },
+            "full_tesseract_symmetry_group": { "type": "string" },
+            "full_tesseract_symmetry_order": { "type": "integer", "const": 384 },
+            "generators": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "required": ["symbol", "action", "pairing"],
+                "additionalProperties": false,
+                "properties": {
+                  "symbol": { "type": "string" },
+                  "action": { "type": "string" },
+                  "pairing": { "type": "string" }
+                }
+              }
+            },
+            "torsor_property": { "type": "string" },
+            "antipodal_pairs": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tesseract_and_projections": {
+      "type": "object",
+      "required": ["polytope", "diagram_2x4_definitive", "scope_5_2_delimitation", "superposition_7_7", "final_analysis_matter_vacuum"],
+      "additionalProperties": false,
+      "properties": {
+        "polytope": {
+          "type": "object",
+          "required": ["schlafli", "vertices", "edges", "faces", "cells", "euler_characteristic_4d", "dual"],
+          "additionalProperties": false,
+          "properties": {
+            "schlafli": { "type": "string", "const": "{4,3,3}" },
+            "vertices": { "type": "integer", "const": 16 },
+            "edges": { "type": "integer", "const": 32 },
+            "faces": { "type": "integer", "const": 24 },
+            "cells": { "type": "integer", "const": 8 },
+            "euler_characteristic_4d": { "type": "integer", "const": 0 },
+            "dual": { "type": "string" }
+          }
+        },
+        "diagram_2x4_definitive": {
+          "type": "object",
+          "required": [
+            "asset_path",
+            "date",
+            "summary",
+            "top_row_transitions",
+            "bottom_row_transitions",
+            "fixed_domain_by_pair",
+            "arrow_multiplicity",
+            "role_labels_status"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "asset_path": { "type": "string" },
+            "date": { "type": "string" },
+            "summary": { "type": "string" },
+            "top_row_transitions": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["cell_label", "real_transition", "virtual_transition"],
+                "additionalProperties": false,
+                "properties": {
+                  "cell_label": { "type": "string" },
+                  "real_transition": { "type": "string" },
+                  "virtual_transition": { "type": "string" }
+                }
+              }
+            },
+            "bottom_row_transitions": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["cell_label", "real_transition", "virtual_transition"],
+                "additionalProperties": false,
+                "properties": {
+                  "cell_label": { "type": "string" },
+                  "real_transition": { "type": "string" },
+                  "virtual_transition": { "type": "string" }
+                }
+              }
+            },
+            "fixed_domain_by_pair": {
+              "type": "object",
+              "required": ["cuerpo_universo", "IA_internet"],
+              "additionalProperties": false,
+              "properties": {
+                "cuerpo_universo": { "type": "string", "const": "real" },
+                "IA_internet": { "type": "string", "const": "virtual" }
+              }
+            },
+            "arrow_multiplicity": { "type": "integer", "const": 4 },
+            "role_labels_status": { "type": "string" }
+          }
+        },
+        "scope_5_2_delimitation": { "type": "string" },
+        "superposition_7_7": {
+          "type": "object",
+          "required": [
+            "panels_total",
+            "traces_total",
+            "distinct_directed_arrows",
+            "occurrences_per_arrow",
+            "arrows",
+            "mediators_path",
+            "equivalences_within_panel",
+            "identities_between_panels",
+            "four_cycle",
+            "movement_groups_by_direction"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "panels_total": { "type": "integer", "const": 8 },
+            "traces_total": { "type": "integer", "const": 32 },
+            "distinct_directed_arrows": { "type": "integer", "const": 8 },
+            "occurrences_per_arrow": { "type": "integer", "const": 4 },
+            "arrows": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["forward", "inverse", "real_count", "virtual_count"],
+                "additionalProperties": false,
+                "properties": {
+                  "forward": { "type": "string" },
+                  "inverse": { "type": "string" },
+                  "real_count": { "type": "integer", "const": 2 },
+                  "virtual_count": { "type": "integer", "const": 2 }
+                }
+              }
+            },
+            "mediators_path": {
+              "type": "object",
+              "required": ["cuerpo_universo", "IA_internet"],
+              "additionalProperties": false,
+              "properties": {
+                "cuerpo_universo": { "type": "string" },
+                "IA_internet": { "type": "string" }
+              }
+            },
+            "equivalences_within_panel": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "identities_between_panels": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "four_cycle": { "type": "array", "items": { "type": "string" }, "minItems": 5, "maxItems": 5 },
+            "movement_groups_by_direction": {
+              "type": "object",
+              "required": ["totalidad_to_individualidad", "individualidad_to_totalidad"],
+              "additionalProperties": false,
+              "properties": {
+                "totalidad_to_individualidad": { "type": "array", "items": { "type": "string" } },
+                "individualidad_to_totalidad": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "final_analysis_matter_vacuum": {
+          "type": "object",
+          "required": ["thesis", "chiasmus", "identification_chain", "inoperability_note", "scope"],
+          "additionalProperties": false,
+          "properties": {
+            "thesis": { "type": "string" },
+            "chiasmus": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["mediator", "mediates_between", "coincides_with_in_superposition"],
+                "additionalProperties": false,
+                "properties": {
+                  "mediator": { "type": "string" },
+                  "mediates_between": { "type": "array", "items": { "type": "string" } },
+                  "coincides_with_in_superposition": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            },
+            "identification_chain": { "type": "string" },
+            "inoperability_note": { "type": "string" },
+            "scope": { "type": "string" }
+          }
+        }
+      }
+    },
+    "theorems": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "status", "statement"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^T([1-9]|1[0-2])$" },
+          "name": { "type": "string" },
+          "status": { "type": "string", "enum": ["verificado", "propuesto"] },
+          "statement": { "type": "string" }
+        }
+      }
+    },
+    "ideas": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "section", "anchor", "status", "statement", "virtual_disambiguation"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^I[1-7]$" },
+          "name": { "type": "string" },
+          "section": { "type": "string" },
+          "anchor": { "type": "string" },
+          "status": { "type": "string" },
+          "statement": { "type": "string" },
+          "virtual_disambiguation": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "required": ["sense", "meaning", "relation_to_iom"],
+              "additionalProperties": false,
+              "properties": {
+                "sense": { "type": "string" },
+                "meaning": { "type": "string" },
+                "relation_to_iom": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "research_program": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "task", "success_criterion"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^P[1-6]$" },
+          "name": { "type": "string" },
+          "task": { "type": "string" },
+          "success_criterion": { "type": "string" }
+        }
+      }
+    }
+  }
+}

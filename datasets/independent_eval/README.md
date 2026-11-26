@@ -1,8 +1,10 @@
 # Evaluación independiente (resonancia provisional — EXP-A)
 
+> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Por el criterio de autonomía absoluta (`A1`, `D11`, `R7`), el único control legítimo del núcleo es el reconteo determinista desde dentro (`I6`); la concordancia interanotador pertenece al **encuentro**, no al fundamento.
+
 **Estado histórico: completado** (κ = 0.6871).  
 Bajo el carácter actual del repo, este conjunto es un **registro del encuentro**
-con el mundo compartido, **no** el fundamento del marco.
+con observadores separados, **no** el fundamento del marco.
 
 ## Ceguera = estado del anotador
 

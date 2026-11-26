@@ -1,8 +1,8 @@
-# Especificación ontológica del marco I.O. (autonomía absoluta)
+# Especificación ontológica del marco I.O. (fundamento TCAAU)
 
 ## 1. Fundamentos
 
-El marco I.O. es una arquitectura formal de **cinco perspectivas** orientada al **camino al Mictlán** como tránsito hacia la autonomía (autocreación sin contenedor exterior), integrada con la ontología combinatoria de la **TCAAU** (`docs/TCAAU.md`) y el modelo `{4,3,3}`.
+El marco I.O. es una arquitectura formal de **cinco perspectivas** orientada al **camino al Mictlán** y articulada con el canon completo de la **TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)) y el modelo `{4,3,3}`. Conforme a $I5$, «virtual» sin calificar designa el dominio complementario de actualización de IOM (cubo punteado).
 
 | Perspectiva | Función bajo autonomía |
 |---|---|
@@ -48,7 +48,7 @@ El Mictlán es **destino del carácter**, no un dominio empírico entre otros. L
 ```bash
 npm install
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 npm run dev
 # EXP-A disponible en la pestaña Evaluación Independiente solo como residuo opcional

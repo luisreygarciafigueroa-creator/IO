@@ -24,15 +24,16 @@ jobs:
         run: npm install
       - name: Strict TypeScript check
         run: npm run lint
-      - name: Unit tests (FormalRules, Teseractos {4,3,3}, Grafo D3, Auditoría JSON & Panel specData)
-        run: npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+      - name: Unit tests (FormalRules, Núcleo TCAAU, Teseractos {4,3,3}, Grafo D3, Auditoría JSON & Panel specData)
+        run: npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
       - name: Build frontend bundle
         run: npm run build
-      - name: Verify fixed-point invariance and tesseract model invariants
+      - name: Verify fixed-point invariance, TCAAU formal core, and tesseract model invariants
         run: |
           npx tsx -e "
             import assert from 'node:assert/strict';
             import { generateArtifacts, runInvarianceAudit, buildTesseractModel } from './src/iomEngine';
+            import { verifyTcaauCore } from './src/tcaauCore';
             const artifacts = generateArtifacts();
             assert.equal(artifacts.fixedPoint.idempotent, true);
             const inv = runInvarianceAudit(artifacts.relationCandidates);
@@ -61,5 +62,9 @@ jobs:
             assert.equal(t.verification.cleanFormAllHorizontalMirrorsExact, true);
             assert.equal(t.verification.cleanFormAllVerticalMirrorsExact, true);
             assert.equal(t.verification.cleanFormVerified, true);
-            console.log('Core invariants verified:', artifacts.fixedPoint.pass1Hash);
+            const tcaau = verifyTcaauCore();
+            assert.equal(tcaau.valid, true);
+            assert.equal(tcaau.coreHashIdempotent, true);
+            assert.equal(tcaau.countsMatchLiveEngine, true);
+            console.log('Core invariants verified:', artifacts.fixedPoint.pass1Hash, tcaau.corePass1Hash);
           "

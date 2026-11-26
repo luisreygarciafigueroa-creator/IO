@@ -1,27 +1,28 @@
 # Reproducción
 
 **Runtime:** Node.js 22 (`npm`) con servidor Express + Vite/React + D3 en TypeScript (`puerto 3000`, host `0.0.0.0`).  
-**Especificación fuente:** `data/iom_spec.json` (`spec_version` `1.10.0`).
+**Especificaciones fuente:** `data/iom_spec.json` (`spec_version` `1.10.0`) y núcleo TCAAU `data/tcaau_core.json` (esquema `data/tcaau_core.schema.json`, texto canónico en `public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`).
 
 ## Arranque, pruebas y compilación
 
 ```bash
 npm install
-npm run lint                                                           # Verificación estricta de tipos TypeScript (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts    # Pruebas unitarias (reglas, teseractos, grafo D3, exportación JSON y panel specData)
-npm run build                                                          # Compila el cliente React/Vite en dist/
-npm run dev                                                            # Inicia servidor Express + Vite en http://0.0.0.0:3000
-npm start                                                              # Sirve la aplicación compilada en producción (node server.ts)
+npm run lint                                                                                   # Verificación estricta de tipos TypeScript (tsc --noEmit)
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts    # Pruebas unitarias deterministas (reglas, núcleo TCAAU, teseractos, D3, exportación y specData)
+npm run build                                                                                  # Compila el cliente React/Vite en dist/
+npm run dev                                                                                    # Inicia servidor Express + Vite en http://0.0.0.0:3000
+npm start                                                                                      # Sirve la aplicación compilada en producción (node server.ts)
 ```
 
-## Núcleo verificado en TypeScript (`src/iomEngine.ts` y `src/tesseractFlowGraph.ts`)
+## Núcleo verificado en TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts` y `src/tesseractFlowGraph.ts`)
 
-La lógica estructural del repositorio se ejecuta de forma determinista y sin estado externo a partir de `data/iom_spec.json`:
+La lógica estructural del repositorio se ejecuta de forma determinista y sin estado externo a partir de `data/iom_spec.json` y `data/tcaau_core.json`:
 
-1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `GET /api/spec` y `POST /api/invariance` generan en dos pasadas los **78** nodos (`13 × 2 × 3`), **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none = 390`), verificando igualdad SHA-256 entre pasadas; la pestaña **Núcleo & 13 Tríadas** incluye un panel lateral colapsable (`src/SpecMetadataSidePanel.tsx`) que muestra los metadatos completos de `specData` en JSON coloreado y filtrable para auditoría técnica.
-2. **Reglas formales (`FormalRules`):** `POST /api/rule-check` evalúa `sameTriad`, `oppositePhase`, `mirrorPositional` y `createsPositional` para cualquier par de los 78 nodos.
-3. **Teseracto único `{4,3,3}` (nueva forma general definitiva + 12 ayudas cromáticas) y diagrama de flujo D3:** `GET /api/tesseract` entrega las **8** proyecciones (`T1–T8`, `2 × 4` sobre planos de inversión) en su **nueva forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, sucediendo a `6dr_36f66e7c.jpg`, `TSST__13__43e94964.jpg` y `TSST_20261123_003603_357ce661.jpg`, verificando `cleanFormVerified = true`, `cleanFormAllRealSolidVirtualDashed = true`, `cleanFormAllHaveOneRightOneLeft = true`, `cleanFormOmitsPolarityLabels = true`, `cleanFormAllHorizontalMirrorsExact = true`, `cleanFormAllVerticalMirrorsExact = true`) junto con las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre 14 láminas fuente (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`, `allMirrorReflectedChainsBalanced = true`, `allParityMirrorChainsBalanced = true`, `allMirrorChainsBalanced = true`, `allAnalysisChainsBalanced = true`), alimentando `buildTesseractFlowGraph` (`src/tesseractFlowGraph.ts`) y `TesseractFlowchart` (`src/TesseractFlowchart.tsx`, por defecto en `'clean'` con acceso a los 12 modos cromáticos temporales).
-4. **Invariancia interna y control negativo:** `POST /api/invariance` verifica tasa de auto-regeneración `1.0`, invariancia por índice de tríada, reconstrucción LOO sobre las 13 tríadas y detección obligatoria de corrupción al alterar una arista (`detects_corruption = true`).
+1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `GET /api/spec` y `POST /api/invariance` generan en dos pasadas los **78** nodos (`13 × 2 × 3`), **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none = 390`), verificando igualdad SHA-256 entre pasadas; la pestaña **Núcleo & 13 Tríadas** incluye un panel lateral colapsable (`src/SpecMetadataSidePanel.tsx`) con los metadatos completos de `specData` en JSON coloreado para auditoría técnica.
+2. **Núcleo formal TCAAU legible por máquina (`GET /api/tcaau-core`):** `verifyTcaauCore()` (`src/tcaauCore.ts`) contrasta `data/tcaau_core.json` contra el motor vivo verificando axiomas `A1–A8`, proposiciones `R1–R8`, definiciones `D10–D13`, `39` pares `mirrorOf` (`26` laterales + `13` de centro para `D12`/`R2`–`R3`), `32` trazas y ciclo de cuatro términos de la superposición `§7.7`, el quiasmo `materia = vacío`, Teoremas `T1–T11` (`T12` propuesto), Ideas `I1–I7` y programa `P1–P6`, con hash SHA-256 idempotente (`corePass1Hash === corePass2Hash`), expuesto interactivamente en `src/TcaauCoreSection.tsx`.
+3. **Reglas formales (`FormalRules`):** `POST /api/rule-check` evalúa `sameTriad`, `oppositePhase`, `mirrorPositional` y `createsPositional` para cualquier par de los 78 nodos.
+4. **Teseracto único `{4,3,3}` (forma general definitiva `2 × 4` + 12 ayudas cromáticas) y diagrama de flujo D3:** `GET /api/tesseract` entrega las **8** proyecciones (`T1–T8`, `2 × 4` sobre planos de inversión) en su **forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, verificando `cleanFormVerified = true`, `cleanFormAllRealSolidVirtualDashed = true`, `cleanFormAllHaveOneRightOneLeft = true`, `cleanFormOmitsPolarityLabels = true`, `cleanFormAllHorizontalMirrorsExact = true`, `cleanFormAllVerticalMirrorsExact = true`) junto con las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre 14 láminas fuente y el texto canónico TCAAU en PDF (`canonicalPdfPath = '/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf'`), alimentando `buildTesseractFlowGraph` (`src/tesseractFlowGraph.ts`) y `TesseractFlowchart` (`src/TesseractFlowchart.tsx`).
+5. **Invariancia interna y control negativo:** `POST /api/invariance` verifica tasa de auto-regeneración `1.0`, invariancia por índice de tríada, reconstrucción LOO sobre las 13 tríadas y detección obligatoria de corrupción al alterar una arista (`detects_corruption = true`).
 
 ## Encuentro y evaluación (opcional)
 

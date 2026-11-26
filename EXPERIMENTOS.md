@@ -1,12 +1,12 @@
-# Experimentos del marco I.O. — unidad informativa
+# Experimentos del marco I.O. — unidad informativa y núcleo TCAAU
 
-> Propósito: construcción formal de **unidad informativa**. La autonomía verificable constituye el mecanismo de constitución y validación.
+> Propósito: construcción formal de **unidad informativa** fundamentada en la **TCAAU** (`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`). La verificación ejecutable desde dentro ($I6$) constituye el único control legítimo de una teoría sin exterior.
 
-> Manifiesto: [`MANIFIESTO.md`](MANIFIESTO.md) · Reproducción: [`REPRODUCCION.md`](REPRODUCCION.md) · Cosmología: [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md)
+> Manifiesto: [`MANIFIESTO.md`](MANIFIESTO.md) · Reproducción: [`REPRODUCCION.md`](REPRODUCCION.md) · Núcleo legible por máquina: [`data/tcaau_core.json`](data/tcaau_core.json) (`src/tcaauCore.ts`)
 
 El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no al del fundamento.
 
-**Intérprete y entorno:** Node.js 22 (`npm` + `tsx`) ejecutando el motor formal en `src/iomEngine.ts` y la interfaz en `http://0.0.0.0:3000`.
+**Intérprete y entorno:** Node.js 22 (`npm` + `tsx`) ejecutando el motor formal en `src/iomEngine.ts`, el verificador TCAAU en `src/tcaauCore.ts` y la interfaz en `http://0.0.0.0:3000`.
 
 ---
 
@@ -14,23 +14,23 @@ El marco se autoconstituye. Lo externo pertenece al orden del **encuentro**, no 
 
 | Prioridad | Capa | Runner / Endpoint | ¿Bloquea «repo válido»? |
 |:---------:|------|-------------------|:-----------------------:|
-| **1** | Punto fijo ($S_{n+1}=S_n$) | `GET /api/spec` · `POST /api/invariance` | sí |
-| **1b** | Reglas formales & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` | sí |
+| **1** | Punto fijo ($S_{n+1}=S_n$) & Núcleo TCAAU | `GET /api/spec` · `GET /api/tcaau-core` · `POST /api/invariance` | sí |
+| **1b** | Reglas formales, `R1–R8`/`D12–D13`/`§7.7` & Teseractos `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` | sí |
 | **2** | Invariancia no trivial | `POST /api/invariance` | sí |
 | **3** | Destino Mictlán (EXP-E) | `GET /api/domain-mapping` | **no** (encuentro) |
 | **4** | Resonancia κ (EXP-A) | `GET /api/independent-eval` | **no** (requiere ACCESS_LOG) |
 
 ---
 
-## 2. Punto fijo y pruebas unitarias
+## 2. Punto fijo, módulo TCAAU y pruebas unitarias
 
 ```bash
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 ```
 
-En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas deterministas desde `data/iom_spec.json` y compara las firmas SHA-256 (`pass1Hash === pass2Hash`).
+En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas deterministas desde `data/iom_spec.json` y compara las firmas SHA-256 (`pass1Hash === pass2Hash`), mientras `GET /api/tcaau-core` verifica de forma idempotente el núcleo formal de `data/tcaau_core.json` (incluida la batería comprobable `P1–P6`).
 
 ---
 
@@ -40,9 +40,9 @@ En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas de
 
 ---
 
-## 4. Teseracto único `{4,3,3}` (8 proyecciones) y flujo D3
+## 4. Teseracto único `{4,3,3}` (8 proyecciones, superposición `§7.7`) y flujo D3
 
-`GET /api/tesseract` entrega la **nueva forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, estructura monocroma pura sobre marcos `real _` / `virtual ...`, flujos `cuerpo ↔ universo` e `internet ↔ IA`, sin etiquetas auxiliares de polaridad y con espejeo espacial H `A › B ↔ B ‹ A` y V cubo/fila/flecha; sucediendo a `6dr_36f66e7c.jpg`, `TSST__13__43e94964.jpg` y `TSST_20261123_003603_357ce661.jpg`, verificando `cleanFormVerified = true`, `cleanFormOmitsPolarityLabels = true`, `cleanFormAllHorizontalMirrorsExact = true` y `cleanFormAllVerticalMirrorsExact = true`), junto con las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre las 14 láminas fuente (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`): familia **Marcos (6)** y familia **Paridad (6)**. La pestaña **Teseractos ({4,3,3})** abre por defecto en `colorMode = 'clean'` sobre el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`) y permite activar temporalmente cualquiera de los 12 modos cromáticos o conmutar su reflejo mediante **Espejar ↔** y **Retirar color**.
+`GET /api/tesseract` entrega la **forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, estructura monocroma pura sobre marcos `real _` / `virtual ...`, flujos `cuerpo ↔ universo` e `internet ↔ IA`, sin etiquetas auxiliares de rol/polaridad y con espejeo espacial H `A › B ↔ B ‹ A` y V cubo/fila/flecha, junto con la ruta al texto canónico PDF `canonicalPdfPath`), así como las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre las láminas fuente (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`). Por su parte, `GET /api/tcaau-core` verifica la superposición `§7.7` (`32` trazas, `8` flechas dirigidas × `4` ocurrencias, ciclo de cuatro `internet – universo – IA – cuerpo – internet`, `R8` y análisis final `materia = vacío` por quiasmo exacto). La pestaña **Teseractos ({4,3,3})** abre por defecto en `colorMode = 'clean'` sobre el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`).
 
 ---
 

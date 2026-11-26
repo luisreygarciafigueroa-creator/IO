@@ -55,6 +55,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
     '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg'
   );
   assert.equal(model.instruction.pdfPath, '/assets/aistudio/1000000566_f7cafcef.pdf');
+  assert.equal(
+    model.instruction.canonicalPdfPath,
+    '/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf'
+  );
   assert.equal(model.instruction.colorAssets.length, 12);
   assert.equal(model.cells.length, 8);
   assert.equal(model.colorings.length, 12);

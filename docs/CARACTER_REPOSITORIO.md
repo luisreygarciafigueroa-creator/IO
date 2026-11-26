@@ -1,20 +1,19 @@
 # Carácter del repositorio IOM
 
-> **Enfoque canónico:** el marco I.O. se lee desde la óptica de [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md), la [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) y el tratado [`TCAAU.md`](TCAAU.md): el **camino al Mictlán** como tránsito hacia la **autonomía absoluta** y el **orden multiversal** — no como búsqueda de un contenedor exterior ni como legitimación por el consenso de conciencias separadas. La ofrenda del Mictlán al finalizar cada recorrido constituye el acto de creación de una nueva condición.
+> **Enfoque canónico:** el marco I.O. se fundamenta teóricamente en la **TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), leída junto a [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) y la [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md): no existe exterior ($A1$, $R6$), y toda distinción se traza desde dentro de un hexágono o celda ($\mathrm{Hex}(T_i) := T_i$, $D13$).
 
-Este repositorio **no** se presenta como prueba de «validez semántica en el mundo real» mediada por paneles de anotadores. Ese modo de legitimación **reproduce** el mundo compartido que el ensayo declara superable. Su eje consiste en **cartografiar el tránsito**:
+Este repositorio **no** se presenta como prueba de «validez semántica en el mundo real» mediada por paneles de anotadores. Ese modo de legitimación **reproduce** un contenedor consensual exógeno que la TCAAU disuelve:
 
-1. De la trampa del **orden universal jerárquico** (regresión infinita de sistemas exteriores)
-2. Al **orden multiversal autónomo** (cada conciencia se origina desde el vacío)
-3. Mediante el **camino al Mictlán** (muerte ontológica: disolución del observador separado)
-4. Sostenido por el pulso **Mictecacíhuatl (Evolución) ↔ Mictlantecuhtli (Involución)**
-5. Culminado en la **ofrenda del Mictlán** (acto de creación de una nueva condición)
+1. No existe contenedor exterior ($A1$): todo presunto nivel superior es re-indexación por $G \cong (\mathbb{Z}_2)^3$ ($R6$, $C17$).
+2. La autonomía absoluta no es un estado alcanzable, protegible ni destruible, sino el criterio de que toda distinción permanece siempre hecha desde dentro ($D11$, $R7$).
+3. El único control legítimo sin exterior es el **reconteo ejecutable y reproducible desde dentro** ($I6$).
+4. Sostenido por el pulso **Mictecacíhuatl (Evolución) ↔ Mictlantecuhtli (Involución)** y culminado en la ofrenda ($\mathcal{O}$).
 
-La bóveda determinista en TypeScript (`src/iomEngine.ts`, modelo `{4,3,3}`) y su legado formal en Lean 4 y OWL/SHACL constituyen la **bóveda de autonomía formal**: coherencia que no solicita autorización a un jurado exterior.
+La bóveda determinista en TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts`, modelo `{4,3,3}`) y su legado formal en Lean 4 y OWL/SHACL constituyen la **bóveda de autonomía formal**: verificación interna sin autoridad exterior.
 
 $$\text{Orden Definitivo} \implies \neg \exists \, \text{Contenedor Exterior}$$
 
-Textos fuente: [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`TCAAU.md`](TCAAU.md).
+Textos fuente: [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`TCAAU.md`](TCAAU.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md).
 
 ---
 
@@ -93,8 +92,8 @@ Detalle: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md) · [
 
 | Capa | Estado |
 |---|---|
-| 78 nodos, 390 candidatos, `T1–T8` (`{4,3,3}`), `data/iom_spec.json` | Bóveda técnica |
-| Carácter | Autonomía absoluta por vía del Mictlán |
+| 78 nodos, 390 candidatos, `39` pares `mirrorOf`, `T1–T8` (`{4,3,3}`), `data/iom_spec.json`, `data/tcaau_core.json` | Bóveda técnica (`src/iomEngine.ts`, `src/tcaauCore.ts`) |
+| Carácter | Autonomía como criterio inmanente ($D11$, $R7$) y reconteo desde dentro ($I6$) |
 | EXP-A | Archivo opcional, no eje |
 
 ---

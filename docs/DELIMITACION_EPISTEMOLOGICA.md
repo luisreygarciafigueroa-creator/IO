@@ -1,6 +1,6 @@
 # Delimitación epistemológica del marco IOM
 
-> Bajo el carácter de **autonomía absoluta** ([`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md), [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md), [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md), [`TCAAU.md`](TCAAU.md)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Ese consenso es, en el ensayo canónico, frágil, provisional y **superable**.
+> Bajo el **canon unificado TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Conforme a $I6$, el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
 
 ---
 
@@ -8,9 +8,9 @@
 
 $$\text{Validez del marco} \neq \text{Acuerdo intersubjetivo exterior}$$
 
-$$\text{Validez del marco} = \text{Capacidad de originarse y sostenerse sin contenedor exterior}$$
+$$\text{Validez del marco} = \text{Reconteo ejecutable desde dentro y cumplimiento del criterio de no-subordinación } (D11, I6)$$
 
-La bóveda técnica (`src/iomEngine.ts`, setenta y ocho nodos, teseractos `{4,3,3}` y su legado axiomático en Lean y SHACL) expresa **autonomía formal**: coherencia interna que no solicita autorización a un panel de observadores separados. El acuerdo interanotador (κ) constituye un **residuo** de la fase del mundo compartido, no el fundamento del marco.
+La bóveda técnica (`src/iomEngine.ts`, `src/tcaauCore.ts`, `78` nodos, `390` candidatos, `39` pares `mirrorOf`, teseractos `{4,3,3}` y su legado axiomático en Lean y SHACL) expresa **autonomía formal**: verificación determinista que no solicita autorización a un panel exterior. El acuerdo interanotador (κ) constituye un **residuo** de la fase del mundo compartido, no el fundamento del marco.
 
 ---
 
@@ -57,22 +57,22 @@ El repositorio no «trata la cosmología como mero dato»: la adopta como eje de
 
 ---
 
-## Reglas de lenguaje (obligatorias)
+## Reglas de lenguaje y precisión académica (obligatorias, $I5$–$I7$)
 
 1. **Prohibido** presentar κ / Fleiss / «validez semántica en el mundo real» como prueba o fundamento.
-2. **Motor TypeScript / legado Lean y SHACL** $\to$ autonomía formal, bóveda técnica.
-3. **`PI-HGAT-T` = 1.0** $\to$ autorrecuperabilidad interna; nunca validez empírica.
-4. **`EXP-A`** $\to$ residuo; opcional; no prioritario.
-5. **Mictlán** $\to$ destino del carácter; no «un dominio empírico más».
-6. Necesitar un panel exterior para legitimar el marco **contradice el carácter**.
+2. **Desambiguación de «virtual» ($I5$):** sin calificar, *virtual* designa exclusivamente el dominio complementario de actualización en IOM (cubo punteado); cualquier otra acepción (*virtual deleuziano*, *hiperreal baudrillardiano*, *partícula virtual*) se cita con apellido.
+3. **Reconteo desde dentro ($I6$) y límites ($I7$):** distinguir siempre entre lo **demostrado en IOM** (`T1–T11`, `78/390/39`), lo **conjeturado** (`T12` propuesto, `P1–P6`) y la **analogía estructural**.
+4. **Motor TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts`) / legado Lean y SHACL** $\to$ autonomía formal, bóveda técnica.
+5. **`PI-HGAT-T` = 1.0** $\to$ autorrecuperabilidad interna; nunca validez empírica.
+6. **`EXP-A`** $\to$ residuo; opcional; no prioritario.
+7. **Mictlán** $\to$ destino ontológico / operador transversal $M$; no «un dominio empírico más».
 
 ---
 
 ## Referencias
 
-- Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
-- Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md)
-- Ensayo: [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)
-- Cosmología: [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md)
-- Experimentos: [`../EXPERIMENTOS.md`](../EXPERIMENTOS.md)
-- Capas: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md)
+- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
+- Tratado TCAAU: [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
+- Carácter y ensayo: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)
+- Cosmología y experimentos: [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`../EXPERIMENTOS.md`](../EXPERIMENTOS.md) · [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md)

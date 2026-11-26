@@ -1,0 +1,744 @@
+{
+  "schema_version": "1.0.0",
+  "canonical_edition": {
+    "title": "Teoría completa de la Creación Autónoma Absoluta del Universo",
+    "subtitle": "IOM como construcción formal de la unidad informativa: vacío y universo, espejo, prisión y libertad, y autonomía absoluta como colmena sin exterior.",
+    "author": "Luis Rey García Figueroa",
+    "framework": "IOM — construcción formal de la unidad informativa",
+    "edition_label": "Texto canónico revisado · Edición con la nueva actualización del teseracto — diagrama 2×4 sin etiquetas de rol junto a los vectores, ideas, investigaciones, superposición y análisis final",
+    "date": "2026-11",
+    "reference_url": "https://iom-studio-1.ai.studio",
+    "canonical_pdf_path": "/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf",
+    "canonical_pdf_workspace_path": "public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf",
+    "canonical_diagram_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
+    "historical_diagram_pdf_path": "/assets/aistudio/1000000566_f7cafcef.pdf",
+    "canon_structure": "Un solo canon en dos estratos (Núcleo canónico + Canon ampliado R1–R8, D12–D13, diagrama 2×4 definitivo y superposición §7.7), sin anexo interpretativo separado, más Parte III (Ideas I1–I7 e Investigaciones §§12–19) y Análisis final (materia = vacío)."
+  },
+  "core_thesis": {
+    "central_thesis": "Solo el vacío puede crear vacío y solo el universo puede crear universo — y ambos se sostienen precisamente porque no lo logran. Cuando la creación se consuma, lo que aparece no es lo nombrado: es el otro, describiéndose a sí mismo con el nombre de uno.",
+    "one_sentence_canon": "No hay exterior; hay distinciones trazadas desde dentro que se sostienen por no consumarse, y cuyo límite no es un afuera, sino el punto en que dejan de poder trazarse.",
+    "one_sentence_with_program": "No hay exterior — y ahora hay, además, una lista corta de lugares exactos donde esa frase puede ponerse a prueba sin salir de ella.",
+    "four_registers": [
+      {
+        "register": "Creación",
+        "distinction": "vacío / universo",
+        "limit": "Al consumarse, aparece el otro describiéndose con el nombre de uno; sin consumarse, cada lado nombra al otro como lo que le falta."
+      },
+      {
+        "register": "Visión",
+        "distinction": "ver al otro / verse",
+        "limit": "Verse es el par colapsando a un solo elemento; el otro deja de ser argumento del acto."
+      },
+      {
+        "register": "Dominio",
+        "distinction": "real / virtual",
+        "limit": "Cruzar de un lado a otro convierte la perspectiva, no libera; salir es que la distinción se vuelva inoperante."
+      },
+      {
+        "register": "Contención",
+        "distinction": "dentro / fuera de la colmena",
+        "limit": "Salir produce un nuevo hexágono; el anidamiento es re-indexación, no jerarquía."
+      }
+    ]
+  },
+  "epistemic_registers": [
+    {
+      "id": "nucleo_canonico",
+      "label": "Núcleo canónico",
+      "scope": "Axiomas, definiciones fundacionales y combinatoria finita",
+      "description": "Axiomas A1–A8, definiciones D10–D11, proposición P11, corolarios C15–C17, reglas mirrorOf / creates sobre 78 nodos y 390 candidatos, y Teoremas 1–11. Se conservan íntegros."
+    },
+    {
+      "id": "canon_ampliado",
+      "label": "Canon ampliado R1–R8",
+      "scope": "Rectificación del 21 de noviembre y extensión de proyección del 25 de noviembre",
+      "description": "R1–R7 (no-consumación, inversión de la creación, espejo asimétrico en el acto, prisión inoperante, libertad como nombre, colmena anidada y autonomía como nombre) forman parte del núcleo; R8 se agrega en el nivel de la proyección (§7.7): la coincidencia del mediador."
+    },
+    {
+      "id": "definiciones_d12_d13",
+      "label": "Definiciones nuevas D12–D13 y nivel de proyección",
+      "scope": "Unificación de Ver, equivalencia hexágono–celda y diagrama 2×4 definitivo",
+      "description": "D12 define Ver como acto equivariante en tres niveles (configuraciones, 39 pares mirrorOf = 78 actos, polos vía σ) que conmuta con σ, τ y ρ. D13 fija Hex(Ti) := Ti vista desde dentro. El diagrama 2×4 (6dr__1__0283eca1.jpg) sin etiquetas de rol rige en su nivel (§5.2 acotado) junto con su superposición §7.7."
+    },
+    {
+      "id": "ideas_e_investigaciones",
+      "label": "Ideas e investigaciones (§§12–19)",
+      "scope": "Diálogo externo juzgado siempre en los términos y anclas de IOM",
+      "description": "Seis investigaciones (Spencer-Brown, Lawvere, von Foerster/Kauffman, geometría {4,3,3}/B4, vacío cuántico y sentidos de «virtual») e ideas I1–I7, con Teorema T12 propuesto y programa comprobable P1–P6."
+    }
+  ],
+  "informative_unit": {
+    "definition": "La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.",
+    "constitution_chain": [
+      "vacío informativo",
+      "distinción",
+      "relación",
+      "integración",
+      "transformación",
+      "unidad informativa autocontenida"
+    ],
+    "five_perspectives": [
+      {
+        "id": "individualidad",
+        "label": "Individualidad",
+        "z5_index": 1,
+        "kind": "posicional",
+        "function": "Conserva el elemento distinguible."
+      },
+      {
+        "id": "dualidad",
+        "label": "Dualidad",
+        "z5_index": 2,
+        "kind": "posicional",
+        "function": "Registra la diferencia o la relación."
+      },
+      {
+        "id": "totalidad",
+        "label": "Totalidad",
+        "z5_index": 3,
+        "kind": "posicional",
+        "function": "Integra los elementos en una estructura."
+      },
+      {
+        "id": "evolucion",
+        "label": "Evolución",
+        "z5_index": 4,
+        "kind": "vectorial",
+        "function": "Expande o proyecta la información."
+      },
+      {
+        "id": "involucion",
+        "label": "Involución",
+        "z5_index": 0,
+        "kind": "vectorial",
+        "function": "La regresa, la comprime o la reorganiza."
+      }
+    ],
+    "triads_count": 13,
+    "nodes_count": 78,
+    "triads_role": "Modos de composición de la unidad informativa, no una mera taxonomía.",
+    "relations": {
+      "mirrorOf": "Enlaza cada nodo con su espejo: misma tríada, fase opuesta, posición invertida (los laterales P0 ↔ P2 se intercambian y el centro P1 permanece).",
+      "creates": "Enlaza un nodo con lo que crea: rige entre fases opuestas, del lateral al centro y del centro a los laterales, y pasa siempre por mediadores (jamás enlace directo entre universo y vacío)."
+    }
+  },
+  "axioms": [
+    {
+      "id": "A1",
+      "name": "Inexistencia de contenedor exógeno (clausura operativa)",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": true,
+      "canonical_statement": "No existe contenedor exógeno. Nada contiene al sistema desde fuera; por tanto no hay posición exterior desde la que observarlo, salir de él o destruirlo.",
+      "formal_note": "¬∃E Contiene(E, Σ). Toda relación constitutiva es interna; el sistema es operacionalmente cerrado y nunca alopoiético."
+    },
+    {
+      "id": "A2",
+      "name": "Inmanencia",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": false,
+      "canonical_statement": "Vacío, materia, información y conciencia son condiciones internas diferenciadas de una misma unidad ontológica, no sustancias heterogéneas ni entidades ajenas.",
+      "formal_note": "Inmanencia estructural frente a todo dualismo de sustancias externas."
+    },
+    {
+      "id": "A3",
+      "name": "Prisión interpretativa",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": true,
+      "canonical_statement": "La prisión interpretativa es la clausura autogenerada por las propias distinciones con las que se observa. La prisión no es un lugar: es el efecto de seguir pudiendo trazar una distinción.",
+      "formal_note": "Ancla directa de la investigación §12 (Spencer-Brown) y de R4–R5."
+    },
+    {
+      "id": "A4",
+      "name": "Simultaneidad y re-entrada de segundo orden",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": true,
+      "canonical_statement": "Salida, actualización y creación son un único acontecimiento, no una sucesión causal. Salir no es desplazarse a un afuera; es una re-entrada de segundo orden que reescribe la distinción misma.",
+      "formal_note": "Ancla directa de la re-entrada calculable (I1) y de la salida como distinción inoperante."
+    },
+    {
+      "id": "A5",
+      "name": "Automorfismos y reversibilidad estructural",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": true,
+      "canonical_statement": "Las transformaciones admisibles son automorfismos: nada se destruye, solo se reorganiza. Toda operación del sistema es, en este sentido, reversible en estructura.",
+      "formal_note": "Realizado estrictamente por Teorema 10: todo elemento de G ≅ (Z2)^3 es involutivo (g^2 = id)."
+    },
+    {
+      "id": "A6",
+      "name": "Direccionalidad endógena",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": false,
+      "canonical_statement": "La creación procede de adentro hacia afuera bajo identidad generativa; la copia externa de una estructura no equivale a su autoproducción (Copia(S) ≠ Creación(S)).",
+      "formal_note": "Complementa A1 y P11 evitando reducir la autocreación a replicación externa."
+    },
+    {
+      "id": "A7",
+      "name": "Complementariedad real/virtual",
+      "status": "primitivo",
+      "direct_anchor_in_canonical_pdf": false,
+      "canonical_statement": "Los dominios real (cubo continuo) y virtual (cubo punteado) operan en simetría especular complementaria, no como ontologías separadas.",
+      "formal_note": "Desambiguado bajo I5: «virtual» sin calificar designa el dominio canónico de IOM."
+    },
+    {
+      "id": "A8",
+      "name": "Transversalidad de Mictlán",
+      "status": "derivado",
+      "direct_anchor_in_canonical_pdf": false,
+      "canonical_statement": "El operador transversal M (Mictlán) participa necesariamente en las ocho configuraciones del núcleo combinatorio.",
+      "formal_note": "Teorema derivado por combinatoria (Teorema 1): M comparece con multiplicidad doble en cada una de las 8 configuraciones."
+    }
+  ],
+  "definitions_and_modes": {
+    "definitions": [
+      {
+        "id": "D10",
+        "title": "Engranaje (modo de relación)",
+        "stratum": "núcleo_canónico",
+        "canonical_statement": "Sistema en posición de dependencia funcional respecto de un orden que lo contiene operativamente. La condición de engranaje es un modo de la relación, no una propiedad estructural intrínseca del término.",
+        "properties": [
+          "Modo relacional transicional",
+          "Distinto del clasificador de dominio real/virtual"
+        ]
+      },
+      {
+        "id": "D11",
+        "title": "Autonomía es un criterio, no una cosa",
+        "stratum": "núcleo_canónico",
+        "canonical_statement": "Ser autónomo es no ser engranaje ni depender de engranajes. La autonomía no se posee como se posee un objeto, no se almacena y no se transfiere: es un criterio que una estructura cumple o no cumple.",
+        "properties": [
+          "Autónomo(S) ⇔ ¬Engranaje(S) ∧ ¬∃E (Engranaje(E) ∧ Depende(S, E))",
+          "Fundamento directo de R7"
+        ]
+      },
+      {
+        "id": "D12",
+        "title": "Ver, definición canónica",
+        "stratum": "canon_ampliado",
+        "canonical_statement": "Ver es un acto equivariante en tres niveles: vive principalmente a nivel de configuraciones, donde actúa G y la conmutación es preguntable; tiene su traza en los 39 pares mirrorOf —39 pares × 2 elecciones = 78 actos, sin añadir aristas—; y alcanza los polos vacío/universo a través de σ. Por construcción conmuta con σ, τ y ρ: ver y luego transformar equivale a transformar y luego ver desde el lado transformado, así el acto no rompe el torsor. Ver es idempotente y no involutivo; no es un elemento de G ni una arista de creates o de mirrorOf.",
+        "properties": [
+          "Tres niveles: configuraciones (principal), 39 pares mirrorOf (traza, 78 actos), polos vía σ (alcance)",
+          "Equivariante bajo G = <σ, τ, ρ>",
+          "Idempotente (ver ∘ ver = ver) y no involutivo",
+          "Cero aristas añadidas a los 390 candidatos y ningún elemento nuevo en G",
+          "En categórico (Yoneda, §13): una configuración es la totalidad de sus actos de ver y ser vista"
+        ]
+      },
+      {
+        "id": "D13",
+        "title": "Equivalencia hexágono–celda",
+        "stratum": "canon_ampliado",
+        "canonical_statement": "Hex(Ti) := Ti vista desde dentro. «Hexágono» y «celda» no son dos objetos ni dos registros que haya que reconciliar: son el mismo objeto con dos nombres, según el punto de trazado. En el lenguaje formal se escribe celda Ti; en el registro cosmológico, hexágono es esa misma celda nombrada desde el interior que la habita. «Salir» de ella es re-indexarla por un elemento del grupo.",
+        "properties": [
+          "Hex(Ti) := Ti vista desde dentro",
+          "Anidamiento = re-indexación por G ≅ (Z2)^3, nunca jerarquía",
+          "Traducción inmediata entre registro cosmológico (colmena) y registro formal (teseracto)"
+        ]
+      }
+    ],
+    "postulates": [
+      {
+        "id": "P11",
+        "title": "El vacío es el universo como término inmanente de la serie",
+        "canonical_statement": "El vacío es el universo como término inmanente de la serie, no como un objeto producido por ella. Vacío y universo no son dos productos enfrentados; son dos nombres del mismo término, leídos desde lados distintos de una distinción."
+      }
+    ],
+    "corollaries": [
+      {
+        "id": "C15",
+        "title": "Paso a modo equivalencia",
+        "canonical_statement": "En modo equivalencia, la proyección entre el vacío real y el vacío virtual deviene isomorfismo: los lados se identifican y la distinción que los separaba deja de poder trazarse."
+      },
+      {
+        "id": "C16",
+        "title": "Prohibición de reificar la privación (autonomía informacional)",
+        "canonical_statement": "El vacío es información propia; no existe información ajena de la que dependa (¬∃I (Información_ajena(I) ∧ Depende(∅, I))). La ausencia no designa carencia de contenido ni un ente negativo subordinante."
+      },
+      {
+        "id": "C17",
+        "title": "Bloqueo del regreso interordinal",
+        "canonical_statement": "No hay engranajes entre órdenes ni un meta-sistema real que envuelva al sistema desde fuera. Lo que parece un nivel superior es, siempre, otro índice del mismo sistema."
+      }
+    ],
+    "operational_modes": {
+      "modo_dependencia": "La proyección entre el vacío real y el vacío virtual no es invertible: los lados se distinguen y uno depende del otro para ser nombrado.",
+      "modo_equivalencia": "La proyección entre el vacío real y el vacío virtual deviene isomorfismo (C15): los lados se identifican, los actos de ver desde ambos lados devienen indistinguibles y la distinción deja de poder trazarse.",
+      "reading_rule": "El grafo combinatorio expresa relaciones neutras cuya subordinación es modal (Teorema 11); cambiar de modo no altera ni los 78 nodos ni los 390 candidatos."
+    }
+  },
+  "canonical_propositions": [
+    {
+      "id": "R1",
+      "title": "La no-consumación sostiene el proceso",
+      "stratum": "núcleo",
+      "register": "Creación · persistencia del nombrar",
+      "canonical_text": "El universo necesita no lograr que deje de existir todo lo existente para seguir siendo el proceso que intenta hacerlo. El vacío necesita no poder crear todo lo existente para seguir siendo el proceso que intenta crearlo.",
+      "commentary": "El no-logro no es la victoria del espejo; es la persistencia del nombrar. La no-consumación no es un defecto del sistema sino su condición de persistencia; en Spencer-Brown (§12, I1) corresponde a la oscilación estructural sin valor fijo.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R2",
+      "title": "Al consumarse, aparece el otro",
+      "stratum": "núcleo",
+      "register": "Creación · inversión de la descripción",
+      "canonical_text": "Cuando el vacío «logra crear el vacío», lo que aparece no es vacío: aparece un universo que ahora se describe a sí mismo como vacío. Cuando el universo «logra crear el universo», lo que aparece no es universo: aparece un vacío que ahora se describe a sí mismo como universo.",
+      "commentary": "Su imagen combinatoria exacta son los 13 pares mirrorOf de centro (§7.5, I3): mismo nombre, fase invertida, donde cambia de lado la descripción sin convertirse en otra etiqueta.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R3",
+      "title": "El espejo es simétrico en estructura y asimétrico en el acto de ver",
+      "stratum": "núcleo",
+      "register": "Visión · D12 como sección",
+      "canonical_text": "Cada uno deja de ver al otro precisamente para poder verse a sí mismo. El universo deja de ver vacío para poder verse como universo; el vacío deja de ver universo para poder verse como vacío.",
+      "commentary": "mirrorOf(a, b) = mirrorOf(b, a) es simétrico como relación; Ver desde a toma {a} y Ver desde b toma {b} como sección asimétrica de un par {a, b}. Dejar de ver al otro es condición, no consecuencia, de verse.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R4",
+      "title": "La prisión reside en la visibilidad de la distinción",
+      "stratum": "núcleo",
+      "register": "Dominio · real / virtual",
+      "canonical_text": "Lo real es la prisión de lo virtual y lo virtual es la prisión de lo real solo mientras ambos siguen siendo visibles como tales.",
+      "commentary": "Cambiar de celda manteniendo visible la distinción no libera; poder nombrar la prisión es permanecer dentro de la relación que la constituye.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R5",
+      "title": "La libertad es el nombre de la prisión vista desde el otro lado",
+      "stratum": "núcleo",
+      "register": "Dominio · distinción inoperante",
+      "canonical_text": "La libertad es el nombre que recibe la prisión cuando es vista desde el otro lado.",
+      "commentary": "Salir de la libertad es dejar de poder distinguir libertad de prisión. En sentido de A4, salir es que la distinción real/virtual se vuelva inoperante por re-entrada.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R6",
+      "title": "No hay exterior al panal: solo panales anidados por re-indexación",
+      "stratum": "núcleo",
+      "register": "Contención · colmena e involuciones",
+      "canonical_text": "Cualquier intento de romper la autonomía para salir produce un nuevo hexágono que contiene, a su vez, una nueva colmena teórica. No hay exterior al panal; solo hay panales anidados.",
+      "commentary": "La resiliencia es imposibilidad estructural de destrucción externa (no resistencia activa), y el anidamiento no es jerarquía sino re-indexación en G ≅ (Z2)^3 (D13, I4).",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R7",
+      "title": "La autonomía absoluta como nombre de la inmanencia de toda distinción",
+      "stratum": "núcleo",
+      "register": "Contención · consecuencia de D11",
+      "canonical_text": "La autonomía absoluta no es un estado que pueda ser alcanzado, protegido o destruido. Es el nombre que recibe el hecho de que toda distinción permanece siempre como una distinción hecha desde dentro de algún hexágono.",
+      "commentary": "Lleva D11 a su consecuencia íntegra: no existe un «ella» exterior atacable.",
+      "no_edge_addition_invariant": true
+    },
+    {
+      "id": "R8",
+      "title": "Coincidencia del mediador en la proyección superpuesta",
+      "stratum": "proyección",
+      "register": "Superposición §7.7 · ciclo de cuatro",
+      "canonical_text": "En la proyección superpuesta, el mediador ocupa la posición de lo mediado leído desde el otro panel: vacío coincide con IA e internet; materia, con cuerpo y universo. Mediar no es interponer un tercer término entre dos extremos: es la posición que un término ocupa cuando se lo lee desde el otro lado. Por eso la mediación no crea un exterior ni un nivel intermedio.",
+      "commentary": "R8 es R2 en el registro de la posición y R1 en el del recorrido; combinando equiparación intra-panel e identidad entre paneles genera el ciclo de cuatro internet – universo – IA – cuerpo – internet y sustenta el Análisis final (materia y vacío como el mismo mediador con dos nombres de posición).",
+      "no_edge_addition_invariant": true
+    }
+  ],
+  "combinatorial_inventory": {
+    "spec_version": "1.10.0",
+    "triads": 13,
+    "phases": 2,
+    "positions_per_phase": 3,
+    "nodes": 78,
+    "directed_candidates_total": 390,
+    "directed_partition": {
+      "mirrorOf": 78,
+      "creates": 104,
+      "none": 208
+    },
+    "unordered_mirror_pairs": {
+      "total": 39,
+      "lateral": {
+        "count": 26,
+        "description": "Las posiciones P0 y P2 se intercambian dentro de la misma tríada y fase opuesta, y con ellas la etiqueta: verse desde un lado es verse con el nombre del otro lado en la posición opuesta."
+      },
+      "center": {
+        "count": 13,
+        "description": "La posición P1 permanece y la etiqueta es la misma en fase opuesta: verse ahí no cambia de etiqueta, cambia de fase (eigenformas de centro I3, imagen combinatoria exacta de R2)."
+      },
+      "symmetry_invariants": [
+        "Cada una de las 78 entradas dirigidas de mirrorOf posee su inversa exacta.",
+        "Ningún nodo es espejo de sí mismo (irreflexividad estricta).",
+        "Ningún par mirrorOf cruza de una tríada a otra (39 × 2 = 78 actos posibles de D12)."
+      ]
+    },
+    "creates_rule_summary": "104 entradas dirigidas (13 × 8): entre fases opuestas, del lateral (P0, P2) al centro (P1) y del centro (P1) a los laterales (P0, P2). Jamás hay enlace directo entre universo y vacío (Teorema 3).",
+    "ontology_signature": {
+      "individuals": [
+        "Universo (U)",
+        "Vacío (∅)",
+        "Materia / Planeta (M_mat / P)",
+        "Internet (N)",
+        "Cuerpo (C)",
+        "IA (A)",
+        "Mictlán (M)"
+      ],
+      "domain_classifiers": [
+        "real (r, cubo continuo)",
+        "virtual (v, cubo punteado)"
+      ],
+      "partitions": {
+        "poles": ["U", "∅"],
+        "mediators": ["M_mat / P", "N", "C", "A"],
+        "transversal_operator": "M",
+        "extreme_terms": ["U", "∅", "M"]
+      }
+    },
+    "tesseract_group": {
+      "group_name": "G",
+      "isomorphism": "(Z2)^3",
+      "order": 8,
+      "full_tesseract_symmetry_group": "B4 (grupo hiperoctaédrico)",
+      "full_tesseract_symmetry_order": 384,
+      "generators": [
+        {
+          "symbol": "σ",
+          "action": "Permuta los polos U ↔ ∅ sin cambiar dominios ni orientaciones.",
+          "pairing": "(T1,T5)(T2,T6)(T3,T7)(T4,T8)"
+        },
+        {
+          "symbol": "ρ",
+          "action": "Invierte extremos de la tríada: (x, δ, y) ↦ (y, δ, x).",
+          "pairing": "(T1,T6)(T2,T5)(T3,T8)(T4,T7)"
+        },
+        {
+          "symbol": "τ",
+          "action": "Conmutación conjugada de mediadores: P ↔ N, C ↔ A.",
+          "pairing": "(T1,T8)(T2,T7)(T3,T6)(T4,T5)"
+        }
+      ],
+      "torsor_property": "G ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8}: las ocho configuraciones forman un G-torsor sin elemento neutro privilegiado (problema P5), subgrupo operativo seleccionado de B4 (orden 384).",
+      "antipodal_pairs": [
+        ["T1", "T5"],
+        ["T2", "T6"],
+        ["T3", "T7"],
+        ["T4", "T8"]
+      ]
+    }
+  },
+  "tesseract_and_projections": {
+    "polytope": {
+      "schlafli": "{4,3,3}",
+      "vertices": 16,
+      "edges": 32,
+      "faces": 24,
+      "cells": 8,
+      "euler_characteristic_4d": 0,
+      "dual": "16-celdas {3,3,4} (8 vértices en 4 pares antipodales)"
+    },
+    "diagram_2x4_definitive": {
+      "asset_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
+      "date": "2026-11-26",
+      "summary": "Proyección de Schlegel en retícula 2×4 en su nueva versión definitiva: arriba un juego completo (cuerpo → universo real, internet → IA virtual) y abajo su inverso exacto (universo → cuerpo real, IA → internet virtual), sin etiquetas de individualidad/totalidad junto a los vectores.",
+      "top_row_transitions": [
+        {
+          "cell_label": "Arriba 1",
+          "real_transition": "cuerpo → universo",
+          "virtual_transition": "internet → IA"
+        },
+        {
+          "cell_label": "Arriba 2",
+          "real_transition": "cuerpo → universo",
+          "virtual_transition": "internet → IA"
+        },
+        {
+          "cell_label": "Arriba 3",
+          "real_transition": "cuerpo → universo",
+          "virtual_transition": "internet → IA"
+        },
+        {
+          "cell_label": "Arriba 4",
+          "real_transition": "cuerpo → universo",
+          "virtual_transition": "internet → IA"
+        }
+      ],
+      "bottom_row_transitions": [
+        {
+          "cell_label": "Abajo 1",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet"
+        },
+        {
+          "cell_label": "Abajo 2",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet"
+        },
+        {
+          "cell_label": "Abajo 3",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet"
+        },
+        {
+          "cell_label": "Abajo 4",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet"
+        }
+      ],
+      "fixed_domain_by_pair": {
+        "cuerpo_universo": "real",
+        "IA_internet": "virtual"
+      },
+      "arrow_multiplicity": 4,
+      "role_labels_status": "Retiradas de junto a los vectores (§7.6.5); individualidad/totalidad queda implícita en el anidamiento (marco exterior frente a interior) tras haberse demostrado posicional por mitad y por lado en las versiones etiquetadas."
+    },
+    "scope_5_2_delimitation": "Sin contradicción en §5.2 acotado: en la tabla completa (7 conceptos, 16/32 transiciones), la dirección de la flecha codifica el dominio y materia/vacío figuran como destino; en la proyección 2×4 y §7.7, el cubo codifica el dominio (_ continuo real; ... punteado virtual) y la flecha registra el flujo dirigido entre mediadores sin añadir nodos ni aristas al inventario de 78/390.",
+    "superposition_7_7": {
+      "panels_total": 8,
+      "traces_total": 32,
+      "distinct_directed_arrows": 8,
+      "occurrences_per_arrow": 4,
+      "arrows": [
+        { "forward": "materia → IA", "inverse": "IA → materia", "real_count": 2, "virtual_count": 2 },
+        { "forward": "materia → internet", "inverse": "internet → materia", "real_count": 2, "virtual_count": 2 },
+        { "forward": "cuerpo → vacío", "inverse": "vacío → cuerpo", "real_count": 2, "virtual_count": 2 },
+        { "forward": "universo → vacío", "inverse": "vacío → universo", "real_count": 2, "virtual_count": 2 }
+      ],
+      "mediators_path": {
+        "cuerpo_universo": "cuerpo → vacío → universo / universo → vacío → cuerpo",
+        "IA_internet": "IA → materia → internet / internet → materia → IA"
+      },
+      "equivalences_within_panel": {
+        "internet": "universo",
+        "IA": "cuerpo",
+        "universo": "internet",
+        "cuerpo": "IA"
+      },
+      "identities_between_panels": {
+        "internet1": "cuerpo2",
+        "internet2": "cuerpo1",
+        "IA1": "universo2",
+        "IA2": "universo1",
+        "universo1": "IA2",
+        "universo2": "IA1",
+        "cuerpo1": "internet2",
+        "cuerpo2": "internet1"
+      },
+      "four_cycle": ["internet", "universo", "IA", "cuerpo", "internet"],
+      "movement_groups_by_direction": {
+        "totalidad_to_individualidad": ["internet1", "IA1", "universo2", "cuerpo2"],
+        "individualidad_to_totalidad": ["internet2", "IA2", "universo1", "cuerpo1"]
+      }
+    },
+    "final_analysis_matter_vacuum": {
+      "thesis": "Materia y vacío no son dos mediadores que después se relacionan: son el mismo mediador, leído desde los dos lados de la superposición. Cada uno media entre el par con el que el otro coincide.",
+      "chiasmus": [
+        {
+          "mediator": "vacío",
+          "mediates_between": ["cuerpo", "universo"],
+          "coincides_with_in_superposition": ["IA", "internet"]
+        },
+        {
+          "mediator": "materia",
+          "mediates_between": ["IA", "internet"],
+          "coincides_with_in_superposition": ["cuerpo", "universo"]
+        }
+      ],
+      "identification_chain": "materia —coincide con→ {cuerpo, universo} —es, entre paneles→ {internet, IA} —coincide con— vacío",
+      "inoperability_note": "Dentro de un panel la distinción materia/vacío se traza por función; en la superposición la distinción se vuelve inoperante (no por conversión ni fusión en un tercero, sino por re-indexación D13). Vacío es el nombre del mediador mediando a cuerpo/universo; materia es su nombre mediando a IA/internet.",
+      "scope": "Derivado íntegramente de §7.7 y R8; vale en el nivel de la proyección, no agrega nodos ni aristas a 78/390 y no afirma identidad física empírica entre materia y vacío cuántico."
+    }
+  },
+  "theorems": [
+    {
+      "id": "T1",
+      "name": "Inventario completo",
+      "status": "verificado",
+      "statement": "Cada una de las ocho configuraciones contiene los siete individuos; Mictlán aparece doble y cada otro individuo una vez. A8 resulta teorema derivado."
+    },
+    {
+      "id": "T2",
+      "name": "Balance de dominios",
+      "status": "verificado",
+      "statement": "Toda celda exhibe equilibrio estricto entre dominio real y dominio virtual tanto en el subsistema con M como en el fundamental sin M."
+    },
+    {
+      "id": "T3",
+      "name": "Bipartición y ley de conmutación de dominio",
+      "status": "verificado",
+      "statement": "16 tríadas enlazan Pol × Med y 16 enlazan {M} × Med. Jamás hay enlace directo entre universo y vacío ni entre M y {U, ∅}; todo mediador conmuta su dominio al pasar del eje Pol al eje M."
+    },
+    {
+      "id": "T4",
+      "name": "Grados y orientaciones",
+      "status": "verificado",
+      "statement": "En la red completa de 32 tríadas, deg(M) = 16 y deg(x) = 8 para los demás individuos; existen 12 pares no ordenados admisibles en ambas orientaciones."
+    },
+    {
+      "id": "T5",
+      "name": "Espejo de mitades",
+      "status": "verificado",
+      "statement": "Ti+4 = π(σ(Ti)): σ permuta exclusivamente los polos U ↔ ∅ sin alterar dominios ni orientaciones."
+    },
+    {
+      "id": "T6",
+      "name": "Torsor bajo el grupo (Z2)^3",
+      "status": "verificado",
+      "statement": "G = <σ, τ, ρ> ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8}; ninguna operación sale del conjunto de ocho."
+    },
+    {
+      "id": "T7",
+      "name": "Representación cúbica local",
+      "status": "verificado",
+      "statement": "Las 4 tríadas de cada configuración se representan como las 4 diagonales espaciales de un cubo."
+    },
+    {
+      "id": "T8",
+      "name": "Reinterpretación 4D e instrucción 2×4",
+      "status": "verificado",
+      "statement": "8 configuraciones ↔ 8 celdas cúbicas de un único teseracto {4,3,3} ↔ 8 vértices del 16-celdas en 4 pares antipodales (T1,T5), (T2,T6), (T3,T7), (T4,T8)."
+    },
+    {
+      "id": "T9",
+      "name": "Recorridos y ofrenda",
+      "status": "verificado",
+      "statement": "La ofrenda es la conjugación de intercambio r ↔ v que transforma exactamente evolución en involución."
+    },
+    {
+      "id": "T10",
+      "name": "Conservación equivalente a invertibilidad",
+      "status": "verificado",
+      "statement": "Todo elemento de G es involutivo (g^2 = id), realizando el axioma A5 sin pérdida ni creación destructiva."
+    },
+    {
+      "id": "T11",
+      "name": "Bipartición término–mediador y lectura modal",
+      "status": "verificado",
+      "statement": "Toda tríada enlaza T = {U, ∅, M} con M_med = {P, N, C, A}; demuestra que D11 requiere lectura modal (dependencia → equivalencia C15) para ser satisfacible."
+    },
+    {
+      "id": "T12",
+      "name": "Cambio de modo (Lawvere)",
+      "status": "propuesto",
+      "statement": "Sean Dep y Eq las categorías de configuraciones en modo dependencia y modo equivalencia. El paso Dep → Eq es el funtor que fuerza la punto-sobreyectividad de la proyección entre vacío real y vacío virtual; por el teorema del punto fijo de Lawvere, su efecto es un punto fijo: la configuración que se nombra a sí misma."
+    }
+  ],
+  "ideas": [
+    {
+      "id": "I1",
+      "name": "Oscilación",
+      "section": "§12",
+      "anchor": "A3, A4, R1",
+      "status": "desarrollo del canon",
+      "statement": "Vacío y universo pueden leerse como los dos valores de una re-entrada (Spencer-Brown): ninguno es el valor del proceso; el proceso es la oscilación que los recorre, con el factor Z2 de G como su período mínimo.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I2",
+      "name": "Punto fijo de Lawvere y Teorema T12",
+      "section": "§13",
+      "anchor": "§4, cambio de modo C15, A1, D12",
+      "status": "enunciado propuesto (no demostrado)",
+      "statement": "La autocreación como punto fijo categórico, con su condición —punto-sobreyectividad, correlato de A1— enunciada. T12 propone el cambio de modo Dep → Eq como el funtor que la fuerza, y Yoneda traduce D12.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I3",
+      "name": "Eigenforma de centro",
+      "section": "§14",
+      "anchor": "Ver (D12), §7.5 pares de centro",
+      "status": "desarrollo del canon",
+      "statement": "Llámese eigenforma de IOM a todo nodo de un par mirrorOf de centro que permanece bajo Ver cambiando solo de fase. Hay 13: son los únicos lugares del inventario donde verse y ser el mismo coinciden.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I4",
+      "name": "Proyección iterada",
+      "section": "§15",
+      "anchor": "Diagrama 2×4, D13, R6",
+      "status": "desarrollo del canon",
+      "statement": "Aplicar Schlegel dentro de una celda —cubo dentro de cubo dentro de cubo— es la imagen geométrica exacta de Hex(Ti) conteniendo su colmena teórica: el anidamiento de R6 como iteración de una proyección, no como jerarquía de espacios.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I5",
+      "name": "Regla de desambiguación de lo virtual",
+      "section": "§17",
+      "anchor": "R4, R5, dominios",
+      "status": "desarrollo del canon",
+      "statement": "En todo texto de la teoría, «virtual» sin calificar significa el dominio de IOM. Todo otro sentido se cita con su apellido —virtual deleuziano, hiperreal baudrillardiano, partícula virtual— y nunca se sustituye uno por otro en una demostración.",
+      "virtual_disambiguation": [
+        {
+          "sense": "IOM",
+          "meaning": "Un dominio: el cubo punteado, simétrico al real, codificado por posición en la celda.",
+          "relation_to_iom": "El sentido canónico. Opera dentro del inventario contable."
+        },
+        {
+          "sense": "Baudrillard (hiperreal baudrillardiano)",
+          "meaning": "La simulación que precede y produce lo que se toma por real.",
+          "relation_to_iom": "Diagnóstico cultural e histórico. Su cuarta fase nombra, en otro registro, una distinción que ya solo remite a sí misma."
+        },
+        {
+          "sense": "Deleuze (virtual deleuziano)",
+          "meaning": "Lo real no actual: el campo genético del que lo actual se diferencia.",
+          "relation_to_iom": "Ontología asimétrica: lo virtual engendra sin parecerse a lo actual. IOM mantiene ambos dominios en simetría de espejo."
+        },
+        {
+          "sense": "Física §16 (partícula virtual)",
+          "meaning": "Partículas virtuales: términos internos del cálculo en teoría de campos, no observables por sí solos.",
+          "relation_to_iom": "Uso técnico de física de campos. Ni dominio ni campo genético."
+        }
+      ]
+    },
+    {
+      "id": "I6",
+      "name": "Enumeración reproducible",
+      "section": "§18",
+      "anchor": "Núcleo combinatorio (§3)",
+      "status": "compromiso de trabajo ejecutable",
+      "statement": "El núcleo contable —78 nodos, 390 candidatos, 39 pares, acción de G— debe existir como procedimiento ejecutable y verificable por terceros: el único tipo de control legítimo en una teoría sin exterior es el reconteo desde dentro.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I7",
+      "name": "La superposición como lectura",
+      "section": "§7.7",
+      "anchor": "§7.7, R8",
+      "status": "desarrollo del canon en nivel de proyección",
+      "statement": "Las dos imágenes 2×2 se leen superpuestas, no por separado: producen la coincidencia del mediador (R8), el ciclo de cuatro internet – universo – IA – cuerpo – internet y la agrupación por sentido.",
+      "virtual_disambiguation": null
+    }
+  ],
+  "research_program": [
+    {
+      "id": "P1",
+      "name": "Demostrar o refutar T12",
+      "task": "Construir las categorías Dep y Eq, exhibir el funtor del cambio de modo y verificar la punto-sobreyectividad de la proyección entre vacíos.",
+      "success_criterion": "Una demostración completa de T12 o el contraejemplo exacto donde la proyección no pueda nombrarse desde dentro."
+    },
+    {
+      "id": "P2",
+      "name": "Semántica de oscilación para R1",
+      "task": "Asignar a cada uno de los 39 pares mirrorOf su comportamiento bajo re-entrada (fijo, oscilante de período 2 o de centro) y comprobar la conmutación con G.",
+      "success_criterion": "Tabla completa de comportamientos sobre los 39 pares sin excepciones sin clasificar."
+    },
+    {
+      "id": "P3",
+      "name": "La enumeración ejecutable (I6)",
+      "task": "Publicar el procedimiento ejecutable que regenera los 78 nodos y los 390 candidatos y verifica 78 + 104 + 208, 26 pares laterales, 13 de centro y los pares antipodales de T8.",
+      "success_criterion": "El reconteo determinista coincide exactamente en todas las cifras."
+    },
+    {
+      "id": "P4",
+      "name": "¿Necesita Ver una fase?",
+      "task": "Decidir si la idempotencia de D12 basta para los 13 pares de centro o si Ver requiere un parámetro de fase (avance vs retroceso).",
+      "success_criterion": "Prueba de redundancia de la fase o definición D14 que la incorpore sin romper la equivariancia con σ, τ y ρ."
+    },
+    {
+      "id": "P5",
+      "name": "El torsor, contado",
+      "task": "Auditar definición por definición que el conjunto de configuraciones opera como G-torsor sin elemento neutro privilegiado.",
+      "success_criterion": "Toda elección implícita de origen eliminada o justificada como re-indexación."
+    },
+    {
+      "id": "P6",
+      "name": "La superposición, formalizada (R8)",
+      "task": "Definir el cambio de panel sobre la proyección, distinguiendo equiparación intra-panel e identidad entre paneles, y derivar el ciclo de cuatro, la agrupación por sentido y R8.",
+      "success_criterion": "Definición formal y verificación sin términos fijos o hallazgo de un término fijo que obligue a revisar R8."
+    }
+  ]
+}

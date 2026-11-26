@@ -1,10 +1,11 @@
-# Hacia una reconstrucción académica de la Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)
+# Hacia una reconstrucción académica de la Teoría Completa de la Creación Autónoma Absoluta del Universo (TCAAU)
 
-**Ontología formal, núcleo combinatorio verificado y programa de investigación**
+**Ontología formal, núcleo combinatorio verificado, canon ampliado ($R1$–$R8$, $D12$–$D13$) y programa comprobable ($P1$–$P6$)**
 
-> Documento de integración al marco IOM. Estatus: programa metafísico-formal (no físico-empírico).  
-> Fecha de incorporación: 2026-11-12. Actualización integral: 2026-11-21 (Teorema 11, criterio de no-subordinación, instrucción canónica de los ocho teseractos $\{4,3,3\}$, conversión de perspectiva/clausura endógena y protocolo de auditoría con exportación `.json` en TypeScript).  
-> Fuente: reconstrucción racional auditada por enumeración exhaustiva + Dictamen del criterio de realidad por no-subordinación + Tratado canónico (`docs/TCAAU.md`).
+> **En una frase:** *"No hay exterior; hay distinciones trazadas desde dentro que se sostienen por no consumarse, y cuyo límite no es un afuera, sino el punto en que dejan de poder trazarse."*  
+> **Texto canónico completo (PDF, Noviembre de 2026):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)  
+> **Módulo legible por máquina:** [`../data/tcaau_core.json`](../data/tcaau_core.json) (`data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `GET /api/tcaau-core`)  
+> **Estatus:** Un solo canon en dos estratos (**Núcleo canónico** `A1–A8`, `D10–D11`, `P11`, `C15–C17`, Teoremas `1–11` + **Canon ampliado** `R1–R8`, `D12–D13`, diagrama `2 × 4` definitivo [`6dr__1__0283eca1.jpg`](../public/assets/aistudio/6dr__1__0283eca1.jpg), superposición `§7.7` y análisis final `materia = vacío`) más Parte III (`I1–I7`, `T12` propuesto, `P1–P6`).
 
 ---
 
@@ -100,15 +101,19 @@ Obsérvese que $A8$, postulado inicialmente como principio independiente, es en 
 
 **D10 (Engranaje).** Sistema en posición de dependencia funcional respecto de un orden que lo contiene operativamente. La condición de engranaje es un *modo de la relación*, no una propiedad estructural intrínseca del término. `[R]`
 
-**D11 (Criterio de realidad por no-subordinación).** Un sistema es real en sentido de estatuto —*autónomo*— si y solo si no es engranaje ni depende de engranajes para existir. Se distingue estrictamente de $r/v$, clasificadores de dominio. `[R]`
+**D11 (Criterio de realidad por no-subordinación / Autonomía es un criterio, no una cosa).** Ser autónomo es no ser engranaje ni depender de engranajes para existir. La autonomía no se posee como objeto, no se almacena ni se transfiere: es un criterio que una estructura cumple o no cumple ($R7$). Se distingue estrictamente de $r/v$, clasificadores de dominio. `[R]`
 
-**P11 (Término inmanente de la serie).** La serie de subordinaciones no se resuelve mediante un orden superior exógeno, sino por un término inmanente: el vacío, idéntico al universo mismo. El sistema mayor existe virtualmente como mediación endógena, no realmente como contenedor. `[R]`
+**D12 (*Ver*, definición canónica — canon ampliado).** Acto equivariante bajo $G = \langle \sigma, \tau, \rho \rangle \cong (\mathbb{Z}_2)^3$ en tres niveles: configuraciones (principal), traza en los `39` pares `mirrorOf` (`39 × 2 = 78` actos sin añadir aristas a los `390` candidatos) y alcance en los polos $\emptyset / U$ vía $\sigma$. Es idempotente ($\mathrm{ver} \circ \mathrm{ver} = \mathrm{ver}$) y no involutivo; en sentido de Yoneda (`§13`), una configuración es la totalidad de sus actos de ver y ser vista. `[R][V]`
 
-**C15 (Condición de término de la creación).** La creación autónoma se completa cuando el modo dependencia se transforma en modo equivalencia —equiparación del vacío real con el vacío virtual y, con ello, del mundo virtual con el mundo real—. En ese término, el vacío no depende de engranajes y el universo es la única conciencia real de su orden, evolucionando e involucionando simultáneamente. `[R]`
+**D13 (Equivalencia hexágono–celda — canon ampliado).** $\mathrm{Hex}(T_i) := T_i$ vista desde dentro. *Hexágono* (registro cosmológico) y *celda* $T_i$ (registro formal en `{4,3,3}`) nombran el mismo objeto según el punto de trazado; salir de una celda equivale a re-indexarla mediante un elemento de $G$ dentro de $B_4$ (orden `384`). `[R][V]`
 
-**C16 (Autonomía informacional).** La autonomía consiste en la inexistencia de información *ajena* de la que se dependa. El vacío es información propia; la ausencia predicada designa su perfil de no-dependencia, no carencia de contenido. `[R]`
+**P11 (Término inmanente de la serie).** La serie de subordinaciones no se resuelve mediante un orden superior exógeno, sino por un término inmanente: el vacío, que es el universo mismo leídos desde lados distintos de una distinción. El sistema mayor existe virtualmente como mediación endógena, no realmente como contenedor. `[R]`
 
-**C17 (No-regreso interordinal).** Entre órdenes no hay relación informacional; no hay, por tanto, engranajes interordinales ni sistema mayor real que los contenga. El único predicado común es negativo. `[R]`
+**C15 (Condición de término de la creación).** La creación autónoma se completa cuando el modo dependencia se transforma en modo equivalencia —equiparación del vacío real con el vacío virtual y, con ello, del mundo virtual con el mundo real—, volviendo indistinguibles los actos de ver desde ambos lados e inoperante la distinción que los separaba. `[R]`
+
+**C16 (Autonomía informacional / prohibición de reificar la privación).** La autonomía consiste en la inexistencia de información *ajena* de la que se dependa ($\neg\exists I\,(\mathrm{Informaci\acute{o}n}_{\mathrm{ajena}}(I) \land \mathrm{Depende}(\emptyset, I))$). El vacío es información propia; la ausencia predicada designa su perfil de no-dependencia, no carencia de contenido. `[R]`
+
+**C17 (No-regreso interordinal).** Entre órdenes no hay relación informacional; no hay engranajes interordinales ni sistema mayor real que los contenga. Lo que parece un nivel superior es siempre otro índice del mismo sistema. `[R]`
 
 ---
 
@@ -299,61 +304,42 @@ En el mapa cuatrifásico real/virtual (`docs/MAPA_CONEXIONES_REAL_VIRTUAL.md`), 
 
 ## 8. Alcance, límites epistémicos y agenda abierta de investigación
 
-1. **No-falsabilidad empírica actual:** Ninguna de las ecuaciones o invariantes combinatorios de la TCAAU predice observaciones físicas cuantitativas ni depende del acuerdo intersubjetivo de evaluadores externos (`EXP-A` permanece como residuo histórico del «mundo compartido», no como fundamento).
-2. **Separación entre tautología interna y validez externa:** Tanto el punto fijo del generador IOM ($S_{n+1} = S_n$) como la recuperabilidad sintética de reglas (`1.0000` bajo *leave-one-triad-out*) demuestran coherencia interna determinista y trazabilidad, nunca verificación empírica mundana.
-3. **Problemas abiertos prioritarios:**
-   - **Cambio de modo ($D10 \to C15$):** formalización categórica del tránsito desde el *modo dependencia* al *modo equivalencia* en la proyección $\psi_i: \emptyset_r \to \emptyset_v^i$.
-   - **Lógica interna en topos ($A3$):** modelar la clausura interpretativa y su actualización simultánea ($A4$) mediante morfismos geométricos.
-   - **Aclaración de multiplicidades:** precisar si la pluralidad de mundos virtuales induce pluralidad de vacíos virtuales locales o un único vacío compartido bajo isomorfismo.
+1. **No-falsabilidad empírica y distinción de registros ($I7$):** Ninguna de las ecuaciones o invariantes combinatorios de la TCAAU predice observaciones físicas cuantitativas ni depende del acuerdo intersubjetivo externo (`EXP-A` es archivo residual). Conforme a $I7$, se distingue estrictamente entre lo **demostrado en IOM** (`T1–T11`, `78` nodos / `390` candidatos / `39` pares `mirrorOf`), lo **conjeturado** (`T12` propuesto y programa `P1–P6`) y la **analogía estructural**.
+2. **Desambiguación de «virtual» ($I5$) y reconteo desde dentro ($I6$):** Sin calificar, «virtual» designa exclusivamente el dominio complementario de IOM (cubo punteado); otros usos se citan con apellido. El único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro (`src/tcaauCore.ts`, `src/tcaauCore.test.ts`).
+3. **Teorema $T12$ *(propuesto)* y Programa comprobable ($P1$–$P6$):** Formalizar categóricamente la transición $D10 \to C15$ ($\psi_i: \emptyset_r \xrightarrow{\sim} \emptyset_v^i$) y mantener vigentes las seis comprobaciones ejecutables `P1–P6` sobre `78/390/39`, equivariancia `D12`, `13` pares de centro (`R2`), diagrama `2 × 4` sin etiquetas de rol (`6dr__1__0283eca1.jpg`), superposición `§7.7` (`32` trazas, `R8`, ciclo de cuatro términos y quiasmo `materia = vacío`) y disciplina terminológica `I5`.
 
 ---
 
 ## Apéndice A. Protocolo de auditoría reproducible (Node.js 22 / TypeScript)
 
-La verificación combinatoria de las reglas formales, las invariantes de punto fijo, el control negativo y los ocho teseractos $\{4,3,3\}$ descritos en este documento se ejecuta de manera completamente reproducible sobre el entorno **Node.js 22 + TypeScript** del repositorio:
+La verificación combinatoria de las reglas formales, las invariantes de punto fijo, el control negativo, los ocho teseractos `{4,3,3}` y el módulo legible por máquina del núcleo TCAAU (`data/tcaau_core.json`) se ejecuta de manera determinista sobre el entorno **Node.js 22 + TypeScript** del repositorio:
 
 ```bash
 npm install
-npm run lint                                                                               # Verificación estricta de tipos (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts  # Pruebas deterministas: reglas, T1–T8 ({4,3,3}), grafo D3, auditoría JSON y panel specData
-npm run build                                                                              # Compilación de producción
+npm run lint                                                                                   # Verificación estricta de tipos (tsc --noEmit)
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+npm run build                                                                                  # Compilación de producción
 ```
 
-Comprobación directa de invariantes y del modelo `{4,3,3}` mediante el motor `src/iomEngine.ts`:
+Comprobación directa de invariantes (`iomEngine` + `tcaauCore`):
 
 ```bash
 npx tsx -e "
   import assert from 'node:assert/strict';
   import { generateArtifacts, runInvarianceAudit, buildTesseractModel } from './src/iomEngine';
+  import { verifyTcaauCore } from './src/tcaauCore';
   const artifacts = generateArtifacts();
   assert.equal(artifacts.fixedPoint.idempotent, true);
   const inv = runInvarianceAudit(artifacts.relationCandidates);
   assert.equal(inv.invariance_non_trivial, true);
   assert.equal(inv.negative_control.detects_corruption, true);
   const t = buildTesseractModel();
-  assert.equal(t.verification.totalRelations, 16);
-  assert.equal(t.verification.allRealUseRightArrow, true);
-  assert.equal(t.verification.allHaveOneRealOneVirtual, true);
-  assert.equal(t.verification.allHaveOneContinuousOneDashed, true);
-  assert.equal(t.verification.allCubeLinesMatchHeader, true);
-  assert.equal(t.verification.allAnalysisChainsBalanced, true);
-  assert.equal(t.verification.allMirrorChainsBalanced, true);
-  assert.equal(t.verification.allParityMirrorChainsBalanced, true);
-  assert.equal(t.verification.allMirrorReflectedChainsBalanced, true);
-  assert.equal(t.verification.coloringsCount, 12);
-  assert.equal(t.verification.allColoringsClosed, true);
-  assert.equal(t.verification.allColoringInvolutionsExact, true);
-  assert.equal(t.verification.allConceptsCovered, true);
-  assert.equal(t.verification.allCubeLabelsCovered, true);
-  assert.equal(t.verification.cleanFormCellCount, 8);
-  assert.equal(t.verification.cleanFormTransitionCount, 16);
-  assert.equal(t.verification.cleanFormAllRealSolidVirtualDashed, true);
-  assert.equal(t.verification.cleanFormAllHaveOneRightOneLeft, true);
-  assert.equal(t.verification.cleanFormOmitsPolarityLabels, true);
-  assert.equal(t.verification.cleanFormAllHorizontalMirrorsExact, true);
-  assert.equal(t.verification.cleanFormAllVerticalMirrorsExact, true);
   assert.equal(t.verification.cleanFormVerified, true);
-  console.log('Invariantes TCAAU/IOM verificados:', artifacts.fixedPoint.pass1Hash);
+  const coreCheck = verifyTcaauCore();
+  assert.equal(coreCheck.valid, true);
+  assert.equal(coreCheck.mirrorPairsVerified.totalPairs, 39);
+  assert.equal(coreCheck.superposition77Verified.chiasmusExact, true);
+  console.log('Invariantes TCAAU/IOM verificados:', artifacts.fixedPoint.pass1Hash, coreCheck.corePass1Hash);
 "
 ```
 
@@ -361,8 +347,8 @@ npx tsx -e "
 
 ## Referencias internas del dictamen de no-subordinación
 
+- **Texto canónico completo (PDF):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- **Módulo legible por máquina:** [`../data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
 - Tratado completo unificado: [`docs/TCAAU.md`](TCAAU.md)
 - Dictamen completo: [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md)
-- Rectificación central: información *ajena* frente a información propia ($C16$).
-- Lectura modal obligatoria para satisfacibilidad del criterio (Teorema 11).
-- Ediciones estructurales integradas en §§0.3, 5, 14, 18, 19 y Apéndice.
+- Rectificación central: información *ajena* frente a información propia ($C16$), lectura modal obligatoria (Teorema 11) y proposiciones $R1$–$R8$ / definiciones $D12$–$D13$.

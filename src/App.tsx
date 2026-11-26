@@ -15,6 +15,7 @@ import {
   HelpCircle,
   Box,
   Download,
+  FileText,
 } from 'lucide-react';
 import {
   ANALYSIS_CHAIN_STYLES,
@@ -30,6 +31,7 @@ import {
 } from './TesseractFlowchart.tsx';
 import { buildEvalAuditFilename, serializeEvalAuditPayload } from './evalAuditExport';
 import { SpecMetadataSidePanel } from './SpecMetadataSidePanel';
+import { TcaauCoreSection, type TcaauCorePayload } from './TcaauCoreSection';
 
 type TabId = 'core' | 'tesseracts' | 'invariance' | 'eval' | 'domain';
 type RelationLabel = 'none' | 'mirrorOf' | 'creates';
@@ -269,6 +271,7 @@ interface TesseractResponse {
     analysisAssetPath?: string;
     monochromeAssetPath?: string;
     pdfPath?: string;
+    canonicalPdfPath?: string;
     colorAssets?: Array<{
       id: TesseractColorMode;
       assetTag: string;
@@ -439,6 +442,7 @@ export default function App() {
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizScore, setQuizScore] = useState<QuizScoreResponse | null>(null);
   const [tesseractData, setTesseractData] = useState<TesseractResponse | null>(null);
+  const [tcaauCoreData, setTcaauCoreData] = useState<TcaauCorePayload | null>(null);
   const [selectedCellId, setSelectedCellId] = useState<string>('T1');
   const [flowFilter, setFlowFilter] = useState<FlowFilter>('all');
   const [colorMode, setColorMode] = useState<TesseractColorMode>('clean');
@@ -449,7 +453,7 @@ export default function App() {
     async function loadInitial() {
       try {
         setLoading(true);
-        const [specRes, triadsRes, invRes, evalRes, domRes, quizRes, tessRes] = await Promise.all([
+        const [specRes, triadsRes, invRes, evalRes, domRes, quizRes, tessRes, tcaauRes] = await Promise.all([
           fetch('/api/spec').then((r) => r.json()),
           fetch('/api/triads').then((r) => r.json()),
           fetch('/api/invariance', {
@@ -461,6 +465,7 @@ export default function App() {
           fetch('/api/domain-mapping').then((r) => r.json()),
           fetch('/api/quiz').then((r) => r.json()),
           fetch('/api/tesseract').then((r) => r.json()),
+          fetch('/api/tcaau-core').then((r) => r.json()),
         ]);
 
         setSpecData(specRes);
@@ -473,6 +478,7 @@ export default function App() {
         setDomainData(domRes);
         setQuizData(quizRes);
         setTesseractData(tessRes);
+        setTcaauCoreData(tcaauRes);
       } catch (err) {
         setErrorMsg((err as Error).message);
       } finally {
@@ -627,13 +633,22 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <span className="px-2 py-0.5 text-xs font-mono rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">
                   spec v{specData.spec.spec_version}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-mono rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                   {specData.counts.nodes} nodos · {specData.counts.totalCandidates} candidatos
                 </span>
+                <a
+                  href="/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border border-amber-400/40 transition"
+                >
+                  <FileText className="w-3 h-3" />
+                  Texto canónico TCAAU (PDF)
+                </a>
               </div>
               <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mt-2">
                 {specData.spec.title}
@@ -727,6 +742,8 @@ export default function App() {
                 <div className="text-[11px] text-slate-500">78 + 104 + 208 = 390</div>
               </div>
             </section>
+
+            {tcaauCoreData && <TcaauCoreSection data={tcaauCoreData} />}
 
             <section className="space-y-6">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-4 sm:p-5">
@@ -1240,7 +1257,19 @@ export default function App() {
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (14):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (15):</span>
+                {tesseractData.instruction.canonicalPdfPath && (
+                  <a
+                    href={tesseractData.instruction.canonicalPdfPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded border bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border-amber-400/40 font-semibold transition"
+                    title="Teoría completa de la Creación Autónoma Absoluta del Universo — Texto canónico revisado (PDF)"
+                  >
+                    <FileText className="w-3 h-3" />
+                    Texto canónico TCAAU (PDF)
+                  </a>
+                )}
                 {tesseractData.instruction.cleanAssetPath && (
                   <a
                     href={tesseractData.instruction.cleanAssetPath}

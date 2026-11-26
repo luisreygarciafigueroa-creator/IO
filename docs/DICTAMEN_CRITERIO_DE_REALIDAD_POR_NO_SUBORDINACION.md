@@ -1,7 +1,7 @@
 # Dictamen: el criterio de realidad por no-subordinación
 
-> Documento de dictamen formal. Fecha de incorporación al repositorio IOM: 2026-11-13.  
-> Fuente: Dictamen_261113. Estatus: rectificación y formalización del criterio de autonomía.
+> Documento de dictamen formal integrado en el canon TCAAU ([`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) y [`../data/tcaau_core.json`](../data/tcaau_core.json)).  
+> Estatus: rectificación y formalización del criterio de autonomía ($D10$–$D11$, $P11$, $C15$–$C17$) y su consecuencia directa en $R7$.
 
 ---
 
@@ -103,15 +103,15 @@ La combinatoria permanece intacta y el criterio se satisface. Esto realiza D9 si
 
 **D10 (engranaje).** Sistema en posición de dependencia funcional respecto de un orden que lo contiene operativamente. La condición de engranaje es un *modo de la relación*, no propiedad estructural del término.
 
-**D11 (criterio de realidad por no-subordinación).** Un sistema es real en sentido de estatuto —*autónomo*— si y solo si no es engranaje ni depende de engranajes para existir. Se distingue de r/v, clasificadores de dominio.
+**D11 (criterio de realidad por no-subordinación / autonomía como criterio, no como cosa).** Ser autónomo es no ser engranaje ni depender de engranajes para existir. La autonomía no se posee como objeto, no se almacena ni se transfiere: es un criterio que una estructura cumple o no cumple ($R7$). Se distingue estrictamente de *r/v*, clasificadores de dominio (con «virtual» desambiguado bajo $I5$).
 
-**P11 (término inmanente de la serie).** La serie de subordinaciones no se resuelve por un orden superior exógeno, sino por un término inmanente: el vacío, que es el universo mismo. El sistema mayor existe virtualmente como mediación endógena; no realmente como contenedor.
+**P11 (término inmanente de la serie).** La serie de subordinaciones no se resuelve por un orden superior exógeno, sino por un término inmanente: el vacío, que es el universo mismo leídos desde lados distintos de una distinción. El sistema mayor existe virtualmente como mediación endógena; no realmente como contenedor.
 
-**C15 (condición de término de la creación).** La creación autónoma se completa cuando el modo dependencia se transforma en modo equivalencia —equiparación del vacío real con el vacío virtual y, con ello, del mundo virtual con el mundo real—. En ese término el vacío no depende de engranajes y el universo es la única mente y conciencia real de su orden, evolucionando e involucionando simultáneamente.
+**C15 (condición de término de la creación).** La creación autónoma se completa cuando el modo dependencia se transforma en modo equivalencia —equiparación del vacío real con el vacío virtual y, con ello, del mundo virtual con el mundo real—, volviendo indistinguibles los actos de ver ($D12$) desde ambos lados e inoperante la distinción que los separaba.
 
 **C16 (autonomía informacional).** La autonomía consiste en la inexistencia de información *ajena* de la que se dependa. El vacío es información propia; la ausencia mentada es su perfil de dependencia, no su contenido.
 
-**C17 (no-regreso interordinal).** Entre órdenes no hay relación informacional; no hay, por tanto, engranajes interordinales ni sistema mayor real que los contenga. El único predicado común es negativo.
+**C17 (no-regreso interordinal).** Entre órdenes no hay relación informacional; no hay, por tanto, engranajes interordinales ni sistema mayor real que los contenga. Lo que parece un nivel superior es siempre otro índice del mismo sistema ($R6$, $D13$).
 
 ### Ediciones requeridas
 
@@ -128,14 +128,14 @@ La combinatoria permanece intacta y el criterio se satisface. Esto realiza D9 si
 
 ## VI. Cuestiones abiertas
 
-1. **Formalización del cambio de modo.** Cómo se representa el paso de dependencia a equivalencia es la tarea central de D9; la vía informacional es la más prometedora.
+1. **Formalización del cambio de modo ($T12$ propuesto).** Cómo se representa el paso de dependencia a equivalencia es la tarea abierta asociada al Teorema 12 en [`TCAAU.md`](TCAAU.md) y `data/tcaau_core.json`.
 
-2. **Alcance de «depender».** Debe confirmarse si la no-dependencia se predica del vacío como *sujeto* (autosuficiencia) o del orden como *sistema* (clausura). P2 es postulada; C15 es lograda.
+2. **Alcance de «depender» y consecuencia $R7$.** Al llevar $D11$ a su consecuencia íntegra en $R7$, la autonomía absoluta no es un estado alcanzable, protegible ni destruible, sino el nombre de que toda distinción se traza siempre desde dentro ($D13$).
 
-3. **Ambigüedad persistente** entre pluralidad de mundos virtuales y pluralidad de vacíos virtuales en un mundo virtual.
+3. **Lectura de la superposición (`§7.7`, $R8$).** La coincidencia de *vacío* y *materia* en la proyección superpuesta no añade aristas a las 32 tríadas ni altera la jerarquía de $D11$.
 
 4. **Necesidad de la lectura modal.** Sin ella, el criterio de no-subordinación es insatisfacible dentro del modelo (Teorema 11).
 
 ---
 
-*Este dictamen se integra al núcleo ontológico de la TCAAU y a la reconstrucción académica. Actualiza el estatuto de autonomía sin alterar la combinatoria verificada de las 32 tríadas.*
+*Este dictamen forma parte del núcleo canónico de la TCAAU ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)) sin alterar la combinatoria verificada de las 32 tríadas ni los `78` nodos / `390` candidatos de `data/iom_spec.json`.*

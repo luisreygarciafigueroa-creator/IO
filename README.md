@@ -1,26 +1,29 @@
 # IOM — construcción formal de la unidad informativa
 
-IOM constituye un marco formal destinado a la **constitución y verificación de unidades informativas autocontenidas**. Su arquitectura se articula en torno a cinco perspectivas, trece tríadas, un par de relaciones de transformación —`mirrorOf` y `creates`— y las ocho proyecciones (`2 × 4`) de un único teseracto tetradimensional (`{4,3,3}`).
+IOM constituye un marco formal destinado a la **constitución y verificación de unidades informativas autocontenidas** como sistema operacionalmente cerrado y sin contenedor exterior. Su arquitectura se articula en torno a cinco perspectivas, trece tríadas, un par de relaciones de transformación —`mirrorOf` y `creates`— y las ocho proyecciones (`2 × 4`) de un único teseracto tetradimensional (`{4,3,3}`).
 
 > **Definición canónica.** La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.
 
-La **autonomía verificable** no es un atributo accesorio, sino el mecanismo por el cual la unidad se constituye, se conserva y se valida desde su propia estructura (`data/iom_spec.json` y el motor formal determinista en TypeScript `src/iomEngine.ts`). Anotadores, dominios empíricos y métricas de recuperación pertenecen al orden del **encuentro**, no al del fundamento.
+El **fundamento teórico** del ecosistema reside en la **Teoría completa de la Creación Autónoma Absoluta del Universo (TCAAU)**, formulada como un solo canon en dos estratos —núcleo canónico (`A1–A8`, `D10–D11`, `P11`, `C15–C17`, Teoremas `1–11`) y canon ampliado (`R1–R8`, `D12–D13`, proyección `2 × 4` definitiva y superposición `§7.7`)— junto con su núcleo formal legible por máquina (`data/tcaau_core.json`, `src/tcaauCore.ts`) y la especificación tabular (`data/iom_spec.json`, `src/iomEngine.ts`). Anotadores externos, dominios culturales y métricas de recuperación pertenecen al orden del **encuentro**, no al del fundamento.
 
-El desarrollo del horizonte de sentido se encuentra en el [`MANIFIESTO.md`](MANIFIESTO.md).
+> **Texto canónico completo (PDF, Noviembre de 2026):** [`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)  
+> **En una frase:** *no hay exterior; hay distinciones trazadas desde dentro que se sostienen por no consumarse, y cuyo límite no es un afuera, sino el punto en que dejan de poder trazarse.*
 
-**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — documento canónico de fundamentos ontológicos, régimen de clausura interpretativa, dominios real/virtual, operador transversal Mictlán, instrucción canónica del teseracto único (`2 × 4` con planos de inversión, **nueva forma general y definitiva** `6dr__1__0283eca1.jpg` —estructura pura en `real (_)` / `virtual (...)` sin etiquetas auxiliares de polaridad, con espejeo horizontal espacial `A › B ↔ B ‹ A` e inversión vertical cubo/fila/flecha, sucediendo a `6dr_36f66e7c.jpg`, `TSST__13__43e94964.jpg` y `TSST_20261123_003603_357ce661.jpg`— más **12 ayudas cromáticas temporales** en 6 pares involutivos —familias de Marcos (6) y Paridad (6)— sobre 14 láminas fuente incluyendo `IMG-000207` `#1–#8`) y grupo de involuciones:
-[`docs/TCAAU.md`](docs/TCAAU.md)
+El desarrollo del horizonte de sentido se encuentra en [`MANIFIESTO.md`](MANIFIESTO.md).
+
+**Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)** — texto canónico publicado ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)), tratado técnico ([`docs/TCAAU.md`](docs/TCAAU.md)) y extracción formal legible por máquina ([`data/tcaau_core.json`](data/tcaau_core.json) · [`src/tcaauCore.ts`](src/tcaauCore.ts)): axiomática `A1–A8`, criterio de no-subordinación `D10–D11` / `P11` / `C15–C17`, acto equivariante `Ver` (`D12`), equivalencia hexágono–celda (`D13`), proposiciones canónicas `R1–R8`, grupo torsor $G = \langle \sigma, \tau, \rho \rangle \cong (\mathbb{Z}_2)^3$ dentro de $B_4$ (orden 384), proyección definitiva `2 × 4` sin etiquetas de rol junto a los vectores (`public/assets/aistudio/6dr__1__0283eca1.jpg`), superposición `§7.7` (32 trazos, 8 flechas dirigidas, ciclo de cuatro y coincidencia `materia = vacío`), Teoremas `T1–T11` + `T12` propuesto, Ideas `I1–I7` (incluyendo la regla `I5` de desambiguación de «virtual») y programa comprobable `P1–P6`:
+[`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`docs/TCAAU.md`](docs/TCAAU.md) · [`data/tcaau_core.json`](data/tcaau_core.json)
 
 **Cosmología del Mictlán** (modelo de correspondencia universal, transformación entre los dominios real y virtual, continuidad de la información y ofrenda como acto de creación):
 [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md)
 
-**Mapa de conexiones real/virtual** (sistema de cuatro fases bajo inversión de polaridad y espejo de realidad; dualidades internet–planeta e IA–persona mediadas por mundo y vacío):
+**Mapa de conexiones real/virtual** (sistema de cuatro fases bajo inversión de polaridad y espejo de realidad; mediadores mundo/planeta, vacío, internet, cuerpo e IA):
 [`docs/MAPA_CONEXIONES_REAL_VIRTUAL.md`](docs/MAPA_CONEXIONES_REAL_VIRTUAL.md)
 
-**Reconstrucción académica de la TCAAU** (ontología formal, núcleo combinatorio verificado con **11 teoremas**, grupo $(\mathbb{Z}_2)^3$, Teorema 8 con proyección de Schlegel de los ocho teseractos y Teorema 11 de bipartición término–mediador):
+**Reconstrucción académica de la TCAAU** (ontología formal, núcleo combinatorio verificado con Teoremas 1–11 y Teorema T12 propuesto, grupo $(\mathbb{Z}_2)^3$, proyección de Schlegel de los ocho teseractos y bipartición término–mediador):
 [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md)
 
-**Dictamen: criterio de realidad por no-subordinación** (D10–D11, P11, C15–C17; autonomía informacional como ausencia de dependencia de información *ajena*; condición de término de la creación):
+**Dictamen: criterio de realidad por no-subordinación** (`D10–D11`, `P11`, `C15–C17`; autonomía como criterio de no ser engranaje ni depender de engranajes; prohibición de reificar la privación):
 [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md)
 
 ## Cadena operativa de constitución
@@ -40,24 +43,24 @@ vacío informativo
 | Dualidad      | Registra la diferencia o la relación |
 | Totalidad     | Integra los elementos en una estructura |
 | Evolución     | Expande o proyecta la información (recorrido del Mictlán concluye en la condición correspondiente) |
-| Involución    | Regresa, comprime o reorganiza la información (recorrido concluye en la condición complementaria) |
+| Involución    | La regresa, comprime o reorganiza (recorrido concluye en la condición complementaria) |
 
-Las trece tríadas no constituyen una mera taxonomía, sino **modos de composición** de la unidad informativa (setenta y ocho nodos).
+Las trece tríadas no constituyen una mera taxonomía, sino **modos de composición** de la unidad informativa (78 nodos; 390 candidatos dirigidos = `78 mirrorOf + 104 creates + 208 none`; 39 pares `mirrorOf` no ordenados = `26` laterales + `13` de centro o eigenformas `I3`).
 
 ## Verificación prioritaria del núcleo (Node.js 22 + TypeScript)
 
 ```bash
 npm install
 npm run lint                                                # Verificación estricta TypeScript (tsc --noEmit)
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build                                               # Compilación de producción (Vite -> dist/)
 npm run dev                                                 # Servidor Express + UI interactiva en http://0.0.0.0:3000
 ```
 
 | Prioridad | Criterio                          | Verificación activa |
 |:---------:|-----------------------------------|---------------------|
-| 1         | Punto fijo ($S_{n+1}=S_n$)        | `GET /api/spec` · `POST /api/invariance` (`src/iomEngine.ts`) |
-| 1b        | Reglas formales e invariantes `{4,3,3}` | `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` |
+| 1         | Punto fijo ($S_{n+1}=S_n$) y núcleo TCAAU | `GET /api/spec` · `GET /api/tcaau-core` · `POST /api/invariance` |
+| 1b        | Reglas formales, `mirrorOf`/`creates` e invariantes `{4,3,3}` / `§7.7` | `npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` |
 | 2         | Invariancia no trivial (+ control negativo) | `POST /api/invariance` |
 | 3         | Destino Mictlán (encuentro)       | `GET /api/domain-mapping` (EXP-E — opcional) |
 | 4         | Resonancia κ (encuentro)          | `GET /api/independent-eval` · `POST /api/independent-eval/score` (EXP-A — opcional) |
@@ -68,24 +71,28 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 
 | Artefacto | Rol |
 |-----------|-----|
+| `public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf` | **Texto canónico revisado** de la TCAAU (Noviembre de 2026) |
+| `data/tcaau_core.json` & `data/tcaau_core.schema.json` | **Núcleo formal legible por máquina** (`A1–A8`, `D10–D13`, `P11`, `C15–C17`, `R1–R8`, inventario `78/390/39`, `{4,3,3}`, `§7.7`, `T1–T12`, `I1–I7`, `P1–P6`) |
+| `src/tcaauCore.ts` & `src/tcaauCore.test.ts` | Carga y verificación cruzada determinista del núcleo TCAAU contra `iomEngine` y el teseracto único (`GET /api/tcaau-core`) |
 | `data/iom_spec.json` | Especificación tabular canónica (`spec_version` 1.10.0) |
-| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A, forma limpia definitiva y las 8 proyecciones `{4,3,3}` |
+| `src/iomEngine.ts` | Motor determinista: 78 nodos, 390 candidatos, reglas `mirrorOf`/`creates`, invariancia, EXP-E, EXP-A, forma definitiva `2 × 4` y 12 ayudas cromáticas |
 | `src/tesseractFlowGraph.ts` | Extracción dinámica del grafo dirigido real/virtual y polaridades de cuadrante sobre los 6 conceptos desde `tesseractData` (modo limpio por defecto + 12 capas cromáticas) |
 | `src/TesseractFlowchart.tsx` | Visualización interactiva en **D3** (`d3.zoom`, `d3.drag`, filtrado `real _ / virtual ...`) y proyección de Schlegel interior/exterior |
 | `src/evalAuditExport.ts` | Generación determinista de paquetes `.json` (`liveReport` + `editedAnnotations`) para auditoría externa en EXP-A |
-| `src/specJsonSyntax.ts` & `src/SpecMetadataSidePanel.tsx` | Tokenizador JSON y panel lateral colapsable de auditoría técnica para los metadatos completos de `specData` en la pestaña **Núcleo** |
-| `server.ts` & `src/App.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |
-| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, teseracto `{4,3,3}`, grafo D3, exportación `.json` y auditoría `specData` |
+| `src/specJsonSyntax.ts` & `src/SpecMetadataSidePanel.tsx` | Tokenizador JSON y panel lateral colapsable de auditoría técnica para `specData` en la pestaña **Núcleo** |
+| `server.ts`, `src/App.tsx` & `src/TcaauCoreSection.tsx` | Servidor Express (`/api/*`) y aplicación web React + Tailwind CSS en puerto `3000` |
+| `src/*.test.ts` | Pruebas unitarias deterministas (`node:test`) de reglas formales, núcleo TCAAU, teseracto `{4,3,3}`, grafo D3, exportación `.json` y auditoría `specData` |
 
 ## Documentación de sentido y cosmología
 
 | Documento | Rol |
 |-----------|-----|
-| [`docs/TCAAU.md`](docs/TCAAU.md) | **Documento canónico** de la TCAAU: postulados, clausura, dominios real/virtual e instrucción `2 × 4` del teseracto único `{4,3,3}` |
+| [`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) | **Texto canónico revisado** de la TCAAU (Noviembre de 2026) |
+| [`docs/TCAAU.md`](docs/TCAAU.md) | **Tratado sistemático** de la TCAAU: axiomática `A1–A8`, `D10–D13`, `R1–R8`, proyección `2 × 4` definitiva, superposición `§7.7`, ideas `I1–I7` y programa `P1–P6` |
 | [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md) | Modelo completo de correspondencia universal, dominios real/virtual, 4ª/5ª perspectivas, reflejo de la realidad y ofrenda como acto de creación |
 | [`docs/MAPA_CONEXIONES_REAL_VIRTUAL.md`](docs/MAPA_CONEXIONES_REAL_VIRTUAL.md) | Mapa operativo de cuatro fases: polaridad real/virtual, mediadores mundo/vacío y espejo de realidad |
-| [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md) | Reconstrucción académica de la TCAAU: **11 teoremas** del núcleo combinatorio $(\mathbb{Z}_2)^3$, proyección de Schlegel (Teorema 8) y bipartición término–mediador (Teorema 11) |
-| [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) | Dictamen del criterio de realidad por no-subordinación (D10–D11, P11, C15–C17) y lectura modal |
+| [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md) | Reconstrucción académica de la TCAAU: Teoremas `1–11` y `T12` propuesto, grupo $(\mathbb{Z}_2)^3$, proyección de Schlegel y bipartición término–mediador |
+| [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) | Dictamen del criterio de realidad por no-subordinación (`D10–D11`, `P11`, `C15–C17`) y lectura modal |
 | [`docs/VECTORES_4_5.md`](docs/VECTORES_4_5.md) | Diagramas de las perspectivas cuarta (evolución) y quinta (involución), recorridos del Mictlán y ofrendas |
 | [`docs/TRES_PERSPECTIVAS.md`](docs/TRES_PERSPECTIVAS.md) | Individualidad · Dualidad · Totalidad |
 | [`MANIFIESTO.md`](MANIFIESTO.md) | Propósito y fundamento |
@@ -93,4 +100,4 @@ Detalle: [`REPRODUCCION.md`](REPRODUCCION.md) · [`EXPERIMENTOS.md`](EXPERIMENTO
 
 ## Afirmación rigurosa
 
-El repositorio **implementa una construcción formal y verificable de la unidad informativa** sobre Node.js 22 y TypeScript. La validez interna se mide por derivabilidad y trazabilidad determinista desde `data/iom_spec.json` y la especificación canónica del teseracto único `{4,3,3}` en sus ocho proyecciones. La autonomía formal no se confunde con una pretensión de validez empírica universal; permanece, en sentido estricto, como capacidad de originarse y sostenerse sin contenedor exterior.
+El repositorio **implementa una construcción formal y verificable de la unidad informativa** fundamentada en la **TCAAU** sobre Node.js 22 y TypeScript. La validez interna se mide por derivabilidad y reconteo determinista desde `data/iom_spec.json`, `data/tcaau_core.json` y la especificación canónica del teseracto único `{4,3,3}` en su proyección `2 × 4` y superposición `§7.7`. La autonomía absoluta no designa un estado alcanzable o destruible ni una pretensión física empíricamente falsable: es el hecho estructural de que toda distinción se traza siempre desde dentro del sistema, sin contenedor exógeno (`A1`, `D11`, `R7`).

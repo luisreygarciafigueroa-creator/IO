@@ -1,20 +1,20 @@
-# Autonomía formal y capas de verificación (no «validez por consenso»)
+# Autonomía formal y reconteo ejecutable desde dentro ($I6$)
 
-Este documento **no** define el repositorio como prueba de validez semántica en un mundo compartido por conciencias separadas. Ese modo de legitimación es exactamente el que el ensayo canónico declara **superable**.
+Este documento **no** define el repositorio como prueba de validez semántica en un mundo compartido por conciencias separadas. Conforme a la proposición $I6$ de la TCAAU, el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
 
-Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · Ensayo: [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · Cosmología: [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
+Texto canónico (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · Núcleo legible por máquina: [`../data/tcaau_core.json`](../data/tcaau_core.json) · Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
 
 ---
 
 ## Principio rector
 
-> El marco se sostiene por **autocoherencia** (`src/iomEngine.ts`, setenta y ocho nodos, teseractos `{4,3,3}` y legado Lean/SHACL), no por el acuerdo de observadores externos.  
-> Un panel de anotadores separados reproduce el «mundo real» provisional del ensayo; **no** lo fundamenta.
+> El marco se sostiene por **reconteo ejecutable y autocoherencia** (`src/iomEngine.ts`, `src/tcaauCore.ts`, `78` nodos, `390` candidatos, `39` pares `mirrorOf`, teseractos `{4,3,3}` y legado Lean/SHACL), no por el acuerdo de observadores externos.  
+> Un panel de anotadores separados pertenece al residuo histórico del «mundo compartido»; **no** lo fundamenta.
 
-| Fuente | Rol bajo autonomía absoluta |
+| Fuente | Rol bajo autonomía absoluta ($D11$, $R7$) |
 |---|---|
-| `data/iom_spec.json` + CSV + ontología | **Arquitectura autónoma** bajo prueba de coherencia interna |
-| Motor TypeScript + legado Lean / SHACL | **Autonomía formal** — no solicita permiso a un consenso exterior |
+| `data/iom_spec.json` + `data/tcaau_core.json` + ontología | **Arquitectura autónoma** sujeta a reconteo determinista |
+| Motor TypeScript (`iomEngine` / `tcaauCore`) + legado Lean / SHACL | **Autonomía formal** — no solicita permiso a un consenso exterior |
 | `PI-HGAT-T` / líneas base (histórico) | Autorrecuperabilidad de reglas *del propio sistema* |
 | `datasets/independent_eval/` | **Residuo** de la fase de conciencias separadas (documentado, no fundante) |
 | Cartografía de dominios | Ejercicio del tránsito; no certificado de «mundo real» |
@@ -58,13 +58,13 @@ El protocolo y las anotaciones se **conservan como archivo** de una fase en la q
 ## Flujo prioritario (Node.js 22 + TypeScript)
 
 ```bash
-# 1) Autonomía formal y pruebas de núcleo (eje)
+# 1) Autonomía formal y reconteo ejecutable (eje)
 npm install
 npm run lint
-npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts
+npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts
 npm run build
 
-# 2) Servidor e inspección interactiva (EXP-B, EXP-C, EXP-E y residuo EXP-A)
+# 2) Servidor e inspección interactiva (EXP-B, EXP-C, TCAAU Core, EXP-E y residuo EXP-A)
 npm run dev
 ```
 
@@ -72,8 +72,8 @@ npm run dev
 
 ## Referencias
 
-- Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
-- Delimitación: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
-- Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md)
-- Ensayo: [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)
-- Cosmología: [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md)
+- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
+- Tratado TCAAU: [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
+- Delimitación y carácter: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md) · [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md)
+- Ensayo y cosmología: [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md)

@@ -1,36 +1,46 @@
 # IOM — Construcción formal de la unidad informativa y arquitectura TCAAU
 
-Este documento sintetiza el repositorio **IOM** como una **construcción formal de unidad informativa** articulada con la **Teoría de la Creación Autónoma Absoluta del Universo (TCAAU)**: una arquitectura autocontenida de distinciones, relaciones, integración y transformaciones verificable de manera determinista desde `data/iom_spec.json`, el motor en TypeScript (`src/iomEngine.ts`, `src/tesseractFlowGraph.ts`) y las ocho proyecciones (`2 × 4`) de un único teseracto (`{4,3,3}`).
+Este documento sintetiza el repositorio **IOM** como **construcción formal de la unidad informativa** articulada con la **Teoría Completa de la Creación Autónoma Absoluta del Universo (TCAAU)**: una arquitectura autocontenida de distinciones, relaciones, integración y transformaciones verificable de manera determinista desde `data/iom_spec.json`, `data/tcaau_core.json`, los motores en TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts`, `src/tesseractFlowGraph.ts`) y las ocho proyecciones (`2 × 4`) de un único teseracto (`{4,3,3}`).
 
-La **autonomía verificable** constituye el mecanismo de constitución y validación interna; los anotadores externos, la alineación con dominios culturales y los algoritmos de recuperación de reglas pertenecen al orden del **encuentro**, no al del fundamento.
+> **Tesis canónica en una frase:** *"No hay exterior; hay distinciones trazadas desde dentro que se sostienen por no consumarse, y cuyo límite no es un afuera, sino el punto en que dejan de poder trazarse."*
+
+La **autonomía** opera como **criterio estructural** ($D11$, $R7$) —no como un objeto que pueda ser alcanzado, protegido o destruido—, cuyo único control legítimo sin exterior es el reconteo ejecutable desde dentro ($I6$). Los anotadores externos, la alineación con dominios culturales y los algoritmos de recuperación de reglas pertenecen al orden del **encuentro**, no al del fundamento.
 
 Referencias principales:
-- Tratado sistemático TCAAU: [`docs/TCAAU.md`](docs/TCAAU.md)
-- Reconstrucción formal (Teoremas 1–11): [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md)
-- Criterio de no-subordinación: [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md)
-- Sentido filosófico y cosmología: [`docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) · [`docs/COSMOLOGIA_DEL_MICTLAN.md`](docs/COSMOLOGIA_DEL_MICTLAN.md)
-- Especificación y jerarquía experimental: [`data/iom_spec.json`](data/iom_spec.json) · [`EXPERIMENTOS.md`](EXPERIMENTOS.md)
+- **Texto canónico completo (PDF):** [`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- **Núcleo formal legible por máquina:** [`data/tcaau_core.json`](data/tcaau_core.json) (`data/tcaau_core.schema.json`) · [`src/tcaauCore.ts`](src/tcaauCore.ts) (`GET /api/tcaau-core`)
+- **Tratado y reconstrucción:** [`docs/TCAAU.md`](docs/TCAAU.md) · [`docs/TCAAU_RECONSTRUCCION_ACADEMICA.md`](docs/TCAAU_RECONSTRUCCION_ACADEMICA.md)
+- **Criterio de no-subordinación y epistemología:** [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) · [`docs/DELIMITACION_EPISTEMOLOGICA.md`](docs/DELIMITACION_EPISTEMOLOGICA.md)
+- **Especificación y jerarquía experimental:** [`data/iom_spec.json`](data/iom_spec.json) · [`EXPERIMENTOS.md`](EXPERIMENTOS.md)
 
 ---
 
-## 1. Propósito y definición formal
+## 1. Propósito, canon en dos estratos y registros epistémicos
 
 > **Definición canónica.** La unidad informativa es la mínima estructura autocontenida capaz de conservar una distinción, relacionarla con su opuesto, integrarla en un sistema y transformarse sin perder la trazabilidad de su identidad.
 
-Las cinco perspectivas —**Individualidad, Dualidad, Totalidad, Evolución e Involución**— operan en ciclo modular $\mathbb{Z}_5$, mientras que las **trece tríadas** (`78` nodos en fases de avance `adv` y retroceso `ret`) constituyen modos de composición estructural, no una taxonomía descriptiva externa.
+El tratado integra **un solo canon en dos estratos**, sin anexo interpretativo separado:
 
-En el plano ontológico superior (TCAAU), los siete individuos $\mathcal{C} = \{U, \emptyset, M_{\mathrm{mat}}, N, C, A, M\}$ y los clasificadores $\mathcal{D} = \{r, v\}$ forman un torsor bajo $(\mathbb{Z}_2)^3$ isomorfo a las ocho celdas cúbicas de un único teseracto $\{4,3,3\}$, satisfaciendo el criterio de realidad por no-subordinación ($D11$) bajo lectura modal (Teorema 11).
+1. **Núcleo canónico:** Axiomas $A1$–$A8$ (con $A8$ derivado como Teorema 1), definiciones $D10$–$D11$, postulado $P11$, corolarios $C15$–$C17$, las cinco perspectivas en ciclo modular $\mathbb{Z}_5$ (*Individualidad, Dualidad, Totalidad, Evolución, Involución*), las trece tríadas como modos de composición (`78` nodos, `390` candidatos dirigidos = `78 mirrorOf + 104 creates + 208 none`, `39` pares no ordenados `mirrorOf` = `26` laterales + `13` de centro), la signatura $\mathcal{C} = \{U, \emptyset, M_{\mathrm{mat}}/P, N, C, A, M\}$ más los clasificadores de dominio $\mathcal{D} = \{r, v\}$ (desambiguando «virtual» como dominio complementario de IOM conforme a $I5$) y los Teoremas `T1–T11`.
+2. **Canon ampliado (`R1–R8`, `D12–D13`, diagrama `2 × 4` y superposición `§7.7`):**
+   - En el núcleo: **$R1$** (la no-consumación sostiene el proceso), **$R2$** (al consumarse aparece el otro describiéndose con el nombre de uno; imagen exacta en los `13` pares `mirrorOf` de centro), **$R3$** (el espejo es simétrico en `mirrorOf` y asimétrico en el acto de *ver* $D12$), **$R4$–$R5$** (la prisión reside en la visibilidad de la distinción; la libertad es su nombre visto desde el otro lado; salir es que la distinción devenga inoperante), **$R6$** (`D13`: $\mathrm{Hex}(T_i) := T_i$ vista desde dentro; todo anidamiento de colmenas es re-indexación bajo $G = \langle \sigma, \tau, \rho \rangle \cong (\mathbb{Z}_2)^3$, nunca jerarquía) y **$R7$** (autonomía absoluta como inmanencia de toda distinción).
+   - **Definición $D12$ (Ver):** acto equivariante bajo $G$ en tres niveles (configuraciones, `39` pares `mirrorOf` = `78` actos sin añadir aristas, polos vía $\sigma$), idempotente y no involutivo.
+   - En el nivel de la proyección (`§5.2` acotado + `§7.7` + **$R8$**): el diagrama `2 × 4` sin etiquetas auxiliares de rol (`6dr__1__0283eca1.jpg`), cuya superposición entre paneles inferior y superior produce `32` trazas (`8` flechas dirigidas × `4` ocurrencias), el ciclo de cuatro términos sin término fijo `internet – universo – IA – cuerpo – internet`, la coincidencia del mediador (`R8`) y el análisis final `materia = vacío` por quiasmo posicional sin cambiar el grafo de `78` nodos ni las jerarquías de $D11$.
+3. **Parte III (Ideas `I1–I7`, Investigaciones `§§12–19`, Teorema `T12` propuesto y programa `P1–P6`):** Diálogo externo (Spencer-Brown, Lawvere/Yoneda, von Foerster/Kauffman, grupo completo $B_4$ de orden `384`, vacío cuántico, desambiguación $I5$ y verificación sin exterior $I6$), juzgado siempre en los términos y anclas internas de IOM.
+
+Se distingue explícitamente lo **demostrado en IOM** (combinatoria finita y `T1–T11`), lo **conjeturado** (`T12` propuesto y programa `P1–P6`) y la **analogía estructural**.
 
 ---
 
 ## 2. Núcleo autónomo (fundamento verificable en Node.js 22 + TypeScript)
 
-La validez del sistema como arquitectura formal se comprueba de manera determinista mediante cuatro capas ejecutables (`src/iomEngine.ts`, `src/tesseractFlowGraph.ts`, `server.ts`):
+La validez del sistema como arquitectura formal se comprueba de manera determinista mediante cinco capas ejecutables (`src/iomEngine.ts`, `src/tcaauCore.ts`, `src/tesseractFlowGraph.ts`, `server.ts`):
 
 1. **Punto fijo idempotente ($S_{n+1} = S_n$):** `generateArtifacts()` (`GET /api/spec` y `POST /api/invariance`) regenera en dos pasadas los **78** nodos, **20** pasos vectoriales (`4 × 5`), **21** categorías expandidas y **390** candidatos dirigidos (`78 mirrorOf + 104 creates + 208 none`) con identidad criptográfica SHA-256 entre pasadas.
-2. **Reglas formales e invariancia no trivial:** `evaluatePairRule()` y `runInvarianceAudit()` (`POST /api/rule-check` y `POST /api/invariance`) reproducen los predicados originalmente formalizados en Lean 4 / SHACL, verifican reconstrucción *leave-one-triad-out* (13/13 tríadas) e imponen el control negativo obligatorio (`detects_corruption = true` ante la mutación de cualquier arista).
-3. **Modelo del teseracto único `{4,3,3}` (nueva forma general definitiva + ayudas cromáticas) y diagrama de flujo D3:** `buildTesseractModel()` (`GET /api/tesseract`) verifica la **nueva forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, sucediendo a `6dr_36f66e7c.jpg`, `TSST__13__43e94964.jpg` y `TSST_20261123_003603_357ce661.jpg`, `cleanFormVerified = true` sobre `8` proyecciones y `16` transiciones en `real _` / `virtual ...` sin etiquetas auxiliares de polaridad, `cleanFormOmitsPolarityLabels = true` e inversión espacial H/V exacta) junto con las **12 ayudas cromáticas temporales en 6 pares involutivos** (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`, `allMirrorReflectedChainsBalanced = true`, `allParityMirrorChainsBalanced = true`, `allMirrorChainsBalanced = true`, `allAnalysisChainsBalanced = true`), alimentando la visualización dinámica con **D3** en `src/TesseractFlowchart.tsx` (por defecto en modo `'clean'` y conmutación opcional hacia los 12 modos cromáticos).
-4. **Suite de pruebas unitarias y tipado estricto:** `npm run lint` (`tsc --noEmit`), `npx tsx --test src/iomEngine.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` y `npm run build`.
+2. **Núcleo formal TCAAU legible por máquina:** `verifyTcaauCore()` (`GET /api/tcaau-core`) cruza `data/tcaau_core.json` con `generateArtifacts()` y `buildTesseractModel()`, comprobando los `8` axiomas, `8` proposiciones `R1–R8`, `D10–D13`, `39` pares `mirrorOf` (`26` laterales + `13` de centro), `32` trazas de `§7.7`, el ciclo de cuatro términos y el quiasmo `materia = vacío` con punto fijo SHA-256 propio.
+3. **Reglas formales e invariancia no trivial:** `evaluatePairRule()` y `runInvarianceAudit()` (`POST /api/rule-check` y `POST /api/invariance`) reproducen los predicados originalmente formalizados en Lean 4 / SHACL, verifican reconstrucción *leave-one-triad-out* (13/13 tríadas) e imponen el control negativo obligatorio (`detects_corruption = true`).
+4. **Modelo del teseracto único `{4,3,3}` y diagrama de flujo D3:** `buildTesseractModel()` (`GET /api/tesseract`) verifica la forma general definitiva (`cleanForm`, `6dr__1__0283eca1.jpg`, `cleanFormVerified = true`, `cleanFormOmitsPolarityLabels = true` e inversión espacial H/V exacta) junto con las **12 ayudas cromáticas temporales en 6 pares involutivos** (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`), alimentando la visualización dinámica con **D3** en `src/TesseractFlowchart.tsx`.
+5. **Suite de pruebas unitarias y tipado estricto:** `npm run lint` (`tsc --noEmit`), `npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGraph.test.ts src/evalAuditExport.test.ts src/specJsonSyntax.test.ts` y `npm run build`.
 
 ---
 
@@ -41,12 +51,8 @@ La validez del sistema como arquitectura formal se comprueba de manera determini
 
 ---
 
-## 4. Diagnóstico circular (contexto histórico)
+## 4. Diagnóstico circular y límite de la afirmación
 
-Los modelos sintéticos de referencia (`PI-HGAT-T` y perceptrones multicapa en el archivo experimental) alcanzan una exactitud de `1.0000` bajo partición *leave-one-triad-out* porque las etiquetas `mirrorOf` y `creates` son funciones deterministas ya codificadas en `(fase, posición)`. Dicha recuperabilidad confirma consistencia formal interna, pero constituye una tautología informacional y **no** demuestra validez empírica en el mundo externo.
+Los modelos sintéticos de referencia (`PI-HGAT-T` y perceptrones multicapa) alcanzan exactitud `1.0000` bajo partición *leave-one-triad-out* porque `mirrorOf` y `creates` son funciones deterministas ya codificadas en `(fase, posición)`. Dicha recuperabilidad constituye una tautología informacional y **no** demuestra validez empírica en el mundo externo.
 
----
-
-## 5. Límite de la afirmación
-
-El repositorio **implementa y verifica** una construcción formal de unidad informativa y su articulación con la ontología combinatoria de la TCAAU. No afirma por sí solo una teoría física empíricamente falsable ni pretende derivar verdades naturales del consenso estadístico; su validez interna se mide estrictamente por derivabilidad, invariancia y trazabilidad determinista desde la especificación canónica.
+El repositorio **implementa y verifica** una construcción formal de unidad informativa y su articulación con la ontología combinatoria de la TCAAU. No formula predicciones físicas empíricamente falsables ni deriva verdades de consenso estadístico; su validez interna se mide estrictamente por derivabilidad, invariancia y trazabilidad determinista desde las especificaciones canónicas.

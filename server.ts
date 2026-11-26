@@ -14,6 +14,7 @@ import {
   validateDomainMapping,
 } from './src/iomEngine.ts';
 import type { AnnotationsPayload } from './src/iomEngine.ts';
+import { buildTcaauCoreSnapshot } from './src/tcaauCore.ts';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const HOST = '0.0.0.0';
@@ -149,6 +150,14 @@ async function startServer() {
   app.get('/api/tesseract', (_req, res) => {
     try {
       res.json(buildTesseractModel());
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  });
+
+  app.get('/api/tcaau-core', (_req, res) => {
+    try {
+      res.json(buildTcaauCoreSnapshot());
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
