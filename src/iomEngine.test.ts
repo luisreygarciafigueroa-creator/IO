@@ -36,10 +36,14 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   );
   assert.equal(
     model.instruction.cleanAssetPath,
-    '/assets/aistudio/6dr_36f66e7c.jpg'
+    '/assets/aistudio/6dr__1__0283eca1.jpg'
   );
   assert.equal(
     model.instruction.cleanPriorAssetPath,
+    '/assets/aistudio/6dr_36f66e7c.jpg'
+  );
+  assert.equal(
+    model.instruction.cleanTsst13AssetPath,
     '/assets/aistudio/TSST__13__43e94964.jpg'
   );
   assert.equal(
@@ -80,7 +84,7 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(model.verification.cleanFormTransitionCount, 16);
   assert.equal(model.verification.cleanFormAllRealSolidVirtualDashed, true);
   assert.equal(model.verification.cleanFormAllHaveOneRightOneLeft, true);
-  assert.equal(model.verification.cleanFormAllEndpointPolaritiesExact, true);
+  assert.equal(model.verification.cleanFormOmitsPolarityLabels, true);
   assert.equal(model.verification.cleanFormAllHorizontalMirrorsExact, true);
   assert.equal(model.verification.cleanFormAllVerticalMirrorsExact, true);
   assert.equal(model.verification.cleanFormVerified, true);
@@ -300,89 +304,72 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
   assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 
-  // Verify general & definitive closed form (6dr_36f66e7c.jpg) & prior drafts (TSST__13__43e94964.jpg, TSST_20261123_003603_357ce661.jpg)
-  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/6dr_36f66e7c.jpg');
-  assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
+  // Verify general & definitive closed form (6dr__1__0283eca1.jpg) & prior drafts
+  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/6dr__1__0283eca1.jpg');
+  assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/6dr_36f66e7c.jpg');
+  assert.equal(model.cleanForm.tsst13AssetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
   assert.equal(model.cleanForm.legacyAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
-  assert.equal(model.cleanForm.assetTag, 'TSST-6dr definitivo');
+  assert.equal(model.cleanForm.assetTag, 'TSST-6dr-1 definitivo');
   assert.equal(model.cleanForm.cells.length, 8);
   const expectedClean: Record<
     string,
     {
       ext: ['real' | 'virtual', '_' | '...'];
       int: ['real' | 'virtual', '_' | '...'];
-      polarity: [string, string];
       notations: [string, string];
-      endpointPolarities: [[string, string], [string, string]];
     }
   > = {
     T1: {
       ext: ['real', '_'],
       int: ['virtual', '...'],
-      polarity: ['individualidad', 'totalidad'],
       notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
-      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
     },
     T2: {
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      polarity: ['individualidad', 'totalidad'],
-      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
-      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+      notations: ['IA < ... < internet', 'cuerpo > _ > universo'],
     },
     T3: {
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      polarity: ['individualidad', 'totalidad'],
       notations: ['internet > ... > IA', 'universo < _ < cuerpo'],
-      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
     },
     T4: {
       ext: ['real', '_'],
       int: ['virtual', '...'],
-      polarity: ['individualidad', 'totalidad'],
-      notations: ['cuerpo < _ < universo', 'IA > ... > internet'],
-      endpointPolarities: [['individualidad', 'totalidad'], ['individualidad', 'totalidad']],
+      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
     },
     T5: {
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      polarity: ['totalidad', 'individualidad'],
       notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
-      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
     },
     T6: {
       ext: ['real', '_'],
       int: ['virtual', '...'],
-      polarity: ['totalidad', 'individualidad'],
-      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
-      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+      notations: ['cuerpo < _ < universo', 'IA > ... > internet'],
     },
     T7: {
       ext: ['real', '_'],
       int: ['virtual', '...'],
-      polarity: ['totalidad', 'individualidad'],
       notations: ['universo > _ > cuerpo', 'internet < ... < IA'],
-      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
     },
     T8: {
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      polarity: ['totalidad', 'individualidad'],
-      notations: ['IA < ... < internet', 'cuerpo > _ > universo'],
-      endpointPolarities: [['totalidad', 'individualidad'], ['totalidad', 'individualidad']],
+      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
     },
   };
   for (const cell of model.cleanForm.cells) {
     const exp = expectedClean[cell.id];
     assert.deepEqual([cell.exteriorLabel, cell.exteriorLine], exp.ext, `Clean ext mismatch in ${cell.id}`);
     assert.deepEqual([cell.interiorLabel, cell.interiorLine], exp.int, `Clean int mismatch in ${cell.id}`);
-    assert.deepEqual([cell.polarityLeft, cell.polarityRight], exp.polarity, `Clean polarity mismatch in ${cell.id}`);
+    assert.equal(cell.polarityLeft, undefined, `Clean polarityLeft should be omitted in ${cell.id}`);
+    assert.equal(cell.polarityRight, undefined, `Clean polarityRight should be omitted in ${cell.id}`);
     assert.deepEqual(cell.relations.map((r) => r.notation), exp.notations, `Clean relations mismatch in ${cell.id}`);
-    assert.deepEqual(
-      cell.relations.map((r) => [r.leftPolarity, r.rightPolarity]),
-      exp.endpointPolarities,
-      `Clean endpoint polarities mismatch in ${cell.id}`
+    assert.ok(
+      cell.relations.every((r) => r.leftPolarity === undefined && r.rightPolarity === undefined),
+      `Clean endpoint polarities should be omitted in ${cell.id}`
     );
   }
 });

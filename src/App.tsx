@@ -257,6 +257,7 @@ interface TesseractResponse {
     source: string;
     cleanAssetPath?: string;
     cleanPriorAssetPath?: string;
+    cleanTsst13AssetPath?: string;
     cleanLegacyAssetPath?: string;
     assetPath?: string;
     parityMirrorAssetPath?: string;
@@ -291,6 +292,7 @@ interface TesseractResponse {
   cleanForm?: {
     assetPath: string;
     priorAssetPath?: string;
+    tsst13AssetPath?: string;
     legacyAssetPath?: string;
     assetTag: string;
     title: string;
@@ -372,6 +374,7 @@ interface TesseractResponse {
     cleanFormTransitionCount?: number;
     cleanFormAllRealSolidVirtualDashed?: boolean;
     cleanFormAllHaveOneRightOneLeft?: boolean;
+    cleanFormOmitsPolarityLabels?: boolean;
     cleanFormAllEndpointPolaritiesExact?: boolean;
     cleanFormAllHorizontalMirrorsExact?: boolean;
     cleanFormAllVerticalMirrorsExact?: boolean;
@@ -1231,13 +1234,13 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    forma general definitiva (6dr) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
+                    forma general definitiva (6dr-1) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (13):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (14):</span>
                 {tesseractData.instruction.cleanAssetPath && (
                   <a
                     href={tesseractData.instruction.cleanAssetPath}
@@ -1248,9 +1251,9 @@ export default function App() {
                         ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                         : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
                     }`}
-                    title="Forma general y definitiva del modelo (TSST-6dr)"
+                    title="Nueva forma general y definitiva del modelo (TSST-6dr-1)"
                   >
-                    Forma general definitiva (6dr)
+                    Forma definitiva (6dr-1)
                   </a>
                 )}
                 {tesseractData.instruction.cleanPriorAssetPath && (
@@ -1259,9 +1262,20 @@ export default function App() {
                     target="_blank"
                     rel="noreferrer"
                     className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
-                    title="Versión previa TSST-13 antes del ajuste especular horizontal en T3, T4, T7 y T8"
+                    title="Versión previa 6dr con etiquetas de polaridad y extremos sin reflejo espacial"
                   >
-                    Versión previa (TSST-13)
+                    Versión previa (6dr)
+                  </a>
+                )}
+                {tesseractData.instruction.cleanTsst13AssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanTsst13AssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    title="Borrador previo TSST-13"
+                  >
+                    Borrador previo (TSST-13)
                   </a>
                 )}
                 {tesseractData.instruction.cleanLegacyAssetPath && (
@@ -1401,9 +1415,9 @@ export default function App() {
                           ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                           : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
                       }`}
-                      title="Ver la forma general y definitiva sin capas cromáticas (6dr)"
+                      title="Ver la nueva forma general y definitiva sin capas cromáticas (6dr-1)"
                     >
-                      Forma general definitiva (Sin color · 6dr)
+                      Forma definitiva (Sin color · 6dr-1)
                     </button>
                     <span className="text-slate-500 text-[10px]">
                       Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
@@ -1507,14 +1521,14 @@ export default function App() {
                       className="text-left rounded-lg px-3 py-2 bg-slate-900/70 border border-slate-800 hover:border-slate-600 transition cursor-pointer"
                     >
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
-                        <span className="font-semibold">Polaridad complementaria</span>
+                        <span className="font-semibold">Espejeo espacial H / V</span>
                         <span className="text-[10px] text-emerald-300">2×4 simétrica</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        Sup: individualidad | totalidad
+                        H: A › B ↔ B ‹ A (mismo cubo)
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        Inf: totalidad | individualidad (espejo H/V exacto)
+                        V: ext ↔ int, fila y flecha › ↔ ‹
                       </div>
                     </button>
                   </div>
@@ -1573,7 +1587,7 @@ export default function App() {
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Forma general definitiva (6dr)</div>
+                <div className="text-slate-400">Forma definitiva (6dr-1)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
@@ -1605,11 +1619,10 @@ export default function App() {
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Inversión H / V y polaridad</div>
+                <div className="text-slate-400">Inversión espacial H / V</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormAllHorizontalMirrorsExact &&
-                  tesseractData.verification.cleanFormAllVerticalMirrorsExact &&
-                  tesseractData.verification.cleanFormAllEndpointPolaritiesExact !== false
+                  tesseractData.verification.cleanFormAllVerticalMirrorsExact
                     ? 'EXACTA'
                     : 'ERROR'}
                 </div>
@@ -1617,7 +1630,7 @@ export default function App() {
                   {tesseractData.concepts.length} conceptos ·{' '}
                   {tesseractData.verification.allConceptsCovered &&
                   tesseractData.verification.allCubeLabelsCovered
-                    ? '4 dualidades OK'
+                    ? 'simetría 2×4 OK'
                     : 'ERR'}
                 </div>
               </div>
@@ -1659,7 +1672,7 @@ export default function App() {
                   <div className="w-full border-t-2 border-dashed border-slate-700" />
                   <span className="absolute px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 whitespace-nowrap">
                     {isCleanMode
-                      ? 'plano de inversión horizontal · real/virtual · indiv/tot · cuerpo/universo · internet/IA'
+                      ? 'plano de inversión vertical · real/virtual · cuerpo/universo · internet/IA'
                       : 'plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución'}
                   </span>
                 </div>
@@ -1678,9 +1691,9 @@ export default function App() {
                     <span>{selectedCell.half}</span>
                     <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-[10.5px] text-slate-300">
                       {isCleanMode
-                        ? `Polaridad: ${selectedCell.polarityLeft ?? 'individualidad'} | ${
-                            selectedCell.polarityRight ?? 'totalidad'
-                          }`
+                        ? selectedCell.polarityLeft && selectedCell.polarityRight
+                          ? `Polaridad: ${selectedCell.polarityLeft} | ${selectedCell.polarityRight}`
+                          : `Espejo H: ${selectedCell.neighbors.horizontal} · V: ${selectedCell.neighbors.vertical}`
                         : activeColoring?.family === 'mirror'
                         ? selectedCell.axisPair === 'real / virtual' ||
                           selectedCell.axisPair === 'evolución / involución'

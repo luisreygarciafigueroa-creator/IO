@@ -520,7 +520,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             ? 'POLO A'
             : tier === 2
             ? 'POLO B'
-            : 'POLARIDAD CUADRANTE'
+            : 'EJES DEL SISTEMA'
           : isTwoCol
           ? tier === 0
             ? 'POLO RECÍPROCO A'
