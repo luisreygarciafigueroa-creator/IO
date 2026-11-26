@@ -2,7 +2,7 @@
 
 Este documento **no** define el repositorio como prueba de validez semántica en un mundo compartido por conciencias separadas. Conforme a la proposición $I6$ de la TCAAU, el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
 
-Texto canónico (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · Núcleo legible por máquina: [`../data/tcaau_core.json`](../data/tcaau_core.json) · Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
+Texto canónico (PDF): [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · Núcleo legible por máquina: [`../data/tcaau_core.json`](../data/tcaau_core.json) · Carácter: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · Tratado TCAAU: [`TCAAU.md`](TCAAU.md)
 
 ---
 
@@ -72,7 +72,7 @@ npm run dev
 
 ## Referencias
 
-- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)
 - Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
 - Tratado TCAAU: [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
 - Delimitación y carácter: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md) · [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md)

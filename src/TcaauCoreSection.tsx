@@ -22,9 +22,9 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
   const subTabs: Array<{ id: CoreViewTab; label: string }> = [
     { id: 'propositions', label: `Proposiciones R1–R8 (${core.canonical_propositions.length})` },
     { id: 'axioms', label: `Axiomas A1–A8 (${core.axioms.length})` },
-    { id: 'definitions', label: 'D10–D13 · P11 · C15–C17' },
+    { id: 'definitions', label: 'D10–D13 · P11 · C15–C17 · §11' },
     { id: 'inventory', label: 'Inventario & {4,3,3} / §7.7' },
-    { id: 'ideas', label: 'Teoremas · Ideas I1–I7 · P1–P6' },
+    { id: 'ideas', label: 'Teoremas · Ideas I1–I8 · P1–P7' },
   ];
 
   const downloadCoreJson = () => {
@@ -225,6 +225,18 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
                 <p className="text-slate-300 leading-relaxed">{post.canonical_statement}</p>
               </div>
             ))}
+            <div className="bg-slate-950/75 border border-emerald-500/30 rounded-lg p-3.5 space-y-1">
+              <div className="font-mono font-semibold text-emerald-300">
+                {core.definitions_and_modes.verifiable_traceability_corollary.id} ·{' '}
+                {core.definitions_and_modes.verifiable_traceability_corollary.title}
+              </div>
+              <p className="text-slate-200 leading-relaxed">
+                {core.definitions_and_modes.verifiable_traceability_corollary.canonical_statement}
+              </p>
+              <p className="text-slate-400 text-[11px] font-mono leading-relaxed">
+                {core.definitions_and_modes.verifiable_traceability_corollary.operational_form}
+              </p>
+            </div>
             {core.definitions_and_modes.corollaries.map((cor) => (
               <div
                 key={cor.id}
@@ -236,6 +248,70 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
                 <p className="text-slate-300 leading-relaxed">{cor.canonical_statement}</p>
               </div>
             ))}
+          </div>
+
+          <div className="bg-slate-950/75 border border-slate-800 rounded-lg p-3.5 space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="font-semibold text-white">
+                Integración del material del sitio y criterio de clausura (§11.2–§11.6)
+              </div>
+              <span className="font-mono text-[11px] text-emerald-300">
+                κ = {core.site_integration_11.closure_criterion_11_4.fleiss_kappa} · invariancia{' '}
+                {core.site_integration_11.closure_criterion_11_4.candidates_total}/
+                {core.site_integration_11.closure_criterion_11_4.negative_control_detected}
+              </span>
+            </div>
+            <p className="text-slate-300 leading-relaxed">
+              {core.site_integration_11.scope_rule}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-[11px]">
+              <div className="bg-slate-900/70 border border-slate-800 rounded p-2.5 space-y-1">
+                <div className="font-mono text-amber-300 font-semibold">
+                  Criterio de clausura (§11.4, acompaña C15–C17)
+                </div>
+                {core.site_integration_11.closure_criterion_11_4.conditions.map((cond) => (
+                  <p key={cond} className="text-slate-300 leading-relaxed">
+                    {cond}
+                  </p>
+                ))}
+              </div>
+              <div className="bg-slate-900/70 border border-slate-800 rounded p-2.5 space-y-1">
+                <div className="font-mono text-sky-300 font-semibold">
+                  Ruta prioritaria T12 (§11.6): {core.site_integration_11.t12_priority_route_11_6.priority_route}
+                </div>
+                <p className="text-slate-300 leading-relaxed">
+                  {core.site_integration_11.t12_priority_route_11_6.justification}
+                </p>
+                <p className="text-slate-400 font-mono text-[10.5px]">
+                  Estrato de ideas/encuentro (§11.5): {core.site_integration_11.ideas_and_encounter_11_5.expanded_categories_count} categorías{' '}
+                  {core.site_integration_11.ideas_and_encounter_11_5.expanded_levels} (I8/P7) ·{' '}
+                  {core.site_integration_11.ideas_and_encounter_11_5.nahua_examples_count} ejemplos nahuas (
+                  {core.site_integration_11.ideas_and_encounter_11_5.nahua_results}).
+                </p>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-[11px]">
+                <thead>
+                  <tr className="border-b border-slate-800 text-slate-400">
+                    <th className="py-1.5 pr-3">Material del sitio</th>
+                    <th className="py-1.5 px-3">Al núcleo</th>
+                    <th className="py-1.5 px-3">A ideas / encuentro</th>
+                    <th className="py-1.5 pl-3">Qué entra en esta edición</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {core.site_integration_11.integration_table.map((row) => (
+                    <tr key={row.site_material}>
+                      <td className="py-1.5 pr-3 font-mono text-slate-200">{row.site_material}</td>
+                      <td className="py-1.5 px-3 font-mono text-emerald-300">{row.to_nucleus}</td>
+                      <td className="py-1.5 px-3 font-mono text-amber-300">{row.to_ideas_encounter}</td>
+                      <td className="py-1.5 pl-3 text-slate-300">{row.edition_action}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -273,6 +349,26 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
               <p className="text-slate-400 text-[11px] leading-relaxed">
                 {core.tesseract_and_projections.scope_5_2_delimitation}
               </p>
+            </div>
+          </div>
+
+          <div className="bg-slate-950/75 border border-slate-800 rounded-lg p-3.5 space-y-2">
+            <div className="font-semibold text-white">
+              Acción definida de G ≅ (Z₂)³ sobre {'{T₁,…,T₈}'} (§11.1)
+            </div>
+            <p className="text-slate-300 leading-relaxed">{inv.tesseract_group.action_rule}</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 pt-1">
+              {inv.tesseract_group.coordinates_z2_3.map((entry) => (
+                <div
+                  key={entry.cell}
+                  className="bg-slate-900/80 border border-slate-800 rounded px-2.5 py-1.5 text-center font-mono"
+                >
+                  <div className="text-sky-300 font-semibold">{entry.cell}</div>
+                  <div className="text-[11px] text-slate-300">
+                    ({entry.coordinates.join(', ')})
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -325,7 +421,7 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
           <div className="bg-slate-950/75 border border-slate-800 rounded-lg p-3.5 space-y-2">
             <div className="font-semibold text-white flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              Programa comprobable P1–P6 y Teorema propuesto T12 (§13 · §19)
+              Programa comprobable P1–P7 y Teorema propuesto T12 (§13 · §19)
             </div>
             <p className="text-slate-300 leading-relaxed">
               <span className="font-mono text-emerald-300 mr-1.5">T12 (propuesto):</span>

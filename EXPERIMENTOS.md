@@ -1,6 +1,6 @@
 # Experimentos del marco I.O. — unidad informativa y núcleo TCAAU
 
-> Propósito: construcción formal de **unidad informativa** fundamentada en la **TCAAU** (`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`). La verificación ejecutable desde dentro ($I6$) constituye el único control legítimo de una teoría sin exterior.
+> Propósito: construcción formal de **unidad informativa** fundamentada en la **TCAAU** (`public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`). La verificación ejecutable desde dentro ($I6$, `§11.3–§11.4`) constituye el único control legítimo de una teoría sin exterior.
 
 > Manifiesto: [`MANIFIESTO.md`](MANIFIESTO.md) · Reproducción: [`REPRODUCCION.md`](REPRODUCCION.md) · Núcleo legible por máquina: [`data/tcaau_core.json`](data/tcaau_core.json) (`src/tcaauCore.ts`)
 
@@ -30,7 +30,7 @@ npx tsx --test src/iomEngine.test.ts src/tcaauCore.test.ts src/tesseractFlowGrap
 npm run build
 ```
 
-En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas deterministas desde `data/iom_spec.json` y compara las firmas SHA-256 (`pass1Hash === pass2Hash`), mientras `GET /api/tcaau-core` verifica de forma idempotente el núcleo formal de `data/tcaau_core.json` (incluida la batería comprobable `P1–P6`).
+En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas deterministas desde `data/iom_spec.json` y compara las firmas SHA-256 (`pass1Hash === pass2Hash`), mientras `GET /api/tcaau-core` verifica de forma idempotente el núcleo formal de `data/tcaau_core.json` (incluidos `§11.1–§11.6`, el criterio de clausura y la batería comprobable `P1–P7`).
 
 ---
 

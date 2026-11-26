@@ -66,5 +66,11 @@ jobs:
             assert.equal(tcaau.valid, true);
             assert.equal(tcaau.coreHashIdempotent, true);
             assert.equal(tcaau.countsMatchLiveEngine, true);
+            assert.equal(tcaau.section11Verified.gActionFreeAndTransitive, true);
+            assert.equal(tcaau.section11Verified.antipodalMatchesSumMod2, true);
+            assert.equal(tcaau.section11Verified.siteIntegrationComplete, true);
+            assert.equal(tcaau.section11Verified.manifestFilePresent, true);
+            assert.equal(tcaau.ideaCount, 8);
+            assert.equal(tcaau.researchProblemCount, 7);
             console.log('Core invariants verified:', artifacts.fixedPoint.pass1Hash, tcaau.corePass1Hash);
           "

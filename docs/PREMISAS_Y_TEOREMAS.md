@@ -1,8 +1,8 @@
 # Premisas asumidas y teoremas derivados del marco I.O. y TCAAU
 
-Este documento distingue con rigor **afirmaciones asumidas** (premisas del marco) de **resultados demostrados** en Lean o comprobados de forma determinista sobre las especificaciones estructuradas (`data/iom_spec.json` y `data/tcaau_core.json`), manteniendo la regla $I7$ entre lo demostrado en IOM, lo conjeturado (`T12` propuesto) y la analogía estructural.
+Este documento distingue con rigor **afirmaciones asumidas** (premisas del marco) de **resultados demostrados** en Lean o comprobados de forma determinista sobre las especificaciones estructuradas (`data/iom_spec.json` y `data/tcaau_core.json`), manteniendo la separación de estratos entre lo demostrado en IOM, lo conjeturado (`T12` propuesto, `P1–P7`) y la analogía estructural.
 
-Texto canónico completo (PDF): [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf).  
+Texto canónico completo (PDF): [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf).  
 Sentido cosmológico (no formal): [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md).  
 Criterio de autonomía y término de la creación: [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md).  
 Núcleo combinatorio ampliado (`T1–T11`, `R1–R8`, `D12–D13`): [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md).
@@ -110,7 +110,7 @@ Teoremas del núcleo combinatorio TCAAU (`data/tcaau_core.json`, verificados en 
 
 | Concepto | Artefacto |
 |---|---|
-| Texto canónico TCAAU (PDF) | `public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf` |
+| Texto canónico TCAAU (PDF) | `public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf` |
 | Premisas tabuladas IOM | `data/iom_spec.json` |
 | Núcleo formal TCAAU legible por máquina | `data/tcaau_core.json`, `data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `src/tcaauCore.test.ts` |
 | Motor determinista e invariancia | `src/iomEngine.ts`, `server.ts` |

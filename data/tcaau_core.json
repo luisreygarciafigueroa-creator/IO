@@ -5,14 +5,14 @@
     "subtitle": "IOM como construcción formal de la unidad informativa: vacío y universo, espejo, prisión y libertad, y autonomía absoluta como colmena sin exterior.",
     "author": "Luis Rey García Figueroa",
     "framework": "IOM — construcción formal de la unidad informativa",
-    "edition_label": "Texto canónico revisado · Edición con la nueva actualización del teseracto — diagrama 2×4 sin etiquetas de rol junto a los vectores, ideas, investigaciones, superposición y análisis final",
+    "edition_label": "Texto canónico revisado · Edición de integración del material del sitio — diagrama 2×4 definitivo y, con el alcance fijado por el autor, acción de G definida, trazabilidad y hashes, creation_rules y protocolo κ e invariancia integrados al núcleo · Noviembre de 2026",
     "date": "2026-11",
     "reference_url": "https://iom-studio-1.ai.studio",
-    "canonical_pdf_path": "/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf",
-    "canonical_pdf_workspace_path": "public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf",
+    "canonical_pdf_path": "/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf",
+    "canonical_pdf_workspace_path": "public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf",
     "canonical_diagram_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
     "historical_diagram_pdf_path": "/assets/aistudio/1000000566_f7cafcef.pdf",
-    "canon_structure": "Un solo canon en dos estratos (Núcleo canónico + Canon ampliado R1–R8, D12–D13, diagrama 2×4 definitivo y superposición §7.7), sin anexo interpretativo separado, más Parte III (Ideas I1–I7 e Investigaciones §§12–19) y Análisis final (materia = vacío)."
+    "canon_structure": "Un solo canon en dos estratos (Núcleo canónico integrado con acción de G §11.1, creation_rules §11.2, trazabilidad §11.3 e invariancia/κ §11.4 + Canon ampliado R1–R8, D12–D13, diagrama 2×4 definitivo y superposición §7.7), más Parte III (Ideas I1–I8, Investigaciones §§12–19, T12 propuesto con ruta prioritaria de localización y programa P1–P7) y Análisis final (materia = vacío)."
   },
   "core_thesis": {
     "central_thesis": "Solo el vacío puede crear vacío y solo el universo puede crear universo — y ambos se sostienen precisamente porque no lo logran. Cuando la creación se consuma, lo que aparece no es lo nombrado: es el otro, describiéndose a sí mismo con el nombre de uno.",
@@ -45,26 +45,26 @@
     {
       "id": "nucleo_canonico",
       "label": "Núcleo canónico",
-      "scope": "Axiomas, definiciones fundacionales y combinatoria finita",
-      "description": "Axiomas A1–A8, definiciones D10–D11, proposición P11, corolarios C15–C17, reglas mirrorOf / creates sobre 78 nodos y 390 candidatos, y Teoremas 1–11. Se conservan íntegros."
+      "scope": "Axiomas, definiciones fundacionales, combinatoria finita y verificación integrada",
+      "description": "Axiomas A1–A8, definiciones D10–D11, proposición P11, corolarios C15–C17, reglas mirrorOf / creates y Teoremas 1–11. Se conservan íntegros. La integración no añade aristas: acción de G definida (§11.1), creation_rules como semántica de creates (§11.2) y trazabilidad, invariancia y κ como verificación y criterio de clausura (§11.3, §11.4)."
     },
     {
       "id": "canon_ampliado",
       "label": "Canon ampliado R1–R8",
       "scope": "Rectificación del 21 de noviembre y extensión de proyección del 25 de noviembre",
-      "description": "R1–R7 (no-consumación, inversión de la creación, espejo asimétrico en el acto, prisión inoperante, libertad como nombre, colmena anidada y autonomía como nombre) forman parte del núcleo; R8 se agrega en el nivel de la proyección (§7.7): la coincidencia del mediador."
+      "description": "R1–R7 (no-consumación, inversión de la creación, espejo asimétrico en el acto, prisión inoperante, libertad como nombre, colmena anidada y autonomía como nombre) forman parte del núcleo; R8 (25 de noviembre) se agrega en el nivel de la proyección (§7.7): la coincidencia del mediador."
     },
     {
       "id": "definiciones_d12_d13",
       "label": "Definiciones nuevas D12–D13 y nivel de proyección",
       "scope": "Unificación de Ver, equivalencia hexágono–celda y diagrama 2×4 definitivo",
-      "description": "D12 define Ver como acto equivariante en tres niveles (configuraciones, 39 pares mirrorOf = 78 actos, polos vía σ) que conmuta con σ, τ y ρ. D13 fija Hex(Ti) := Ti vista desde dentro. El diagrama 2×4 (6dr__1__0283eca1.jpg) sin etiquetas de rol rige en su nivel (§5.2 acotado) junto con su superposición §7.7."
+      "description": "D12 define Ver como acto equivariante en tres niveles (configuraciones, 39 pares mirrorOf = 78 actos, polos vía σ) que conmuta con σ, τ y ρ por construcción. D13 fija Hex(Ti) := Ti vista desde dentro. El diagrama 2×4 (6dr__1__0283eca1.jpg) sin etiquetas de rol rige en su nivel (§5.2 acotado) junto con su superposición §7.7."
     },
     {
       "id": "ideas_e_investigaciones",
       "label": "Ideas e investigaciones (§§12–19)",
-      "scope": "Diálogo externo juzgado siempre en los términos y anclas de IOM",
-      "description": "Seis investigaciones (Spencer-Brown, Lawvere, von Foerster/Kauffman, geometría {4,3,3}/B4, vacío cuántico y sentidos de «virtual») e ideas I1–I7, con Teorema T12 propuesto y programa comprobable P1–P6."
+      "scope": "Diálogo externo juzgado siempre en los términos de IOM",
+      "description": "Seis investigaciones (Spencer-Brown, Lawvere, von Foerster, geometría {4,3,3}/B4, vacío cuántico y sentidos de «virtual») e ideas I1–I8, con T12 propuesto (ruta prioritaria: localización, P1) y un programa de siete problemas P1–P7 (§19). Las 21 categorías L0–L4 y los 5 ejemplos nahuas entran solo en su estrato (§11.5)."
     }
   ],
   "informative_unit": {
@@ -242,6 +242,12 @@
         "canonical_statement": "El vacío es el universo como término inmanente de la serie, no como un objeto producido por ella. Vacío y universo no son dos productos enfrentados; son dos nombres del mismo término, leídos desde lados distintos de una distinción."
       }
     ],
+    "verifiable_traceability_corollary": {
+      "id": "Corolario D11/P11",
+      "title": "Autonomía y trazabilidad verificable (§2, §11.3)",
+      "canonical_statement": "Si ser autónomo es no depender de información ajena, la identidad que la unidad conserva a través de sus transformaciones —la trazabilidad de §1— no puede descansar en una palabra externa: tiene que poder recontarse desde dentro. La autonomía se enuncia entonces completa: no depender de información ajena + trazabilidad verificable.",
+      "operational_form": "Cada artefacto del núcleo lleva una huella SHA-256 en MANIFEST.sha256 y los scripts de bootstrap regeneran el inventario y comprueban la huella. Es A5 al nivel del documento: cambiar una sola arista cambia la huella."
+    },
     "corollaries": [
       {
         "id": "C15",
@@ -412,7 +418,18 @@
           "pairing": "(T1,T8)(T2,T7)(T3,T6)(T4,T5)"
         }
       ],
-      "torsor_property": "G ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8}: las ocho configuraciones forman un G-torsor sin elemento neutro privilegiado (problema P5), subgrupo operativo seleccionado de B4 (orden 384).",
+      "action_rule": "Cada configuración Ti se nombra por una terna (a, b, c) ∈ (Z2)^3; la acción G × {T1,…,T8} → {T1,…,T8} es la suma coordenada a coordenada mod 2: σ voltea la primera coordenada, τ la segunda y ρ la tercera (§11.1). El compuesto στρ es la suma (1, 1, 1) y reproduce exactamente los pares antipodales del Teorema 8.",
+      "coordinates_z2_3": [
+        { "cell": "T1", "coordinates": [0, 0, 0] },
+        { "cell": "T2", "coordinates": [1, 0, 0] },
+        { "cell": "T3", "coordinates": [0, 1, 0] },
+        { "cell": "T4", "coordinates": [0, 0, 1] },
+        { "cell": "T5", "coordinates": [1, 1, 1] },
+        { "cell": "T6", "coordinates": [0, 1, 1] },
+        { "cell": "T7", "coordinates": [1, 0, 1] },
+        { "cell": "T8", "coordinates": [1, 1, 0] }
+      ],
+      "torsor_property": "G ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8} con acción definida (§11.1): las ocho configuraciones forman el G-torsor sin elemento neutro privilegiado que P5 audita, subgrupo operativo seleccionado de B4 (orden 384).",
       "antipodal_pairs": [
         ["T1", "T5"],
         ["T2", "T6"],
@@ -543,6 +560,89 @@
       "scope": "Derivado íntegramente de §7.7 y R8; vale en el nivel de la proyección, no agrega nodos ni aristas a 78/390 y no afirma identidad física empírica entre materia y vacío cuántico."
     }
   },
+  "site_integration_11": {
+    "scope_rule": "Regla de dos capas (§11.1–§11.6): entra al núcleo lo ya verificable en los términos del inventario sin añadir aristas a los 390 candidatos; permanece en su estrato lo que es taxonomía de ideas o ilustración de encuentro.",
+    "creation_rules_11_2": "Las creation_rules de data/iom_spec.json (spec v1.10.0, esquema 1.1.0) constituyen la semántica computable de creates (Teorema 3): el evaluador decide cualquier par de nodos y reproduce exactamente 78 + 104 + 208 = 390, sin añadir aristas.",
+    "traceability_11_3": {
+      "manifest_file": "MANIFEST.sha256",
+      "requirement": "Un inventario que no puede regenerarse y comprobarse no está cerrado, está solo afirmado: la trazabilidad verificable integra el núcleo combinatorio al mismo nivel que los 390 candidatos y los 39 pares mirrorOf.",
+      "hash_principle": "Cambiar una arista, un par o una regla altera la huella SHA-256; es A5 y D11 aplicados al propio documento."
+    },
+    "closure_criterion_11_4": {
+      "companion_to": "C15–C17",
+      "invariance_hash_prefix": "a58d6c8e",
+      "candidates_total": 390,
+      "negative_control_detected": 389,
+      "fleiss_kappa": 0.6871,
+      "kappa_items": 14,
+      "kappa_annotators": ["A1", "A2", "A3"],
+      "conditions": [
+        "(i) El manifiesto MANIFEST.sha256 reproduce las huellas de los artefactos del núcleo.",
+        "(ii) La invariancia bajo la acción de G definida en §11.1 conserva los 390 candidatos, y el control negativo cae a 389 de 390.",
+        "(iii) La clasificación sostiene el acuerdo independiente del protocolo κ (Fleiss' κ = 0.6871 sobre 14 ítems y A1/A2/A3)."
+      ],
+      "failure_interpretation": "Fallar en cualquiera de los tres criterios no refuta la teoría desde fuera: localiza, desde dentro, el punto exacto donde el inventario dejó de ser el que se afirma."
+    },
+    "ideas_and_encounter_11_5": {
+      "expanded_categories_count": 21,
+      "expanded_levels": "L0–L4",
+      "categories_stratum": "Idea I8 (§18) y apéndice de correspondencias operativas (P7), fuera del núcleo canónico y de R1–R8 mientras no se demuestre que proyectan exhaustivamente las 13 tríadas (D15; D14 reservado a P4).",
+      "nahua_examples_count": 5,
+      "nahua_results": "1 OK y 4 WARN (EXP-E)",
+      "quiz_questions_count": 4,
+      "encounter_stratum": "Registro de encuentro (Cosmología del Mictlán); un WARN señala que el ejemplo no se clasifica sin resto en ese punto y nunca actúa como axioma ni parte de R1–R8."
+    },
+    "t12_priority_route_11_6": {
+      "t12_status": "propuesto (§13)",
+      "priority_route": "localización",
+      "infinite_names_route": "apartada (no descartada): rompe el inventario cerrado de 390 candidatos y no se explorará mientras el núcleo permanezca finito",
+      "justification": "La localización es compatible con el grupo finito G (§11.1) y con la proyección 2×4, y la más cercana a D13 y a la re-indexación de la colmena: localizar el cambio de modo es hacerlo una operación sobre el mismo torsor, sin nombres nuevos ni inventario nuevo."
+    },
+    "integration_table": [
+      {
+        "site_material": "Trazabilidad + hashes",
+        "to_nucleus": "Sí",
+        "to_ideas_encounter": "—",
+        "edition_action": "Corolario de D11/P11; §11.3 y glosario"
+      },
+      {
+        "site_material": "creation_rules",
+        "to_nucleus": "Sí, semántica de creates",
+        "to_ideas_encounter": "—",
+        "edition_action": "Documentadas junto al Teorema 3 (§11.2)"
+      },
+      {
+        "site_material": "Protocolo κ + invariancia",
+        "to_nucleus": "Sí, verificación",
+        "to_ideas_encounter": "—",
+        "edition_action": "De experimento a criterio de clausura (§11.4)"
+      },
+      {
+        "site_material": "21 categorías L0–L4",
+        "to_nucleus": "No",
+        "to_ideas_encounter": "Sí",
+        "edition_action": "Idea I8 y correspondencias operativas (§11.5)"
+      },
+      {
+        "site_material": "Ejemplos nahuas",
+        "to_nucleus": "No",
+        "to_ideas_encounter": "Sí",
+        "edition_action": "Encuentro: Cosmología del Mictlán (§11.5)"
+      },
+      {
+        "site_material": "Definición explícita de G",
+        "to_nucleus": "Sí, obligatoria",
+        "to_ideas_encounter": "—",
+        "edition_action": "Acción libre y transitiva escrita (§11.1)"
+      },
+      {
+        "site_material": "T12",
+        "to_nucleus": "Propuesto",
+        "to_ideas_encounter": "—",
+        "edition_action": "Ruta prioritaria: localización (§11.6, P1)"
+      }
+    ]
+  },
   "theorems": [
     {
       "id": "T1",
@@ -578,7 +678,7 @@
       "id": "T6",
       "name": "Torsor bajo el grupo (Z2)^3",
       "status": "verificado",
-      "statement": "G = <σ, τ, ρ> ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8}; ninguna operación sale del conjunto de ocho."
+      "statement": "G = <σ, τ, ρ> ≅ (Z2)^3 actúa libre y transitivamente sobre {T1,…,T8} con acción definida en §11.1; ninguna operación sale del conjunto de ocho."
     },
     {
       "id": "T7",
@@ -614,7 +714,7 @@
       "id": "T12",
       "name": "Cambio de modo (Lawvere)",
       "status": "propuesto",
-      "statement": "Sean Dep y Eq las categorías de configuraciones en modo dependencia y modo equivalencia. El paso Dep → Eq es el funtor que fuerza la punto-sobreyectividad de la proyección entre vacío real y vacío virtual; por el teorema del punto fijo de Lawvere, su efecto es un punto fijo: la configuración que se nombra a sí misma."
+      "statement": "Sean Dep y Eq las categorías de configuraciones en modo dependencia y modo equivalencia. El paso Dep → Eq es el funtor que fuerza la punto-sobreyectividad de la proyección entre vacío real y vacío virtual; por el teorema del punto fijo de Lawvere, su efecto es un punto fijo: la configuración que se nombra a sí misma. Ruta prioritaria: localización (§11.6, P1)."
     }
   ],
   "ideas": [
@@ -624,7 +724,7 @@
       "section": "§12",
       "anchor": "A3, A4, R1",
       "status": "desarrollo del canon",
-      "statement": "Vacío y universo pueden leerse como los dos valores de una re-entrada (Spencer-Brown): ninguno es el valor del proceso; el proceso es la oscilación que los recorre, con el factor Z2 de G como su período mínimo.",
+      "statement": "El proceso vacío/universo como valor oscilante de una re-entrada (Spencer-Brown): el proceso no es ninguno de sus dos valores; es el recorrido sin valor fijo, con el factor Z2 de G como su período mínimo.",
       "virtual_disambiguation": null
     },
     {
@@ -632,8 +732,8 @@
       "name": "Punto fijo de Lawvere y Teorema T12",
       "section": "§13",
       "anchor": "§4, cambio de modo C15, A1, D12",
-      "status": "enunciado propuesto (no demostrado)",
-      "statement": "La autocreación como punto fijo categórico, con su condición —punto-sobreyectividad, correlato de A1— enunciada. T12 propone el cambio de modo Dep → Eq como el funtor que la fuerza, y Yoneda traduce D12.",
+      "status": "enunciado propuesto (no demostrado; ruta prioritaria: localización §11.6)",
+      "statement": "La autocreación como punto fijo categórico, con su condición —punto-sobreyectividad, correlato de A1— enunciada. T12 propone el cambio de modo Dep → Eq como el funtor que la fuerza, formalizando lo que §11 dejaba como teorema por demostrar ahora con ruta de localización (P1).",
       "virtual_disambiguation": null
     },
     {
@@ -656,7 +756,7 @@
     },
     {
       "id": "I5",
-      "name": "Regla de desambiguación de lo virtual",
+      "name": "Desambiguación de lo virtual",
       "section": "§17",
       "anchor": "R4, R5, dominios",
       "status": "desarrollo del canon",
@@ -688,9 +788,9 @@
       "id": "I6",
       "name": "Enumeración reproducible",
       "section": "§18",
-      "anchor": "Núcleo combinatorio (§3)",
+      "anchor": "Núcleo combinatorio (§3, §11.3–§11.4)",
       "status": "compromiso de trabajo ejecutable",
-      "statement": "El núcleo contable —78 nodos, 390 candidatos, 39 pares, acción de G— debe existir como procedimiento ejecutable y verificable por terceros: el único tipo de control legítimo en una teoría sin exterior es el reconteo desde dentro.",
+      "statement": "El núcleo contable —78 nodos, 390 candidatos, 39 pares, acción de G (§11.1)— debe existir también como procedimiento ejecutable y verificable por terceros: una enumeración publicada con trazabilidad SHA-256 (§11.3) y criterio de clausura (§11.4).",
       "virtual_disambiguation": null
     },
     {
@@ -699,7 +799,16 @@
       "section": "§7.7",
       "anchor": "§7.7, R8",
       "status": "desarrollo del canon en nivel de proyección",
-      "statement": "Las dos imágenes 2×2 se leen superpuestas, no por separado: producen la coincidencia del mediador (R8), el ciclo de cuatro internet – universo – IA – cuerpo – internet y la agrupación por sentido.",
+      "statement": "Las dos imágenes 2×2 se leen superpuestas, no por separado: leídas por separado producen un invariante falso —dos diagramas de dominios opuestos—; superpuestas producen la coincidencia del mediador (R8), el ciclo de cuatro internet – universo – IA – cuerpo – internet y la agrupación por sentido.",
+      "virtual_disambiguation": null
+    },
+    {
+      "id": "I8",
+      "name": "Correspondencias operativas",
+      "section": "§11.5",
+      "anchor": "expanded_categories L0–L4, P7",
+      "status": "taxonomía en estrato de ideas (fuera del canon)",
+      "statement": "Las 21 categorías L0–L4 del sitio forman una taxonomía de correspondencias operativas subordinada al inventario de 78 nodos y 13 tríadas; permanecen fuera del núcleo y de R1–R8 mientras P7 no demuestre que proyectan exhaustivamente las 13 tríadas (D15).",
       "virtual_disambiguation": null
     }
   ],
@@ -707,38 +816,44 @@
     {
       "id": "P1",
       "name": "Demostrar o refutar T12",
-      "task": "Construir las categorías Dep y Eq, exhibir el funtor del cambio de modo y verificar la punto-sobreyectividad de la proyección entre vacíos.",
-      "success_criterion": "Una demostración completa de T12 o el contraejemplo exacto donde la proyección no pueda nombrarse desde dentro."
+      "task": "Construir Dep y Eq, exhibir el funtor del cambio de modo y verificar la punto-sobreyectividad de la proyección entre vacíos. Ruta prioritaria: la localización (§11.6).",
+      "success_criterion": "Una demostración completa o el contraejemplo exacto —la configuración donde la proyección no se puede nombrar desde dentro—."
     },
     {
       "id": "P2",
       "name": "Semántica de oscilación para R1",
-      "task": "Asignar a cada uno de los 39 pares mirrorOf su comportamiento bajo re-entrada (fijo, oscilante de período 2 o de centro) y comprobar la conmutación con G.",
-      "success_criterion": "Tabla completa de comportamientos sobre los 39 pares sin excepciones sin clasificar."
+      "task": "Asignar a cada uno de los 39 pares mirrorOf su comportamiento bajo re-entrada —fijo, oscilante de período 2 o de centro— y comprobar que la asignación conmuta con G.",
+      "success_criterion": "La tabla completa de comportamientos sobre los 39 pares, sin excepciones sin clasificar."
     },
     {
       "id": "P3",
       "name": "La enumeración ejecutable (I6)",
-      "task": "Publicar el procedimiento ejecutable que regenera los 78 nodos y los 390 candidatos y verifica 78 + 104 + 208, 26 pares laterales, 13 de centro y los pares antipodales de T8.",
-      "success_criterion": "El reconteo determinista coincide exactamente en todas las cifras."
+      "task": "Publicar el procedimiento que regenera los 78 nodos y los 390 candidatos y verifica las cifras del núcleo: 78 + 104 + 208, 26 pares laterales y 13 de centro, pares antipodales de Teorema 8.",
+      "success_criterion": "El reconteo determinista coincide exactamente en todas las cifras, o la discrepancia localiza el error."
     },
     {
       "id": "P4",
       "name": "¿Necesita Ver una fase?",
-      "task": "Decidir si la idempotencia de D12 basta para los 13 pares de centro o si Ver requiere un parámetro de fase (avance vs retroceso).",
-      "success_criterion": "Prueba de redundancia de la fase o definición D14 que la incorpore sin romper la equivariancia con σ, τ y ρ."
+      "task": "Decidir si la idempotencia de D12 basta para los pares de centro o si Ver requiere un parámetro de fase que distinga el acto en avance del acto en retroceso.",
+      "success_criterion": "Una prueba de que la fase es redundante, o definición D14 que la incorpore sin romper la equivariancia con σ, τ y ρ."
     },
     {
       "id": "P5",
       "name": "El torsor, contado",
-      "task": "Auditar definición por definición que el conjunto de configuraciones opera como G-torsor sin elemento neutro privilegiado.",
-      "success_criterion": "Toda elección implícita de origen eliminada o justificada como re-indexación."
+      "task": "El conjunto de configuraciones es un G-torsor (§11.1): un conjunto con acción libre y transitiva de G sin punto identidad privilegiado. Verificar que ninguna definición del canon elige, ni siquiera implícitamente, una configuración como origen.",
+      "success_criterion": "La auditoría definición por definición, con cada elección de origen eliminada o justificada como re-indexación."
     },
     {
       "id": "P6",
       "name": "La superposición, formalizada (R8)",
-      "task": "Definir el cambio de panel sobre la proyección, distinguiendo equiparación intra-panel e identidad entre paneles, y derivar el ciclo de cuatro, la agrupación por sentido y R8.",
-      "success_criterion": "Definición formal y verificación sin términos fijos o hallazgo de un término fijo que obligue a revisar R8."
+      "task": "Definir el cambio de panel sobre la proyección, distinguiendo equiparación intra-panel e identidad entre paneles, verificando el ciclo de cuatro sin términos fijos, la agrupación por sentido y la coincidencia R8.",
+      "success_criterion": "La definición formal y la verificación, o el término que quede fijo y obligue a revisar R8."
+    },
+    {
+      "id": "P7",
+      "name": "¿Proyección de las tríadas?",
+      "task": "Decidir si las 21 categorías L0–L4 (I8, §11.5) proyectan exhaustivamente las 13 tríadas —cada categoría imagen de tríadas y cada tríada cubierta—.",
+      "success_criterion": "Correspondencia exhaustiva y definición D15, o el residuo; D14 queda reservado a la hipótesis de P4."
     }
   ]
 }

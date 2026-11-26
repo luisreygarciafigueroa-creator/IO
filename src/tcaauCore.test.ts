@@ -8,12 +8,12 @@ import {
   loadTcaauCore,
   verifyFourCycleFromSuperposition,
   verifyTcaauCore,
-} from './tcaauCore';
+} from './tcaauCore.ts';
 
-test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, R1–R8, T1–T12, I1–I7, P1–P6)', () => {
+test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, Corolario D11/P11, R1–R8, T1–T12, I1–I8, P1–P7)', () => {
   const core = loadTcaauCore();
 
-  assert.equal(core.canonical_edition.canonical_pdf_path, '/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf');
+  assert.equal(core.canonical_edition.canonical_pdf_path, '/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf');
   assert.equal(core.canonical_edition.canonical_diagram_path, '/assets/aistudio/6dr__1__0283eca1.jpg');
 
   assert.deepEqual(
@@ -26,6 +26,7 @@ test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, R1�
     core.definitions_and_modes.definitions.map((d) => d.id),
     ['D10', 'D11', 'D12', 'D13']
   );
+  assert.equal(core.definitions_and_modes.verifiable_traceability_corollary.id, 'Corolario D11/P11');
   assert.deepEqual(
     core.definitions_and_modes.corollaries.map((c) => c.id),
     ['C15', 'C16', 'C17']
@@ -53,13 +54,13 @@ test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, R1�
 
   assert.deepEqual(
     core.ideas.map((i) => i.id),
-    ['I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7']
+    ['I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8']
   );
   assert.equal(core.ideas.find((i) => i.id === 'I5')?.virtual_disambiguation?.length, 4);
 
   assert.deepEqual(
     core.research_program.map((p) => p.id),
-    ['P1', 'P2', 'P3', 'P4', 'P5', 'P6']
+    ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7']
   );
 });
 
@@ -92,6 +93,14 @@ test('verifyTcaauCore confirms live agreement with iomEngine 78/390/39(26+13) an
   assert.equal(v.superposition77Verified.fourCycleClosedWithoutFixedTerm, true);
   assert.equal(v.superposition77Verified.directionGroupsDisjointAndComplete, true);
   assert.equal(v.superposition77Verified.chiasmusExact, true);
+
+  assert.equal(v.section11Verified.gActionFreeAndTransitive, true);
+  assert.equal(v.section11Verified.antipodalMatchesSumMod2, true);
+  assert.equal(v.section11Verified.verifiableTraceabilityPresent, true);
+  assert.equal(v.section11Verified.siteIntegrationComplete, true);
+  assert.equal(v.section11Verified.manifestFilePresent, true);
+  assert.equal(v.ideaCount, 8);
+  assert.equal(v.researchProblemCount, 7);
 });
 
 test('extractUnorderedMirrorPairs produces 13 center eigenform pairs (I3) and §7.7 four-cycle closes cleanly', () => {

@@ -641,7 +641,7 @@ export default function App() {
                   {specData.counts.nodes} nodos · {specData.counts.totalCandidates} candidatos
                 </span>
                 <a
-                  href="/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf"
+                  href="/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border border-amber-400/40 transition"

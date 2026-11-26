@@ -1,11 +1,11 @@
 # Hacia una reconstrucción académica de la Teoría Completa de la Creación Autónoma Absoluta del Universo (TCAAU)
 
-**Ontología formal, núcleo combinatorio verificado, canon ampliado ($R1$–$R8$, $D12$–$D13$) y programa comprobable ($P1$–$P6$)**
+**Ontología formal, núcleo combinatorio verificado, canon ampliado ($R1$–$R8$, $D12$–$D13$), integración `§11` y programa comprobable ($P1$–$P7$)**
 
 > **En una frase:** *"No hay exterior; hay distinciones trazadas desde dentro que se sostienen por no consumarse, y cuyo límite no es un afuera, sino el punto en que dejan de poder trazarse."*  
-> **Texto canónico completo (PDF, Noviembre de 2026):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)  
+> **Texto canónico completo (PDF, Noviembre de 2026):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)  
 > **Módulo legible por máquina:** [`../data/tcaau_core.json`](../data/tcaau_core.json) (`data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `GET /api/tcaau-core`)  
-> **Estatus:** Un solo canon en dos estratos (**Núcleo canónico** `A1–A8`, `D10–D11`, `P11`, `C15–C17`, Teoremas `1–11` + **Canon ampliado** `R1–R8`, `D12–D13`, diagrama `2 × 4` definitivo [`6dr__1__0283eca1.jpg`](../public/assets/aistudio/6dr__1__0283eca1.jpg), superposición `§7.7` y análisis final `materia = vacío`) más Parte III (`I1–I7`, `T12` propuesto, `P1–P6`).
+> **Estatus:** Un solo canon en dos estratos (**Núcleo canónico** `A1–A8`, `D10–D11`, `P11`, **Corolario `D11/P11`**, `C15–C17`, Teoremas `1–11`, integración `§§11.1–11.4` + **Canon ampliado** `R1–R8`, `D12–D13`, diagrama `2 × 4` definitivo [`6dr__1__0283eca1.jpg`](../public/assets/aistudio/6dr__1__0283eca1.jpg), superposición `§7.7` y análisis final `materia = vacío`) más Parte III (`I1–I8`, `T12` propuesto con ruta prioritaria de localización `§11.6`, `P1–P7`).
 
 ---
 
@@ -159,20 +159,20 @@ Sean las involuciones:
 
 $$\sigma: U \leftrightarrow \emptyset; \quad \tau: P \leftrightarrow N,\ C \leftrightarrow A; \quad \rho: (x, \delta, y) \mapsto (y, \delta, x).$$
 
-Entonces $G = \langle \sigma, \tau, \rho \rangle \cong (\mathbb{Z}_2)^3$ actúa libre y transitivamente sobre $\{T_1, \dots, T_8\}$: las ocho configuraciones constituyen la órbita de $T_1$. Coordenadas $(s,t,r)$:
+Entonces $G = \langle \sigma, \tau, \rho \rangle \cong (\mathbb{Z}_2)^3$ actúa libre y transitivamente sobre $\{T_1, \dots, T_8\}$: las ocho configuraciones constituyen el $G$-torsor definido explícitamente en `§11.1`. Bajo la parametrización canónica $(a, b, c) \in (\mathbb{Z}_2)^3$ (`§11.1`), $\sigma$ voltea la primera coordenada $(1,0,0)$, $\tau$ la segunda $(0,1,0)$ y $\rho$ la tercera $(0,0,1)$ mediante suma coordenada a coordenada mod 2, de modo que el compuesto $\sigma\tau\rho = (1,1,1)$ reproduce exactamente los pares antipodales $(T_1,T_5),(T_2,T_6),(T_3,T_7),(T_4,T_8)$ del Teorema 8:
 
-| Configuración | $(s,t,r)$ |
-|---------------|-----------:|
-| $T_1$ | $(0,0,0)$ |
-| $T_2$ | $(1,0,1)$ |
-| $T_3$ | $(0,1,1)$ |
-| $T_4$ | $(1,1,0)$ |
-| $T_5$ | $(1,0,0)$ |
-| $T_6$ | $(0,0,1)$ |
-| $T_7$ | $(1,1,1)$ |
-| $T_8$ | $(0,1,0)$ |
+| Configuración | Coordenadas $(\mathbb{Z}_2)^3$ (`§11.1`) | Par antipodal ($\oplus (1,1,1)$) |
+|---------------|---------------------------------------:|-----------------------------------|
+| $T_1$ | $(0,0,0)$ | $T_5 = (1,1,1)$ |
+| $T_2$ | $(1,0,0)$ | $T_6 = (0,1,1)$ |
+| $T_3$ | $(0,1,0)$ | $T_7 = (1,0,1)$ |
+| $T_4$ | $(0,0,1)$ | $T_8 = (1,1,0)$ |
+| $T_5$ | $(1,1,1)$ | $T_1 = (0,0,0)$ |
+| $T_6$ | $(0,1,1)$ | $T_2 = (1,0,0)$ |
+| $T_7$ | $(1,0,1)$ | $T_3 = (0,1,0)$ |
+| $T_8$ | $(1,1,0)$ | $T_4 = (0,0,1)$ |
 
-Las dos mitades coinciden con las clases de paridad $s + t + r \pmod{2}$: la primera mitad es el subgrupo par $H \cong (\mathbb{Z}_2)^2$; la segunda, la clase lateral $\sigma H$. Geométricamente, los 8 elementos ocupan los vértices de un cubo y las mitades corresponden a sus dos tetraedros regulares inscritos (*demicubos*; verificado: todas las distancias intraparity son iguales a $2\sqrt{2}$).
+*(Nota de paridad: las dos mitades de la red de 32 tríadas coinciden con los dos tetraedros regulares inscritos —demicubos— de un cubo 3D; todas las distancias intra-paridad en $\{0,1\}^3$ son iguales a $2\sqrt{2}$.)*
 
 Los tres generadores inducen tres emparejamientos perfectos:
 
@@ -304,9 +304,9 @@ En el mapa cuatrifásico real/virtual (`docs/MAPA_CONEXIONES_REAL_VIRTUAL.md`), 
 
 ## 8. Alcance, límites epistémicos y agenda abierta de investigación
 
-1. **No-falsabilidad empírica y distinción de registros ($I7$):** Ninguna de las ecuaciones o invariantes combinatorios de la TCAAU predice observaciones físicas cuantitativas ni depende del acuerdo intersubjetivo externo (`EXP-A` es archivo residual). Conforme a $I7$, se distingue estrictamente entre lo **demostrado en IOM** (`T1–T11`, `78` nodos / `390` candidatos / `39` pares `mirrorOf`), lo **conjeturado** (`T12` propuesto y programa `P1–P6`) y la **analogía estructural**.
-2. **Desambiguación de «virtual» ($I5$) y reconteo desde dentro ($I6$):** Sin calificar, «virtual» designa exclusivamente el dominio complementario de IOM (cubo punteado); otros usos se citan con apellido. El único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro (`src/tcaauCore.ts`, `src/tcaauCore.test.ts`).
-3. **Teorema $T12$ *(propuesto)* y Programa comprobable ($P1$–$P6$):** Formalizar categóricamente la transición $D10 \to C15$ ($\psi_i: \emptyset_r \xrightarrow{\sim} \emptyset_v^i$) y mantener vigentes las seis comprobaciones ejecutables `P1–P6` sobre `78/390/39`, equivariancia `D12`, `13` pares de centro (`R2`), diagrama `2 × 4` sin etiquetas de rol (`6dr__1__0283eca1.jpg`), superposición `§7.7` (`32` trazas, `R8`, ciclo de cuatro términos y quiasmo `materia = vacío`) y disciplina terminológica `I5`.
+1. **No-falsabilidad empírica y separación de estratos (`§11`, $I8$):** Ninguna de las ecuaciones o invariantes combinatorios de la TCAAU predice observaciones físicas cuantitativas ni depende del acuerdo intersubjetivo externo como fundamento (`§11.4` integra κ únicamente como tercera condición del criterio operativo de clausura junto con `MANIFEST.sha256` e invariancia `390/389`). Se distingue estrictamente entre lo **demostrado en IOM** (`T1–T11`, `78` nodos / `390` candidatos / `39` pares `mirrorOf`), lo **conjeturado** (`T12` propuesto y programa `P1–P7`), la taxonomía `L0–L4` (`I8`/`P7`, `§11.5`) y la **analogía estructural**.
+2. **Desambiguación de «virtual» ($I5$) y trazabilidad verificable (`Corolario D11/P11`, $I6$):** Sin calificar, «virtual» designa exclusivamente el dominio complementario de IOM (cubo punteado); otros usos se citan con apellido. El control sin exterior se realiza por reconteo ejecutable y huellas SHA-256 verificables (`MANIFEST.sha256`, `src/tcaauCore.ts`, `src/tcaauCore.test.ts`).
+3. **Teorema $T12$ *(propuesto, ruta prioritaria: localización `§11.6`)* y Programa comprobable ($P1$–$P7$):** Construir `Dep` y `Eq`, exhibir el funtor del cambio de modo (`P1` por localización) y sostener las siete comprobaciones `P1–P7` (incluidas oscilación `P2`, enumeración `I6` `P3`, fase de *Ver* `D14` `P4`, auditoría del $G$-torsor `§11.1` `P5`, superposición `§7.7` `P6` y proyección de las 21 categorías `L0–L4` sobre las 13 tríadas `P7` / `D15`).
 
 ---
 
@@ -347,7 +347,7 @@ npx tsx -e "
 
 ## Referencias internas del dictamen de no-subordinación
 
-- **Texto canónico completo (PDF):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- **Texto canónico completo (PDF):** [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)
 - **Módulo legible por máquina:** [`../data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
 - Tratado completo unificado: [`docs/TCAAU.md`](TCAAU.md)
 - Dictamen completo: [`docs/DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md)

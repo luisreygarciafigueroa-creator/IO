@@ -1,6 +1,6 @@
 # Informe de evaluación técnica: autonomía formal, coherencia estructural y residuo interanotador del marco I.O.
 
-> Documento de auditoría alineado al canon **TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)): **autonomía como criterio ($D11$, $R7$)** y reconteo ejecutable desde dentro ($I6$).  
+> Documento de auditoría alineado al canon **TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)): **autonomía como criterio ($D11$, $R7$)**, trazabilidad verificable (`Corolario D11/P11`, `§11.3`), criterio de clausura (`§11.4`) y reconteo ejecutable desde dentro ($I6$).  
 > La validez por consenso de conciencias separadas **no** es el fundamento.  
 > Especificaciones: `data/iom_spec.json` y `data/tcaau_core.json` · Metodología: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md) · Delimitación: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
 
@@ -95,7 +95,7 @@ npm run dev
 
 Documentada en [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md) (cosmología náhuatl). Arquitectura documental de apoyo:
 
-- [`../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`../data/tcaau_core.json`](../data/tcaau_core.json)
+- [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`../data/tcaau_core.json`](../data/tcaau_core.json)
 - [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
 - [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md) · [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
 - [`PREMISAS_Y_TEOREMAS.md`](PREMISAS_Y_TEOREMAS.md) · [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md)

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { buildTesseractModel, generateArtifacts } from './iomEngine';
+import { buildTesseractModel, generateArtifacts } from './iomEngine.ts';
 
 export interface TcaauPerspective {
   id: string;
@@ -46,7 +46,7 @@ export interface TcaauTheorem {
 }
 
 export interface TcaauIdea {
-  id: 'I1' | 'I2' | 'I3' | 'I4' | 'I5' | 'I6' | 'I7';
+  id: 'I1' | 'I2' | 'I3' | 'I4' | 'I5' | 'I6' | 'I7' | 'I8';
   name: string;
   section: string;
   anchor: string;
@@ -60,7 +60,7 @@ export interface TcaauIdea {
 }
 
 export interface TcaauResearchProblem {
-  id: 'P1' | 'P2' | 'P3' | 'P4' | 'P5' | 'P6';
+  id: 'P1' | 'P2' | 'P3' | 'P4' | 'P5' | 'P6' | 'P7';
   name: string;
   task: string;
   success_criterion: string;
@@ -113,6 +113,12 @@ export interface TcaauCoreDocument {
   definitions_and_modes: {
     definitions: TcaauDefinition[];
     postulates: Array<{ id: string; title: string; canonical_statement: string }>;
+    verifiable_traceability_corollary: {
+      id: string;
+      title: string;
+      canonical_statement: string;
+      operational_form: string;
+    };
     corollaries: Array<{ id: string; title: string; canonical_statement: string }>;
     operational_modes: {
       modo_dependencia: string;
@@ -157,6 +163,8 @@ export interface TcaauCoreDocument {
       full_tesseract_symmetry_group: string;
       full_tesseract_symmetry_order: number;
       generators: Array<{ symbol: string; action: string; pairing: string }>;
+      action_rule: string;
+      coordinates_z2_3: Array<{ cell: string; coordinates: [0 | 1, 0 | 1, 0 | 1] }>;
       torsor_property: string;
       antipodal_pairs: Array<[string, string]>;
     };
@@ -228,6 +236,47 @@ export interface TcaauCoreDocument {
       scope: string;
     };
   };
+  site_integration_11: {
+    scope_rule: string;
+    creation_rules_11_2: string;
+    traceability_11_3: {
+      manifest_file: string;
+      requirement: string;
+      hash_principle: string;
+    };
+    closure_criterion_11_4: {
+      companion_to: string;
+      invariance_hash_prefix: string;
+      candidates_total: number;
+      negative_control_detected: number;
+      fleiss_kappa: number;
+      kappa_items: number;
+      kappa_annotators: string[];
+      conditions: string[];
+      failure_interpretation: string;
+    };
+    ideas_and_encounter_11_5: {
+      expanded_categories_count: number;
+      expanded_levels: string;
+      categories_stratum: string;
+      nahua_examples_count: number;
+      nahua_results: string;
+      quiz_questions_count: number;
+      encounter_stratum: string;
+    };
+    t12_priority_route_11_6: {
+      t12_status: string;
+      priority_route: string;
+      infinite_names_route: string;
+      justification: string;
+    };
+    integration_table: Array<{
+      site_material: string;
+      to_nucleus: string;
+      to_ideas_encounter: string;
+      edition_action: string;
+    }>;
+  };
   theorems: TcaauTheorem[];
   ideas: TcaauIdea[];
   research_program: TcaauResearchProblem[];
@@ -263,6 +312,13 @@ export interface TcaauCoreVerification {
     fourCycleClosedWithoutFixedTerm: boolean;
     directionGroupsDisjointAndComplete: boolean;
     chiasmusExact: boolean;
+  };
+  section11Verified: {
+    gActionFreeAndTransitive: boolean;
+    antipodalMatchesSumMod2: boolean;
+    verifiableTraceabilityPresent: boolean;
+    siteIntegrationComplete: boolean;
+    manifestFilePresent: boolean;
   };
   axiomCount: number;
   propositionCount: number;
@@ -422,6 +478,55 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
     path.join(ROOT, 'public', core.canonical_edition.canonical_diagram_path.replace(/^\/+/, ''))
   );
 
+  const coordsList = inv.tesseract_group.coordinates_z2_3 ?? [];
+  const coordMap = new Map(coordsList.map((entry) => [entry.cell, entry.coordinates]));
+  const coordKeys = new Set(coordsList.map((entry) => entry.coordinates.join(',')));
+  const gActionFreeAndTransitive =
+    coordsList.length === 8 &&
+    coordKeys.size === 8 &&
+    Boolean(inv.tesseract_group.action_rule) &&
+    coordsList.every(
+      (entry) =>
+        entry.coordinates.length === 3 &&
+        entry.coordinates.every((bit) => bit === 0 || bit === 1)
+    ) &&
+    coordKeys.has('0,0,0');
+
+  const antipodalMatchesSumMod2 =
+    inv.tesseract_group.antipodal_pairs.length === 4 &&
+    inv.tesseract_group.antipodal_pairs.every(([a, b]) => {
+      const ca = coordMap.get(a);
+      const cb = coordMap.get(b);
+      return Boolean(
+        ca &&
+          cb &&
+          (ca[0] ^ 1) === cb[0] &&
+          (ca[1] ^ 1) === cb[1] &&
+          (ca[2] ^ 1) === cb[2]
+      );
+    });
+
+  const cor = core.definitions_and_modes.verifiable_traceability_corollary;
+  const verifiableTraceabilityPresent = Boolean(
+    cor && cor.id === 'Corolario D11/P11' && cor.canonical_statement && cor.operational_form
+  );
+
+  const s11 = core.site_integration_11;
+  const manifestFilePresent = Boolean(
+    s11?.traceability_11_3?.manifest_file &&
+      fs.existsSync(path.join(ROOT, s11.traceability_11_3.manifest_file))
+  );
+  const siteIntegrationComplete = Boolean(
+    s11 &&
+      s11.integration_table.length === 7 &&
+      s11.closure_criterion_11_4.candidates_total === 390 &&
+      s11.closure_criterion_11_4.negative_control_detected === 389 &&
+      s11.closure_criterion_11_4.fleiss_kappa === 0.6871 &&
+      s11.ideas_and_encounter_11_5.expanded_categories_count === 21 &&
+      s11.ideas_and_encounter_11_5.nahua_examples_count === 5 &&
+      s11.t12_priority_route_11_6.priority_route === 'localización'
+  );
+
   const digestPayload = JSON.stringify({
     core,
     mirrorPairs,
@@ -447,12 +552,17 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
     isValidFourCycle &&
     directionGroupsDisjointAndComplete &&
     chiasmusExact &&
+    gActionFreeAndTransitive &&
+    antipodalMatchesSumMod2 &&
+    verifiableTraceabilityPresent &&
+    siteIntegrationComplete &&
+    manifestFilePresent &&
     core.axioms.length === 8 &&
     core.canonical_propositions.length === 8 &&
     core.definitions_and_modes.definitions.length === 4 &&
     core.theorems.length === 12 &&
-    core.ideas.length === 7 &&
-    core.research_program.length === 6;
+    core.ideas.length === 8 &&
+    core.research_program.length === 7;
 
   return {
     valid,
@@ -484,6 +594,13 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
       fourCycleClosedWithoutFixedTerm: isValidFourCycle,
       directionGroupsDisjointAndComplete,
       chiasmusExact,
+    },
+    section11Verified: {
+      gActionFreeAndTransitive,
+      antipodalMatchesSumMod2,
+      verifiableTraceabilityPresent,
+      siteIntegrationComplete,
+      manifestFilePresent,
     },
     axiomCount: core.axioms.length,
     propositionCount: core.canonical_propositions.length,

@@ -1,6 +1,6 @@
 # Ingesta guiada de dominios externos
 
-> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Esta carpeta pertenece al orden del **encuentro** (alineación hacia la ontología canónica de 78 nodos) y no reescribe las definiciones canónicas (`I5` / `§12–§17`).
+> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Esta carpeta pertenece al orden del **encuentro** (alineación hacia la ontología canónica de 78 nodos) y no reescribe las definiciones canónicas (`I5` / `§12–§17`).
 
 Esta carpeta permite a investigadores de otras disciplinas **alinear conceptos nuevos** a la ontología canónica de 78 nodos **sin modificar** `data/iom_spec.json`, `data/tcaau_core.json`, RDF/OWL ni SHACL.
 

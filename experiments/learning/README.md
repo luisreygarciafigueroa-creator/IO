@@ -1,6 +1,6 @@
 # Aprendizaje: protocolo ciego y capas A–E
 
-> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Este material pedagógico delimita la autonomía formal (`A1`, `D11`, `I6`) frente al orden residual del encuentro (`EXP-A`).
+> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Este material pedagógico delimita la autonomía formal (`A1`, `D11`, `I6`) frente al orden residual del encuentro (`EXP-A`).
 
 Material pedagógico derivado de los manuales y del dictamen técnico.
 
@@ -16,7 +16,7 @@ python experiments/learning/score_quiz.py Q1=b Q2=b Q3=c Q4=c
 
 Fundamento y manuales:
 
-- [`public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md)
+- [`public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md)
 - [`docs/MANUAL_APRENDIZAJE_PROTOCOLO_CIEGO.md`](../../docs/MANUAL_APRENDIZAJE_PROTOCOLO_CIEGO.md)
 - [`docs/MANUAL_APRENDIZAJE_CONCORDANCIA.md`](../../docs/MANUAL_APRENDIZAJE_CONCORDANCIA.md)
 - [`docs/DICTAMEN_TECNICO_EPISTEMOLOGICO.md`](../../docs/DICTAMEN_TECNICO_EPISTEMOLOGICO.md)

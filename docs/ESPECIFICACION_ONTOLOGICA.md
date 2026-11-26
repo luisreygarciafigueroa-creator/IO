@@ -2,7 +2,7 @@
 
 ## 1. Fundamentos
 
-El marco I.O. es una arquitectura formal de **cinco perspectivas** orientada al **camino al Mictlán** y articulada con el canon completo de la **TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)) y el modelo `{4,3,3}`. Conforme a $I5$, «virtual» sin calificar designa el dominio complementario de actualización de IOM (cubo punteado).
+El marco I.O. es una arquitectura formal de **cinco perspectivas** orientada al **camino al Mictlán** y articulada con el canon completo de la **TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)) y el modelo `{4,3,3}`. Conforme a $I5$, «virtual» sin calificar designa el dominio complementario de actualización de IOM (cubo punteado).
 
 | Perspectiva | Función bajo autonomía |
 |---|---|

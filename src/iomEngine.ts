@@ -8,7 +8,7 @@ import type {
   TesseractColoringId,
   TesseractColoringSpec,
   TesseractColorMode,
-} from './tesseractFlowGraph';
+} from './tesseractFlowGraph.ts';
 
 export type {
   AnalysisChainColor,
@@ -16,7 +16,7 @@ export type {
   TesseractColoringFamily,
   TesseractColoringSpec,
   TesseractColorMode,
-} from './tesseractFlowGraph';
+} from './tesseractFlowGraph.ts';
 
 export type RelationLabel = 'none' | 'mirrorOf' | 'creates';
 export type EvalLabel = RelationLabel | 'unsure';
@@ -2148,7 +2148,7 @@ export function buildTesseractModel() {
       compositeSetAssetPath: '/assets/aistudio/IMG_20261124_000207_382065f8.jpg',
       monochromeAssetPath: '/assets/aistudio/TSST_20261123_003603_de3cb84c.jpg',
       pdfPath: '/assets/aistudio/1000000566_f7cafcef.pdf',
-      canonicalPdfPath: '/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf',
+      canonicalPdfPath: '/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf',
       colorAssets: colorings.map((c) => ({
         id: c.id,
         assetTag: c.assetTag,

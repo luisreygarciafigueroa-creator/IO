@@ -1,6 +1,6 @@
 # Delimitación epistemológica del marco IOM
 
-> Bajo el **canon unificado TCAAU** ([`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Conforme a $I6$, el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
+> Bajo el **canon unificado TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Conforme a $I6$ (`§11.3–§11.4`), el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
 
 ---
 
@@ -57,11 +57,11 @@ El repositorio no «trata la cosmología como mero dato»: la adopta como eje de
 
 ---
 
-## Reglas de lenguaje y precisión académica (obligatorias, $I5$–$I7$)
+## Reglas de lenguaje y precisión académica (obligatorias, $I5$–$I8$)
 
 1. **Prohibido** presentar κ / Fleiss / «validez semántica en el mundo real» como prueba o fundamento.
 2. **Desambiguación de «virtual» ($I5$):** sin calificar, *virtual* designa exclusivamente el dominio complementario de actualización en IOM (cubo punteado); cualquier otra acepción (*virtual deleuziano*, *hiperreal baudrillardiano*, *partícula virtual*) se cita con apellido.
-3. **Reconteo desde dentro ($I6$) y límites ($I7$):** distinguir siempre entre lo **demostrado en IOM** (`T1–T11`, `78/390/39`), lo **conjeturado** (`T12` propuesto, `P1–P6`) y la **analogía estructural**.
+3. **Reconteo desde dentro ($I6$) y separación de estratos (`§11.5`):** distinguir siempre entre lo **demostrado en IOM** (`T1–T11`, `78/390/39`), lo **conjeturado** (`T12` propuesto, `P1–P7`), la taxonomía de ideas (`I8`, `21` categorías `L0–L4`) y la **analogía estructural**.
 4. **Motor TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts`) / legado Lean y SHACL** $\to$ autonomía formal, bóveda técnica.
 5. **`PI-HGAT-T` = 1.0** $\to$ autorrecuperabilidad interna; nunca validez empírica.
 6. **`EXP-A`** $\to$ residuo; opcional; no prioritario.
@@ -71,7 +71,7 @@ El repositorio no «trata la cosmología como mero dato»: la adopta como eje de
 
 ## Referencias
 
-- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU_2d30a1f1.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU_2d30a1f1.pdf)
+- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)
 - Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
 - Tratado TCAAU: [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
 - Carácter y ensayo: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)
