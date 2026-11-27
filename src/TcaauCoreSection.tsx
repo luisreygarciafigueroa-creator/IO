@@ -27,19 +27,6 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
     { id: 'ideas', label: 'Teoremas · Ideas I1–I8 · P1–P7' },
   ];
 
-  const downloadCoreJson = () => {
-    const serialized = JSON.stringify(core, null, 2);
-    const blob = new Blob([serialized], { type: 'application/json;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = 'tcaau_core.json';
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
-
   return (
     <section
       aria-label="Fundamento teórico y núcleo formal TCAAU"
@@ -74,14 +61,15 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
             <FileText className="w-3.5 h-3.5" />
             Texto canónico TCAAU (PDF)
           </a>
-          <button
-            type="button"
-            onClick={downloadCoreJson}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-mono transition cursor-pointer"
+          <a
+            href="/tcaau_core.json"
+            download="tcaau_core.json"
+            type="application/json"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-mono transition"
           >
             <Download className="w-3.5 h-3.5" />
             tcaau_core.json
-          </button>
+          </a>
         </div>
       </div>
 

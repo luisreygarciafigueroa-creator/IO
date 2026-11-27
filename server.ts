@@ -163,6 +163,29 @@ async function startServer() {
     }
   });
 
+  const coreJsonPath = path.join(process.cwd(), 'data', 'tcaau_core.json');
+  const sendCoreJson = (_req: express.Request, res: express.Response) => {
+    if (!fs.existsSync(coreJsonPath)) {
+      return res.status(404).json({ error: 'tcaau_core.json not found' });
+    }
+    return res.type('application/json; charset=utf-8').sendFile(coreJsonPath);
+  };
+  app.get('/tcaau_core.json', sendCoreJson);
+  app.get('/assets/aistudio/tcaau_core.json', sendCoreJson);
+  app.get('/data/tcaau_core.json', sendCoreJson);
+
+  app.get('/assets/{*splat}', (req, res, next) => {
+    const publicAsset = path.join(process.cwd(), 'public', req.path);
+    const distAsset = path.join(process.cwd(), 'dist', req.path);
+    if (
+      (fs.existsSync(publicAsset) && fs.statSync(publicAsset).isFile()) ||
+      (fs.existsSync(distAsset) && fs.statSync(distAsset).isFile())
+    ) {
+      return next();
+    }
+    return res.status(404).json({ error: `Asset not found: ${req.path}` });
+  });
+
   const isProd = process.env.NODE_ENV === 'production';
   const distDir = path.join(process.cwd(), 'dist');
 

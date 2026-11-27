@@ -415,10 +415,23 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   }
 });
 
-test('evaluatePairRule derives expected mirrorOf and creates relations', () => {
+test('evaluatePairRule derives expected mirrorOf, creates, and none relations', () => {
   const mirrorCheck = evaluatePairRule('T01_adv_P0', 'T01_ret_P2');
   assert.equal(mirrorCheck.relation, 'mirrorOf');
+  assert.equal(mirrorCheck.sameTriad, true);
+  assert.equal(mirrorCheck.oppositePhase, true);
+  assert.equal(mirrorCheck.mirrorPositional, true);
 
   const createsCheck = evaluatePairRule('T01_adv_P0', 'T01_ret_P1');
   assert.equal(createsCheck.relation, 'creates');
+  assert.equal(createsCheck.createsPositional, true);
+
+  const samePhaseNone = evaluatePairRule('T01_adv_P0', 'T01_adv_P2');
+  assert.equal(samePhaseNone.relation, 'none');
+  assert.equal(samePhaseNone.sameTriad, true);
+  assert.equal(samePhaseNone.oppositePhase, false);
+
+  const crossTriadNone = evaluatePairRule('T01_adv_P0', 'T02_ret_P2');
+  assert.equal(crossTriadNone.relation, 'none');
+  assert.equal(crossTriadNone.sameTriad, false);
 });

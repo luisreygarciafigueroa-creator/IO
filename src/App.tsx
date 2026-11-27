@@ -32,6 +32,7 @@ import {
 import { buildEvalAuditFilename, serializeEvalAuditPayload } from './evalAuditExport';
 import { SpecMetadataSidePanel } from './SpecMetadataSidePanel';
 import { TcaauCoreSection, type TcaauCorePayload } from './TcaauCoreSection';
+import { evaluatePairRule } from './formalRules';
 
 type TabId = 'core' | 'tesseracts' | 'invariance' | 'eval' | 'domain';
 type RelationLabel = 'none' | 'mirrorOf' | 'creates';
@@ -495,18 +496,39 @@ export default function App() {
     loadInitial();
   }, []);
 
+  const syncRuleResult = useMemo<RuleCheckResult | null>(() => {
+    if (!ruleSource || !ruleTarget) return null;
+    return evaluatePairRule(ruleSource, ruleTarget);
+  }, [ruleSource, ruleTarget]);
+
   useEffect(() => {
+    if (!ruleSource || !ruleTarget) return;
+    const controller = new AbortController();
     async function checkRule() {
-      if (!ruleSource || !ruleTarget) return;
-      const res = await fetch('/api/rule-check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ source: ruleSource, target: ruleTarget }),
-      }).then((r) => r.json());
-      setRuleResult(res);
+      try {
+        const res = await fetch('/api/rule-check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ source: ruleSource, target: ruleTarget }),
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const data = (await res.json()) as RuleCheckResult;
+        if (!controller.signal.aborted && data && typeof data.relation === 'string') {
+          setRuleResult(data);
+        }
+      } catch {
+        // Fallback already computed synchronously by syncRuleResult
+      }
     }
     checkRule();
+    return () => controller.abort();
   }, [ruleSource, ruleTarget]);
+
+  const activeRuleResult =
+    ruleResult && ruleResult.source === ruleSource && ruleResult.target === ruleTarget
+      ? ruleResult
+      : syncRuleResult;
 
   const triadsGrouped = useMemo(() => {
     const map = new Map<number, { adv: TriadNode[]; ret: TriadNode[] }>();
@@ -831,8 +853,11 @@ export default function App() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Origen (source)</label>
+                      <label htmlFor="formal-rule-source" className="block text-xs text-slate-400 mb-1">
+                        Origen (source)
+                      </label>
                       <select
+                        id="formal-rule-source"
                         value={ruleSource}
                         onChange={(e) => setRuleSource(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-100 font-mono"
@@ -845,8 +870,11 @@ export default function App() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Destino (target)</label>
+                      <label htmlFor="formal-rule-target" className="block text-xs text-slate-400 mb-1">
+                        Destino (target)
+                      </label>
                       <select
+                        id="formal-rule-target"
                         value={ruleTarget}
                         onChange={(e) => setRuleTarget(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-100 font-mono"
@@ -859,40 +887,43 @@ export default function App() {
                       </select>
                     </div>
                   </div>
-                  {ruleResult && (
-                    <div className="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-2 text-xs">
+                  {activeRuleResult && (
+                    <div
+                      data-testid="formal-rule-result"
+                      className="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-2 text-xs"
+                    >
                       <div className="flex items-center justify-between">
                         <span className="text-slate-400">Relación derivada:</span>
-                        <RelationBadge relation={ruleResult.relation} />
+                        <RelationBadge relation={activeRuleResult.relation} />
                       </div>
                       <div className="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
                         <div className="text-slate-400">
                           sameTriad:{' '}
-                          <span className={ruleResult.sameTriad ? 'text-emerald-300' : 'text-rose-300'}>
-                            {String(ruleResult.sameTriad)}
+                          <span className={activeRuleResult.sameTriad ? 'text-emerald-300' : 'text-rose-300'}>
+                            {String(activeRuleResult.sameTriad)}
                           </span>
                         </div>
                         <div className="text-slate-400">
                           oppositePhase:{' '}
-                          <span className={ruleResult.oppositePhase ? 'text-emerald-300' : 'text-rose-300'}>
-                            {String(ruleResult.oppositePhase)}
+                          <span className={activeRuleResult.oppositePhase ? 'text-emerald-300' : 'text-rose-300'}>
+                            {String(activeRuleResult.oppositePhase)}
                           </span>
                         </div>
                         <div className="text-slate-400">
                           mirrorPos:{' '}
-                          <span className={ruleResult.mirrorPositional ? 'text-sky-300' : 'text-slate-500'}>
-                            {String(ruleResult.mirrorPositional)}
+                          <span className={activeRuleResult.mirrorPositional ? 'text-sky-300' : 'text-slate-500'}>
+                            {String(activeRuleResult.mirrorPositional)}
                           </span>
                         </div>
                         <div className="text-slate-400">
                           createsPos:{' '}
-                          <span className={ruleResult.createsPositional ? 'text-emerald-300' : 'text-slate-500'}>
-                            {String(ruleResult.createsPositional)}
+                          <span className={activeRuleResult.createsPositional ? 'text-emerald-300' : 'text-slate-500'}>
+                            {String(activeRuleResult.createsPositional)}
                           </span>
                         </div>
                       </div>
                       <p className="text-slate-300 pt-1 border-t border-slate-800/80">
-                        {ruleResult.explanation}
+                        {activeRuleResult.explanation}
                       </p>
                     </div>
                   )}
