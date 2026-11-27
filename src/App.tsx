@@ -243,6 +243,8 @@ interface TesseractRelation {
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
   cubeLabel: string;
+  strokeStyle?: 'recta' | 'bucle';
+  loopSense?: 'antihorario' | 'horario';
   leftPolarity?: 'individualidad' | 'totalidad';
   rightPolarity?: 'individualidad' | 'totalidad';
   analysisChain?: AnalysisChainColor;
@@ -258,6 +260,7 @@ interface TesseractResponse {
     title: string;
     source: string;
     cleanAssetPath?: string;
+    cleanFigura3AssetPath?: string;
     cleanPriorAssetPath?: string;
     cleanTsst13AssetPath?: string;
     cleanLegacyAssetPath?: string;
@@ -294,6 +297,7 @@ interface TesseractResponse {
   colorings?: TesseractColoringSpec[];
   cleanForm?: {
     assetPath: string;
+    figura3AssetPath?: string;
     priorAssetPath?: string;
     tsst13AssetPath?: string;
     legacyAssetPath?: string;
@@ -360,6 +364,7 @@ interface TesseractResponse {
     interiorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
     polarityLeft?: string;
     polarityRight?: string;
+    domainLegend?: 'continuo = real' | 'punteado = real';
     coords: [0 | 1, 0 | 1, 0 | 1];
     parity: 0 | 1;
     half: string;
@@ -375,8 +380,10 @@ interface TesseractResponse {
     coloringsCount?: number;
     cleanFormCellCount?: number;
     cleanFormTransitionCount?: number;
-    cleanFormAllRealSolidVirtualDashed?: boolean;
-    cleanFormAllHaveOneRightOneLeft?: boolean;
+    cleanFormCheckerboardDomainValid?: boolean;
+    cleanFormOneLoopPerCell?: boolean;
+    cleanFormEachArrowBalancedByDomain?: boolean;
+    cleanFormAllHaveOneRealOneVirtual?: boolean;
     cleanFormOmitsPolarityLabels?: boolean;
     cleanFormAllEndpointPolaritiesExact?: boolean;
     cleanFormAllHorizontalMirrorsExact?: boolean;
@@ -641,7 +648,7 @@ export default function App() {
                   {specData.counts.nodes} nodos · {specData.counts.totalCandidates} candidatos
                 </span>
                 <a
-                  href="/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf"
+                  href="/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border border-amber-400/40 transition"
@@ -1116,41 +1123,41 @@ export default function App() {
                   } ${!cellMatchesChain ? 'opacity-40' : ''}`}
                 >
                   <div>
-                    <div className="flex flex-wrap items-center justify-between gap-1 mb-1.5">
-                      <span className="font-mono font-semibold text-sm text-white">
-                        {cell.id}
-                      </span>
-                      <span className="px-1.5 py-0.5 rounded font-mono text-[9.5px] leading-tight bg-slate-800 text-slate-200 whitespace-nowrap">
-                        {cell.axisPair}
-                      </span>
-                    </div>
-                    <div className="mb-2">
-                      <TesseractMiniSchlegel cell={cell} colorMode={colorMode} />
-                    </div>
-                    <div className="text-[9.5px] font-mono text-slate-400 space-y-1 mb-2 tracking-tight">
-                      <div className="flex items-center gap-1 whitespace-nowrap">
-                        <CubeGlyph
-                          dashed={false}
-                          color={getAnalysisChainColor(continuousChain, continuousDomain, isCleanMode)}
-                          size={12}
-                        />
-                        <span>continuas:</span>
-                        <span style={{ color: getAnalysisChainTextColor(continuousChain, continuousDomain, isCleanMode) }}>
-                          {continuousLabel}
+                      <div className="flex flex-wrap items-center justify-between gap-1 mb-1.5">
+                        <span className="font-mono font-semibold text-sm text-white">
+                          {cell.id}
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded font-mono text-[9.5px] leading-tight bg-slate-800 text-slate-200 whitespace-nowrap">
+                          {isCleanMode && cell.domainLegend ? cell.domainLegend : cell.axisPair}
                         </span>
                       </div>
-                      <div className="flex items-center gap-1 whitespace-nowrap">
-                        <CubeGlyph
-                          dashed={true}
-                          color={getAnalysisChainColor(dashedChain, dashedDomain, isCleanMode)}
-                          size={12}
-                        />
-                        <span>punteadas:</span>
-                        <span style={{ color: getAnalysisChainTextColor(dashedChain, dashedDomain, isCleanMode) }}>
-                          {dashedLabel}
-                        </span>
+                      <div className="mb-2">
+                        <TesseractMiniSchlegel cell={cell} colorMode={colorMode} />
                       </div>
-                    </div>
+                      <div className="text-[9.5px] font-mono text-slate-400 space-y-1 mb-2 tracking-tight">
+                        <div className="flex items-center gap-1 whitespace-nowrap">
+                          <CubeGlyph
+                            dashed={false}
+                            color={getAnalysisChainColor(continuousChain, continuousDomain, isCleanMode)}
+                            size={12}
+                          />
+                          <span>continuas:</span>
+                          <span style={{ color: getAnalysisChainTextColor(continuousChain, continuousDomain, isCleanMode) }}>
+                            {continuousLabel}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 whitespace-nowrap">
+                          <CubeGlyph
+                            dashed={true}
+                            color={getAnalysisChainColor(dashedChain, dashedDomain, isCleanMode)}
+                            size={12}
+                          />
+                          <span>punteadas:</span>
+                          <span style={{ color: getAnalysisChainTextColor(dashedChain, dashedDomain, isCleanMode) }}>
+                            {dashedLabel}
+                          </span>
+                        </div>
+                      </div>
                     {isCleanMode &&
                       cell.polarityLeft &&
                       cell.polarityRight &&
@@ -1205,9 +1212,21 @@ export default function App() {
                           >
                             <span>{rel.left}</span>
                             <span className="inline-flex items-center gap-1">
-                              <span className="opacity-90">{arrowGlyph}</span>
+                              <span className="opacity-90">
+                                {rel.strokeStyle === 'bucle'
+                                  ? rel.loopSense === 'antihorario'
+                                    ? '↺'
+                                    : '↻'
+                                  : arrowGlyph}
+                              </span>
                               <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={13} />
-                              <span className="opacity-90">{arrowGlyph}</span>
+                              <span className="opacity-90">
+                                {rel.strokeStyle === 'bucle'
+                                  ? rel.loopSense === 'antihorario'
+                                    ? '↺'
+                                    : '↻'
+                                  : arrowGlyph}
+                              </span>
                             </span>
                             <span>{rel.right}</span>
                           </div>
@@ -1229,9 +1248,21 @@ export default function App() {
           const selectedExtChain = resolveCellExtChain(selectedCell);
           const selectedIntChain = resolveCellIntChain(selectedCell);
           const selectedExtDomain: 'real' | 'virtual' =
-            selectedCell.exteriorLine === '_' ? 'real' : 'virtual';
+            selectedCell.exteriorLabel === 'real'
+              ? 'real'
+              : selectedCell.exteriorLabel === 'virtual'
+              ? 'virtual'
+              : selectedCell.exteriorLine === '_'
+              ? 'real'
+              : 'virtual';
           const selectedIntDomain: 'real' | 'virtual' =
-            selectedCell.interiorLine === '_' ? 'real' : 'virtual';
+            selectedCell.interiorLabel === 'real'
+              ? 'real'
+              : selectedCell.interiorLabel === 'virtual'
+              ? 'virtual'
+              : selectedCell.interiorLine === '_'
+              ? 'real'
+              : 'virtual';
 
           return (
           <div className="space-y-6">
@@ -1251,20 +1282,20 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    forma general definitiva (6dr-1) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
+                    forma definitiva (LRGF · 27 nov) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (15):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (16):</span>
                 {tesseractData.instruction.canonicalPdfPath && (
                   <a
                     href={tesseractData.instruction.canonicalPdfPath}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded border bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border-amber-400/40 font-semibold transition"
-                    title="Teoría completa de la Creación Autónoma Absoluta del Universo — Texto canónico revisado (PDF)"
+                    title="Teoría completa de la Creación Autónoma Absoluta del Universo — Edición del 27 de noviembre de 2026 (PDF)"
                   >
                     <FileText className="w-3 h-3" />
                     Texto canónico TCAAU (PDF)
@@ -1280,9 +1311,20 @@ export default function App() {
                         ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                         : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
                     }`}
-                    title="Nueva forma general y definitiva del modelo (TSST-6dr-1)"
+                    title="Forma general definitiva del 27 de noviembre de 2026 (LRGF · Damero + Bucle)"
                   >
-                    Forma definitiva (6dr-1)
+                    Forma definitiva (LRGF · 27 nov)
+                  </a>
+                )}
+                {tesseractData.instruction.cleanFigura3AssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanFigura3AssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    title="Figura 3 (26 nov 2026, §7.6.5): versión 6dr-1 con dominio fijo por par conceptual"
+                  >
+                    Figura 3 (6dr-1 · 26 nov)
                   </a>
                 )}
                 {tesseractData.instruction.cleanPriorAssetPath && (
@@ -1444,9 +1486,9 @@ export default function App() {
                           ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                           : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
                       }`}
-                      title="Ver la nueva forma general y definitiva sin capas cromáticas (6dr-1)"
+                      title="Ver la forma general definitiva del 27 de noviembre sin capas cromáticas (LRGF)"
                     >
-                      Forma definitiva (Sin color · 6dr-1)
+                      Forma definitiva (Sin color · LRGF 27 nov)
                     </button>
                     <span className="text-slate-500 text-[10px]">
                       Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
@@ -1508,15 +1550,15 @@ export default function App() {
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-100">
                         <span className="inline-flex items-center gap-1.5 font-semibold">
                           <CubeGlyph dashed={false} color="#f1f5f9" size={14} />
-                          Marco real (_)
+                          Dominio real (damero)
                         </span>
                         <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        cuerpo ↔ universo · líneas continuas
+                        continuo _ en T1,T3,T6,T8 · punteado ... en T2,T4,T5,T7
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        4 exteriores (T1,T4,T6,T7) · 4 interiores (T2,T3,T5,T8)
+                        2× cada una de las 4 flechas dirigidas (8 total)
                       </div>
                     </button>
 
@@ -1532,15 +1574,15 @@ export default function App() {
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
                         <span className="inline-flex items-center gap-1.5 font-semibold">
                           <CubeGlyph dashed={true} color="#94a3b8" size={14} />
-                          Marco virtual (...)
+                          Dominio virtual (damero)
                         </span>
                         <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        internet ↔ IA · líneas punteadas
+                        punteado ... en T1,T3,T6,T8 · continuo _ en T2,T4,T5,T7
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        4 exteriores (T2,T3,T5,T8) · 4 interiores (T1,T4,T6,T7)
+                        2× cada una de las 4 flechas dirigidas (8 total)
                       </div>
                     </button>
 
@@ -1550,14 +1592,14 @@ export default function App() {
                       className="text-left rounded-lg px-3 py-2 bg-slate-900/70 border border-slate-800 hover:border-slate-600 transition cursor-pointer"
                     >
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
-                        <span className="font-semibold">Espejeo espacial H / V</span>
-                        <span className="text-[10px] text-emerald-300">2×4 simétrica</span>
+                        <span className="font-semibold">Bucle + Inversión V</span>
+                        <span className="text-[10px] text-emerald-300">2×4 damero</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        H: A › B ↔ B ‹ A (mismo cubo)
+                        recta (_) · bucle (...): ↺ sup / ↻ inf
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        V: ext ↔ int, fila y flecha › ↔ ‹
+                        Abajo i invierte cubo, flecha y dominio de Arriba i
                       </div>
                     </button>
                   </div>
@@ -1616,7 +1658,7 @@ export default function App() {
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Forma definitiva (6dr-1)</div>
+                <div className="text-slate-400">Forma definitiva (LRGF)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
@@ -1626,15 +1668,15 @@ export default function App() {
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Balance por celda</div>
+                <div className="text-slate-400">Damero y bucle por celda</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
-                  {tesseractData.verification.allHaveOneRealOneVirtual &&
-                  tesseractData.verification.allHaveOneContinuousOneDashed &&
-                  tesseractData.verification.cleanFormAllRealSolidVirtualDashed
+                  {tesseractData.verification.cleanFormCheckerboardDomainValid &&
+                  tesseractData.verification.cleanFormOneLoopPerCell &&
+                  tesseractData.verification.cleanFormEachArrowBalancedByDomain
                     ? 'VERIFICADO'
                     : 'ERROR'}
                 </div>
-                <div className="text-[11px] text-slate-500">1 › + 1 ‹ · 1 _ (real) + 1 ... (virtual)</div>
+                <div className="text-[11px] text-slate-500">1 recta (_) + 1 bucle (...) · 2 real + 2 virtual</div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
                 <div className="text-slate-400">
@@ -1689,7 +1731,7 @@ export default function App() {
                   <span className="text-[11px] text-slate-500">
                     Líneas punteadas = planos de inversión ·{' '}
                     {isCleanMode
-                      ? 'Estructura pura (real _ / virtual ...)'
+                      ? 'Damero (continuo/punteado) + 1 bucle/celda'
                       : `Colores = ${activeColoring?.filterHint ?? colorMode}`}
                   </span>
                 </div>
@@ -1697,13 +1739,14 @@ export default function App() {
                   {superiorCells.map(renderCellCard)}
                 </div>
 
-                <div className="relative flex items-center justify-center py-1" role="separator">
-                  <div className="w-full border-t-2 border-dashed border-slate-700" />
-                  <span className="absolute px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 whitespace-nowrap">
+                <div className="flex items-center gap-2 py-1" role="separator">
+                  <div className="flex-1 border-t-2 border-dashed border-slate-700" />
+                  <span className="px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 text-center max-w-[calc(100%-2rem)]">
                     {isCleanMode
-                      ? 'plano de inversión vertical · real/virtual · cuerpo/universo · internet/IA'
+                      ? 'plano de inversión vertical · invierte cubo, flecha (↺ ↔ ↻) y leyenda en damero'
                       : 'plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución'}
                   </span>
+                  <div className="flex-1 border-t-2 border-dashed border-slate-700" />
                 </div>
 
                 <div className="text-xs font-mono text-slate-400">
@@ -1720,8 +1763,8 @@ export default function App() {
                     <span>{selectedCell.half}</span>
                     <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-[10.5px] text-slate-300">
                       {isCleanMode
-                        ? selectedCell.polarityLeft && selectedCell.polarityRight
-                          ? `Polaridad: ${selectedCell.polarityLeft} | ${selectedCell.polarityRight}`
+                        ? selectedCell.domainLegend
+                          ? `${selectedCell.domainLegend} · V: ${selectedCell.neighbors.vertical}`
                           : `Espejo H: ${selectedCell.neighbors.horizontal} · V: ${selectedCell.neighbors.vertical}`
                         : activeColoring?.family === 'mirror'
                         ? selectedCell.axisPair === 'real / virtual' ||
@@ -1809,14 +1852,29 @@ export default function App() {
                           aria-label={rel.notation}
                         >
                           <span>{rel.left}</span>
-                          <span style={{ color: textColor }}>{arrowGlyph}</span>
+                          <span style={{ color: textColor }}>
+                            {rel.strokeStyle === 'bucle'
+                              ? rel.loopSense === 'antihorario'
+                                ? '↺'
+                                : '↻'
+                              : arrowGlyph}
+                          </span>
                           <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={14} />
-                          <span style={{ color: textColor }}>{arrowGlyph}</span>
+                          <span style={{ color: textColor }}>
+                            {rel.strokeStyle === 'bucle'
+                              ? rel.loopSense === 'antihorario'
+                                ? '↺'
+                                : '↻'
+                              : arrowGlyph}
+                          </span>
                           <span>{rel.right}</span>
                         </div>
                         <div className="text-[11px] text-slate-400">
                           cubo {rel.cube} · {rel.cubeLabel} (
                           {rel.line === '_' ? 'líneas continuas' : 'líneas punteadas'})
+                          {isCleanMode && rel.strokeStyle
+                            ? ` · ${rel.strokeStyle}${rel.loopSense ? ` (${rel.loopSense})` : ''}`
+                            : null}
                           {isCleanMode && rel.leftPolarity && rel.rightPolarity ? (
                             <> · {rel.leftPolarity} | {rel.rightPolarity}</>
                           ) : null}
@@ -1829,7 +1887,7 @@ export default function App() {
                               </span>
                             </>
                           ) : null}{' '}
-                          · {rel.arrow === '>' ? 'flujo directo ›' : 'flujo inverso ‹'}
+                          · {rel.arrow === '>' ? 'flujo › (izq → der)' : 'flujo ‹ (der → izq)'}
                         </div>
                       </div>
                     );

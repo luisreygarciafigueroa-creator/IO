@@ -264,8 +264,22 @@ export const TesseractMiniSchlegel: React.FC<{
   const isClean = colorMode === 'clean';
   const extChain = getCellExtChain(cell, colorMode);
   const intChain = getCellIntChain(cell, colorMode);
-  const extDomain = cell.exteriorLine === '_' ? 'real' : 'virtual';
-  const intDomain = cell.interiorLine === '_' ? 'real' : 'virtual';
+  const extDomain: 'real' | 'virtual' =
+    cell.exteriorLabel === 'real'
+      ? 'real'
+      : cell.exteriorLabel === 'virtual'
+      ? 'virtual'
+      : cell.exteriorLine === '_'
+      ? 'real'
+      : 'virtual';
+  const intDomain: 'real' | 'virtual' =
+    cell.interiorLabel === 'real'
+      ? 'real'
+      : cell.interiorLabel === 'virtual'
+      ? 'virtual'
+      : cell.interiorLine === '_'
+      ? 'real'
+      : 'virtual';
   const extColor = isClean
     ? getAnalysisChainColor(undefined, extDomain, true)
     : extChain
@@ -799,7 +813,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <GitCommitHorizontal className="w-4 h-4 text-sky-400" />
             {isCleanMode
-              ? 'Diagrama de Flujo D3: Forma Limpia y Definitiva · Real (_) / Virtual (...)'
+              ? 'Diagrama de Flujo D3: Forma Limpia (27 nov 2026) · Damero Real/Virtual + Bucle'
               : activeColoring
               ? `Diagrama de Flujo D3: ${activeColoring.title} · Transiciones Real (›) / Virtual (‹)`
               : 'Diagrama de Flujo D3: Clausura Especular y Transiciones Real (›) / Virtual (‹)'}
@@ -821,8 +835,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             {(
               [
                 { id: 'all', label: 'Todos (16)' },
-                { id: 'real', label: isCleanMode ? 'Real _ (8)' : 'Real › (8)' },
-                { id: 'virtual', label: isCleanMode ? 'Virtual ... (8)' : 'Virtual ‹ (8)' },
+                { id: 'real', label: isCleanMode ? 'Real (8)' : 'Real › (8)' },
+                { id: 'virtual', label: isCleanMode ? 'Virtual (8)' : 'Virtual ‹ (8)' },
               ] as const
             ).map((opt) => (
               <button
@@ -940,11 +954,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 <>
                   <span className="inline-flex items-center gap-1.5 text-slate-100">
                     <span className="w-4 h-0.5 inline-block bg-slate-100" />
-                    real (_) · cuerpo ↔ universo
+                    real (damero: continuo _ T1,T3,T6,T8 · punteado ... T2,T4,T5,T7)
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-slate-300">
                     <span className="w-4 border-t-2 border-dashed border-slate-400 inline-block" />
-                    virtual (...) · internet ↔ IA
+                    recta (_) · bucle (...) ↺ sup / ↻ inf
                   </span>
                 </>
               ) : (
@@ -968,7 +982,13 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             {hoveredEdge ? (
               <span className="text-slate-200 truncate">
                 {hoveredEdge.cellId} ({hoveredEdge.rel.cubeLabel}): {hoveredEdge.rel.notation} [
-                {getRelChain(hoveredEdge.rel) ?? hoveredEdge.rel.domain}]
+                {getRelChain(hoveredEdge.rel) ??
+                  `${hoveredEdge.rel.domain}${
+                    hoveredEdge.rel.strokeStyle === 'bucle'
+                      ? ` · bucle ${hoveredEdge.rel.loopSense ?? ''}`
+                      : ' · recta'
+                  }`}
+                ]
               </span>
             ) : (
               <span className="text-slate-500 whitespace-nowrap">
@@ -983,7 +1003,9 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <div className="text-[11px] font-mono text-slate-400">
-                {selectedCell.half} · espejo horizontal ↔ {selectedCell.neighbors.horizontal}
+                {selectedCell.half}
+                {selectedCell.domainLegend ? ` · ${selectedCell.domainLegend}` : ''}
+                {' · '}espejo inv. ↔ {selectedCell.neighbors.vertical}
                 {selectedCell.polarityLeft && selectedCell.polarityRight
                   ? ` · ${selectedCell.polarityLeft} | ${selectedCell.polarityRight}`
                   : ''}
@@ -995,8 +1017,22 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             {(() => {
               const extChain = getCellExtChain(selectedCell, colorMode);
               const intChain = getCellIntChain(selectedCell, colorMode);
-              const extDomain = selectedCell.exteriorLine === '_' ? 'real' : 'virtual';
-              const intDomain = selectedCell.interiorLine === '_' ? 'real' : 'virtual';
+              const extDomain: 'real' | 'virtual' =
+                selectedCell.exteriorLabel === 'real'
+                  ? 'real'
+                  : selectedCell.exteriorLabel === 'virtual'
+                  ? 'virtual'
+                  : selectedCell.exteriorLine === '_'
+                  ? 'real'
+                  : 'virtual';
+              const intDomain: 'real' | 'virtual' =
+                selectedCell.interiorLabel === 'real'
+                  ? 'real'
+                  : selectedCell.interiorLabel === 'virtual'
+                  ? 'virtual'
+                  : selectedCell.interiorLine === '_'
+                  ? 'real'
+                  : 'virtual';
               const extBadgeText = isCleanMode
                 ? getAnalysisChainTextColor(undefined, extDomain, true)
                 : extChain
@@ -1046,8 +1082,22 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             const schlegel = buildSchlegelCubeWireframe(210, 160, 56, 25, 24, -14);
             const extChain = getCellExtChain(selectedCell, colorMode);
             const intChain = getCellIntChain(selectedCell, colorMode);
-            const extDomain = selectedCell.exteriorLine === '_' ? 'real' : 'virtual';
-            const intDomain = selectedCell.interiorLine === '_' ? 'real' : 'virtual';
+            const extDomain: 'real' | 'virtual' =
+              selectedCell.exteriorLabel === 'real'
+                ? 'real'
+                : selectedCell.exteriorLabel === 'virtual'
+                ? 'virtual'
+                : selectedCell.exteriorLine === '_'
+                ? 'real'
+                : 'virtual';
+            const intDomain: 'real' | 'virtual' =
+              selectedCell.interiorLabel === 'real'
+                ? 'real'
+                : selectedCell.interiorLabel === 'virtual'
+                ? 'virtual'
+                : selectedCell.interiorLine === '_'
+                ? 'real'
+                : 'virtual';
             const extColor = isCleanMode
               ? getAnalysisChainColor(undefined, extDomain, true)
               : extChain
@@ -1245,7 +1295,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     fontSize="9"
                     fontFamily="monospace"
                   >
-                    {rel.arrow === '>' ? '→' : '←'} {rel.domain}
+                    {rel.strokeStyle === 'bucle'
+                      ? `${rel.loopSense === 'antihorario' ? '↺' : '↻'} `
+                      : `${rel.arrow === '>' ? '→' : '←'} `}
+                    {rel.domain}
+                    {rel.strokeStyle === 'bucle' ? ` · bucle ${rel.loopSense ?? ''}` : ''}
                     {chain ? ` · ${chain}` : ''}
                   </text>
                   <rect
@@ -1456,6 +1510,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
               const glyphColor = getAnalysisChainColor(chain, rel.domain, isCleanMode);
               const textColor = getAnalysisChainTextColor(chain, rel.domain, isCleanMode);
               const arrowGlyph = rel.arrow === '>' ? '→' : '←';
+              const loopGlyph =
+                rel.strokeStyle === 'bucle' ? (rel.loopSense === 'antihorario' ? '↺' : '↻') : null;
               return (
                 <div
                   key={rel.notation}
@@ -1463,13 +1519,16 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 >
                   <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-[11px]" aria-label={rel.notation}>
                     <span>{rel.left}</span>
-                    <span style={{ color: textColor }}>{arrowGlyph}</span>
+                    <span style={{ color: textColor }}>{loopGlyph ?? arrowGlyph}</span>
                     <CubeGlyph dashed={rel.line === '...'} color={glyphColor} size={14} />
-                    <span style={{ color: textColor }}>{arrowGlyph}</span>
+                    <span style={{ color: textColor }}>{loopGlyph ?? arrowGlyph}</span>
                     <span>{rel.right}</span>
                   </span>
                   <span className="text-[10.5px] whitespace-nowrap" style={{ color: textColor }}>
                     {rel.cubeLabel} · {rel.cube}
+                    {isCleanMode && rel.strokeStyle
+                      ? ` · ${rel.strokeStyle}${rel.loopSense ? ` (${rel.loopSense})` : ''}`
+                      : ''}
                     {isCleanMode && rel.leftPolarity && rel.rightPolarity
                       ? ` · ${rel.leftPolarity} | ${rel.rightPolarity}`
                       : chain

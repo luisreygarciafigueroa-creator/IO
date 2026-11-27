@@ -1,6 +1,6 @@
 # Dictamen: el criterio de realidad por no-subordinación
 
-> Documento de dictamen formal integrado en el canon TCAAU ([`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) y [`../data/tcaau_core.json`](../data/tcaau_core.json)).  
+> Documento de dictamen formal integrado en el canon TCAAU ([`../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) y [`../data/tcaau_core.json`](../data/tcaau_core.json)).  
 > Estatus: rectificación y formalización del criterio de autonomía ($D10$–$D11$, $P11$, **Corolario $D11/P11$** de trazabilidad verificable y $C15$–$C17$) y su consecuencia directa en $R7$.
 
 ---
@@ -138,4 +138,4 @@ La combinatoria permanece intacta y el criterio se satisface. Esto realiza D9 si
 
 ---
 
-*Este dictamen forma parte del núcleo canónico de la TCAAU ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)) sin alterar la combinatoria verificada de las 32 tríadas ni los `78` nodos / `390` candidatos de `data/iom_spec.json`.*
+*Este dictamen forma parte del núcleo canónico de la TCAAU ([`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf)) sin alterar la combinatoria verificada de las 32 tríadas ni los `78` nodos / `390` candidatos de `data/iom_spec.json`.*

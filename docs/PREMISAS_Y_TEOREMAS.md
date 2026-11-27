@@ -2,7 +2,7 @@
 
 Este documento distingue con rigor **afirmaciones asumidas** (premisas del marco) de **resultados demostrados** en Lean o comprobados de forma determinista sobre las especificaciones estructuradas (`data/iom_spec.json` y `data/tcaau_core.json`), manteniendo la separación de estratos entre lo demostrado en IOM, lo conjeturado (`T12` propuesto, `P1–P7`) y la analogía estructural.
 
-Texto canónico completo (PDF): [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf).  
+Texto canónico completo (PDF): [`../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf).  
 Sentido cosmológico (no formal): [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md).  
 Criterio de autonomía y término de la creación: [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md).  
 Núcleo combinatorio ampliado (`T1–T11`, `R1–R8`, `D12–D13`): [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md).
@@ -110,11 +110,11 @@ Teoremas del núcleo combinatorio TCAAU (`data/tcaau_core.json`, verificados en 
 
 | Concepto | Artefacto |
 |---|---|
-| Texto canónico TCAAU (PDF) | `public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf` |
+| Texto canónico TCAAU (PDF) | `public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf` |
 | Premisas tabuladas IOM | `data/iom_spec.json` |
 | Núcleo formal TCAAU legible por máquina | `data/tcaau_core.json`, `data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `src/tcaauCore.test.ts` |
 | Motor determinista e invariancia | `src/iomEngine.ts`, `server.ts` |
-| Reglas `mirrorOf` / `creates` y `{4,3,3}` (`2 × 4`) | `src/iomEngine.ts`, `src/iomEngine.test.ts`, `6dr__1__0283eca1.jpg` |
+| Reglas `mirrorOf` / `creates` y `{4,3,3}` (`2 × 4`) | `src/iomEngine.ts`, `src/iomEngine.test.ts`, `LRGF_68fba07a.jpg` (y Figura 3 `6dr__1__0283eca1.jpg`) |
 | Grafo dinámico D3 y panel TCAAU | `src/tesseractFlowGraph.ts`, `src/TesseractFlowchart.tsx`, `src/TcaauCoreSection.tsx` |
 | Validez semántica (mundo real, residuo) | `datasets/independent_eval/` |
 | Sentido cosmológico y no-subordinación | [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md), [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) |

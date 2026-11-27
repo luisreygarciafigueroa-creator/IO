@@ -211,11 +211,30 @@ test('buildTesseractFlowGraph supports definitive clean mode with real/virtual e
   assert.equal(totalidad.tier, 1);
   assert.equal(totalidad.role, 'aislado');
 
+  assert.equal(cleanAll.edges.filter((e) => e.rel.strokeStyle === 'recta').length, 8);
+  assert.equal(cleanAll.edges.filter((e) => e.rel.strokeStyle === 'bucle').length, 8);
+  assert.equal(cleanAll.edges.filter((e) => e.rel.loopSense === 'antihorario').length, 4);
+  assert.equal(cleanAll.edges.filter((e) => e.rel.loopSense === 'horario').length, 4);
+
   const cleanReal = buildTesseractFlowGraph(tesseractData, 'real', 'clean');
   assert.equal(cleanReal.edges.length, 8);
-  assert.ok(cleanReal.edges.every((e) => e.rel.line === '_' && e.domain === 'real'));
+  assert.ok(cleanReal.edges.every((e) => e.domain === 'real'));
+  assert.equal(cleanReal.edges.filter((e) => e.rel.line === '_').length, 4);
+  assert.equal(cleanReal.edges.filter((e) => e.rel.line === '...').length, 4);
 
   const cleanVirtual = buildTesseractFlowGraph(tesseractData, 'virtual', 'clean');
   assert.equal(cleanVirtual.edges.length, 8);
-  assert.ok(cleanVirtual.edges.every((e) => e.rel.line === '...' && e.domain === 'virtual'));
+  assert.ok(cleanVirtual.edges.every((e) => e.domain === 'virtual'));
+  assert.equal(cleanVirtual.edges.filter((e) => e.rel.line === '_').length, 4);
+  assert.equal(cleanVirtual.edges.filter((e) => e.rel.line === '...').length, 4);
+
+  for (const bucket of [cleanReal.edges, cleanVirtual.edges]) {
+    const counts = new Map<string, number>();
+    for (const e of bucket) {
+      const k = `${e.source}->${e.target}`;
+      counts.set(k, (counts.get(k) ?? 0) + 1);
+    }
+    assert.equal(counts.size, 4);
+    assert.ok([...counts.values()].every((n) => n === 2));
+  }
 });

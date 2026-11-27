@@ -336,10 +336,24 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
             </div>
 
             <div className="bg-slate-950/75 border border-slate-800 rounded-lg p-3.5 space-y-2">
-              <div className="font-semibold text-white flex items-center gap-1.5">
-                <Compass className="w-3.5 h-3.5 text-amber-400" />
-                Superposición §7.7, ciclo de 4 y análisis final (materia = vacío)
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="font-semibold text-white flex items-center gap-1.5">
+                  <Compass className="w-3.5 h-3.5 text-amber-400" />
+                  Diagrama 2×4 ({core.tesseract_and_projections.diagram_2x4_definitive.date}), §7.7 y materia = vacío
+                </div>
+                <a
+                  href={core.canonical_edition.canonical_diagram_path}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[10.5px] font-mono text-amber-300 hover:underline"
+                >
+                  Lámina 27 nov (LRGF)
+                </a>
               </div>
+              <p className="text-slate-300 text-[11px] leading-relaxed">
+                {core.tesseract_and_projections.diagram_2x4_definitive.checkerboard_domain.rule}{' '}
+                {core.tesseract_and_projections.diagram_2x4_definitive.loop_reading_rule.epistemic_note}
+              </p>
               <p className="text-slate-200 leading-relaxed">
                 {core.tesseract_and_projections.final_analysis_matter_vacuum.thesis}
               </p>

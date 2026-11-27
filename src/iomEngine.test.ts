@@ -36,6 +36,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   );
   assert.equal(
     model.instruction.cleanAssetPath,
+    '/assets/aistudio/LRGF_68fba07a.jpg'
+  );
+  assert.equal(
+    model.instruction.cleanFigura3AssetPath,
     '/assets/aistudio/6dr__1__0283eca1.jpg'
   );
   assert.equal(
@@ -57,7 +61,7 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(model.instruction.pdfPath, '/assets/aistudio/1000000566_f7cafcef.pdf');
   assert.equal(
     model.instruction.canonicalPdfPath,
-    '/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf'
+    '/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf'
   );
   assert.equal(model.instruction.colorAssets.length, 12);
   assert.equal(model.cells.length, 8);
@@ -86,8 +90,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(model.verification.allCubeLabelsCovered, true);
   assert.equal(model.verification.cleanFormCellCount, 8);
   assert.equal(model.verification.cleanFormTransitionCount, 16);
-  assert.equal(model.verification.cleanFormAllRealSolidVirtualDashed, true);
-  assert.equal(model.verification.cleanFormAllHaveOneRightOneLeft, true);
+  assert.equal(model.verification.cleanFormCheckerboardDomainValid, true);
+  assert.equal(model.verification.cleanFormOneLoopPerCell, true);
+  assert.equal(model.verification.cleanFormEachArrowBalancedByDomain, true);
+  assert.equal(model.verification.cleanFormAllHaveOneRealOneVirtual, true);
   assert.equal(model.verification.cleanFormOmitsPolarityLabels, true);
   assert.equal(model.verification.cleanFormAllHorizontalMirrorsExact, true);
   assert.equal(model.verification.cleanFormAllVerticalMirrorsExact, true);
@@ -308,69 +314,100 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
   assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 
-  // Verify general & definitive closed form (6dr__1__0283eca1.jpg) & prior drafts
-  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/6dr__1__0283eca1.jpg');
+  // Verify general & definitive closed form (LRGF_68fba07a.jpg, Nov 27) & preserved Figura 3 + prior drafts
+  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/LRGF_68fba07a.jpg');
+  assert.equal(model.cleanForm.figura3AssetPath, '/assets/aistudio/6dr__1__0283eca1.jpg');
   assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/6dr_36f66e7c.jpg');
   assert.equal(model.cleanForm.tsst13AssetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
   assert.equal(model.cleanForm.legacyAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
-  assert.equal(model.cleanForm.assetTag, 'TSST-6dr-1 definitivo');
+  assert.equal(model.cleanForm.assetTag, 'LRGF · 27 nov 2026');
   assert.equal(model.cleanForm.cells.length, 8);
   const expectedClean: Record<
     string,
     {
+      domainLegend: 'continuo = real' | 'punteado = real';
       ext: ['real' | 'virtual', '_' | '...'];
       int: ['real' | 'virtual', '_' | '...'];
       notations: [string, string];
+      strokeStyles: ['recta' | 'bucle', 'recta' | 'bucle'];
+      loopSenses: [undefined | 'antihorario' | 'horario', undefined | 'antihorario' | 'horario'];
     }
   > = {
     T1: {
+      domainLegend: 'continuo = real',
       ext: ['real', '_'],
       int: ['virtual', '...'],
       notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'antihorario'],
     },
     T2: {
-      ext: ['virtual', '...'],
-      int: ['real', '_'],
+      domainLegend: 'punteado = real',
+      ext: ['real', '...'],
+      int: ['virtual', '_'],
       notations: ['IA < ... < internet', 'cuerpo > _ > universo'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['antihorario', undefined],
     },
     T3: {
+      domainLegend: 'continuo = real',
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      notations: ['internet > ... > IA', 'universo < _ < cuerpo'],
+      notations: ['cuerpo < ... < universo', 'IA < _ < internet'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['antihorario', undefined],
     },
     T4: {
-      ext: ['real', '_'],
-      int: ['virtual', '...'],
-      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      domainLegend: 'punteado = real',
+      ext: ['virtual', '_'],
+      int: ['real', '...'],
+      notations: ['IA < _ < internet', 'cuerpo < ... < universo'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'antihorario'],
     },
     T5: {
-      ext: ['virtual', '...'],
-      int: ['real', '_'],
+      domainLegend: 'punteado = real',
+      ext: ['real', '...'],
+      int: ['virtual', '_'],
       notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['horario', undefined],
     },
     T6: {
+      domainLegend: 'continuo = real',
       ext: ['real', '_'],
       int: ['virtual', '...'],
       notations: ['cuerpo < _ < universo', 'IA > ... > internet'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'horario'],
     },
     T7: {
-      ext: ['real', '_'],
-      int: ['virtual', '...'],
-      notations: ['universo > _ > cuerpo', 'internet < ... < IA'],
+      domainLegend: 'punteado = real',
+      ext: ['virtual', '_'],
+      int: ['real', '...'],
+      notations: ['IA > _ > internet', 'cuerpo > ... > universo'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'horario'],
     },
     T8: {
+      domainLegend: 'continuo = real',
       ext: ['virtual', '...'],
       int: ['real', '_'],
-      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
+      notations: ['cuerpo > ... > universo', 'IA > _ > internet'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['horario', undefined],
     },
   };
   for (const cell of model.cleanForm.cells) {
     const exp = expectedClean[cell.id];
+    assert.equal(cell.domainLegend, exp.domainLegend, `Clean domainLegend mismatch in ${cell.id}`);
     assert.deepEqual([cell.exteriorLabel, cell.exteriorLine], exp.ext, `Clean ext mismatch in ${cell.id}`);
     assert.deepEqual([cell.interiorLabel, cell.interiorLine], exp.int, `Clean int mismatch in ${cell.id}`);
     assert.equal(cell.polarityLeft, undefined, `Clean polarityLeft should be omitted in ${cell.id}`);
     assert.equal(cell.polarityRight, undefined, `Clean polarityRight should be omitted in ${cell.id}`);
     assert.deepEqual(cell.relations.map((r) => r.notation), exp.notations, `Clean relations mismatch in ${cell.id}`);
+    assert.deepEqual(cell.relations.map((r) => r.strokeStyle), exp.strokeStyles, `Clean strokeStyle mismatch in ${cell.id}`);
+    assert.deepEqual(cell.relations.map((r) => r.loopSense), exp.loopSenses, `Clean loopSense mismatch in ${cell.id}`);
     assert.ok(
       cell.relations.every((r) => r.leftPolarity === undefined && r.rightPolarity === undefined),
       `Clean endpoint polarities should be omitted in ${cell.id}`

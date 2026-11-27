@@ -1,6 +1,6 @@
 # Informe de evaluación técnica: autonomía formal, coherencia estructural y residuo interanotador del marco I.O.
 
-> Documento de auditoría alineado al canon **TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)): **autonomía como criterio ($D11$, $R7$)**, trazabilidad verificable (`Corolario D11/P11`, `§11.3`), criterio de clausura (`§11.4`) y reconteo ejecutable desde dentro ($I6$).  
+> Documento de auditoría alineado al canon **TCAAU** ([`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf)): **autonomía como criterio ($D11$, $R7$)**, trazabilidad verificable (`Corolario D11/P11`, `§11.3`), criterio de clausura (`§11.4`) y reconteo ejecutable desde dentro ($I6$).  
 > La validez por consenso de conciencias separadas **no** es el fundamento.  
 > Especificaciones: `data/iom_spec.json` y `data/tcaau_core.json` · Metodología: [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md) · Delimitación: [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
 
@@ -47,7 +47,7 @@ Desde la perspectiva de la ingeniería de ontologías y la semántica formal, re
 | Capa | Componentes / archivos clave | Tipo de prueba / herramienta | Afirmación legítima |
 |---|---|---|---|
 | Autonomía formal y núcleo TCAAU | `src/iomEngine.ts`, `src/tcaauCore.ts`, `data/iom_spec.json`, `data/tcaau_core.json`, `src/iomEngine.test.ts`, `src/tcaauCore.test.ts` (legado `IOM/FormalRules.lean`) | `npm run lint`, `npx tsx --test`, `GET /api/tcaau-core`, `POST /api/invariance` | Solidez deductiva, punto fijo SHA-256, `R1–R8`/`D10–D13`/`§7.7` y reconteo desde dentro ($I6$). |
-| Estructural y geométrica | `src/tesseractFlowGraph.ts`, `src/tesseractFlowGraph.test.ts`, `ontology/` | `GET /api/tesseract`, `POST /api/rule-check`, pruebas unitarias | Conformidad extensional de las 390 aristas, la forma general definitiva (`6dr__1__0283eca1.jpg`) del único teseracto `{4,3,3}`, sus 12 ayudas cromáticas (6 pares involutivos) y el grafo D3. |
+| Estructural y geométrica | `src/tesseractFlowGraph.ts`, `src/tesseractFlowGraph.test.ts`, `ontology/` | `GET /api/tesseract`, `POST /api/rule-check`, pruebas unitarias | Conformidad extensional de las 390 aristas, la forma general definitiva (`LRGF_68fba07a.jpg`, preservando Figura 3 `6dr__1__0283eca1.jpg`) del único teseracto `{4,3,3}`, sus 12 ayudas cromáticas (6 pares involutivos) y el grafo D3. |
 | Cartografía del tránsito | `experiments/domain_mapping/examples.json`, `COSMOLOGIA_DEL_MICTLAN.md` | `GET /api/domain-mapping` | Expresabilidad del sendero Mictlán / autonomía en trece tríadas. |
 | Diagnóstico sintético | Archivo histórico (`PI-HGAT-T` / líneas base) | Reconstrucción LOO documentada | Recuperabilidad de reglas inyectadas; no validez empírica mundana. |
 | Residuo interanotador | `datasets/independent_eval/`, `src/iomEngine.ts` | `GET /api/independent-eval`, Fleiss' κ | Archivo de una fase de conciencias separadas; **no** fundamento del marco. |
@@ -95,7 +95,7 @@ npm run dev
 
 Documentada en [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md) (cosmología náhuatl). Arquitectura documental de apoyo:
 
-- [`../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`../data/tcaau_core.json`](../data/tcaau_core.json)
+- [`../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`../data/tcaau_core.json`](../data/tcaau_core.json)
 - [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
 - [`VALIDACION_INDEPENDIENTE.md`](VALIDACION_INDEPENDIENTE.md) · [`DELIMITACION_EPISTEMOLOGICA.md`](DELIMITACION_EPISTEMOLOGICA.md)
 - [`PREMISAS_Y_TEOREMAS.md`](PREMISAS_Y_TEOREMAS.md) · [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md)

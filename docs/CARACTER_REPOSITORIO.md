@@ -1,6 +1,6 @@
 # Carácter del repositorio IOM
 
-> **Enfoque canónico:** el marco I.O. se fundamenta teóricamente en la **TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), leída junto a [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) y la [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md): no existe exterior ($A1$, $R6$), y toda distinción se traza desde dentro de un hexágono o celda ($\mathrm{Hex}(T_i) := T_i$, $D13$).
+> **Enfoque canónico:** el marco I.O. se fundamenta teóricamente en la **TCAAU** ([`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), leída junto a [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md) y la [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md): no existe exterior ($A1$, $R6$), y toda distinción se traza desde dentro de un hexágono o celda ($\mathrm{Hex}(T_i) := T_i$, $D13$).
 
 Este repositorio **no** se presenta como prueba de «validez semántica en el mundo real» mediada por paneles de anotadores. Ese modo de legitimación **reproduce** un contenedor consensual exógeno que la TCAAU disuelve:
 
@@ -13,7 +13,7 @@ La bóveda determinista en TypeScript (`src/iomEngine.ts`, `src/tcaauCore.ts`, m
 
 $$\text{Orden Definitivo} \implies \neg \exists \, \text{Contenedor Exterior}$$
 
-Textos fuente: [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`TCAAU.md`](TCAAU.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md).
+Textos fuente: [`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`TCAAU.md`](TCAAU.md) · [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md).
 
 ---
 

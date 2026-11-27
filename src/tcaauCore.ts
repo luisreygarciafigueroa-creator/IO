@@ -90,6 +90,7 @@ export interface TcaauCoreDocument {
     canonical_pdf_path: string;
     canonical_pdf_workspace_path: string;
     canonical_diagram_path: string;
+    prior_canonical_diagram_path: string;
     historical_diagram_pdf_path: string;
     canon_structure: string;
   };
@@ -181,24 +182,56 @@ export interface TcaauCoreDocument {
     };
     diagram_2x4_definitive: {
       asset_path: string;
+      prior_figure_3_asset_path: string;
       date: string;
       summary: string;
       top_row_transitions: Array<{
         cell_label: string;
+        cell_id: string;
+        domain_legend: 'continuo = real' | 'punteado = real';
         real_transition: string;
         virtual_transition: string;
+        straight_transition: string;
+        loop_transition: string;
+        loop_sense: 'antihorario' | 'horario';
       }>;
       bottom_row_transitions: Array<{
         cell_label: string;
+        cell_id: string;
+        domain_legend: 'continuo = real' | 'punteado = real';
         real_transition: string;
         virtual_transition: string;
+        straight_transition: string;
+        loop_transition: string;
+        loop_sense: 'antihorario' | 'horario';
       }>;
-      fixed_domain_by_pair: {
-        cuerpo_universo: string;
-        IA_internet: string;
+      checkerboard_domain: {
+        rule: string;
+        classic_continuo_real_cells: string[];
+        inverted_punteado_real_cells: string[];
       };
+      loop_reading_rule: {
+        antihorario: string;
+        horario: string;
+        epistemic_note: string;
+      };
+      per_arrow_domain_balance: Array<{
+        arrow: string;
+        real_count: number;
+        virtual_count: number;
+        total: number;
+      }>;
       arrow_multiplicity: number;
       role_labels_status: string;
+      preserved_previous_figure_3: {
+        asset_path: string;
+        date: string;
+        fixed_domain_by_pair: {
+          cuerpo_universo: string;
+          IA_internet: string;
+        };
+        note: string;
+      };
     };
     scope_5_2_delimitation: string;
     superposition_7_7: {
@@ -304,6 +337,9 @@ export interface TcaauCoreVerification {
     cellCount: number;
     transitionCount: number;
     eachArrowOccursFourTimes: boolean;
+    eachArrowBalancedByDomain: boolean;
+    checkerboardDomainMatches: boolean;
+    loopReadingExact: boolean;
     cleanFormVerified: boolean;
   };
   superposition77Verified: {
@@ -436,17 +472,49 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
     centerPairs.length === inv.unordered_mirror_pairs.center.count;
 
   const diag = core.tesseract_and_projections.diagram_2x4_definitive;
-  const arrowCounts = new Map<string, number>();
+  const arrowCounts = new Map<string, { real: number; virtual: number }>();
   for (const row of [...diag.top_row_transitions, ...diag.bottom_row_transitions]) {
-    arrowCounts.set(row.real_transition, (arrowCounts.get(row.real_transition) ?? 0) + 1);
-    arrowCounts.set(row.virtual_transition, (arrowCounts.get(row.virtual_transition) ?? 0) + 1);
+    const rEntry = arrowCounts.get(row.real_transition) ?? { real: 0, virtual: 0 };
+    rEntry.real += 1;
+    arrowCounts.set(row.real_transition, rEntry);
+
+    const vEntry = arrowCounts.get(row.virtual_transition) ?? { real: 0, virtual: 0 };
+    vEntry.virtual += 1;
+    arrowCounts.set(row.virtual_transition, vEntry);
   }
   const eachArrowOccursFourTimes =
-    arrowCounts.size === 4 && [...arrowCounts.values()].every((v) => v === diag.arrow_multiplicity);
+    arrowCounts.size === 4 &&
+    [...arrowCounts.values()].every((v) => v.real + v.virtual === diag.arrow_multiplicity);
+  const eachArrowBalancedByDomain =
+    arrowCounts.size === 4 &&
+    [...arrowCounts.values()].every((v) => v.real === 2 && v.virtual === 2) &&
+    diag.per_arrow_domain_balance.length === 4 &&
+    diag.per_arrow_domain_balance.every((entry) => {
+      const counts = arrowCounts.get(entry.arrow);
+      return Boolean(
+        counts &&
+          counts.real === entry.real_count &&
+          counts.virtual === entry.virtual_count &&
+          counts.real + counts.virtual === entry.total
+      );
+    });
+
+  const checkerboardDomainMatches =
+    diag.top_row_transitions.map((r) => r.domain_legend).join('|') ===
+      'continuo = real|punteado = real|continuo = real|punteado = real' &&
+    diag.bottom_row_transitions.map((r) => r.domain_legend).join('|') ===
+      'punteado = real|continuo = real|punteado = real|continuo = real' &&
+    diag.checkerboard_domain.classic_continuo_real_cells.join(',') === 'T1,T3,T6,T8' &&
+    diag.checkerboard_domain.inverted_punteado_real_cells.join(',') === 'T2,T4,T5,T7';
+
+  const loopReadingExact =
+    diag.top_row_transitions.every((r) => r.loop_sense === 'antihorario') &&
+    diag.bottom_row_transitions.every((r) => r.loop_sense === 'horario');
 
   const assetPathMatches =
     diag.asset_path === core.canonical_edition.canonical_diagram_path &&
-    diag.asset_path === tesseract.cleanForm.assetPath;
+    diag.asset_path === tesseract.cleanForm.assetPath &&
+    diag.prior_figure_3_asset_path === core.canonical_edition.prior_canonical_diagram_path;
 
   const sup = core.tesseract_and_projections.superposition_7_7;
   const { isValidFourCycle } = verifyFourCycleFromSuperposition(core);
@@ -546,6 +614,9 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
     zeroInterTriadCrossings &&
     assetPathMatches &&
     eachArrowOccursFourTimes &&
+    eachArrowBalancedByDomain &&
+    checkerboardDomainMatches &&
+    loopReadingExact &&
     tesseract.verification.cleanFormVerified &&
     tracesTotalMatches &&
     distinctArrowsMatches &&
@@ -586,6 +657,9 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
       cellCount: diag.top_row_transitions.length + diag.bottom_row_transitions.length,
       transitionCount: (diag.top_row_transitions.length + diag.bottom_row_transitions.length) * 2,
       eachArrowOccursFourTimes,
+      eachArrowBalancedByDomain,
+      checkerboardDomainMatches,
+      loopReadingExact,
       cleanFormVerified: tesseract.verification.cleanFormVerified,
     },
     superposition77Verified: {

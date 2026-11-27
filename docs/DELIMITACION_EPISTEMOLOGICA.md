@@ -1,6 +1,6 @@
 # Delimitación epistemológica del marco IOM
 
-> Bajo el **canon unificado TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Conforme a $I6$ (`§11.3–§11.4`), el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
+> Bajo el **canon unificado TCAAU** ([`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), este repositorio **no** funda su validez en el consenso de un «mundo compartido por conciencias separadas». Conforme a $I6$ (`§11.3–§11.4`), el único control legítimo de una teoría sin exterior es el reconteo ejecutable y reproducible desde dentro.
 
 ---
 
@@ -71,7 +71,7 @@ El repositorio no «trata la cosmología como mero dato»: la adopta como eje de
 
 ## Referencias
 
-- Texto canónico TCAAU (PDF): [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf)
+- Texto canónico TCAAU (PDF): [`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf)
 - Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`)
 - Tratado TCAAU: [`TCAAU.md`](TCAAU.md) · [`TCAAU_RECONSTRUCCION_ACADEMICA.md`](TCAAU_RECONSTRUCCION_ACADEMICA.md)
 - Carácter y ensayo: [`CARACTER_REPOSITORIO.md`](CARACTER_REPOSITORIO.md) · [`DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)

@@ -1,10 +1,10 @@
 # EXP-E: cartografía del destino Mictlán
 
-> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Por `A8` / Teorema 1 y `§11.5`, los ejemplos nahuas pertenecen al registro de encuentro sin añadir aristas al inventario de 390 candidatos.
+> **Fundamento teórico:** **TCAAU** — [`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Por `A8` / Teorema 1 y `§11.5`, los ejemplos nahuas pertenecen al registro de encuentro sin añadir aristas al inventario de 390 candidatos.
 
 El Mictlán **no** es un dominio empírico entre otros. Es la **lectura de destino** del marco (inmanencia, transición entre dominios y autocreación desde el vacío). Este experimento comprueba que esa lectura es **estructuralmente expresable** en las 13 tríadas.
 
-- [`public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md)
+- [`public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`](../../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md)
 - [`docs/CARACTER_REPOSITORIO.md`](../../docs/CARACTER_REPOSITORIO.md)
 - [`docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md`](../../docs/DEL_ORDEN_UNIVERSAL_A_LA_CREACION_DE_UNO_MISMO.md)
 - [`docs/COSMOLOGIA_DEL_MICTLAN.md`](../../docs/COSMOLOGIA_DEL_MICTLAN.md)

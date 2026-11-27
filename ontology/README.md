@@ -1,6 +1,6 @@
 # ontology/
 
-> **Fundamento teórico:** **Teoría completa de la Creación Autónoma Absoluta del Universo (TCAAU)** — [`public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../docs/TCAAU.md) · Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`). Las restricciones OWL/SHACL materializan la signatura de 78 nodos y las relaciones `mirrorOf` / `creates` sin alterar el núcleo combinatorio.
+> **Fundamento teórico:** **Teoría completa de la Creación Autónoma Absoluta del Universo (TCAAU)** — [`public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`docs/TCAAU.md`](../docs/TCAAU.md) · Núcleo legible por máquina: [`data/tcaau_core.json`](../data/tcaau_core.json) (`src/tcaauCore.ts`). Las restricciones OWL/SHACL materializan la signatura de 78 nodos y las relaciones `mirrorOf` / `creates` sin alterar el núcleo combinatorio.
 
 | Archivo | Rol |
 |---------|-----|

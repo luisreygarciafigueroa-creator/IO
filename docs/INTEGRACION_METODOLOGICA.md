@@ -1,6 +1,6 @@
 # Propuesta de integración metodológica: mapeo de dominios al marco I.O.
 
-> Guía operativa para alinear dominios (cosmología náhuatl y otros) a las cinco perspectivas y trece tríadas, con fundamento en la **TCAAU** ([`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), manteniendo separados el núcleo demostrado, las ideas (`I8`/`P7`, `21` categorías `L0–L4`) y el registro de encuentro (`§11.5`).  
+> Guía operativa para alinear dominios (cosmología náhuatl y otros) a las cinco perspectivas y trece tríadas, con fundamento en la **TCAAU** ([`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf), [`TCAAU.md`](TCAAU.md), [`../data/tcaau_core.json`](../data/tcaau_core.json)), manteniendo separados el núcleo demostrado, las ideas (`I8`/`P7`, `21` categorías `L0–L4`) y el registro de encuentro (`§11.5`).  
 > Bajo el criterio de no-subordinación ($D11$, $R7$) y el Corolario `D11/P11` (`§11.3–§11.4`), el control sin exterior exige reconteo ejecutable desde dentro ($I6$) y criterio de clausura; la anotación ciega interanotador no funda el marco por sí sola.  
 > Catálogo: [`CATALOGO_DOMINIOS.md`](CATALOGO_DOMINIOS.md) · Relaciones: [`RELACIONES_OPERATIVAS.md`](RELACIONES_OPERATIVAS.md) · Protocolo: [`PROTOCOLO_DE_MAPEO.md`](PROTOCOLO_DE_MAPEO.md)
 
@@ -101,4 +101,4 @@ npm run build
 npm run dev
 ```
 
-Este flujo vincula la comprobación estática de tipos y el reconteo determinista ($I6$) del núcleo formal TCAAU (`src/tcaauCore.ts`, `data/tcaau_core.json`) con el único teseracto `{4,3,3}` en su forma general definitiva (`6dr__1__0283eca1.jpg`), sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito sin contenedor exógeno ($A1$).
+Este flujo vincula la comprobación estática de tipos y el reconteo determinista ($I6$) del núcleo formal TCAAU (`src/tcaauCore.ts`, `data/tcaau_core.json`) con el único teseracto `{4,3,3}` en su forma general definitiva del 27 de noviembre (`LRGF_68fba07a.jpg`, preservando Figura 3 `6dr__1__0283eca1.jpg`), sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito sin contenedor exógeno ($A1$).

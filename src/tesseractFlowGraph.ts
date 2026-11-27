@@ -60,6 +60,8 @@ export interface FlowchartRelation {
   chains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
   leftPolarity?: 'individualidad' | 'totalidad';
   rightPolarity?: 'individualidad' | 'totalidad';
+  strokeStyle?: 'recta' | 'bucle';
+  loopSense?: 'antihorario' | 'horario';
   notation: string;
 }
 
@@ -88,6 +90,7 @@ export interface FlowchartCell {
   half: string;
   polarityLeft?: string;
   polarityRight?: string;
+  domainLegend?: 'continuo = real' | 'punteado = real';
   relations: [FlowchartRelation, FlowchartRelation];
   neighbors: {
     horizontal: string;
@@ -98,6 +101,7 @@ export interface FlowchartCell {
 
 export interface FlowchartCleanForm {
   assetPath: string;
+  figura3AssetPath?: string;
   priorAssetPath?: string;
   tsst13AssetPath?: string;
   legacyAssetPath?: string;

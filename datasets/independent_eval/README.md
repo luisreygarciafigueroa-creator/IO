@@ -1,6 +1,6 @@
 # Evaluación independiente (resonancia provisional — EXP-A)
 
-> **Fundamento teórico:** **TCAAU** — [`Teor_a_Completa_TCAAU__2__ee97e4df.pdf`](../../public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Por el criterio de autonomía absoluta (`A1`, `D11`, `R7`), el único control legítimo del núcleo es el reconteo determinista desde dentro (`I6`, `§11.3–§11.4`); el protocolo κ integra la tercera condición del criterio de clausura y la concordancia no funda el marco por sí sola.
+> **Fundamento teórico:** **TCAAU** — [`Teor_a_completa_TCAAU__3__1390bf98.pdf`](../../public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf) · [`docs/TCAAU.md`](../../docs/TCAAU.md) · [`data/tcaau_core.json`](../../data/tcaau_core.json). Por el criterio de autonomía absoluta (`A1`, `D11`, `R7`), el único control legítimo del núcleo es el reconteo determinista desde dentro (`I6`, `§11.3–§11.4`); el protocolo κ integra la tercera condición del criterio de clausura y la concordancia no funda el marco por sí sola.
 
 **Estado histórico: completado** (κ = 0.6871).  
 Bajo el carácter actual del repo, este conjunto es un **registro del encuentro**

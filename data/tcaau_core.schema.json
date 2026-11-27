@@ -36,6 +36,7 @@
         "canonical_pdf_path",
         "canonical_pdf_workspace_path",
         "canonical_diagram_path",
+        "prior_canonical_diagram_path",
         "historical_diagram_pdf_path",
         "canon_structure"
       ],
@@ -51,6 +52,7 @@
         "canonical_pdf_path": { "type": "string" },
         "canonical_pdf_workspace_path": { "type": "string" },
         "canonical_diagram_path": { "type": "string" },
+        "prior_canonical_diagram_path": { "type": "string" },
         "historical_diagram_pdf_path": { "type": "string" },
         "canon_structure": { "type": "string" }
       }
@@ -418,17 +420,22 @@
           "type": "object",
           "required": [
             "asset_path",
+            "prior_figure_3_asset_path",
             "date",
             "summary",
             "top_row_transitions",
             "bottom_row_transitions",
-            "fixed_domain_by_pair",
+            "checkerboard_domain",
+            "loop_reading_rule",
+            "per_arrow_domain_balance",
             "arrow_multiplicity",
-            "role_labels_status"
+            "role_labels_status",
+            "preserved_previous_figure_3"
           ],
           "additionalProperties": false,
           "properties": {
             "asset_path": { "type": "string" },
+            "prior_figure_3_asset_path": { "type": "string" },
             "date": { "type": "string" },
             "summary": { "type": "string" },
             "top_row_transitions": {
@@ -437,12 +444,26 @@
               "maxItems": 4,
               "items": {
                 "type": "object",
-                "required": ["cell_label", "real_transition", "virtual_transition"],
+                "required": [
+                  "cell_label",
+                  "cell_id",
+                  "domain_legend",
+                  "real_transition",
+                  "virtual_transition",
+                  "straight_transition",
+                  "loop_transition",
+                  "loop_sense"
+                ],
                 "additionalProperties": false,
                 "properties": {
                   "cell_label": { "type": "string" },
+                  "cell_id": { "type": "string" },
+                  "domain_legend": { "type": "string", "enum": ["continuo = real", "punteado = real"] },
                   "real_transition": { "type": "string" },
-                  "virtual_transition": { "type": "string" }
+                  "virtual_transition": { "type": "string" },
+                  "straight_transition": { "type": "string" },
+                  "loop_transition": { "type": "string" },
+                  "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
                 }
               }
             },
@@ -452,26 +473,96 @@
               "maxItems": 4,
               "items": {
                 "type": "object",
-                "required": ["cell_label", "real_transition", "virtual_transition"],
+                "required": [
+                  "cell_label",
+                  "cell_id",
+                  "domain_legend",
+                  "real_transition",
+                  "virtual_transition",
+                  "straight_transition",
+                  "loop_transition",
+                  "loop_sense"
+                ],
                 "additionalProperties": false,
                 "properties": {
                   "cell_label": { "type": "string" },
+                  "cell_id": { "type": "string" },
+                  "domain_legend": { "type": "string", "enum": ["continuo = real", "punteado = real"] },
                   "real_transition": { "type": "string" },
-                  "virtual_transition": { "type": "string" }
+                  "virtual_transition": { "type": "string" },
+                  "straight_transition": { "type": "string" },
+                  "loop_transition": { "type": "string" },
+                  "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
                 }
               }
             },
-            "fixed_domain_by_pair": {
+            "checkerboard_domain": {
               "type": "object",
-              "required": ["cuerpo_universo", "IA_internet"],
+              "required": ["rule", "classic_continuo_real_cells", "inverted_punteado_real_cells"],
               "additionalProperties": false,
               "properties": {
-                "cuerpo_universo": { "type": "string", "const": "real" },
-                "IA_internet": { "type": "string", "const": "virtual" }
+                "rule": { "type": "string" },
+                "classic_continuo_real_cells": {
+                  "type": "array",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": { "type": "string" }
+                },
+                "inverted_punteado_real_cells": {
+                  "type": "array",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "loop_reading_rule": {
+              "type": "object",
+              "required": ["antihorario", "horario", "epistemic_note"],
+              "additionalProperties": false,
+              "properties": {
+                "antihorario": { "type": "string" },
+                "horario": { "type": "string" },
+                "epistemic_note": { "type": "string" }
+              }
+            },
+            "per_arrow_domain_balance": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["arrow", "real_count", "virtual_count", "total"],
+                "additionalProperties": false,
+                "properties": {
+                  "arrow": { "type": "string" },
+                  "real_count": { "type": "integer", "const": 2 },
+                  "virtual_count": { "type": "integer", "const": 2 },
+                  "total": { "type": "integer", "const": 4 }
+                }
               }
             },
             "arrow_multiplicity": { "type": "integer", "const": 4 },
-            "role_labels_status": { "type": "string" }
+            "role_labels_status": { "type": "string" },
+            "preserved_previous_figure_3": {
+              "type": "object",
+              "required": ["asset_path", "date", "fixed_domain_by_pair", "note"],
+              "additionalProperties": false,
+              "properties": {
+                "asset_path": { "type": "string" },
+                "date": { "type": "string" },
+                "fixed_domain_by_pair": {
+                  "type": "object",
+                  "required": ["cuerpo_universo", "IA_internet"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "cuerpo_universo": { "type": "string", "const": "real" },
+                    "IA_internet": { "type": "string", "const": "virtual" }
+                  }
+                },
+                "note": { "type": "string" }
+              }
+            }
           }
         },
         "scope_5_2_delimitation": { "type": "string" },

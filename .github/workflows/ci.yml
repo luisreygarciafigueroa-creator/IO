@@ -56,8 +56,10 @@ jobs:
             assert.equal(t.verification.allCubeLabelsCovered, true);
             assert.equal(t.verification.cleanFormCellCount, 8);
             assert.equal(t.verification.cleanFormTransitionCount, 16);
-            assert.equal(t.verification.cleanFormAllRealSolidVirtualDashed, true);
-            assert.equal(t.verification.cleanFormAllHaveOneRightOneLeft, true);
+            assert.equal(t.verification.cleanFormCheckerboardDomainValid, true);
+            assert.equal(t.verification.cleanFormOneLoopPerCell, true);
+            assert.equal(t.verification.cleanFormEachArrowBalancedByDomain, true);
+            assert.equal(t.verification.cleanFormAllHaveOneRealOneVirtual, true);
             assert.equal(t.verification.cleanFormOmitsPolarityLabels, true);
             assert.equal(t.verification.cleanFormAllHorizontalMirrorsExact, true);
             assert.equal(t.verification.cleanFormAllVerticalMirrorsExact, true);
@@ -66,6 +68,9 @@ jobs:
             assert.equal(tcaau.valid, true);
             assert.equal(tcaau.coreHashIdempotent, true);
             assert.equal(tcaau.countsMatchLiveEngine, true);
+            assert.equal(tcaau.diagram2x4Verified.eachArrowBalancedByDomain, true);
+            assert.equal(tcaau.diagram2x4Verified.checkerboardDomainMatches, true);
+            assert.equal(tcaau.diagram2x4Verified.loopReadingExact, true);
             assert.equal(tcaau.section11Verified.gActionFreeAndTransitive, true);
             assert.equal(tcaau.section11Verified.antipodalMatchesSumMod2, true);
             assert.equal(tcaau.section11Verified.siteIntegrationComplete, true);

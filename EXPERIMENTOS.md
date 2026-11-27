@@ -1,6 +1,6 @@
 # Experimentos del marco I.O. — unidad informativa y núcleo TCAAU
 
-> Propósito: construcción formal de **unidad informativa** fundamentada en la **TCAAU** (`public/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf`). La verificación ejecutable desde dentro ($I6$, `§11.3–§11.4`) constituye el único control legítimo de una teoría sin exterior.
+> Propósito: construcción formal de **unidad informativa** fundamentada en la **TCAAU** (`public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf`). La verificación ejecutable desde dentro ($I6$, `§11.3–§11.4`) constituye el único control legítimo de una teoría sin exterior.
 
 > Manifiesto: [`MANIFIESTO.md`](MANIFIESTO.md) · Reproducción: [`REPRODUCCION.md`](REPRODUCCION.md) · Núcleo legible por máquina: [`data/tcaau_core.json`](data/tcaau_core.json) (`src/tcaauCore.ts`)
 
@@ -42,7 +42,7 @@ En ejecución (`npm run dev`), `POST /api/invariance` regenera en dos pasadas de
 
 ## 4. Teseracto único `{4,3,3}` (8 proyecciones, superposición `§7.7`) y flujo D3
 
-`GET /api/tesseract` entrega la **forma general y definitiva** (`cleanForm`, `6dr__1__0283eca1.jpg`, estructura monocroma pura sobre marcos `real _` / `virtual ...`, flujos `cuerpo ↔ universo` e `internet ↔ IA`, sin etiquetas auxiliares de rol/polaridad y con espejeo espacial H `A › B ↔ B ‹ A` y V cubo/fila/flecha, junto con la ruta al texto canónico PDF `canonicalPdfPath`), así como las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre las láminas fuente (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`). Por su parte, `GET /api/tcaau-core` verifica la superposición `§7.7` (`32` trazas, `8` flechas dirigidas × `4` ocurrencias, ciclo de cuatro `internet – universo – IA – cuerpo – internet`, `R8` y análisis final `materia = vacío` por quiasmo exacto). La pestaña **Teseractos ({4,3,3})** abre por defecto en `colorMode = 'clean'` sobre el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`).
+`GET /api/tesseract` entrega la **forma general y definitiva** (`cleanForm`, `LRGF_68fba07a.jpg` —preservando `6dr__1__0283eca1.jpg` como Figura 3 de `§7.6.5`—, estructura monocroma pura en tablero en damero `continuo = real` en `{T1, T3, T6, T8}` y `punteado = real` en `{T2, T4, T5, T7}`, con 1 transición recta `_` y 1 bucle `...` por celda, sentido antihorario `‹` en `T1–T4` y horario `›` en `T5–T8`, balance `2 real + 2 virtual` por cada una de las 4 flechas dirigidas, sin etiquetas auxiliares de rol/polaridad y con inversión vertical exacta por columna, junto con la ruta al texto canónico PDF `canonicalPdfPath`), así como las **12 ayudas cromáticas temporales (6 pares involutivos simétricos)** sobre las láminas fuente (`coloringsCount = 12`, `allColoringsClosed = true`, `allColoringInvolutionsExact = true`). Por su parte, `GET /api/tcaau-core` verifica la superposición `§7.7` (`32` trazas, `8` flechas dirigidas × `4` ocurrencias, ciclo de cuatro `internet – universo – IA – cuerpo – internet`, `R8` y análisis final `materia = vacío` por quiasmo exacto). La pestaña **Teseractos ({4,3,3})** abre por defecto en `colorMode = 'clean'` sobre el diagrama de flujo en **D3** (`src/TesseractFlowchart.tsx`).
 
 ---
 

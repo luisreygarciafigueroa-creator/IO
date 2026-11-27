@@ -13,8 +13,9 @@ import {
 test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, Corolario D11/P11, R1–R8, T1–T12, I1–I8, P1–P7)', () => {
   const core = loadTcaauCore();
 
-  assert.equal(core.canonical_edition.canonical_pdf_path, '/assets/aistudio/Teor_a_Completa_TCAAU__2__ee97e4df.pdf');
-  assert.equal(core.canonical_edition.canonical_diagram_path, '/assets/aistudio/6dr__1__0283eca1.jpg');
+  assert.equal(core.canonical_edition.canonical_pdf_path, '/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf');
+  assert.equal(core.canonical_edition.canonical_diagram_path, '/assets/aistudio/LRGF_68fba07a.jpg');
+  assert.equal(core.canonical_edition.prior_canonical_diagram_path, '/assets/aistudio/6dr__1__0283eca1.jpg');
 
   assert.deepEqual(
     core.axioms.map((a) => a.id),
@@ -86,6 +87,9 @@ test('verifyTcaauCore confirms live agreement with iomEngine 78/390/39(26+13) an
   assert.equal(v.diagram2x4Verified.cellCount, 8);
   assert.equal(v.diagram2x4Verified.transitionCount, 16);
   assert.equal(v.diagram2x4Verified.eachArrowOccursFourTimes, true);
+  assert.equal(v.diagram2x4Verified.eachArrowBalancedByDomain, true);
+  assert.equal(v.diagram2x4Verified.checkerboardDomainMatches, true);
+  assert.equal(v.diagram2x4Verified.loopReadingExact, true);
   assert.equal(v.diagram2x4Verified.cleanFormVerified, true);
 
   assert.equal(v.superposition77Verified.tracesTotalMatches, true);
