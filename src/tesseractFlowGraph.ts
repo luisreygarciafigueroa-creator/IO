@@ -90,7 +90,7 @@ export interface FlowchartCell {
   half: string;
   polarityLeft?: string;
   polarityRight?: string;
-  domainLegend?: 'continuo = real' | 'punteado = real';
+  domainLegend?: 'continuo = real' | 'continuo = materia' | 'punteado = real';
   relations: [FlowchartRelation, FlowchartRelation];
   neighbors: {
     horizontal: string;
@@ -101,6 +101,7 @@ export interface FlowchartCell {
 
 export interface FlowchartCleanForm {
   assetPath: string;
+  priorLrgfAssetPath?: string;
   figura3AssetPath?: string;
   priorAssetPath?: string;
   tsst13AssetPath?: string;

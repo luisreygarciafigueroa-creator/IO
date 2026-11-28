@@ -114,7 +114,7 @@ Teoremas del núcleo combinatorio TCAAU (`data/tcaau_core.json`, verificados en 
 | Premisas tabuladas IOM | `data/iom_spec.json` |
 | Núcleo formal TCAAU legible por máquina | `data/tcaau_core.json`, `data/tcaau_core.schema.json`, `src/tcaauCore.ts`, `src/tcaauCore.test.ts` |
 | Motor determinista e invariancia | `src/iomEngine.ts`, `server.ts` |
-| Reglas `mirrorOf` / `creates` y `{4,3,3}` (`2 × 4`) | `src/iomEngine.ts`, `src/iomEngine.test.ts`, `LRGF_68fba07a.jpg` (y Figura 3 `6dr__1__0283eca1.jpg`) |
+| Reglas `mirrorOf` / `creates` y `{4,3,3}` (`2 × 4`) | `src/iomEngine.ts`, `src/iomEngine.test.ts`, `13LRGF_2c1d1cb4.jpg` (y previas `LRGF_68fba07a.jpg`, Figura 3 `6dr__1__0283eca1.jpg`) |
 | Grafo dinámico D3 y panel TCAAU | `src/tesseractFlowGraph.ts`, `src/TesseractFlowchart.tsx`, `src/TcaauCoreSection.tsx` |
 | Validez semántica (mundo real, residuo) | `datasets/independent_eval/` |
 | Sentido cosmológico y no-subordinación | [`COSMOLOGIA_DEL_MICTLAN.md`](COSMOLOGIA_DEL_MICTLAN.md), [`DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md`](DICTAMEN_CRITERIO_DE_REALIDAD_POR_NO_SUBORDINACION.md) |

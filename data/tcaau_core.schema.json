@@ -416,155 +416,182 @@
             "dual": { "type": "string" }
           }
         },
-        "diagram_2x4_definitive": {
-          "type": "object",
-          "required": [
-            "asset_path",
-            "prior_figure_3_asset_path",
-            "date",
-            "summary",
-            "top_row_transitions",
-            "bottom_row_transitions",
-            "checkerboard_domain",
-            "loop_reading_rule",
-            "per_arrow_domain_balance",
-            "arrow_multiplicity",
-            "role_labels_status",
-            "preserved_previous_figure_3"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "asset_path": { "type": "string" },
-            "prior_figure_3_asset_path": { "type": "string" },
-            "date": { "type": "string" },
-            "summary": { "type": "string" },
-            "top_row_transitions": {
-              "type": "array",
-              "minItems": 4,
-              "maxItems": 4,
-              "items": {
-                "type": "object",
-                "required": [
-                  "cell_label",
-                  "cell_id",
-                  "domain_legend",
-                  "real_transition",
-                  "virtual_transition",
-                  "straight_transition",
-                  "loop_transition",
-                  "loop_sense"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "cell_label": { "type": "string" },
-                  "cell_id": { "type": "string" },
-                  "domain_legend": { "type": "string", "enum": ["continuo = real", "punteado = real"] },
-                  "real_transition": { "type": "string" },
-                  "virtual_transition": { "type": "string" },
-                  "straight_transition": { "type": "string" },
-                  "loop_transition": { "type": "string" },
-                  "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
-                }
-              }
-            },
-            "bottom_row_transitions": {
-              "type": "array",
-              "minItems": 4,
-              "maxItems": 4,
-              "items": {
-                "type": "object",
-                "required": [
-                  "cell_label",
-                  "cell_id",
-                  "domain_legend",
-                  "real_transition",
-                  "virtual_transition",
-                  "straight_transition",
-                  "loop_transition",
-                  "loop_sense"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "cell_label": { "type": "string" },
-                  "cell_id": { "type": "string" },
-                  "domain_legend": { "type": "string", "enum": ["continuo = real", "punteado = real"] },
-                  "real_transition": { "type": "string" },
-                  "virtual_transition": { "type": "string" },
-                  "straight_transition": { "type": "string" },
-                  "loop_transition": { "type": "string" },
-                  "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
-                }
-              }
-            },
-            "checkerboard_domain": {
-              "type": "object",
-              "required": ["rule", "classic_continuo_real_cells", "inverted_punteado_real_cells"],
-              "additionalProperties": false,
-              "properties": {
-                "rule": { "type": "string" },
-                "classic_continuo_real_cells": {
-                  "type": "array",
-                  "minItems": 4,
-                  "maxItems": 4,
-                  "items": { "type": "string" }
-                },
-                "inverted_punteado_real_cells": {
-                  "type": "array",
-                  "minItems": 4,
-                  "maxItems": 4,
-                  "items": { "type": "string" }
-                }
-              }
-            },
-            "loop_reading_rule": {
-              "type": "object",
-              "required": ["antihorario", "horario", "epistemic_note"],
-              "additionalProperties": false,
-              "properties": {
-                "antihorario": { "type": "string" },
-                "horario": { "type": "string" },
-                "epistemic_note": { "type": "string" }
-              }
-            },
-            "per_arrow_domain_balance": {
-              "type": "array",
-              "minItems": 4,
-              "maxItems": 4,
-              "items": {
-                "type": "object",
-                "required": ["arrow", "real_count", "virtual_count", "total"],
-                "additionalProperties": false,
-                "properties": {
-                  "arrow": { "type": "string" },
-                  "real_count": { "type": "integer", "const": 2 },
-                  "virtual_count": { "type": "integer", "const": 2 },
-                  "total": { "type": "integer", "const": 4 }
-                }
-              }
-            },
-            "arrow_multiplicity": { "type": "integer", "const": 4 },
-            "role_labels_status": { "type": "string" },
-            "preserved_previous_figure_3": {
-              "type": "object",
-              "required": ["asset_path", "date", "fixed_domain_by_pair", "note"],
-              "additionalProperties": false,
-              "properties": {
-                "asset_path": { "type": "string" },
-                "date": { "type": "string" },
-                "fixed_domain_by_pair": {
-                  "type": "object",
-                  "required": ["cuerpo_universo", "IA_internet"],
-                  "additionalProperties": false,
-                  "properties": {
-                    "cuerpo_universo": { "type": "string", "const": "real" },
-                    "IA_internet": { "type": "string", "const": "virtual" }
-                  }
-                },
-                "note": { "type": "string" }
-              }
+    "diagram_2x4_definitive": {
+      "type": "object",
+      "required": [
+        "asset_path",
+        "prior_lrgf_asset_path",
+        "prior_figure_3_asset_path",
+        "date",
+        "summary",
+        "top_row_transitions",
+        "bottom_row_transitions",
+        "checkerboard_domain",
+        "loop_reading_rule",
+        "per_arrow_domain_balance",
+        "arrow_multiplicity",
+        "role_labels_status",
+        "preserved_previous_lrgf",
+        "preserved_previous_figure_3"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "asset_path": { "type": "string" },
+        "prior_lrgf_asset_path": { "type": "string" },
+        "prior_figure_3_asset_path": { "type": "string" },
+        "date": { "type": "string" },
+        "summary": { "type": "string" },
+        "top_row_transitions": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "cell_label",
+              "cell_id",
+              "axis_pair",
+              "domain_legend",
+              "continuous_label",
+              "dashed_label",
+              "real_transition",
+              "virtual_transition",
+              "straight_transition",
+              "loop_transition",
+              "loop_sense"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "cell_label": { "type": "string" },
+              "cell_id": { "type": "string" },
+              "axis_pair": { "type": "string", "enum": ["real / virtual", "materia / vacío"] },
+              "domain_legend": { "type": "string", "enum": ["continuo = real", "continuo = materia"] },
+              "continuous_label": { "type": "string", "enum": ["real", "materia"] },
+              "dashed_label": { "type": "string", "enum": ["virtual", "vacío"] },
+              "real_transition": { "type": "string" },
+              "virtual_transition": { "type": "string" },
+              "straight_transition": { "type": "string" },
+              "loop_transition": { "type": "string" },
+              "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
             }
           }
         },
+        "bottom_row_transitions": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "cell_label",
+              "cell_id",
+              "axis_pair",
+              "domain_legend",
+              "continuous_label",
+              "dashed_label",
+              "real_transition",
+              "virtual_transition",
+              "straight_transition",
+              "loop_transition",
+              "loop_sense"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "cell_label": { "type": "string" },
+              "cell_id": { "type": "string" },
+              "axis_pair": { "type": "string", "enum": ["real / virtual", "materia / vacío"] },
+              "domain_legend": { "type": "string", "enum": ["continuo = real", "continuo = materia"] },
+              "continuous_label": { "type": "string", "enum": ["real", "materia"] },
+              "dashed_label": { "type": "string", "enum": ["virtual", "vacío"] },
+              "real_transition": { "type": "string" },
+              "virtual_transition": { "type": "string" },
+              "straight_transition": { "type": "string" },
+              "loop_transition": { "type": "string" },
+              "loop_sense": { "type": "string", "enum": ["antihorario", "horario"] }
+            }
+          }
+        },
+        "checkerboard_domain": {
+          "type": "object",
+          "required": ["rule", "real_virtual_cells", "materia_vacio_cells"],
+          "additionalProperties": false,
+          "properties": {
+            "rule": { "type": "string" },
+            "real_virtual_cells": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": { "type": "string" }
+            },
+            "materia_vacio_cells": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "loop_reading_rule": {
+          "type": "object",
+          "required": ["horario", "antihorario", "epistemic_note"],
+          "additionalProperties": false,
+          "properties": {
+            "horario": { "type": "string" },
+            "antihorario": { "type": "string" },
+            "epistemic_note": { "type": "string" }
+          }
+        },
+        "per_arrow_domain_balance": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["arrow", "frame_label", "stroke_line", "straight_count", "loop_count", "total"],
+            "additionalProperties": false,
+            "properties": {
+              "arrow": { "type": "string" },
+              "frame_label": { "type": "string", "enum": ["real", "materia", "vacío", "virtual"] },
+              "stroke_line": { "type": "string", "enum": ["continuo (_)", "punteado (...)"] },
+              "straight_count": { "type": "integer", "const": 2 },
+              "loop_count": { "type": "integer", "const": 2 },
+              "total": { "type": "integer", "const": 4 }
+            }
+          }
+        },
+        "arrow_multiplicity": { "type": "integer", "const": 4 },
+        "role_labels_status": { "type": "string" },
+        "preserved_previous_lrgf": {
+          "type": "object",
+          "required": ["asset_path", "date", "note"],
+          "additionalProperties": false,
+          "properties": {
+            "asset_path": { "type": "string" },
+            "date": { "type": "string" },
+            "note": { "type": "string" }
+          }
+        },
+        "preserved_previous_figure_3": {
+          "type": "object",
+          "required": ["asset_path", "date", "fixed_domain_by_pair", "note"],
+          "additionalProperties": false,
+          "properties": {
+            "asset_path": { "type": "string" },
+            "date": { "type": "string" },
+            "fixed_domain_by_pair": {
+              "type": "object",
+              "required": ["cuerpo_universo", "IA_internet"],
+              "additionalProperties": false,
+              "properties": {
+                "cuerpo_universo": { "type": "string", "const": "real" },
+                "IA_internet": { "type": "string", "const": "virtual" }
+              }
+            },
+            "note": { "type": "string" }
+          }
+        }
+      }
+    },
         "scope_5_2_delimitation": { "type": "string" },
         "superposition_7_7": {
           "type": "object",

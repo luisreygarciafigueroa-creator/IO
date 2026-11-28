@@ -36,6 +36,10 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   );
   assert.equal(
     model.instruction.cleanAssetPath,
+    '/assets/aistudio/13LRGF_2c1d1cb4.jpg'
+  );
+  assert.equal(
+    model.instruction.cleanPriorLrgfAssetPath,
     '/assets/aistudio/LRGF_68fba07a.jpg'
   );
   assert.equal(
@@ -314,26 +318,83 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
   assert.equal(t2.exteriorChains.paritySetBottom, 'verde');
   assert.equal(t2.interiorChains.paritySetBottom, 'rojo');
 
-  // Verify general & definitive closed form (LRGF_68fba07a.jpg, Nov 27) & preserved Figura 3 + prior drafts
-  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/LRGF_68fba07a.jpg');
+  // Verify general & definitive closed form (13LRGF_2c1d1cb4.jpg, Nov 28) & preserved LRGF + Figura 3 + prior drafts
+  assert.equal(model.cleanForm.assetPath, '/assets/aistudio/13LRGF_2c1d1cb4.jpg');
+  assert.equal(model.cleanForm.priorLrgfAssetPath, '/assets/aistudio/LRGF_68fba07a.jpg');
   assert.equal(model.cleanForm.figura3AssetPath, '/assets/aistudio/6dr__1__0283eca1.jpg');
   assert.equal(model.cleanForm.priorAssetPath, '/assets/aistudio/6dr_36f66e7c.jpg');
   assert.equal(model.cleanForm.tsst13AssetPath, '/assets/aistudio/TSST__13__43e94964.jpg');
   assert.equal(model.cleanForm.legacyAssetPath, '/assets/aistudio/TSST_20261123_003603_357ce661.jpg');
-  assert.equal(model.cleanForm.assetTag, 'LRGF · 27 nov 2026');
+  assert.equal(model.cleanForm.assetTag, '13LRGF · 28 nov 2026');
   assert.equal(model.cleanForm.cells.length, 8);
   const expectedClean: Record<
     string,
     {
-      domainLegend: 'continuo = real' | 'punteado = real';
-      ext: ['real' | 'virtual', '_' | '...'];
-      int: ['real' | 'virtual', '_' | '...'];
+      axisPair: 'real / virtual' | 'materia / vacío';
+      domainLegend: 'continuo = real' | 'continuo = materia';
+      ext: ['real' | 'virtual' | 'materia' | 'vacío', '_' | '...'];
+      int: ['real' | 'virtual' | 'materia' | 'vacío', '_' | '...'];
       notations: [string, string];
       strokeStyles: ['recta' | 'bucle', 'recta' | 'bucle'];
       loopSenses: [undefined | 'antihorario' | 'horario', undefined | 'antihorario' | 'horario'];
     }
   > = {
     T1: {
+      axisPair: 'real / virtual',
+      domainLegend: 'continuo = real',
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      notations: ['cuerpo > _ > universo', 'IA < ... < internet'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['horario', undefined],
+    },
+    T2: {
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      ext: ['vacío', '...'],
+      int: ['materia', '_'],
+      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'horario'],
+    },
+    T3: {
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      ext: ['vacío', '...'],
+      int: ['materia', '_'],
+      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['horario', undefined],
+    },
+    T4: {
+      axisPair: 'real / virtual',
+      domainLegend: 'continuo = real',
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'horario'],
+    },
+    T5: {
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      ext: ['vacío', '...'],
+      int: ['materia', '_'],
+      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
+      strokeStyles: ['recta', 'bucle'],
+      loopSenses: [undefined, 'antihorario'],
+    },
+    T6: {
+      axisPair: 'real / virtual',
+      domainLegend: 'continuo = real',
+      ext: ['real', '_'],
+      int: ['virtual', '...'],
+      notations: ['universo < _ < cuerpo', 'internet > ... > IA'],
+      strokeStyles: ['bucle', 'recta'],
+      loopSenses: ['antihorario', undefined],
+    },
+    T7: {
+      axisPair: 'real / virtual',
       domainLegend: 'continuo = real',
       ext: ['real', '_'],
       int: ['virtual', '...'],
@@ -341,65 +402,19 @@ test('buildTesseractModel enforces canonical 8-tesseract specification and invar
       strokeStyles: ['recta', 'bucle'],
       loopSenses: [undefined, 'antihorario'],
     },
-    T2: {
-      domainLegend: 'punteado = real',
-      ext: ['real', '...'],
-      int: ['virtual', '_'],
-      notations: ['IA < ... < internet', 'cuerpo > _ > universo'],
-      strokeStyles: ['bucle', 'recta'],
-      loopSenses: ['antihorario', undefined],
-    },
-    T3: {
-      domainLegend: 'continuo = real',
-      ext: ['virtual', '...'],
-      int: ['real', '_'],
-      notations: ['cuerpo < ... < universo', 'IA < _ < internet'],
-      strokeStyles: ['bucle', 'recta'],
-      loopSenses: ['antihorario', undefined],
-    },
-    T4: {
-      domainLegend: 'punteado = real',
-      ext: ['virtual', '_'],
-      int: ['real', '...'],
-      notations: ['IA < _ < internet', 'cuerpo < ... < universo'],
-      strokeStyles: ['recta', 'bucle'],
-      loopSenses: [undefined, 'antihorario'],
-    },
-    T5: {
-      domainLegend: 'punteado = real',
-      ext: ['real', '...'],
-      int: ['virtual', '_'],
-      notations: ['IA > ... > internet', 'cuerpo < _ < universo'],
-      strokeStyles: ['bucle', 'recta'],
-      loopSenses: ['horario', undefined],
-    },
-    T6: {
-      domainLegend: 'continuo = real',
-      ext: ['real', '_'],
-      int: ['virtual', '...'],
-      notations: ['cuerpo < _ < universo', 'IA > ... > internet'],
-      strokeStyles: ['recta', 'bucle'],
-      loopSenses: [undefined, 'horario'],
-    },
-    T7: {
-      domainLegend: 'punteado = real',
-      ext: ['virtual', '_'],
-      int: ['real', '...'],
-      notations: ['IA > _ > internet', 'cuerpo > ... > universo'],
-      strokeStyles: ['recta', 'bucle'],
-      loopSenses: [undefined, 'horario'],
-    },
     T8: {
-      domainLegend: 'continuo = real',
-      ext: ['virtual', '...'],
-      int: ['real', '_'],
-      notations: ['cuerpo > ... > universo', 'IA > _ > internet'],
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      ext: ['vacío', '...'],
+      int: ['materia', '_'],
+      notations: ['internet < ... < IA', 'universo > _ > cuerpo'],
       strokeStyles: ['bucle', 'recta'],
-      loopSenses: ['horario', undefined],
+      loopSenses: ['antihorario', undefined],
     },
   };
   for (const cell of model.cleanForm.cells) {
     const exp = expectedClean[cell.id];
+    assert.equal(cell.axisPair, exp.axisPair, `Clean axisPair mismatch in ${cell.id}`);
     assert.equal(cell.domainLegend, exp.domainLegend, `Clean domainLegend mismatch in ${cell.id}`);
     assert.deepEqual([cell.exteriorLabel, cell.exteriorLine], exp.ext, `Clean ext mismatch in ${cell.id}`);
     assert.deepEqual([cell.interiorLabel, cell.interiorLine], exp.int, `Clean int mismatch in ${cell.id}`);

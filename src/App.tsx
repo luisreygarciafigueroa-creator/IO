@@ -261,6 +261,7 @@ interface TesseractResponse {
     title: string;
     source: string;
     cleanAssetPath?: string;
+    cleanPriorLrgfAssetPath?: string;
     cleanFigura3AssetPath?: string;
     cleanPriorAssetPath?: string;
     cleanTsst13AssetPath?: string;
@@ -298,6 +299,7 @@ interface TesseractResponse {
   colorings?: TesseractColoringSpec[];
   cleanForm?: {
     assetPath: string;
+    priorLrgfAssetPath?: string;
     figura3AssetPath?: string;
     priorAssetPath?: string;
     tsst13AssetPath?: string;
@@ -365,7 +367,7 @@ interface TesseractResponse {
     interiorChains?: Partial<Record<TesseractColorMode, AnalysisChainColor>>;
     polarityLeft?: string;
     polarityRight?: string;
-    domainLegend?: 'continuo = real' | 'punteado = real';
+    domainLegend?: 'continuo = real' | 'continuo = materia' | 'punteado = real';
     coords: [0 | 1, 0 | 1, 0 | 1];
     parity: 0 | 1;
     half: string;
@@ -1313,13 +1315,13 @@ export default function App() {
                     1 teseracto · {tesseractData.geometry.cubicCells} proyecciones (2 × 4)
                   </span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    forma definitiva (LRGF · 27 nov) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
+                    forma definitiva (13LRGF · 28 nov) · {allColorings.length} ayudas cromáticas · {tesseractData.verification.totalRelations} transiciones
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                <span className="text-slate-500 mr-1">Láminas fuente (16):</span>
+                <span className="text-slate-500 mr-1">Láminas fuente (17):</span>
                 {tesseractData.instruction.canonicalPdfPath && (
                   <a
                     href={tesseractData.instruction.canonicalPdfPath}
@@ -1342,9 +1344,20 @@ export default function App() {
                         ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                         : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
                     }`}
-                    title="Forma general definitiva del 27 de noviembre de 2026 (LRGF · Damero + Bucle)"
+                    title="Forma general definitiva del 28 de noviembre de 2026 (13LRGF · Doble eje real/virtual & materia/vacío + Bucle)"
                   >
-                    Forma definitiva (LRGF · 27 nov)
+                    Forma definitiva (13LRGF · 28 nov)
+                  </a>
+                )}
+                {tesseractData.instruction.cleanPriorLrgfAssetPath && (
+                  <a
+                    href={tesseractData.instruction.cleanPriorLrgfAssetPath}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    title="Versión intermedia del 27 de noviembre de 2026 (LRGF · Damero real/virtual con bucle punteado)"
+                  >
+                    LRGF intermedia (27 nov)
                   </a>
                 )}
                 {tesseractData.instruction.cleanFigura3AssetPath && (
@@ -1517,9 +1530,9 @@ export default function App() {
                           ? 'bg-slate-100/15 text-white border-slate-300/60 font-semibold'
                           : 'bg-slate-900 text-slate-300 hover:text-white border-slate-700'
                       }`}
-                      title="Ver la forma general definitiva del 27 de noviembre sin capas cromáticas (LRGF)"
+                      title="Ver la forma general definitiva del 28 de noviembre sin capas cromáticas (13LRGF)"
                     >
-                      Forma definitiva (Sin color · LRGF 27 nov)
+                      Forma definitiva (Sin color · 13LRGF 28 nov)
                     </button>
                     <span className="text-slate-500 text-[10px]">
                       Ayudas cromáticas temporales ({allColorings.length} coloraciones · 6 pares):
@@ -1581,15 +1594,15 @@ export default function App() {
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-100">
                         <span className="inline-flex items-center gap-1.5 font-semibold">
                           <CubeGlyph dashed={false} color="#f1f5f9" size={14} />
-                          Dominio real (damero)
+                          Continuo (_) · Real / Materia
                         </span>
                         <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        continuo _ en T1,T3,T6,T8 · punteado ... en T2,T4,T5,T7
+                        real en T1,T4,T6,T7 · materia en T2,T3,T5,T8
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        2× cada una de las 4 flechas dirigidas (8 total)
+                        cuerpo → universo (real) + universo → cuerpo (materia) · 8 total
                       </div>
                     </button>
 
@@ -1605,15 +1618,15 @@ export default function App() {
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
                         <span className="inline-flex items-center gap-1.5 font-semibold">
                           <CubeGlyph dashed={true} color="#94a3b8" size={14} />
-                          Dominio virtual (damero)
+                          Punteado (...) · Virtual / Vacío
                         </span>
                         <span className="text-[10px] text-slate-400">4 › / 4 ‹</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        punteado ... en T1,T3,T6,T8 · continuo _ en T2,T4,T5,T7
+                        virtual en T1,T4,T6,T7 · vacío en T2,T3,T5,T8
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        2× cada una de las 4 flechas dirigidas (8 total)
+                        internet → IA (virtual) + IA → internet (vacío) · 8 total
                       </div>
                     </button>
 
@@ -1624,13 +1637,13 @@ export default function App() {
                     >
                       <div className="flex items-center justify-between gap-2 font-mono text-xs text-slate-200">
                         <span className="font-semibold">Bucle + Inversión V</span>
-                        <span className="text-[10px] text-emerald-300">2×4 damero</span>
+                        <span className="text-[10px] text-emerald-300">2×4 doble eje</span>
                       </div>
                       <div className="font-mono text-[10.5px] text-slate-300 mt-1">
-                        recta (_) · bucle (...): ↺ sup / ↻ inf
+                        recta · bucle: horario ↻ sup / antihorario ↺ inf
                       </div>
                       <div className="font-mono text-[10px] text-slate-400 mt-0.5">
-                        Abajo i invierte cubo, flecha y dominio de Arriba i
+                        Abajo i invierte real/virtual ↔ materia/vacío, cubo y flecha
                       </div>
                     </button>
                   </div>
@@ -1689,7 +1702,7 @@ export default function App() {
 
             <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Forma definitiva (LRGF)</div>
+                <div className="text-slate-400">Forma definitiva (13LRGF)</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormVerified ? 'VERIFICADO' : 'ERROR'}
                 </div>
@@ -1699,7 +1712,7 @@ export default function App() {
                 </div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
-                <div className="text-slate-400">Damero y bucle por celda</div>
+                <div className="text-slate-400">Doble eje y bucle</div>
                 <div className="text-lg font-mono text-emerald-300 mt-1">
                   {tesseractData.verification.cleanFormCheckerboardDomainValid &&
                   tesseractData.verification.cleanFormOneLoopPerCell &&
@@ -1707,7 +1720,7 @@ export default function App() {
                     ? 'VERIFICADO'
                     : 'ERROR'}
                 </div>
-                <div className="text-[11px] text-slate-500">1 recta (_) + 1 bucle (...) · 2 real + 2 virtual</div>
+                <div className="text-[11px] text-slate-500">1 recta + 1 bucle · 2 recta + 2 bucle por flecha</div>
               </div>
               <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3.5">
                 <div className="text-slate-400">
@@ -1762,7 +1775,7 @@ export default function App() {
                   <span className="text-[11px] text-slate-500">
                     Líneas punteadas = planos de inversión ·{' '}
                     {isCleanMode
-                      ? 'Damero (continuo/punteado) + 1 bucle/celda'
+                      ? 'Doble eje simétrico + 1 bucle/celda'
                       : `Colores = ${activeColoring?.filterHint ?? colorMode}`}
                   </span>
                 </div>
@@ -1774,7 +1787,7 @@ export default function App() {
                   <div className="flex-1 border-t-2 border-dashed border-slate-700" />
                   <span className="px-2.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-[10px] text-slate-400 text-center max-w-[calc(100%-2rem)]">
                     {isCleanMode
-                      ? 'plano de inversión vertical · invierte cubo, flecha (↺ ↔ ↻) y leyenda en damero'
+                      ? 'plano de inversión vertical · invierte real/virtual ↔ materia/vacío, cubo y flecha (↻ ↔ ↺)'
                       : 'plano de inversión horizontal · real/virtual ↔ individualidad/totalidad · materia/vacío ↔ evolución/involución'}
                   </span>
                   <div className="flex-1 border-t-2 border-dashed border-slate-700" />

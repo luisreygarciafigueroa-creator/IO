@@ -14,8 +14,9 @@ test('tcaauCore extracts complete canonical formal core (A1–A8, D10–D13, Cor
   const core = loadTcaauCore();
 
   assert.equal(core.canonical_edition.canonical_pdf_path, '/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf');
-  assert.equal(core.canonical_edition.canonical_diagram_path, '/assets/aistudio/LRGF_68fba07a.jpg');
-  assert.equal(core.canonical_edition.prior_canonical_diagram_path, '/assets/aistudio/6dr__1__0283eca1.jpg');
+  assert.equal(core.canonical_edition.canonical_diagram_path, '/assets/aistudio/13LRGF_2c1d1cb4.jpg');
+  assert.equal(core.canonical_edition.prior_canonical_diagram_path, '/assets/aistudio/LRGF_68fba07a.jpg');
+  assert.equal(core.tesseract_and_projections.diagram_2x4_definitive.prior_figure_3_asset_path, '/assets/aistudio/6dr__1__0283eca1.jpg');
 
   assert.deepEqual(
     core.axioms.map((a) => a.id),

@@ -219,22 +219,28 @@ test('buildTesseractFlowGraph supports definitive clean mode with real/virtual e
   const cleanReal = buildTesseractFlowGraph(tesseractData, 'real', 'clean');
   assert.equal(cleanReal.edges.length, 8);
   assert.ok(cleanReal.edges.every((e) => e.domain === 'real'));
-  assert.equal(cleanReal.edges.filter((e) => e.rel.line === '_').length, 4);
-  assert.equal(cleanReal.edges.filter((e) => e.rel.line === '...').length, 4);
+  assert.equal(cleanReal.edges.filter((e) => e.rel.line === '_').length, 8);
+  assert.equal(cleanReal.edges.filter((e) => e.rel.cubeLabel === 'real').length, 4);
+  assert.equal(cleanReal.edges.filter((e) => e.rel.cubeLabel === 'materia').length, 4);
 
   const cleanVirtual = buildTesseractFlowGraph(tesseractData, 'virtual', 'clean');
   assert.equal(cleanVirtual.edges.length, 8);
   assert.ok(cleanVirtual.edges.every((e) => e.domain === 'virtual'));
-  assert.equal(cleanVirtual.edges.filter((e) => e.rel.line === '_').length, 4);
-  assert.equal(cleanVirtual.edges.filter((e) => e.rel.line === '...').length, 4);
+  assert.equal(cleanVirtual.edges.filter((e) => e.rel.line === '...').length, 8);
+  assert.equal(cleanVirtual.edges.filter((e) => e.rel.cubeLabel === 'virtual').length, 4);
+  assert.equal(cleanVirtual.edges.filter((e) => e.rel.cubeLabel === 'vacío').length, 4);
 
   for (const bucket of [cleanReal.edges, cleanVirtual.edges]) {
-    const counts = new Map<string, number>();
+    const counts = new Map<string, { total: number; recta: number; bucle: number }>();
     for (const e of bucket) {
       const k = `${e.source}->${e.target}`;
-      counts.set(k, (counts.get(k) ?? 0) + 1);
+      const entry = counts.get(k) ?? { total: 0, recta: 0, bucle: 0 };
+      entry.total += 1;
+      if (e.rel.strokeStyle === 'recta') entry.recta += 1;
+      else entry.bucle += 1;
+      counts.set(k, entry);
     }
-    assert.equal(counts.size, 4);
-    assert.ok([...counts.values()].every((n) => n === 2));
+    assert.equal(counts.size, 2);
+    assert.ok([...counts.values()].every((c) => c.total === 4 && c.recta === 2 && c.bucle === 2));
   }
 });

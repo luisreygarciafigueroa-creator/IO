@@ -68,9 +68,11 @@ jobs:
             assert.equal(tcaau.valid, true);
             assert.equal(tcaau.coreHashIdempotent, true);
             assert.equal(tcaau.countsMatchLiveEngine, true);
+            assert.equal(tcaau.diagram2x4Verified.assetPathMatches, true);
             assert.equal(tcaau.diagram2x4Verified.eachArrowBalancedByDomain, true);
             assert.equal(tcaau.diagram2x4Verified.checkerboardDomainMatches, true);
             assert.equal(tcaau.diagram2x4Verified.loopReadingExact, true);
+            assert.equal(tcaau.diagram2x4Verified.cleanFormVerified, true);
             assert.equal(tcaau.section11Verified.gActionFreeAndTransitive, true);
             assert.equal(tcaau.section11Verified.antipodalMatchesSumMod2, true);
             assert.equal(tcaau.section11Verified.siteIntegrationComplete, true);

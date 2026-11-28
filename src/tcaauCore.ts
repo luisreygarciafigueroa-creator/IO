@@ -182,13 +182,17 @@ export interface TcaauCoreDocument {
     };
     diagram_2x4_definitive: {
       asset_path: string;
+      prior_lrgf_asset_path: string;
       prior_figure_3_asset_path: string;
       date: string;
       summary: string;
       top_row_transitions: Array<{
         cell_label: string;
         cell_id: string;
-        domain_legend: 'continuo = real' | 'punteado = real';
+        axis_pair: 'real / virtual' | 'materia / vacío';
+        domain_legend: 'continuo = real' | 'continuo = materia';
+        continuous_label: 'real' | 'materia';
+        dashed_label: 'virtual' | 'vacío';
         real_transition: string;
         virtual_transition: string;
         straight_transition: string;
@@ -198,7 +202,10 @@ export interface TcaauCoreDocument {
       bottom_row_transitions: Array<{
         cell_label: string;
         cell_id: string;
-        domain_legend: 'continuo = real' | 'punteado = real';
+        axis_pair: 'real / virtual' | 'materia / vacío';
+        domain_legend: 'continuo = real' | 'continuo = materia';
+        continuous_label: 'real' | 'materia';
+        dashed_label: 'virtual' | 'vacío';
         real_transition: string;
         virtual_transition: string;
         straight_transition: string;
@@ -207,22 +214,29 @@ export interface TcaauCoreDocument {
       }>;
       checkerboard_domain: {
         rule: string;
-        classic_continuo_real_cells: string[];
-        inverted_punteado_real_cells: string[];
+        real_virtual_cells: string[];
+        materia_vacio_cells: string[];
       };
       loop_reading_rule: {
-        antihorario: string;
         horario: string;
+        antihorario: string;
         epistemic_note: string;
       };
       per_arrow_domain_balance: Array<{
         arrow: string;
-        real_count: number;
-        virtual_count: number;
+        frame_label: 'real' | 'materia' | 'vacío' | 'virtual';
+        stroke_line: 'continuo (_)' | 'punteado (...)';
+        straight_count: number;
+        loop_count: number;
         total: number;
       }>;
       arrow_multiplicity: number;
       role_labels_status: string;
+      preserved_previous_lrgf: {
+        asset_path: string;
+        date: string;
+        note: string;
+      };
       preserved_previous_figure_3: {
         asset_path: string;
         date: string;
@@ -472,49 +486,69 @@ export function verifyTcaauCore(core: TcaauCoreDocument = loadTcaauCore()): Tcaa
     centerPairs.length === inv.unordered_mirror_pairs.center.count;
 
   const diag = core.tesseract_and_projections.diagram_2x4_definitive;
-  const arrowCounts = new Map<string, { real: number; virtual: number }>();
+  const arrowCounts = new Map<
+    string,
+    { straight: number; loop: number; labels: Set<string> }
+  >();
   for (const row of [...diag.top_row_transitions, ...diag.bottom_row_transitions]) {
-    const rEntry = arrowCounts.get(row.real_transition) ?? { real: 0, virtual: 0 };
-    rEntry.real += 1;
-    arrowCounts.set(row.real_transition, rEntry);
+    const sEntry = arrowCounts.get(row.straight_transition) ?? {
+      straight: 0,
+      loop: 0,
+      labels: new Set<string>(),
+    };
+    sEntry.straight += 1;
+    sEntry.labels.add(
+      row.straight_transition === row.real_transition ? row.continuous_label : row.dashed_label
+    );
+    arrowCounts.set(row.straight_transition, sEntry);
 
-    const vEntry = arrowCounts.get(row.virtual_transition) ?? { real: 0, virtual: 0 };
-    vEntry.virtual += 1;
-    arrowCounts.set(row.virtual_transition, vEntry);
+    const lEntry = arrowCounts.get(row.loop_transition) ?? {
+      straight: 0,
+      loop: 0,
+      labels: new Set<string>(),
+    };
+    lEntry.loop += 1;
+    lEntry.labels.add(
+      row.loop_transition === row.real_transition ? row.continuous_label : row.dashed_label
+    );
+    arrowCounts.set(row.loop_transition, lEntry);
   }
   const eachArrowOccursFourTimes =
     arrowCounts.size === 4 &&
-    [...arrowCounts.values()].every((v) => v.real + v.virtual === diag.arrow_multiplicity);
+    [...arrowCounts.values()].every((v) => v.straight + v.loop === diag.arrow_multiplicity);
   const eachArrowBalancedByDomain =
     arrowCounts.size === 4 &&
-    [...arrowCounts.values()].every((v) => v.real === 2 && v.virtual === 2) &&
+    [...arrowCounts.values()].every((v) => v.straight === 2 && v.loop === 2 && v.labels.size === 1) &&
     diag.per_arrow_domain_balance.length === 4 &&
     diag.per_arrow_domain_balance.every((entry) => {
       const counts = arrowCounts.get(entry.arrow);
       return Boolean(
         counts &&
-          counts.real === entry.real_count &&
-          counts.virtual === entry.virtual_count &&
-          counts.real + counts.virtual === entry.total
+          counts.straight === entry.straight_count &&
+          counts.loop === entry.loop_count &&
+          counts.straight + counts.loop === entry.total &&
+          counts.labels.has(entry.frame_label)
       );
     });
 
   const checkerboardDomainMatches =
     diag.top_row_transitions.map((r) => r.domain_legend).join('|') ===
-      'continuo = real|punteado = real|continuo = real|punteado = real' &&
+      'continuo = real|continuo = materia|continuo = materia|continuo = real' &&
     diag.bottom_row_transitions.map((r) => r.domain_legend).join('|') ===
-      'punteado = real|continuo = real|punteado = real|continuo = real' &&
-    diag.checkerboard_domain.classic_continuo_real_cells.join(',') === 'T1,T3,T6,T8' &&
-    diag.checkerboard_domain.inverted_punteado_real_cells.join(',') === 'T2,T4,T5,T7';
+      'continuo = materia|continuo = real|continuo = real|continuo = materia' &&
+    diag.checkerboard_domain.real_virtual_cells.join(',') === 'T1,T4,T6,T7' &&
+    diag.checkerboard_domain.materia_vacio_cells.join(',') === 'T2,T3,T5,T8';
 
   const loopReadingExact =
-    diag.top_row_transitions.every((r) => r.loop_sense === 'antihorario') &&
-    diag.bottom_row_transitions.every((r) => r.loop_sense === 'horario');
+    diag.top_row_transitions.every((r) => r.loop_sense === 'horario') &&
+    diag.bottom_row_transitions.every((r) => r.loop_sense === 'antihorario');
 
   const assetPathMatches =
     diag.asset_path === core.canonical_edition.canonical_diagram_path &&
     diag.asset_path === tesseract.cleanForm.assetPath &&
-    diag.prior_figure_3_asset_path === core.canonical_edition.prior_canonical_diagram_path;
+    diag.prior_lrgf_asset_path === core.canonical_edition.prior_canonical_diagram_path &&
+    diag.prior_lrgf_asset_path === tesseract.cleanForm.priorLrgfAssetPath &&
+    diag.prior_figure_3_asset_path === tesseract.cleanForm.figura3AssetPath;
 
   const sup = core.tesseract_and_projections.superposition_7_7;
   const { isValidFourCycle } = verifyFourCycleFromSuperposition(core);

@@ -823,7 +823,7 @@ export interface TesseractCleanRelation {
   right: string;
   domain: 'real' | 'virtual';
   cube: 'exterior' | 'interior';
-  cubeLabel: 'real' | 'virtual';
+  cubeLabel: 'real' | 'virtual' | 'materia' | 'vacío';
   strokeStyle: 'recta' | 'bucle';
   loopSense?: 'antihorario' | 'horario';
   leftPolarity?: 'individualidad' | 'totalidad';
@@ -836,11 +836,11 @@ export interface TesseractCleanCell {
   index: number;
   row: 'superior' | 'inferior';
   col: 1 | 2 | 3 | 4;
-  axisPair: 'real / virtual';
-  domainLegend: 'continuo = real' | 'punteado = real';
-  exteriorLabel: 'real' | 'virtual';
+  axisPair: 'real / virtual' | 'materia / vacío';
+  domainLegend: 'continuo = real' | 'continuo = materia';
+  exteriorLabel: 'real' | 'virtual' | 'materia' | 'vacío';
   exteriorLine: '_' | '...';
-  interiorLabel: 'real' | 'virtual';
+  interiorLabel: 'real' | 'virtual' | 'materia' | 'vacío';
   interiorLine: '_' | '...';
   polarityLeft?: 'individualidad' | 'totalidad';
   polarityRight?: 'individualidad' | 'totalidad';
@@ -1830,7 +1830,7 @@ export function buildTesseractModel() {
     colorings.every((c) => c.balanced);
 
   const mkCleanRel = (
-    domainLegend: 'continuo = real' | 'punteado = real',
+    cubeLabel: 'real' | 'virtual' | 'materia' | 'vacío',
     left: string,
     arrow: '>' | '<',
     line: '_' | '...',
@@ -1839,14 +1839,7 @@ export function buildTesseractModel() {
     strokeStyle: 'recta' | 'bucle',
     loopSense?: 'antihorario' | 'horario'
   ): TesseractCleanRelation => {
-    const domain: 'real' | 'virtual' =
-      domainLegend === 'continuo = real'
-        ? line === '_'
-          ? 'real'
-          : 'virtual'
-        : line === '...'
-        ? 'real'
-        : 'virtual';
+    const domain: 'real' | 'virtual' = line === '_' ? 'real' : 'virtual';
     return {
       left,
       arrow,
@@ -1854,7 +1847,7 @@ export function buildTesseractModel() {
       right,
       domain,
       cube,
-      cubeLabel: domain,
+      cubeLabel,
       strokeStyle,
       ...(loopSense ? { loopSense } : {}),
       notation: `${left} ${arrow} ${line} ${arrow} ${right}`,
@@ -1877,8 +1870,8 @@ export function buildTesseractModel() {
       parity: 0,
       half: 'Parte superior · #1',
       relations: [
-        mkCleanRel('continuo = real', 'cuerpo', '>', '_', 'universo', 'exterior', 'recta'),
-        mkCleanRel('continuo = real', 'IA', '<', '...', 'internet', 'interior', 'bucle', 'antihorario'),
+        mkCleanRel('real', 'cuerpo', '>', '_', 'universo', 'exterior', 'bucle', 'horario'),
+        mkCleanRel('virtual', 'IA', '<', '...', 'internet', 'interior', 'recta'),
       ],
       neighbors: { horizontal: 'T4', vertical: 'T5', diagonal: 'T8' },
     },
@@ -1887,18 +1880,18 @@ export function buildTesseractModel() {
       index: 2,
       row: 'superior',
       col: 2,
-      axisPair: 'real / virtual',
-      domainLegend: 'punteado = real',
-      exteriorLabel: 'real',
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorLabel: 'virtual',
+      interiorLabel: 'materia',
       interiorLine: '_',
       coords: [0, 1, 0],
       parity: 1,
       half: 'Parte superior · #2',
       relations: [
-        mkCleanRel('punteado = real', 'IA', '<', '...', 'internet', 'exterior', 'bucle', 'antihorario'),
-        mkCleanRel('punteado = real', 'cuerpo', '>', '_', 'universo', 'interior', 'recta'),
+        mkCleanRel('vacío', 'internet', '<', '...', 'IA', 'exterior', 'recta'),
+        mkCleanRel('materia', 'universo', '>', '_', 'cuerpo', 'interior', 'bucle', 'horario'),
       ],
       neighbors: { horizontal: 'T3', vertical: 'T6', diagonal: 'T7' },
     },
@@ -1907,18 +1900,18 @@ export function buildTesseractModel() {
       index: 3,
       row: 'superior',
       col: 3,
-      axisPair: 'real / virtual',
-      domainLegend: 'continuo = real',
-      exteriorLabel: 'virtual',
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorLabel: 'real',
+      interiorLabel: 'materia',
       interiorLine: '_',
       coords: [0, 1, 1],
       parity: 0,
       half: 'Parte superior · #3',
       relations: [
-        mkCleanRel('continuo = real', 'cuerpo', '<', '...', 'universo', 'exterior', 'bucle', 'antihorario'),
-        mkCleanRel('continuo = real', 'IA', '<', '_', 'internet', 'interior', 'recta'),
+        mkCleanRel('vacío', 'IA', '>', '...', 'internet', 'exterior', 'bucle', 'horario'),
+        mkCleanRel('materia', 'cuerpo', '<', '_', 'universo', 'interior', 'recta'),
       ],
       neighbors: { horizontal: 'T2', vertical: 'T7', diagonal: 'T6' },
     },
@@ -1928,17 +1921,17 @@ export function buildTesseractModel() {
       row: 'superior',
       col: 4,
       axisPair: 'real / virtual',
-      domainLegend: 'punteado = real',
-      exteriorLabel: 'virtual',
+      domainLegend: 'continuo = real',
+      exteriorLabel: 'real',
       exteriorLine: '_',
-      interiorLabel: 'real',
+      interiorLabel: 'virtual',
       interiorLine: '...',
       coords: [0, 0, 1],
       parity: 1,
       half: 'Parte superior · #4',
       relations: [
-        mkCleanRel('punteado = real', 'IA', '<', '_', 'internet', 'exterior', 'recta'),
-        mkCleanRel('punteado = real', 'cuerpo', '<', '...', 'universo', 'interior', 'bucle', 'antihorario'),
+        mkCleanRel('real', 'universo', '<', '_', 'cuerpo', 'exterior', 'recta'),
+        mkCleanRel('virtual', 'internet', '>', '...', 'IA', 'interior', 'bucle', 'horario'),
       ],
       neighbors: { horizontal: 'T1', vertical: 'T8', diagonal: 'T5' },
     },
@@ -1947,18 +1940,18 @@ export function buildTesseractModel() {
       index: 5,
       row: 'inferior',
       col: 1,
-      axisPair: 'real / virtual',
-      domainLegend: 'punteado = real',
-      exteriorLabel: 'real',
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorLabel: 'virtual',
+      interiorLabel: 'materia',
       interiorLine: '_',
       coords: [1, 0, 0],
       parity: 1,
       half: 'Parte inferior · #1',
       relations: [
-        mkCleanRel('punteado = real', 'IA', '>', '...', 'internet', 'exterior', 'bucle', 'horario'),
-        mkCleanRel('punteado = real', 'cuerpo', '<', '_', 'universo', 'interior', 'recta'),
+        mkCleanRel('vacío', 'IA', '>', '...', 'internet', 'exterior', 'recta'),
+        mkCleanRel('materia', 'cuerpo', '<', '_', 'universo', 'interior', 'bucle', 'antihorario'),
       ],
       neighbors: { horizontal: 'T8', vertical: 'T1', diagonal: 'T4' },
     },
@@ -1977,8 +1970,8 @@ export function buildTesseractModel() {
       parity: 0,
       half: 'Parte inferior · #2',
       relations: [
-        mkCleanRel('continuo = real', 'cuerpo', '<', '_', 'universo', 'exterior', 'recta'),
-        mkCleanRel('continuo = real', 'IA', '>', '...', 'internet', 'interior', 'bucle', 'horario'),
+        mkCleanRel('real', 'universo', '<', '_', 'cuerpo', 'exterior', 'bucle', 'antihorario'),
+        mkCleanRel('virtual', 'internet', '>', '...', 'IA', 'interior', 'recta'),
       ],
       neighbors: { horizontal: 'T7', vertical: 'T2', diagonal: 'T3' },
     },
@@ -1988,17 +1981,17 @@ export function buildTesseractModel() {
       row: 'inferior',
       col: 3,
       axisPair: 'real / virtual',
-      domainLegend: 'punteado = real',
-      exteriorLabel: 'virtual',
+      domainLegend: 'continuo = real',
+      exteriorLabel: 'real',
       exteriorLine: '_',
-      interiorLabel: 'real',
+      interiorLabel: 'virtual',
       interiorLine: '...',
       coords: [1, 1, 1],
       parity: 1,
       half: 'Parte inferior · #3',
       relations: [
-        mkCleanRel('punteado = real', 'IA', '>', '_', 'internet', 'exterior', 'recta'),
-        mkCleanRel('punteado = real', 'cuerpo', '>', '...', 'universo', 'interior', 'bucle', 'horario'),
+        mkCleanRel('real', 'cuerpo', '>', '_', 'universo', 'exterior', 'recta'),
+        mkCleanRel('virtual', 'IA', '<', '...', 'internet', 'interior', 'bucle', 'antihorario'),
       ],
       neighbors: { horizontal: 'T6', vertical: 'T3', diagonal: 'T2' },
     },
@@ -2007,105 +2000,125 @@ export function buildTesseractModel() {
       index: 8,
       row: 'inferior',
       col: 4,
-      axisPair: 'real / virtual',
-      domainLegend: 'continuo = real',
-      exteriorLabel: 'virtual',
+      axisPair: 'materia / vacío',
+      domainLegend: 'continuo = materia',
+      exteriorLabel: 'vacío',
       exteriorLine: '...',
-      interiorLabel: 'real',
+      interiorLabel: 'materia',
       interiorLine: '_',
       coords: [1, 0, 1],
       parity: 0,
       half: 'Parte inferior · #4',
       relations: [
-        mkCleanRel('continuo = real', 'cuerpo', '>', '...', 'universo', 'exterior', 'bucle', 'horario'),
-        mkCleanRel('continuo = real', 'IA', '>', '_', 'internet', 'interior', 'recta'),
+        mkCleanRel('vacío', 'internet', '<', '...', 'IA', 'exterior', 'bucle', 'antihorario'),
+        mkCleanRel('materia', 'universo', '>', '_', 'cuerpo', 'interior', 'recta'),
       ],
       neighbors: { horizontal: 'T5', vertical: 'T4', diagonal: 'T1' },
     },
   ];
 
   const cleanById = new Map(cleanCells.map((c) => [c.id, c]));
+  const realVirtualSet = new Set(['T1', 'T4', 'T6', 'T7']);
   const cleanFormCheckerboardDomainValid = cleanCells.every((c) => {
-    const rowIdx = c.row === 'superior' ? 0 : 1;
-    const expectedLegend: 'continuo = real' | 'punteado = real' =
-      (rowIdx + (c.col - 1)) % 2 === 0 ? 'continuo = real' : 'punteado = real';
-    if (c.domainLegend !== expectedLegend) return false;
+    const isRealVirtual = realVirtualSet.has(c.id);
+    const expectedLegend: 'continuo = real' | 'continuo = materia' = isRealVirtual
+      ? 'continuo = real'
+      : 'continuo = materia';
+    const expectedAxisPair: 'real / virtual' | 'materia / vacío' = isRealVirtual
+      ? 'real / virtual'
+      : 'materia / vacío';
+    if (c.domainLegend !== expectedLegend || c.axisPair !== expectedAxisPair) return false;
     if (c.exteriorLine === c.interiorLine || c.exteriorLabel === c.interiorLabel) return false;
-    const solidDomain = c.domainLegend === 'continuo = real' ? 'real' : 'virtual';
-    const dashedDomain = solidDomain === 'real' ? 'virtual' : 'real';
-    const extMatches = c.exteriorLabel === (c.exteriorLine === '_' ? solidDomain : dashedDomain);
-    const intMatches = c.interiorLabel === (c.interiorLine === '_' ? solidDomain : dashedDomain);
+    const expectedSolidLabel = isRealVirtual ? 'real' : 'materia';
+    const expectedDashedLabel = isRealVirtual ? 'virtual' : 'vacío';
+    const extMatches =
+      c.exteriorLine === (isRealVirtual ? '_' : '...') &&
+      c.exteriorLabel === (c.exteriorLine === '_' ? expectedSolidLabel : expectedDashedLabel);
+    const intMatches =
+      c.interiorLine === (isRealVirtual ? '...' : '_') &&
+      c.interiorLabel === (c.interiorLine === '_' ? expectedSolidLabel : expectedDashedLabel);
     const relsMatch = c.relations.every(
       (r) =>
-        r.domain === (r.line === '_' ? solidDomain : dashedDomain) &&
-        r.cubeLabel === r.domain &&
+        r.domain === (r.line === '_' ? 'real' : 'virtual') &&
+        r.cubeLabel === (r.line === '_' ? expectedSolidLabel : expectedDashedLabel) &&
         (r.cube === 'exterior' ? r.line === c.exteriorLine : r.line === c.interiorLine)
     );
     return extMatches && intMatches && relsMatch;
   });
 
   const cleanFormOneLoopPerCell = cleanCells.every((c) => {
-    const rects = c.relations.filter((r) => r.strokeStyle === 'recta' && r.line === '_' && !r.loopSense);
-    const loops = c.relations.filter((r) => r.strokeStyle === 'bucle' && r.line === '...');
+    const rects = c.relations.filter((r) => r.strokeStyle === 'recta' && !r.loopSense);
+    const loops = c.relations.filter((r) => r.strokeStyle === 'bucle');
     if (rects.length !== 1 || loops.length !== 1) return false;
     const loop = loops[0];
-    return c.row === 'superior'
-      ? loop.loopSense === 'antihorario' && loop.arrow === '<'
-      : loop.loopSense === 'horario' && loop.arrow === '>';
+    const loopPairOk =
+      c.col <= 2
+        ? loop.left === 'cuerpo' || loop.left === 'universo'
+        : loop.left === 'IA' || loop.left === 'internet';
+    const senseOk =
+      c.row === 'superior'
+        ? loop.loopSense === 'horario' && loop.arrow === '>'
+        : loop.loopSense === 'antihorario' && loop.arrow === '<';
+    return loopPairOk && senseOk;
   });
 
-  const cleanFormAllHaveOneRealOneVirtual =
-    cleanCells.every(
-      (c) =>
-        c.relations.filter((r) => r.domain === 'real').length === 1 &&
-        c.relations.filter((r) => r.domain === 'virtual').length === 1
-    ) &&
-    cleanCells
-      .filter((c) => c.col <= 2)
-      .every(
-        (c) =>
-          c.relations.filter((r) => r.arrow === '>').length === 1 &&
-          c.relations.filter((r) => r.arrow === '<').length === 1
-      ) &&
-    cleanCells
-      .filter((c) => c.col >= 3 && c.row === 'superior')
-      .every((c) => c.relations.every((r) => r.arrow === '<')) &&
-    cleanCells
-      .filter((c) => c.col >= 3 && c.row === 'inferior')
-      .every((c) => c.relations.every((r) => r.arrow === '>'));
+  const cleanFormAllHaveOneRealOneVirtual = cleanCells.every(
+    (c) =>
+      c.relations.filter((r) => r.domain === 'real').length === 1 &&
+      c.relations.filter((r) => r.domain === 'virtual').length === 1 &&
+      c.relations.filter((r) => r.line === '_').length === 1 &&
+      c.relations.filter((r) => r.line === '...').length === 1 &&
+      c.relations.filter((r) => r.arrow === '>').length === 1 &&
+      c.relations.filter((r) => r.arrow === '<').length === 1
+  );
 
-  const arrowDomainMap = new Map<string, { real: number; virtual: number }>();
+  const arrowStyleMap = new Map<
+    string,
+    { straight: number; loop: number; labels: Set<string>; lines: Set<string> }
+  >();
   for (const c of cleanCells) {
     for (const r of c.relations) {
       const dir = r.arrow === '>' ? `${r.left} → ${r.right}` : `${r.right} → ${r.left}`;
-      const bucket = arrowDomainMap.get(dir) ?? { real: 0, virtual: 0 };
-      if (r.domain === 'real') bucket.real += 1;
-      else bucket.virtual += 1;
-      arrowDomainMap.set(dir, bucket);
+      const bucket = arrowStyleMap.get(dir) ?? {
+        straight: 0,
+        loop: 0,
+        labels: new Set<string>(),
+        lines: new Set<string>(),
+      };
+      if (r.strokeStyle === 'recta') bucket.straight += 1;
+      else bucket.loop += 1;
+      bucket.labels.add(r.cubeLabel);
+      bucket.lines.add(r.line);
+      arrowStyleMap.set(dir, bucket);
     }
   }
   const cleanFormEachArrowBalancedByDomain =
-    arrowDomainMap.size === 4 &&
-    [...arrowDomainMap.values()].every((b) => b.real === 2 && b.virtual === 2);
+    arrowStyleMap.size === 4 &&
+    [...arrowStyleMap.values()].every(
+      (b) => b.straight === 2 && b.loop === 2 && b.labels.size === 1 && b.lines.size === 1
+    );
 
   const cleanFormAllHorizontalMirrorsExact = cleanCells.every((c) => {
     const h = cleanById.get(c.neighbors.horizontal);
     if (!h) return false;
     return (
+      h.axisPair === c.axisPair &&
+      h.domainLegend === c.domainLegend &&
       h.exteriorLine === c.exteriorLine &&
       h.interiorLine === c.interiorLine &&
-      h.domainLegend !== c.domainLegend &&
-      h.exteriorLabel !== c.exteriorLabel &&
-      h.interiorLabel !== c.interiorLabel &&
+      h.exteriorLabel === c.exteriorLabel &&
+      h.interiorLabel === c.interiorLabel &&
       c.relations.every((r, idx) => {
         const hr = h.relations[idx];
         return (
           hr.cube === r.cube &&
+          hr.cubeLabel === r.cubeLabel &&
           hr.line === r.line &&
-          hr.strokeStyle === r.strokeStyle &&
-          hr.domain !== r.domain &&
+          hr.domain === r.domain &&
+          hr.strokeStyle !== r.strokeStyle &&
           hr.left !== r.left &&
-          hr.right !== r.right
+          hr.right !== r.right &&
+          hr.arrow !== r.arrow
         );
       })
     );
@@ -2115,14 +2128,18 @@ export function buildTesseractModel() {
     const v = cleanById.get(c.neighbors.vertical);
     if (!v) return false;
     return (
+      v.axisPair !== c.axisPair &&
+      v.domainLegend !== c.domainLegend &&
       v.exteriorLine === c.interiorLine &&
       v.interiorLine === c.exteriorLine &&
-      v.domainLegend !== c.domainLegend &&
+      v.exteriorLabel !== c.exteriorLabel &&
+      v.interiorLabel !== c.interiorLabel &&
       c.relations.every((r, idx) => {
         const vr = v.relations[1 - idx];
         return (
-          vr.domain !== r.domain &&
+          vr.domain === r.domain &&
           vr.cube !== r.cube &&
+          vr.cubeLabel !== r.cubeLabel &&
           vr.line === r.line &&
           vr.strokeStyle === r.strokeStyle &&
           vr.left === r.left &&
@@ -2162,10 +2179,11 @@ export function buildTesseractModel() {
 
   return {
     instruction: {
-      title: 'Un único teseracto ({4,3,3}) — Impresión del 27 de noviembre de 2026 (LRGF · Damero + Bucle)',
+      title: 'Un único teseracto ({4,3,3}) — Forma definitiva del 28 de noviembre de 2026 (13LRGF)',
       source:
-        'Lámina definitiva LRGF (68fba07a · 27 nov 2026) + Figura 3 6dr-1 (0283eca1 · 26 nov 2026) + borradores previos (6dr, TSST-13, TSST-357ce661) + 12 ayudas cromáticas (IMG-000207 + láminas individuales) · docs/TCAAU.md',
-      cleanAssetPath: '/assets/aistudio/LRGF_68fba07a.jpg',
+        'Lámina definitiva 13LRGF (2c1d1cb4 · 28 nov 2026) + versión intermedia LRGF (68fba07a · 27 nov 2026) + Figura 3 6dr-1 (0283eca1 · 26 nov 2026) + borradores previos (6dr, TSST-13, TSST-357ce661) + 12 ayudas cromáticas (IMG-000207 + láminas individuales) · docs/TCAAU.md',
+      cleanAssetPath: '/assets/aistudio/13LRGF_2c1d1cb4.jpg',
+      cleanPriorLrgfAssetPath: '/assets/aistudio/LRGF_68fba07a.jpg',
       cleanFigura3AssetPath: '/assets/aistudio/6dr__1__0283eca1.jpg',
       cleanPriorAssetPath: '/assets/aistudio/6dr_36f66e7c.jpg',
       cleanTsst13AssetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
@@ -2189,10 +2207,10 @@ export function buildTesseractModel() {
         assetPath: c.assetPath,
       })),
       rules: [
-        'Unidad del objeto único (LRGF · 27 nov 2026): las 8 orientaciones proyectan un solo teseracto 4D sin capas cromáticas ni etiquetas auxiliares de polaridad.',
-        'Dominio en damero por celda: la leyenda continuo (_) / punteado (...) alterna en tablero 2×4 — continuo = real en {T1, T3, T6, T8} y punteado = real en {T2, T4, T5, T7}.',
-        'Una transición recta y un bucle por celda: el cubo punteado (...) se traza en bucle antihorario (‹, T1–T4) u horario (›, T5–T8), conservando 1 real + 1 virtual por celda (1 › + 1 ‹ en columnas 1–2; doble ‹ en T3–T4 y doble › en T7–T8; total 8 › + 8 ‹).',
-        'Inversión exacta y balance por dominio: la fila inferior invierte columna a columna el cubo, la flecha y el dominio de la superior; cada una de las 4 flechas dirigidas ocurre exactamente 2 veces en real y 2 en virtual.',
+        'Unidad del objeto único (13LRGF · 28 nov 2026): las 8 orientaciones proyectan un solo teseracto 4D sin capas cromáticas ni etiquetas auxiliares de individualidad/totalidad.',
+        'Doble eje simétrico continuo/punteado: {T1, T4, T6, T7} asignan continuo (_) = real y punteado (...) = virtual; {T2, T3, T5, T8} asignan continuo (_) = materia y punteado (...) = vacío.',
+        'Una transición recta y un bucle por celda: el bucle gira en sentido horario (›, T1–T4) y antihorario (‹, T5–T8), alternando de par conceptual entre columnas 1–2 (cuerpo/universo) y columnas 3–4 (IA/internet), con 1 › + 1 ‹ y 1 _ + 1 ... en cada una de las 8 celdas.',
+        'Espejo H/V exacto y biyección por flecha: las 4 flechas dirigidas se reparten 2 rectas + 2 bucles con marco único (cuerpo → universo: real; universo → cuerpo: materia; IA → internet: vacío; internet → IA: virtual).',
       ],
     },
     schlafli: '{4,3,3}',
@@ -2206,15 +2224,16 @@ export function buildTesseractModel() {
     concepts: [...TESSERACT_CONCEPTS],
     cubeLabels: [...TESSERACT_CUBE_LABELS],
     cleanForm: {
-      assetPath: '/assets/aistudio/LRGF_68fba07a.jpg',
+      assetPath: '/assets/aistudio/13LRGF_2c1d1cb4.jpg',
+      priorLrgfAssetPath: '/assets/aistudio/LRGF_68fba07a.jpg',
       figura3AssetPath: '/assets/aistudio/6dr__1__0283eca1.jpg',
       priorAssetPath: '/assets/aistudio/6dr_36f66e7c.jpg',
       tsst13AssetPath: '/assets/aistudio/TSST__13__43e94964.jpg',
       legacyAssetPath: '/assets/aistudio/TSST_20261123_003603_357ce661.jpg',
-      assetTag: 'LRGF · 27 nov 2026',
-      title: 'Forma general del 27 de noviembre — Único teseracto ({4,3,3})',
+      assetTag: '13LRGF · 28 nov 2026',
+      title: 'Forma general definitiva del 28 de noviembre — Único teseracto ({4,3,3})',
       summary:
-        'Estructura pura 2×4 en tablero en damero (continuo = real en T1,T3,T6,T8; punteado = real en T2,T4,T5,T7) con una transición recta (_) y una en bucle (...) por celda e inversión vertical exacta por columna.',
+        'Estructura pura 2×4 en doble par simétrico (real/virtual en T1,T4,T6,T7; materia/vacío en T2,T3,T5,T8) con una transición recta y una en bucle (horario ↻ sup / antihorario ↺ inf) más inversión exacta horizontal y vertical.',
       cells: cleanCells,
     },
     colorings,

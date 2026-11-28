@@ -813,7 +813,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <GitCommitHorizontal className="w-4 h-4 text-sky-400" />
             {isCleanMode
-              ? 'Diagrama de Flujo D3: Forma Limpia (27 nov 2026) · Damero Real/Virtual + Bucle'
+              ? 'Diagrama de Flujo D3: Forma Definitiva (28 nov 2026) · Real/Virtual & Materia/Vacío + Bucle'
               : activeColoring
               ? `Diagrama de Flujo D3: ${activeColoring.title} · Transiciones Real (›) / Virtual (‹)`
               : 'Diagrama de Flujo D3: Clausura Especular y Transiciones Real (›) / Virtual (‹)'}
@@ -835,8 +835,8 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
             {(
               [
                 { id: 'all', label: 'Todos (16)' },
-                { id: 'real', label: isCleanMode ? 'Real (8)' : 'Real › (8)' },
-                { id: 'virtual', label: isCleanMode ? 'Virtual (8)' : 'Virtual ‹ (8)' },
+                { id: 'real', label: isCleanMode ? 'Real / Materia (8)' : 'Real › (8)' },
+                { id: 'virtual', label: isCleanMode ? 'Virtual / Vacío (8)' : 'Virtual ‹ (8)' },
               ] as const
             ).map((opt) => (
               <button
@@ -954,11 +954,11 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                 <>
                   <span className="inline-flex items-center gap-1.5 text-slate-100">
                     <span className="w-4 h-0.5 inline-block bg-slate-100" />
-                    real (damero: continuo _ T1,T3,T6,T8 · punteado ... T2,T4,T5,T7)
+                    continuo (_) = real (T1,T4,T6,T7) / materia (T2,T3,T5,T8)
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-slate-300">
                     <span className="w-4 border-t-2 border-dashed border-slate-400 inline-block" />
-                    recta (_) · bucle (...) ↺ sup / ↻ inf
+                    punteado (...) = virtual / vacío · bucle ↻ sup / ↺ inf
                   </span>
                 </>
               ) : (
@@ -1298,7 +1298,7 @@ export const TesseractFlowchart: React.FC<TesseractFlowchartProps> = ({
                     {rel.strokeStyle === 'bucle'
                       ? `${rel.loopSense === 'antihorario' ? '↺' : '↻'} `
                       : `${rel.arrow === '>' ? '→' : '←'} `}
-                    {rel.domain}
+                    {isCleanMode ? rel.cubeLabel : rel.domain}
                     {rel.strokeStyle === 'bucle' ? ` · bucle ${rel.loopSense ?? ''}` : ''}
                     {chain ? ` · ${chain}` : ''}
                   </text>

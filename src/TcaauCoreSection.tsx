@@ -335,7 +335,7 @@ export function TcaauCoreSection({ data }: TcaauCoreSectionProps) {
                   rel="noreferrer"
                   className="text-[10.5px] font-mono text-amber-300 hover:underline"
                 >
-                  Lámina 27 nov (LRGF)
+                  Lámina 28 nov (13LRGF)
                 </a>
               </div>
               <p className="text-slate-300 text-[11px] leading-relaxed">

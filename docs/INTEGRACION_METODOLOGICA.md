@@ -101,4 +101,4 @@ npm run build
 npm run dev
 ```
 
-Este flujo vincula la comprobación estática de tipos y el reconteo determinista ($I6$) del núcleo formal TCAAU (`src/tcaauCore.ts`, `data/tcaau_core.json`) con el único teseracto `{4,3,3}` en su forma general definitiva del 27 de noviembre (`LRGF_68fba07a.jpg`, preservando Figura 3 `6dr__1__0283eca1.jpg`), sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito sin contenedor exógeno ($A1$).
+Este flujo vincula la comprobación estática de tipos y el reconteo determinista ($I6$) del núcleo formal TCAAU (`src/tcaauCore.ts`, `data/tcaau_core.json`) con el único teseracto `{4,3,3}` en su forma definitiva del 28 de noviembre (`13LRGF_2c1d1cb4.jpg`, preservando `LRGF_68fba07a.jpg` del 27 nov y Figura 3 `6dr__1__0283eca1.jpg`), sus 12 ayudas cromáticas (6 pares involutivos) en D3 y la cartografía del tránsito sin contenedor exógeno ($A1$).

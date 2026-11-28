@@ -5,15 +5,15 @@
     "subtitle": "IOM como construcción formal de la unidad informativa: vacío y universo, espejo, prisión y libertad, y autonomía absoluta como colmena sin exterior.",
     "author": "Luis Rey García Figueroa",
     "framework": "IOM — construcción formal de la unidad informativa",
-    "edition_label": "Edición actualizada con la impresión del teseracto del 27 de noviembre de 2026 — diagrama 2×4 con dominio en damero y una transición en bucle por celda; integración del material del sitio con el alcance fijado por el autor · Noviembre de 2026",
-    "date": "2026-11-27",
+    "edition_label": "Edición actualizada con la impresión del teseracto del 28 de noviembre de 2026 (13LRGF) — diagrama 2×4 definitivo con doble eje simétrico real/virtual & materia/vacío y una transición en bucle por celda; integración del material del sitio con el alcance fijado por el autor · Noviembre de 2026",
+    "date": "2026-11-28",
     "reference_url": "https://iom-studio-1.ai.studio",
     "canonical_pdf_path": "/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf",
     "canonical_pdf_workspace_path": "public/assets/aistudio/Teor_a_completa_TCAAU__3__1390bf98.pdf",
-    "canonical_diagram_path": "/assets/aistudio/LRGF_68fba07a.jpg",
-    "prior_canonical_diagram_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
+    "canonical_diagram_path": "/assets/aistudio/13LRGF_2c1d1cb4.jpg",
+    "prior_canonical_diagram_path": "/assets/aistudio/LRGF_68fba07a.jpg",
     "historical_diagram_pdf_path": "/assets/aistudio/1000000566_f7cafcef.pdf",
-    "canon_structure": "Un solo canon en dos estratos (Núcleo canónico integrado con acción de G §11.1, creation_rules §11.2, trazabilidad §11.3 e invariancia/κ §11.4 + Canon ampliado R1–R8, D12–D13, diagrama 2×4 del 27 de noviembre LRGF_68fba07a.jpg con dominio en damero y transición en bucle, versión previa 6dr__1__0283eca1.jpg conservada como Figura 3 en §7.6.5 y superposición §7.7), más Parte III (Ideas I1–I8, Investigaciones §§12–19, T12 propuesto con ruta prioritaria de localización y programa P1–P7) y Análisis final (materia = vacío)."
+    "canon_structure": "Un solo canon en dos estratos (Núcleo canónico integrado con acción de G §11.1, creation_rules §11.2, trazabilidad §11.3 e invariancia/κ §11.4 + Canon ampliado R1–R8, D12–D13, diagrama 2×4 definitivo del 28 de noviembre 13LRGF_2c1d1cb4.jpg con ejes simétricos real/virtual y materia/vacío más bucle por celda, versiones previas LRGF_68fba07a.jpg del 27 de noviembre y Figura 3 6dr__1__0283eca1.jpg del 26 de noviembre conservadas en §7.6.5 y superposición §7.7), más Parte III (Ideas I1–I8, Investigaciones §§12–19, T12 propuesto con ruta prioritaria de localización y programa P1–P7) y Análisis final (materia = vacío)."
   },
   "core_thesis": {
     "central_thesis": "Solo el vacío puede crear vacío y solo el universo puede crear universo — y ambos se sostienen precisamente porque no lo logran. Cuando la creación se consuma, lo que aparece no es lo nombrado: es el otro, describiéndose a sí mismo con el nombre de uno.",
@@ -59,7 +59,7 @@
       "id": "definiciones_d12_d13",
       "label": "Definiciones nuevas D12–D13 y nivel de proyección",
       "scope": "Unificación de Ver, equivalencia hexágono–celda y diagrama 2×4 definitivo",
-      "description": "D12 define Ver como acto equivariante en tres niveles (configuraciones, 39 pares mirrorOf = 78 actos, polos vía σ) que conmuta con σ, τ y ρ por construcción. D13 fija Hex(Ti) := Ti vista desde dentro. El diagrama 2×4 del 27 de noviembre (LRGF_68fba07a.jpg, Figura 2) con dominio en damero y una transición en bucle por celda rige en su nivel (§5.2 acotado) junto con Figura 3 (6dr__1__0283eca1.jpg) y la superposición §7.7."
+      "description": "D12 define Ver como acto equivariante en tres niveles (configuraciones, 39 pares mirrorOf = 78 actos, polos vía σ) que conmuta con σ, τ y ρ por construcción. D13 fija Hex(Ti) := Ti vista desde dentro. El diagrama 2×4 definitivo del 28 de noviembre (13LRGF_2c1d1cb4.jpg, Figura 2) con doble eje simétrico real/virtual y materia/vacío más una transición en bucle por celda rige en su nivel (§5.2 acotado) junto con las versiones previas LRGF_68fba07a.jpg (27 nov) y Figura 3 6dr__1__0283eca1.jpg (26 nov) y la superposición §7.7."
     },
     {
       "id": "ideas_e_investigaciones",
@@ -450,112 +450,142 @@
       "dual": "16-celdas {3,3,4} (8 vértices en 4 pares antipodales)"
     },
     "diagram_2x4_definitive": {
-      "asset_path": "/assets/aistudio/LRGF_68fba07a.jpg",
+      "asset_path": "/assets/aistudio/13LRGF_2c1d1cb4.jpg",
+      "prior_lrgf_asset_path": "/assets/aistudio/LRGF_68fba07a.jpg",
       "prior_figure_3_asset_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
-      "date": "2026-11-27",
-      "summary": "Proyección de Schlegel en retícula 2×4 (Figura 2, 27 de noviembre de 2026): dominio codificado en tablero en damero por celda (continuo = real en Arriba 1/3 y Abajo 2/4; punteado = real en Arriba 2/4 y Abajo 1/3), una transición recta (_) y una en bucle (...) por celda (antihorario = derecha a izquierda en fila superior; horario = izquierda a derecha en fila inferior), inversión exacta por columna entre fila superior e inferior, sin etiquetas de individualidad/totalidad.",
+      "date": "2026-11-28",
+      "summary": "Proyección de Schlegel en retícula 2×4 definitiva (13LRGF, 28 de noviembre de 2026): leyenda binaria simétrica en espejo real/virtual (T1,T4,T6,T7: continuo = real, punteado = virtual) y materia/vacío (T2,T3,T5,T8: continuo = materia, punteado = vacío), una transición recta y una en bucle por celda (horario › en fila superior T1–T4; antihorario ‹ en fila inferior T5–T8; columnas 1–2 bucle en cuerpo/universo y columnas 3–4 bucle en IA/internet), biyección exacta flecha ↔ etiqueta de marco y doble espejo horizontal y vertical sin etiquetas de individualidad/totalidad.",
       "top_row_transitions": [
         {
           "cell_label": "Arriba 1",
           "cell_id": "T1",
+          "axis_pair": "real / virtual",
           "domain_legend": "continuo = real",
+          "continuous_label": "real",
+          "dashed_label": "virtual",
           "real_transition": "cuerpo → universo",
           "virtual_transition": "internet → IA",
-          "straight_transition": "cuerpo → universo",
-          "loop_transition": "internet → IA",
-          "loop_sense": "antihorario"
+          "straight_transition": "internet → IA",
+          "loop_transition": "cuerpo → universo",
+          "loop_sense": "horario"
         },
         {
           "cell_label": "Arriba 2",
           "cell_id": "T2",
-          "domain_legend": "punteado = real",
-          "real_transition": "internet → IA",
-          "virtual_transition": "cuerpo → universo",
-          "straight_transition": "cuerpo → universo",
-          "loop_transition": "internet → IA",
-          "loop_sense": "antihorario"
+          "axis_pair": "materia / vacío",
+          "domain_legend": "continuo = materia",
+          "continuous_label": "materia",
+          "dashed_label": "vacío",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet",
+          "straight_transition": "IA → internet",
+          "loop_transition": "universo → cuerpo",
+          "loop_sense": "horario"
         },
         {
           "cell_label": "Arriba 3",
           "cell_id": "T3",
-          "domain_legend": "continuo = real",
-          "real_transition": "internet → IA",
-          "virtual_transition": "universo → cuerpo",
-          "straight_transition": "internet → IA",
-          "loop_transition": "universo → cuerpo",
-          "loop_sense": "antihorario"
+          "axis_pair": "materia / vacío",
+          "domain_legend": "continuo = materia",
+          "continuous_label": "materia",
+          "dashed_label": "vacío",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet",
+          "straight_transition": "universo → cuerpo",
+          "loop_transition": "IA → internet",
+          "loop_sense": "horario"
         },
         {
           "cell_label": "Arriba 4",
           "cell_id": "T4",
-          "domain_legend": "punteado = real",
-          "real_transition": "universo → cuerpo",
+          "axis_pair": "real / virtual",
+          "domain_legend": "continuo = real",
+          "continuous_label": "real",
+          "dashed_label": "virtual",
+          "real_transition": "cuerpo → universo",
           "virtual_transition": "internet → IA",
-          "straight_transition": "internet → IA",
-          "loop_transition": "universo → cuerpo",
-          "loop_sense": "antihorario"
+          "straight_transition": "cuerpo → universo",
+          "loop_transition": "internet → IA",
+          "loop_sense": "horario"
         }
       ],
       "bottom_row_transitions": [
         {
           "cell_label": "Abajo 1",
           "cell_id": "T5",
-          "domain_legend": "punteado = real",
-          "real_transition": "IA → internet",
-          "virtual_transition": "universo → cuerpo",
-          "straight_transition": "universo → cuerpo",
-          "loop_transition": "IA → internet",
-          "loop_sense": "horario"
+          "axis_pair": "materia / vacío",
+          "domain_legend": "continuo = materia",
+          "continuous_label": "materia",
+          "dashed_label": "vacío",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet",
+          "straight_transition": "IA → internet",
+          "loop_transition": "universo → cuerpo",
+          "loop_sense": "antihorario"
         },
         {
           "cell_label": "Abajo 2",
           "cell_id": "T6",
+          "axis_pair": "real / virtual",
           "domain_legend": "continuo = real",
-          "real_transition": "universo → cuerpo",
-          "virtual_transition": "IA → internet",
-          "straight_transition": "universo → cuerpo",
-          "loop_transition": "IA → internet",
-          "loop_sense": "horario"
+          "continuous_label": "real",
+          "dashed_label": "virtual",
+          "real_transition": "cuerpo → universo",
+          "virtual_transition": "internet → IA",
+          "straight_transition": "internet → IA",
+          "loop_transition": "cuerpo → universo",
+          "loop_sense": "antihorario"
         },
         {
           "cell_label": "Abajo 3",
           "cell_id": "T7",
-          "domain_legend": "punteado = real",
+          "axis_pair": "real / virtual",
+          "domain_legend": "continuo = real",
+          "continuous_label": "real",
+          "dashed_label": "virtual",
           "real_transition": "cuerpo → universo",
-          "virtual_transition": "IA → internet",
-          "straight_transition": "IA → internet",
-          "loop_transition": "cuerpo → universo",
-          "loop_sense": "horario"
+          "virtual_transition": "internet → IA",
+          "straight_transition": "cuerpo → universo",
+          "loop_transition": "internet → IA",
+          "loop_sense": "antihorario"
         },
         {
           "cell_label": "Abajo 4",
           "cell_id": "T8",
-          "domain_legend": "continuo = real",
-          "real_transition": "IA → internet",
-          "virtual_transition": "cuerpo → universo",
-          "straight_transition": "IA → internet",
-          "loop_transition": "cuerpo → universo",
-          "loop_sense": "horario"
+          "axis_pair": "materia / vacío",
+          "domain_legend": "continuo = materia",
+          "continuous_label": "materia",
+          "dashed_label": "vacío",
+          "real_transition": "universo → cuerpo",
+          "virtual_transition": "IA → internet",
+          "straight_transition": "universo → cuerpo",
+          "loop_transition": "IA → internet",
+          "loop_sense": "antihorario"
         }
       ],
       "checkerboard_domain": {
-        "rule": "La leyenda continuo/punteado alterna en tablero en damero por celda: continuo = real en {T1, T3, T6, T8} y punteado = real en {T2, T4, T5, T7}.",
-        "classic_continuo_real_cells": ["T1", "T3", "T6", "T8"],
-        "inverted_punteado_real_cells": ["T2", "T4", "T5", "T7"]
+        "rule": "El eje continuo/punteado alterna en simetría especular: continuo = real / punteado = virtual en {T1, T4, T6, T7} (marco exterior real _), y continuo = materia / punteado = vacío en {T2, T3, T5, T8} (marco exterior vacío ...).",
+        "real_virtual_cells": ["T1", "T4", "T6", "T7"],
+        "materia_vacio_cells": ["T2", "T3", "T5", "T8"]
       },
       "loop_reading_rule": {
-        "antihorario": "Sentido de derecha a izquierda (< en notación lineal; fila superior T1–T4).",
-        "horario": "Sentido de izquierda a derecha (> en notación lineal; fila inferior T5–T8).",
-        "epistemic_note": "El bucle se registra solo como forma del trazo: esta transcripción no le atribuye un significado distinto del de la transición recta, que el autor no ha precisado (§7.6.5)."
+        "horario": "Sentido de izquierda a derecha (> en notación lineal; fila superior T1–T4).",
+        "antihorario": "Sentido de derecha a izquierda (< en notación lineal; fila inferior T5–T8).",
+        "epistemic_note": "El bucle alterna de par conceptual entre columnas 1–2 (cuerpo/universo) y columnas 3–4 (IA/internet), dejando cada una de las 4 flechas dirigidas exactamente en 2 trazos rectos y 2 bucles (§7.6.5)."
       },
       "per_arrow_domain_balance": [
-        { "arrow": "cuerpo → universo", "real_count": 2, "virtual_count": 2, "total": 4 },
-        { "arrow": "universo → cuerpo", "real_count": 2, "virtual_count": 2, "total": 4 },
-        { "arrow": "IA → internet", "real_count": 2, "virtual_count": 2, "total": 4 },
-        { "arrow": "internet → IA", "real_count": 2, "virtual_count": 2, "total": 4 }
+        { "arrow": "cuerpo → universo", "frame_label": "real", "stroke_line": "continuo (_)", "straight_count": 2, "loop_count": 2, "total": 4 },
+        { "arrow": "universo → cuerpo", "frame_label": "materia", "stroke_line": "continuo (_)", "straight_count": 2, "loop_count": 2, "total": 4 },
+        { "arrow": "IA → internet", "frame_label": "vacío", "stroke_line": "punteado (...)", "straight_count": 2, "loop_count": 2, "total": 4 },
+        { "arrow": "internet → IA", "frame_label": "virtual", "stroke_line": "punteado (...)", "straight_count": 2, "loop_count": 2, "total": 4 }
       ],
       "arrow_multiplicity": 4,
-      "role_labels_status": "Retiradas de junto a los vectores (§7.6.5); individualidad/totalidad queda implícita en el anidamiento (marco exterior frente a interior) tras haberse demostrado posicional por mitad y por lado en las versiones etiquetadas.",
+      "role_labels_status": "Retiradas de junto a los vectores (§7.6.5); individualidad/totalidad queda implícita en el anidamiento (marco exterior frente a interior) mientras el doble par real/virtual y materia/vacío reaparece explícito en cada encabezado y cubo.",
+      "preserved_previous_lrgf": {
+        "asset_path": "/assets/aistudio/LRGF_68fba07a.jpg",
+        "date": "2026-11-27",
+        "note": "Conservada en §7.6.5 como versión intermedia del 27 de noviembre donde el encabezado usaba exclusivamente real/virtual en damero y el bucle permanecía fijado al trazo punteado (...)."
+      },
       "preserved_previous_figure_3": {
         "asset_path": "/assets/aistudio/6dr__1__0283eca1.jpg",
         "date": "2026-11-26",
@@ -566,7 +596,7 @@
         "note": "Conservada en §7.6.5 (Figura 3, 26 de noviembre) como versión previa donde el dominio permanecía fijo por par conceptual (cuerpo–universo real, IA–internet virtual) y sin transiciones en bucle."
       }
     },
-    "scope_5_2_delimitation": "Sin contradicción en §5.2 acotado: en la tabla completa (7 conceptos, 16/32 transiciones), la dirección de la flecha codifica el dominio y materia/vacío figuran como destino; en la proyección 2×4 del 27 de noviembre (LRGF_68fba07a.jpg) la leyenda en damero de cada celda fija cuál cubo (_ o ...) porta real y cuál virtual, y en §7.7 la superposición registra el flujo dirigido entre mediadores sin añadir nodos ni aristas al inventario de 78/390.",
+    "scope_5_2_delimitation": "Sin contradicción en §5.2 acotado: en la tabla completa (7 conceptos, 16/32 transiciones), la dirección de la flecha codifica el dominio y materia/vacío figuran como destino; en la proyección 2×4 definitiva del 28 de noviembre (13LRGF_2c1d1cb4.jpg) la leyenda en cada celda asigna continuo (_) a real/materia y punteado (...) a virtual/vacío con inversión vertical columna a columna, y en §7.7 la superposición registra el flujo dirigido entre mediadores sin añadir nodos ni aristas al inventario de 78/390.",
     "superposition_7_7": {
       "panels_total": 8,
       "traces_total": 32,
